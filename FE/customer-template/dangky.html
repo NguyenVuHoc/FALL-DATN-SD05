@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="../images/WingMan-black.png" />
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap4" />
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/customer/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="../css/customer/tiny-slider.css" rel="stylesheet" />
+    <link href="../css/customer/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/customer/dangky.css" />
+    <title>Đăng ký</title>
+  </head>
+  <body>
+    <!-- Start Header/Navigation -->
+    <nav
+      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
+      arial-label="Furni navigation bar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="index.html"
+          ><img
+            src="../images/wingman.png"
+            style="height: 50px; width: 50px"
+          /><a class="navbar-brand" href="index.html"
+            >Wingman<span>.</span></a
+          ></a
+        >
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarsFurni"
+          aria-controls="navbarsFurni"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+            <li class="nav-item" class="active">
+              <a class="nav-link" href="index.html">Trang chủ</a>
+            </li>
+            <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
+            <li>
+              <a class="nav-link" href="about.html">Đội ngũ</a>
+            </li>
+            <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
+            <li>
+              <a class="nav-link" href="blog.html">Thông tin</a>
+            </li>
+            <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
+          </ul>
+
+          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+            <li>
+              <a class="nav-link" href="#"><img src="../images/user.svg" /></a>
+            </li>
+            <li>
+              <a class="nav-link" href="cart.html"
+                ><img src="../images/cart.svg"
+              /></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Start Hero Section -->
+    <div class="hero">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-5">
+            <div class="intro-excerpt">
+              <h1>Wingman Shoes</h1>
+              <p class="mb-4">
+                Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman
+                liền nhé!
+              </p>
+              <p>
+                <a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a
+                ><a href="blog.html" class="btn btn-white-outline">Khám phá</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="hero-img-wrap">
+              <img src="../images/541d8cca-1.png" class="img-fluid" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <!-- dang ky -->
+    <div class="container" style="padding-bottom: 50px">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <h2 class="page-title" style="padding-top: 70px">Tạo tài khoản</h2>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
+          <!-- PERSONAL-INFOMATION START -->
+          <div class="personal-infomation">
+            <form
+              class="primari-box personal-info-box ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength ng-valid-pattern ng-valid-email ng-valid-minlength"
+              id="personalinfo"
+              method="post"
+              novalidate=""
+              name="formRegister"
+            >
+              <h3 class="box-subheading">Thông tin của bạn</h3>
+              <div class="personal-info-content">
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="firstname"> Tên đầy đủ <sup>*</sup></label>
+                  <input
+                    type="text"
+                    name="txtTen"
+                    ng-model="user.tenKhachHang"
+                    maxlength="60"
+                    required=""
+                    id="firstname"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-maxlength"
+                  />
+                </div>
+                <div
+                  class="form-group primary-form-group p-info-group"
+                  style="padding-top: 10px; padding-bottom: 10px"
+                >
+                  <label>Giới tính</label>
+                  <span class="radio-box">
+                    <input
+                      id="radio1"
+                      type="radio"
+                      name="gender"
+                      ng-value="0"
+                      ng-model="user.gioiTinh"
+                      ng-required="!user.gioiTinh"
+                      class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                      value="0"
+                      required="required"
+                    />
+                    <label for="radio1">Nam</label>
+                  </span>
+                  <span class="radio-box">
+                    <input
+                      id="radio2"
+                      type="radio"
+                      name="gender"
+                      value="1"
+                      ng-model="user.gioiTinh"
+                      ng-value="1"
+                      ng-required="!user.gioiTinh"
+                      class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                      required="required"
+                    />
+
+                    <label for="radio2">Nữ</label>
+                  </span>
+                </div>
+
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="firstname"> Địa chỉ<sup>*</sup></label>
+                  <input
+                    type="text"
+                    name="diaChi"
+                    ng-model="user.diaChi"
+                    required=""
+                    id="diaChi"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                  />
+                </div>
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="firstname"> Số điện thoại <sup>*</sup></label>
+                  <input
+                    type="text"
+                    name="txtSdt"
+                    ng-model="user.soDienThoai"
+                    ng-pattern="/^[0-9]*$/"
+                    required=""
+                    id="dt"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern"
+                  />
+                </div>
+
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="email">Email<sup>*</sup></label>
+                  <input
+                    type="email"
+                    name="txtemail"
+                    ng-model="user.email"
+                    required=""
+                    id="email"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-valid-email ng-invalid ng-invalid-required"
+                  />
+                </div>
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="password">Mật khẩu <sup>*</sup></label>
+                  <input
+                    type="password"
+                    name="txtPass"
+                    ng-model="user.password"
+                    ng-maxlength="30"
+                    ng-minlength="4"
+                    required=""
+                    id="password"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength"
+                  />
+                </div>
+                <div class="form-group primary-form-group p-info-group">
+                  <label for="password">Nhập lại mật khẩu <sup>*</sup></label>
+                  <input
+                    type="password"
+                    name="txtPass"
+                    ng-model="user.password"
+                    ng-maxlength="30"
+                    ng-minlength="4"
+                    required=""
+                    id="password"
+                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength"
+                  />
+                </div>
+                <span class="text-danger ng-binding"></span>
+                <div
+                  class="submit-button p-info-submit-button"
+                  ng-click="registerClient()"
+                >
+                  <p id="SubmitCreate" class="btn main-btn">
+                    <span>
+                      Đăng ký
+                      <i class="fa fa-chevron-right"></i>
+                    </span>
+                  </p>
+                  <span class="required-field"
+                    ><sup>*</sup>Yêu cầu điền đầy đủ</span
+                  >
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- PERSONAL-INFOMATION END -->
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <!-- CREATE-NEW-ACCOUNT START -->
+          <div class="create-new-account">
+            <form
+              class="new-account-box primari-box ng-pristine ng-valid"
+              id="create-new-account"
+            >
+              <h3 class="box-subheading">Đăng nhập</h3>
+              <div class="form-content">
+                <p>Hãy đăng nhập nếu bạn có tài khoản rồi nhé!</p>
+                <div class="submit-button">
+                  <a
+                    href="dangnhap.html"
+                    id="SubmitCreate"
+                    class="btn main-btn"
+                  >
+                    <span>
+                      <i class="fa fa-user submit-icon"></i>
+                      Đăng nhập
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- CREATE-NEW-ACCOUNT END -->
+        </div>
+      </div>
+    </div>
+
+    <!-- dang ky -->
+
+    <!-- Start Footer Section -->
+    <footer class="footer-section">
+      <div class="container relative">
+        <div class="sofa-img">
+          <img
+            src="../images/WingMan-black.png"
+            style="height: 200px; width: 200px; margin-top: 150px"
+            alt="Image"
+            class="img-fluid"
+          />
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="subscription-form">
+              <h3 class="d-flex align-items-center">
+                <span class="me-1"
+                  ><img
+                    src="../images/envelope-outline.svg"
+                    alt="Image"
+                    class="img-fluid" /></span
+                ><span>Đăng ký nhận thông tin khuyến mãi</span>
+              </h3>
+
+              <form action="#" class="row g-3">
+                <div class="col-auto">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Họ và tên"
+                  />
+                </div>
+                <div class="col-auto">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email"
+                  />
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary">
+                    <span class="fa fa-paper-plane"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-5 mb-5">
+          <div class="col-lg-4">
+            <div class="mb-4 footer-logo-wrap">
+              <a href="#" class="footer-logo">Wingman<span>.</span></a>
+            </div>
+            <p class="mb-4">
+              Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.
+            </p>
+
+            <ul class="list-unstyled custom-social">
+              <li>
+                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
+              </li>
+              <li>
+                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="row links-wrap">
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Liên hệ</a></li>
+                  <li><a href="#">Dịch vụ</a></li>
+                  <li><a href="#">Thông tin</a></li>
+                  <li><a href="#">Trung tâm trợ giúp</a></li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Vận chuyển</a></li>
+                  <li><a href="#">Khu vực</a></li>
+                  <li><a href="#">Kênh bán hàng</a></li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Hướng dẫn mua hàng</a></li>
+                  <li><a href="#">Đội ngũ</a></li>
+                  <li><a href="#">Trả hàng</a></li>
+                  <li><a href="#">Bảo mật</a></li>
+                </ul>
+              </div>
+
+              <div class="col-6 col-sm-6 col-md-3">
+                <ul class="list-unstyled">
+                  <li><a href="#">Chăm sóc khách hàng</a></li>
+                  <li><a href="#">Chính sách bảo hành</a></li>
+                  <li><a href="#">Hoàn tiền</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-top copyright">
+          <div class="row pt-4">
+            <div class="col-lg-6">
+              <p class="mb-2 text-center text-lg-start">
+                Chủ sở hữu &copy;
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                &mdash; Thiết kế tâm huyết của nhóm <a href="">SD-05</a>
+                <a hreff=""></a>
+                <!-- License information: https://untree.co/license/ -->
+              </p>
+            </div>
+
+            <div class="col-lg-6 text-center text-lg-end">
+              <ul class="list-unstyled d-inline-flex ms-auto">
+                <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
+                <li>
+                  <a href="#">Xây dựng Website bán giày thể thao Wingman</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End Footer Section -->
+
+    <script src="../js/customer/bootstrap.bundle.min.js"></script>
+    <script src="../js/customer/tiny-slider.js"></script>
+    <script src="../js/customer/custom.js"></script>
+  </body>
+</html>
