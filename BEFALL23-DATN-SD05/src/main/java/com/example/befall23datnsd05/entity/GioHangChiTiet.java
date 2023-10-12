@@ -36,15 +36,15 @@ public class GioHangChiTiet {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_chi_tiet_san_pham")
+    @JoinColumn(name = "id_chi_tiet_san_pham", referencedColumnName = "id")
     private ChiTietSanPham chiTietSanPham;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_hoa_don")
+    @JoinColumn(name = "id_hoa_don", referencedColumnName = "id")
     private HoaDon hoaDon;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_gio_hang")
+    @JoinColumn(name = "id_gio_hang", referencedColumnName = "id")
     private GioHang gioHang;
 
     @Column(name = "don_gia", precision = 19, scale = 2)

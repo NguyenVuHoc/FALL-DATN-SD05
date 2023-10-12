@@ -32,7 +32,7 @@ public class GioHang {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id_khach_hang")
+    @JoinColumn(name = "id_khach_hang", referencedColumnName = "id")
     private KhachHang khachHang;
 
     @Column(name = "ma", unique = true)

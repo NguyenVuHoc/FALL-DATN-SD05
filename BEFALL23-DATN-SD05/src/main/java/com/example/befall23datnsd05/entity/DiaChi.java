@@ -61,7 +61,7 @@ public class DiaChi {
     private TrangThai trangThai;
 
     @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_khach_hang")
+    @JoinColumn(name = "id_khach_hang", referencedColumnName = "id")
     private KhachHang khachHang;
 
 }

@@ -37,11 +37,11 @@ public class HoaDonChiTiet {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_chi_tiet_san_pham")
+    @JoinColumn(name = "id_chi_tiet_san_pham", referencedColumnName = "id")
     private ChiTietSanPham chiTietSanPham;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_hoa_don")
+    @JoinColumn(name = "id_hoa_don", referencedColumnName = "id")
     private HoaDon hoaDon;
 
     @Column(name = "ten_san_pham")

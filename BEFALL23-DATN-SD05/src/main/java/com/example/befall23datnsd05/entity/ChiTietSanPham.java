@@ -37,27 +37,27 @@ public class ChiTietSanPham {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_san_pham")
+    @JoinColumn(name = "id_san_pham", referencedColumnName = "id")
     private SanPham sanPham;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_de_giay")
+    @JoinColumn(name = "id_de_giay", referencedColumnName = "id")
     private DeGiay deGiay;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_mau_sac")
+    @JoinColumn(name = "id_mau_sac", referencedColumnName = "id")
     private MauSac mauSac;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_kich_thuoc")
+    @JoinColumn(name = "id_kich_thuoc", referencedColumnName = "id")
     private KichThuoc kichThuoc;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_lot_giay")
+    @JoinColumn(name = "id_lot_giay", referencedColumnName = "id")
     private LotGiay lotGiay;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id_co_giay")
+    @JoinColumn(name = "id_co_giay", referencedColumnName = "id")
     private CoGiay coGiay;
 
     @Column(name = "so_luong_ton")

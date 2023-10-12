@@ -58,7 +58,7 @@ public class DiemTichLuy {
     private TrangThai trangThai;
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id_khach_hang")
+    @JoinColumn(name = "id_khach_hang", referencedColumnName = "id")
     private KhachHang khachHang;
 
 }
