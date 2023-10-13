@@ -14,7 +14,6 @@
     border-radius: 13px;
     color: black;
     width: 130px;
-    padding: 8px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -25,7 +24,8 @@
 .shop-input-search{
     border-radius: 13px;
     border: 1px solid black;
-    width: 400px;
+    width: 450px;
+    height: 37px;
     padding: 8px 20px;
     margin-left: 40px;
 }
@@ -37,7 +37,6 @@
     border-radius: 13px;
     color: black;
     width: 150px;
-    padding: 8px 20px;
     text-decoration: none;
     display: inline-block;
     font-size: 11px;
@@ -51,7 +50,6 @@
     border-radius: 13px;
     color: black;
     width: 95px;
-    height: 34px;
     text-decoration: none;
     display: inline-block;
     font-size: 11px;
