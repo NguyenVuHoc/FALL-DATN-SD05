@@ -1,17 +1,12 @@
 package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,31 +15,34 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static jakarta.persistence.EnumType.ORDINAL;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @Entity
-@Table(name = "san_pham")
-public class SanPham {
+@Table(name = "nhan_vien")
+public class NhanVien {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "ma", nullable = false, unique = true)
+    @Column(name = "ma", unique = true)
     private String ma;
 
     @Column(name = "ten")
     private String ten;
 
-    @Column(name = "mo_ta")
-    private String moTa;
+    @Column(name = "sdt", unique = true)
+    private String sdt;
+
+    @Column(name = "gioi_tinh")
+    private Boolean gioiTinh;
 
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
@@ -52,22 +50,16 @@ public class SanPham {
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
 
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "mat_khau")
+    private String matKhau;
+
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
 
-    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL)
-    private List<AnhSanPham> listAnhSanPham;
 
-    @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL)
-    private List<ChiTietSanPham> listChiTietSanPham;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_thuong_hieu", referencedColumnName = "id")
-    private ThuongHieu thuongHieu;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_dong_san_pham", referencedColumnName = "id")
-    private DongSanPham dongSanPham;
 
 }
