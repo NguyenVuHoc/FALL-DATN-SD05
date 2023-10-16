@@ -25,6 +25,9 @@ public class CoGiay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "ma", nullable = false, unique = true)
+    private String ma;
+
     @Column(name = "ten", nullable = false, unique = true)
     private String ten;
 
