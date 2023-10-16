@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.entity;
 
+import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +43,8 @@ public class NhanVien {
     private String sdt;
 
     @Column(name = "gioi_tinh")
-    private Boolean gioiTinh;
+    @Enumerated(ORDINAL)
+    private GioiTinh gioiTinh;
 
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
