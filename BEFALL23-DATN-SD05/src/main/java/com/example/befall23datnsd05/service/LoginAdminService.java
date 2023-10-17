@@ -9,6 +9,9 @@ public interface LoginAdminService {
 
     List<NhanVien> getAll();
 
+    List<NhanVien> getByTrangThai(Integer trangThai);
+    String checkTrangThaiDangNhap(NhanVien nhanVien);
+
     NhanVien getByEmail(String email);
 
     String checkPassword(NhanVien nhanVien, String password);
