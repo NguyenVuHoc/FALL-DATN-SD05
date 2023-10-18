@@ -135,7 +135,7 @@
                 </div>
                 <div style="width: 20%;">
                     <button class="btn btn-outline-success">
-                        <a class="them" href="view-add-dong-san-pham" style="color: darkgreen;">Thêm</a>
+                        <a class="them" href="/admin/dong-san-pham/view-add-dong-san-pham" style="color: darkgreen;">Thêm</a>
                     </button>
                 </div>
             </div>
@@ -148,30 +148,27 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Id Dòng Sản Phẩm</th>
-                                <th>Mã Dòng Sản Phẩm</th>
-                                <th>Tên Dòng Sản Phẩm</th>
-                                <th>Ngày Tạo</th>
-                                <th>Ngày Sửa</th>
+                                <th>Id </th>
+                                <th>Mã </th>
+                                <th>Tên</th>
                                 <th>Trạng Thái</th>
-                                <th>Action</th>
+                                <th>Thao tác</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="dongSp : ${listDongSp}">
+
+                            <tr th:each="dongSp : ${listDongSp.content}">
                                 <td th:text="${dongSp.id}"></td>
                                 <td th:text="${dongSp.ma}"></td>
                                 <td th:text="${dongSp.ten}"></td>
-                                <td th:text="${dongSp.ngayTao}"></td>
-                                <td th:text="${dongSp.ngaySua}"></td>
-                                <td th:if="${dongSp.trangThai.getTrangThai()==0}">Đang Hoạt Động</td>
-                                <td th:if="${dongSp.trangThai.getTrangThai()==1}">Dừng Hoạt Động</td>
+                                <td th:if="${dongSp.getTrangThai()==0}">Đang Hoạt Động</td>
+                                <td th:if="${dongSp.getTrangThai()==1}">Dừng Hoạt Động</td>
                                 <td>
-                                    <a th:href="@{'view-update/' + ${dongSp.id}}">
+                                    <a th:href="@{'/admin/dong-san-pham/view-update/' + ${dongSp.id}}">
                                         <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                     </a>
-                                    <a th:href="@{'remove/' + ${dongSp.id}}">
+                                    <a th:href="@{'/admin/dong-san-pham/remove/' + ${dongSp.id}}">
                                         <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                     </a>
                                 </td>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="/../../img/wingman.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,14 +21,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/admin/bootstrap.min.css" rel="stylesheet">
+    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../css/admin/style.css" rel="stylesheet">
+    <link href="/../../css/admin/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -51,7 +51,7 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                         </div>
@@ -72,7 +72,7 @@
                             <a href="../san_pham/san_pham.html" class="dropdown-item">Sản Phẩm</a>
                             <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
                                 Phẩm</a>
-                            <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item">Dòng Sản Phẩm</a>
+                            <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item">Thương Hiệu</a>
                             <a href="../thuong_hieu/thuong_hieu.html" class="dropdown-item active">Thương Hiệu</a>
                             <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
                             <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
@@ -110,7 +110,7 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
+                            <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
                                 style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
@@ -126,31 +126,39 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px; text-align: center;">Sửa Thương Hiệu</h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <form th:object="${thuongHieu}" th:action="@{/admin/thuong-hieu/update}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mã Thương Hiệu</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
+                            <label class="form-label">Mã Thương Hiệu</label>
+                            <input type="text" class="form-control" id="ma" th:field="*{ma}"
+                                   aria-describedby="emailHelp"/>
+                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tên Thương Hiệu</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label class="form-label">Tên Thương Hiệu</label>
+                            <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"/>
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Trạng Thái</label>
+                            <label class="form-label">Trạng Thái</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                    value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Hoạt Động</label>
+                                <input id="trangThaiHoatDong" name="trangThai" type="radio" class="form-check-input"
+                                       th:value="DANG_HOAT_DONG"
+                                       th:field="*{trangThai}"/>
+                                <label for="trangThaiHoatDong" class="form-check-label">Hoạt Động</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                    value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">Ngừng Hoạt Động</label>
+                                <input id="trangThaiKhongHoatDong" name="trangThai" type="radio" class="form-check-input"
+                                       th:value="DUNG_HOAT_DONG"
+                                       th:field="*{trangThai}"/>
+                                <label for="trangThaiKhongHoatDong" class="form-check-label">Dừng Hoạt Động</label>
                             </div>
-                            <button type="submit" class="btn btn-success " style="margin-left: 40%; margin-top: 15px;">
-                                Sửa
-                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-success " style="margin-left: 40%; margin-top: 15px;">
+                            Sửa
+                        </button>
                     </form>
                 </div>
                 <!-- Recent Sales End -->
@@ -170,16 +178,16 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/chart/chart.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/../../lib/chart/chart.min.js"></script>
+    <script src="/../../lib/easing/easing.min.js"></script>
+    <script src="/../../lib/waypoints/waypoints.min.js"></script>
+    <script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../js/admin/main.js"></script>
+    <script src="/../../js/admin/main.js"></script>
 </body>
 
 </html>

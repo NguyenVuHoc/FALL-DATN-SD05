@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -126,15 +126,23 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Thương Hiệu</h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <div th:if ="${chuadoianh != null}" >
+                        <span th:text ="${chuadoianh}"></span>
+                    </div>
+                    <form th:action="@{add}" method="post" th:object="${thuongHieu}">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mã Thương Hiệu</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
+                            <label class="form-label">Mã Dòng Sản Phẩm</label>
+                            <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
+                                   aria-describedby="emailHelp"/>
+                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tên Thương Hiệu</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label class="form-label">Tên Dòng Sản Phẩm</label>
+                            <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
+                                   aria-describedby="emailHelp"/>
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Thêm
