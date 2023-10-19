@@ -6,576 +6,538 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="../images/WingMan-black.png" />
+    <meta name="author" content="Untree.co"/>
+    <link rel="shortcut icon" href="../images/WingMan-black.png"/>
 
-    <meta name="description" content="" />
-    <meta name="keywords" content="bootstrap, bootstrap4" />
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
 
     <!-- Bootstrap CSS -->
-    <link href="../css/customer/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/customer/bootstrap.min.css" rel="stylesheet"/>
     <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            rel="stylesheet"
     />
-    <link href="../css/customer/style.css" rel="stylesheet" />
-    <link href="../css/customer/tiny-slider.css" rel="stylesheet" />
+    <link href="../css/customer/style.css" rel="stylesheet"/>
+    <link href="../css/customer/tiny-slider.css" rel="stylesheet"/>
     <title>
-      Wingman
+        Wingman
     </title>
-  </head>
+</head>
 
-  <body>
-   
-		<!-- Start Header/Navigation -->
-		<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+<body>
 
-			<div class="container">
-				<a class="navbar-brand" href="index.html"><img src="../images/wingman.png"
-						style="height: 50px; width: 50px;"><a class="navbar-brand"
-						href="index.html">Wingman<span>.</span></a></a>
-	
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-					aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-	
-				<div class="collapse navbar-collapse" id="navbarsFurni">
-					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-						<li class="active ">
-							<a class="nav-link" href="index.html">Trang chủ</a>
-						</li>
-						<li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
-						<li ></li><a class="nav-link" href="about.html">Đội ngũ</a></li>
-						<li><a class="nav-link" href="services.html">Dịch vụ</a></li>
-						<li><a class="nav-link" href="blog.html">Thông tin</a></li>
-						<li><a class="nav-link" href="contact.html">Liên hệ</a></li>
-					</ul>
-	
-					<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-						<li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
-						<li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
-					</ul>
-				</div>
-			</div>
-	
-		</nav>
-		<!-- End Header/Navigation -->
+<!-- Start Header/Navigation -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
-		<!-- Start Hero Section -->
-		<div class="hero">
-			<div class="container">
-			  <div class="row justify-content-between">
-				<div class="col-lg-5">
-				  <div class="intro-excerpt">
-					<h1>Wingman Shoes</h1>
-					<p class="mb-4">Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman liền nhé!</p>
-					<p><a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a><a href="blog.html"
-						class="btn btn-white-outline">Khám phá</a></p>
-				  </div>
-				</div>
-				<div class="col-lg-7">
-				  <div class="hero-img-wrap">
-					<img src="../images/bannerGiay.png" class="img-fluid">
-				  </div>
-				</div>
-			  </div>
-			</div>
-		  </div>
-		<!-- End Hero Section -->
+    <div class="container">
+        <a class="navbar-brand" href="index.html"><img src="../images/wingman.png"
+                                                       style="height: 50px; width: 50px;"><a class="navbar-brand"
+                                                                                             href="index.html">Wingman<span>.</span></a></a>
 
-		<!-- Start Product Section -->
-		<div class="product-section">
-			<div class="container">
-				<div class="row">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-					<!-- Start Column 1 -->
-					<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-						<h2 class="mb-4 section-title">Sản phẩm nổi bật.</h2>
-						<p class="mb-4">Đây là những sự kết hợp tinh tế giữa thiết kế đẹp mắt và hiệu suất vượt trội, mang đến cho bạn trải nghiệm sự thoải mái và phong cách độc đáo. </p>
-						<p><a href="shop.html" class="btn">Khám phá ngay</a></p>
-					</div> 
-					<!-- End Column 1 -->
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="active ">
+                    <a class="nav-link" href="index.html">Trang chủ</a>
+                </li>
+                <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
+                <li></li>
+                <a class="nav-link" href="about.html">Đội ngũ</a></li>
+                <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
+                <li><a class="nav-link" href="blog.html">Thông tin</a></li>
+                <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
+            </ul>
 
-					<!-- Start Column 2 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay1_preview_rev_1.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike</h3>
-							<strong class="product-price">$50.00</strong>
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
+                <li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
+            </ul>
+        </div>
+    </div>
 
-							<span class="icon-cross">
+</nav>
+<!-- End Header/Navigation -->
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Wingman Shoes</h1>
+                    <p class="mb-4">Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman liền nhé!</p>
+                    <p><a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a><a href="blog.html"
+                                                                                         class="btn btn-white-outline">Khám
+                        phá</a></p>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="hero-img-wrap">
+                    <img src="../images/bannerGiay.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hero Section -->
+
+<!-- Start Product Section -->
+<div class="product-section">
+    <div class="container">
+        <div class="row">
+
+            <!-- Start Column 1 -->
+            <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                <h2 class="mb-4 section-title">Sản phẩm mới.</h2>
+                <p class="mb-4">Đây là những sự kết hợp tinh tế giữa thiết kế đẹp mắt và hiệu suất vượt trội, mang đến
+                    cho bạn trải nghiệm sự thoải mái và phong cách độc đáo. </p>
+                <p><a href="shop.html" class="btn">Khám phá ngay</a></p>
+            </div>
+            <!-- End Column 1 -->
+
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3New : ${list3New}">
+                <a class="product-item" href="cart.html">
+                    <img th:src="@{/images/airMid-x-kimetsu.png}" class="img-fluid product-thumbnail">
+                    <h3 class="product-title" th:text="${ctsp3New.getTen()}"></h3>
+                    <strong class="product-price" th:text="${ctsp3New.getGiaBan()}"></strong>
+
+                    <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-						</a>
-					</div> 
-					<!-- End Column 2 -->
+                </a>
+            </div>
+            <!-- End Column 2 -->
 
-					<!-- Start Column 3 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay2_preview_rev_1.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike Jodan</h3>
-							<strong class="product-price">$78.00</strong>
+        </div>
+    </div>
+</div>
+<!-- End Product Section -->
 
-							<span class="icon-cross">
+
+<!-- Start Product Section -->
+<div class="product-section">
+    <div class="container">
+        <div class="row">
+
+            <!-- Start Column 1 -->
+            <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
+                <h2 class="mb-4 section-title">Sản phẩm nổi bật.</h2>
+                <p class="mb-4">Đây là một lựa chọn tuyệt vời cho những người yêu thể thao, sở hữu những đặc tính nổi
+                    bật mang lại sự thoải mái và phong cách. </p>
+                <p><a href="shop.html" class="btn">Khám phá ngay</a></p>
+            </div>
+            <!-- End Column 1 -->
+
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3prominent : ${list3Prominent}">
+                <a class="product-item" href="cart.html">
+                    <img src="../images/giay1_preview_rev_1.png" class="img-fluid product-thumbnail">
+                    <h3 class="product-title" th:text="${ctsp3prominent.getTen()}"></h3>
+                    <strong class="product-price" th:text="${ctsp3prominent.getGiaBan}"></strong>
+
+                    <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-						</a>
-					</div>
-					<!-- End Column 3 -->
+                </a>
+            </div>
+            <!-- End Column 2 -->
 
-					<!-- Start Column 4 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay3.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike</h3>
-							<strong class="product-price">$43.00</strong>
+        </div>
+    </div>
+</div>
+<!-- End Product Section -->
 
-							<span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 4 -->
+<!-- Start Why Choose Us Section -->
+<div class="why-choose-section">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-6">
+                <h2 class="section-title">Lý do bạn nên lựa chọn Wingman</h2>
+                <p>Cá tính, thời thượng nhưng cũng rất thoải mái là điều mà ai cũng hy vọng đạt được trong nhịp sống
+                    hiện đại ngày nay. Wingman sẽ giúp bạn trở nên thu hút và tự tin hơn bao giờ hết.</p>
 
-				</div>
-			</div>
-		</div>
-		<!-- End Product Section -->
+                <div class="row my-5">
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="../images/truck.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Giao hàng nhanh &amp; miễn phí</h3>
+                            <p>Giao hàng nhanh, miễn phí toàn quốc</p>
+                        </div>
+                    </div>
 
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="../images/bag.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Dễ dàng mua sắm</h3>
+                            <p>Thuận tiên, đảm bảo hàng chính hãng 100%</p>
+                        </div>
+                    </div>
 
-		<!-- Start Product Section -->
-		<div class="product-section">
-			<div class="container">
-				<div class="row">
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="../images/support.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Hỗ trợ 24/7</h3>
+                            <p>Nhanh chóng, ổn định, hỗ trợ mọi nơi mọi lúc</p>
+                        </div>
+                    </div>
 
-					<!-- Start Column 1 -->
-					<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-						<h2 class="mb-4 section-title">Sản phẩm bán chạy.</h2>
-						<p class="mb-4">Đây là một lựa chọn tuyệt vời cho những người yêu thể thao, sở hữu những đặc tính nổi bật mang lại sự thoải mái và phong cách. </p>
-						<p><a href="shop.html" class="btn">Khám phá ngay</a></p>
-					</div> 
-					<!-- End Column 1 -->
+                    <div class="col-6 col-md-6">
+                        <div class="feature">
+                            <div class="icon">
+                                <img src="../images/return.svg" alt="Image" class="imf-fluid">
+                            </div>
+                            <h3>Trả hàng dễ dàng</h3>
+                            <p>Trả hàng miễn phí hoàn toàn trong 7 ngày</p>
+                        </div>
+                    </div>
 
-					<!-- Start Column 2 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay1_preview_rev_1.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike</h3>
-							<strong class="product-price">$50.00</strong>
+                </div>
+            </div>
 
-							<span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div> 
-					<!-- End Column 2 -->
+            <div class="col-lg-5">
+                <div class="img-wrap">
+                    <img src="../images/giay.png" alt="Image" class="img-fluid">
+                </div>
+            </div>
 
-					<!-- Start Column 3 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay2_preview_rev_1.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike Jodan</h3>
-							<strong class="product-price">$78.00</strong>
+        </div>
+    </div>
+</div>
+<!-- End Why Choose Us Section -->
 
-							<span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 3 -->
+<!-- Start We Help Section -->
+<div class="we-help-section">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-7 mb-5 mb-lg-0">
+                <div class="imgs-grid">
+                    <div class="grid grid-1"><img
+                            src="https://img.freepik.com/free-photo/modern-multi-colored-abstract-sports-shoe-generated-by-ai_188544-19599.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais"
+                            alt="Untree.co"></div>
+                    <div class="grid grid-2"><img
+                            src="https://img.freepik.com/premium-photo/stability-cushion-running-shoes-new-unbranded-running-sneaker-trainer-orange-background-men-s-sport-footwear-pair-sport-shoes_179369-777.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais"
+                            alt="Untree.co"></div>
+                    <div class="grid grid-3"><img
+                            src="https://img.freepik.com/free-photo/shoe-elegance-symbol-modern-computer-graphic-motion-nature-generated-by-ai_188544-19640.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais"
+                            alt="Untree.co"></div>
+                </div>
+            </div>
+            <div class="col-lg-5 ps-lg-5">
+                <h2 class="section-title mb-4">We help you travel smoothly</h2>
+                <p>Đây không chỉ đơn giản là một cửa hàng giày mà còn là điểm đến lý tưởng cho những đam mê thời trang
+                    và sự thoải mái thoải mái.</p>
 
-					<!-- Start Column 4 -->
-					<div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-						<a class="product-item" href="cart.html">
-							<img src="../images/giay3.png" class="img-fluid product-thumbnail">
-							<h3 class="product-title">Nike</h3>
-							<strong class="product-price">$43.00</strong>
+                <ul class="list-unstyled custom-list my-4">
+                    <li>Thời trang</li>
+                    <li>Năng động</li>
+                    <li>Cá tính</li>
+                    <li>Dễ chịu</li>
+                </ul>
+                <p><a herf="#" class="btn">Khám phá ngay</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End We Help Section -->
 
-							<span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-						</a>
-					</div>
-					<!-- End Column 4 -->
+<!-- Start Testimonial Slider -->
+<div class="testimonial-section before-footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mx-auto text-center">
+                <h2 class="section-title">Khách hàng</h2>
+            </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
-		<!-- End Product Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="testimonial-slider-wrap text-center">
 
-		<!-- Start Why Choose Us Section -->
-		<div class="why-choose-section">
-			<div class="container">
-				<div class="row justify-content-between align-items-center">
-					<div class="col-lg-6">
-						<h2 class="section-title">Lý do bạn nên lựa chọn Wingman</h2>
-						<p>Cá tính, thời thượng nhưng cũng rất thoải mái là điều mà ai cũng hy vọng đạt được trong nhịp sống
-							hiện đại ngày nay. Wingman sẽ giúp bạn trở nên thu hút và tự tin hơn bao giờ hết.</p>
-	
-						<div class="row my-5">
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="../images/truck.svg" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Giao hàng nhanh &amp; miễn phí</h3>
-									<p>Giao hàng nhanh, miễn phí toàn quốc</p>
-								</div>
-							</div>
-	
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="../images/bag.svg" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Dễ dàng mua sắm</h3>
-									<p>Thuận tiên, đảm bảo hàng chính hãng 100%</p>
-								</div>
-							</div>
-	
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="../images/support.svg" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Hỗ trợ 24/7</h3>
-									<p>Nhanh chóng, ổn định, hỗ trợ mọi nơi mọi lúc</p>
-								</div>
-							</div>
-	
-							<div class="col-6 col-md-6">
-								<div class="feature">
-									<div class="icon">
-										<img src="../images/return.svg" alt="Image" class="imf-fluid">
-									</div>
-									<h3>Trả hàng dễ dàng</h3>
-									<p>Trả hàng miễn phí hoàn toàn trong 7 ngày</p>
-								</div>
-							</div>
-	
-						</div>
-					</div>
-	
-					<div class="col-lg-5">
-						<div class="img-wrap">
-							<img src="../images/giay.png" alt="Image" class="img-fluid">
-						</div>
-					</div>
-	
-				</div>
-			</div>
-		</div>
-		<!-- End Why Choose Us Section -->
+                    <div id="testimonial-nav">
+                        <span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
+                        <span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
+                    </div>
 
-		<!-- Start We Help Section -->
-		<div class="we-help-section">
-			<div class="container">
-				<div class="row justify-content-between">
-					<div class="col-lg-7 mb-5 mb-lg-0">
-						<div class="imgs-grid">
-							<div class="grid grid-1"><img src="https://img.freepik.com/free-photo/modern-multi-colored-abstract-sports-shoe-generated-by-ai_188544-19599.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais" alt="Untree.co"></div>
-							<div class="grid grid-2"><img src="https://img.freepik.com/premium-photo/stability-cushion-running-shoes-new-unbranded-running-sneaker-trainer-orange-background-men-s-sport-footwear-pair-sport-shoes_179369-777.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais" alt="Untree.co"></div>
-							<div class="grid grid-3"><img src="https://img.freepik.com/free-photo/shoe-elegance-symbol-modern-computer-graphic-motion-nature-generated-by-ai_188544-19640.jpg?size=626&ext=jpg&ga=GA1.1.1350743708.1696488918&semt=ais" alt="Untree.co"></div>
-						</div>
-					</div>
-					<div class="col-lg-5 ps-lg-5">
-						<h2 class="section-title mb-4">We help you travel smoothly</h2>
-						<p>Đây không chỉ đơn giản là một cửa hàng giày mà còn là điểm đến lý tưởng cho những đam mê thời trang và sự thoải mái thoải mái.</p>
+                    <div class="testimonial-slider">
 
-						<ul class="list-unstyled custom-list my-4">
-							<li>Thời trang</li>
-							<li>Năng động</li>
-							<li>Cá tính</li>
-							<li>Dễ chịu</li>
-						</ul>
-						<p><a herf="#" class="btn">Khám phá ngay</a></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End We Help Section -->
- 
-		<!-- Start Testimonial Slider -->
-		<div class="testimonial-section before-footer-section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-7 mx-auto text-center">
-						<h2 class="section-title">Khách hàng</h2>
-					</div>
-				</div>
-	
-				<div class="row justify-content-center">
-					<div class="col-lg-12">
-						<div class="testimonial-slider-wrap text-center">
-	
-							<div id="testimonial-nav">
-								<span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
-								<span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
-							</div>
-	
-							<div class="testimonial-slider">
-	
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-	
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Mình đã lựa chọn một đôi giày ổn với chân của mình và cuối
-														cùng đã tìm thấy Wingman. WingMan có chất liệu rất tích cực và độ
-														bền cao, mình đã dùng trong một thời gian khá dài và vẫn còn mới như
-														ban đầu. &rdquo;</p>
-												</blockquote>
-	
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="../images/MinhHang.jpg" alt="Maria Jones" class="img-fluid">
-													</div>
-													<h3 class="font-weight-bold">Minh Hằng</h3>
-													<span class="position d-block mb-3">Sinh viên</span>
-												</div>
-											</div>
-	
-										</div>
-									</div>
-								</div>
-								<!-- END item -->
-	
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-	
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Mình rất thích giày Wingman vì chúng rất nhẹ và thoải mái, phù
-														hợp khi đi dạo hoặc đi chơi.&rdquo;</p>
-												</blockquote>
-	
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="../images/seeding2.jpg" alt="Maria Jones" class="img-fluid">
-													</div>
-													<h3 class="font-weight-bold">Trịnh Tuấn</h3>
-													<span class="position d-block mb-3">Học sinh</span>
-												</div>
-											</div>
-	
-										</div>
-									</div>
-								</div>
-								<!-- END item -->
-	
-								<div class="item">
-									<div class="row justify-content-center">
-										<div class="col-lg-8 mx-auto">
-	
-											<div class="testimonial-block text-center">
-												<blockquote class="mb-5">
-													<p>&ldquo;Wingman có đế giày êm và giúp giảm áp lực khi đi, tạo ấn tượng
-														thoải mái cho chân. Mình rất thích Wingman vì giày cực kỳ êm và
-														không gây đau chân khi đi lâu. Wingman có sắc màu và tư thế rất
-														nhiều loại, phù hợp với nhiều phong cách thời trang.&rdquo;</p>
-												</blockquote>
-	
-												<div class="author-info">
-													<div class="author-pic">
-														<img src="../images/seeding3.jpg" alt="Maria Jones" class="img-fluid">
-													</div>
-													<h3 class="font-weight-bold">Thúy Hằng</h3>
-													<span class="position d-block mb-3">Nhân viên văn phòng</span>
-												</div>
-											</div>
-	
-										</div>
-									</div>
-								</div>
-								<!-- END item -->
-	
-							</div>
-	
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Testimonial Slider -->
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
 
-		<!-- Start Blog Section -->
-		<div class="blog-section">
-			<div class="container">
-				<div class="row mb-5">
-					<div class="col-md-6">
-						<h2 class="section-title">Recent Blog</h2>
-					</div>
-					<div class="col-md-6 text-start text-md-end">
-						<a href="#" class="more">View All Posts</a>
-					</div>
-				</div>
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Mình đã lựa chọn một đôi giày ổn với chân của mình và cuối
+                                                cùng đã tìm thấy Wingman. WingMan có chất liệu rất tích cực và độ
+                                                bền cao, mình đã dùng trong một thời gian khá dài và vẫn còn mới như
+                                                ban đầu. &rdquo;</p>
+                                        </blockquote>
 
-				<div class="row">
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="../images/MinhHang.jpg" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Minh Hằng</h3>
+                                            <span class="position d-block mb-3">Sinh viên</span>
+                                        </div>
+                                    </div>
 
-					<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
-						<div class="post-entry">
-							<a href="#" class="post-thumbnail"><img src="../images/ronaldo.jpg" alt="Image"  width="800px" height="200px" class="img-fluid"></a>
-							<div class="post-content-entry">
-								<h3><a href="#">Cristiano cùng với đôi giày của chúng tôi</a></h3>
-								<div class="meta">
-									<span>by <a href="#">Dương Quang Hào</a></span> <span>on <a href="#">20/11/2023</a></span>
-								</div>
-							</div>
-						</div>
-					</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
 
-					<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
-						<div class="post-entry">
-							<a href="#" class="post-thumbnail"><img src="https://wikimarketing.vn/wp-content/uploads/2019/12/Nh%C3%ACn-l%E1%BA%A1i-sai-l%E1%BA%A7m-c%E1%BB%A7a-Adidas-khi-%C4%91%E1%BB%83-m%E1%BA%A5t-Michael-Jordan-v%C3%A0o-tay-Nike-9.jpg" alt="Image" class="img-fluid" width="800px" height="300px"></a>
-							<div class="post-content-entry">
-								<h3><a href="#">Michael Jordan-Gương mặt đại diện cho Air Jodan</a></h3>
-								<div class="meta">
-									<span>by <a href="#">Lan Nguyễn</a></span> <span>on <a href="#">22/11/2023</a></span>
-								</div>
-							</div>
-						</div>
-					</div>
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
 
-					<div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
-						<div class="post-entry">
-							<a href="#" class="post-thumbnail"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDLM2RQIiCh2k2SZ8tRico60-Tb9pwBsz4_Q&usqp=CAU"  alt="Image" class="img-fluid" width="800px" height="300px" ></a>
-							<div class="post-content-entry">
-								<h3><a href="#">Ra mắt sản phẩm mới</a></h3>
-								<div class="meta">
-									<span>by <a href="#">Nguyễn Vũ Học</a></span> <span>on <a href="#">1/10/22</a></span>
-								</div>
-							</div>
-						</div>
-					</div>
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Mình rất thích giày Wingman vì chúng rất nhẹ và thoải mái, phù
+                                                hợp khi đi dạo hoặc đi chơi.&rdquo;</p>
+                                        </blockquote>
 
-				</div>
-			</div>
-		</div>
-		<!-- End Blog Section -->	
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="../images/seeding2.jpg" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Trịnh Tuấn</h3>
+                                            <span class="position d-block mb-3">Học sinh</span>
+                                        </div>
+                                    </div>
 
-		<!-- Start Footer Section -->
-		<footer class="footer-section">
-			<div class="container relative">
-	
-				<div class="sofa-img">
-					<img src="../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;" alt="Image" class="img-fluid">
-				</div>
-	
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="subscription-form">
-							<h3 class="d-flex align-items-center"><span class="me-1"><img src="../images/envelope-outline.svg"
-										alt="Image" class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
-							</h3>
-	
-							<form action="#" class="row g-3">
-								<div class="col-auto">
-									<input type="text" class="form-control" placeholder="Họ và tên">
-								</div>
-								<div class="col-auto">
-									<input type="email" class="form-control" placeholder="Email">
-								</div>
-								<div class="col-auto">
-									<button class="btn btn-primary">
-										<span class="fa fa-paper-plane"></span>
-									</button>
-								</div>
-							</form>
-	
-						</div>
-					</div>
-				</div>
-	
-				<div class="row g-5 mb-5">
-					<div class="col-lg-4">
-						<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
-						<p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
-	
-						<ul class="list-unstyled custom-social">
-							<li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-							<li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
-							<li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
-							<li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
-						</ul>
-					</div>
-	
-					<div class="col-lg-8">
-						<div class="row links-wrap">
-							<div class="col-6 col-sm-6 col-md-3">
-								<ul class="list-unstyled">
-									<li><a href="#">Liên hệ</a></li>
-									<li><a href="#">Dịch vụ</a></li>
-									<li><a href="#">Thông tin</a></li>
-									<li><a href="#">Trung tâm trợ giúp</a></li>
-								</ul>
-							</div>
-	
-							<div class="col-6 col-sm-6 col-md-3">
-								<ul class="list-unstyled">
-									<li><a href="#">Vận chuyển</a></li>
-									<li><a href="#">Khu vực</a></li>
-									<li><a href="#">Kênh bán hàng</a></li>
-								</ul>
-							</div>
-	
-							<div class="col-6 col-sm-6 col-md-3">
-								<ul class="list-unstyled">
-									<li><a href="#">Hướng dẫn mua hàng</a></li>
-									<li><a href="#">Đội ngũ</a></li>
-									<li><a href="#">Trả hàng</a></li>
-									<li><a href="#">Bảo mật</a></li>
-								</ul>
-							</div>
-	
-							<div class="col-6 col-sm-6 col-md-3">
-								<ul class="list-unstyled">
-									<li><a href="#">Chăm sóc khách hàng</a></li>
-									<li><a href="#">Chính sách bảo hành</a></li>
-									<li><a href="#">Hoàn tiền</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-	
-				</div>
-	
-				<div class="border-top copyright">
-					<div class="row pt-4">
-						<div class="col-lg-6">
-							<p class="mb-2 text-center text-lg-start">Chủ sở hữu &copy;
-								<script>document.write(new Date().getFullYear());</script> &mdash;
-								Thiết kế tâm huyết của nhóm <a href="">SD-05</a> <a hreff=""></a>
-								<!-- License information: https://untree.co/license/ -->
-							</p>
-						</div>
-	
-						<div class="col-lg-6 text-center text-lg-end">
-							<ul class="list-unstyled d-inline-flex ms-auto">
-								<li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
-								<li><a href="#">Xây dựng Website bán giày thể thao Wingman</a></li>
-							</ul>
-						</div>
-	
-					</div>
-				</div>
-	
-			</div>
-		</footer>
-		<!-- End Footer Section -->	
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
 
-    <script src="../js/customer/bootstrap.bundle.min.js"></script>
-    <script src="../js/customer/tiny-slider.js"></script>
-    <script src="../js/customer/custom.js"></script>
-  </body>
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>&ldquo;Wingman có đế giày êm và giúp giảm áp lực khi đi, tạo ấn tượng
+                                                thoải mái cho chân. Mình rất thích Wingman vì giày cực kỳ êm và
+                                                không gây đau chân khi đi lâu. Wingman có sắc màu và tư thế rất
+                                                nhiều loại, phù hợp với nhiều phong cách thời trang.&rdquo;</p>
+                                        </blockquote>
+
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img src="../images/seeding3.jpg" alt="Maria Jones" class="img-fluid">
+                                            </div>
+                                            <h3 class="font-weight-bold">Thúy Hằng</h3>
+                                            <span class="position d-block mb-3">Nhân viên văn phòng</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Testimonial Slider -->
+
+<!-- Start Blog Section -->
+<div class="blog-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="section-title">Recent Blog</h2>
+            </div>
+            <div class="col-md-6 text-start text-md-end">
+                <a href="#" class="more">View All Posts</a>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img src="../images/ronaldo.jpg" alt="Image" width="800px"
+                                                            height="200px" class="img-fluid"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">Cristiano cùng với đôi giày của chúng tôi</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Dương Quang Hào</a></span> <span>on <a href="#">20/11/2023</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img
+                            src="https://wikimarketing.vn/wp-content/uploads/2019/12/Nh%C3%ACn-l%E1%BA%A1i-sai-l%E1%BA%A7m-c%E1%BB%A7a-Adidas-khi-%C4%91%E1%BB%83-m%E1%BA%A5t-Michael-Jordan-v%C3%A0o-tay-Nike-9.jpg"
+                            alt="Image" class="img-fluid" width="800px" height="300px"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">Michael Jordan-Gương mặt đại diện cho Air Jodan</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Lan Nguyễn</a></span> <span>on <a href="#">22/11/2023</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"><img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDLM2RQIiCh2k2SZ8tRico60-Tb9pwBsz4_Q&usqp=CAU"
+                            alt="Image" class="img-fluid" width="800px" height="300px"></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">Ra mắt sản phẩm mới</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Nguyễn Vũ Học</a></span> <span>on <a href="#">1/10/22</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Blog Section -->
+
+<!-- Start Footer Section -->
+<footer class="footer-section">
+    <div class="container relative">
+
+        <div class="sofa-img">
+            <img src="../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;" alt="Image"
+                 class="img-fluid">
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="subscription-form">
+                    <h3 class="d-flex align-items-center"><span class="me-1"><img src="../images/envelope-outline.svg"
+                                                                                  alt="Image"
+                                                                                  class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
+                    </h3>
+
+                    <form action="#" class="row g-3">
+                        <div class="col-auto">
+                            <input type="text" class="form-control" placeholder="Họ và tên">
+                        </div>
+                        <div class="col-auto">
+                            <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">
+                                <span class="fa fa-paper-plane"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5 mb-5">
+            <div class="col-lg-4">
+                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
+                <p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
+
+                <ul class="list-unstyled custom-social">
+                    <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row links-wrap">
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Dịch vụ</a></li>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#">Trung tâm trợ giúp</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Vận chuyển</a></li>
+                            <li><a href="#">Khu vực</a></li>
+                            <li><a href="#">Kênh bán hàng</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Đội ngũ</a></li>
+                            <li><a href="#">Trả hàng</a></li>
+                            <li><a href="#">Bảo mật</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Chăm sóc khách hàng</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Hoàn tiền</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border-top copyright">
+            <div class="row pt-4">
+                <div class="col-lg-6">
+                    <p class="mb-2 text-center text-lg-start">Chủ sở hữu &copy;
+                        <script>document.write(new Date().getFullYear());</script> &mdash;
+                        Thiết kế tâm huyết của nhóm <a href="">SD-05</a> <a hreff=""></a>
+                        <!-- License information: https://untree.co/license/ -->
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center text-lg-end">
+                    <ul class="list-unstyled d-inline-flex ms-auto">
+                        <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
+                        <li><a href="#">Xây dựng Website bán giày thể thao Wingman</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</footer>
+<!-- End Footer Section -->
+
+<script src="../js/customer/bootstrap.bundle.min.js"></script>
+<script src="../js/customer/tiny-slider.js"></script>
+<script src="../js/customer/custom.js"></script>
+</body>
 </html>
