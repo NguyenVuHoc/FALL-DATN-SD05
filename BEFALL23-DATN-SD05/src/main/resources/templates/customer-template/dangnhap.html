@@ -53,7 +53,7 @@
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
           <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item" class="active">
+            <li class="nav-item active">
               <a class="nav-link" href="index.html">Trang chủ</a>
             </li>
             <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
@@ -118,10 +118,10 @@
           <!-- CREATE-NEW-ACCOUNT START -->
           <div class="create-new-account">
             <form
-              class="new-account-box primari-box ng-pristine ng-valid"
+              class="new-account-box primari-box"
               id="create-new-account"
               method="post"
-              action="#"
+              action=""
             >
               <h3 class="box-subheading">Tạo tài khoản</h3>
               <div class="form-content">
@@ -138,12 +138,11 @@
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <!-- REGISTERED-ACCOUNT START -->
-          <div class="primari-box registered-account ng-scope">
+          <div class="primari-box registered-account">
             <form
-              class="new-account-box ng-pristine ng-valid-email ng-invalid ng-invalid-required"
+              class="new-account-box"
               id="accountLogin"
               method="post"
-              novalidate=""
               name="formLogin"
             >
               <h3 class="box-subheading">Bạn đã có tài khoản?</h3>
@@ -154,9 +153,7 @@
                     type="email"
                     name="txtTen"
                     id="loginemail"
-                    ng-model="username"
-                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-valid-email ng-invalid ng-invalid-required"
-                    required=""
+                    class="form-control input-feild"
                   />
                 </div>
                 <div class="form-group primary-form-group">
@@ -164,10 +161,8 @@
                   <input
                     type="password"
                     name="txtPass"
-                    ng-model="password"
                     id="password"
-                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
-                    required=""
+                    class="form-control input-feild"
                   />
                 </div>
                 <div class="forget-password">

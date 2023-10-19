@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class KhachHangDangKyDto {
     private String ten;
     private String email;
     private String matKhau;
-    private String diaChi;
     private String sdt;
     private GioiTinh gioiTinh;
 
