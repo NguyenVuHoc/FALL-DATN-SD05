@@ -137,7 +137,7 @@
                     </div>
                     <div style="width: 20%;">
                         <button class="btn btn-outline-success">
-                            <a class="them" href="them_lot_giay.html" style="color: darkgreen;">Thêm</a>
+                            <a class="them" th:href="@{../admin/lot-giay/view-add}" style="color: darkgreen;">Thêm</a>
                         </button>
                     </div>
                 </div>
@@ -146,142 +146,28 @@
                         <div class="bg-light rounded h-100 p-4">
                             <table class="table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Màu sắc</th>
-                                        <th>Chất Liệu</th>
-                                        <th>Chiều cao</th>
-                                        <th>Thương hiệu</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Chức Năng</th>
-                                    </tr>
+                                <tr>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Chức Năng</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../lot_giay/sua_lot_giay.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tr th:each="lotGiay : ${listLG}">
+                                    <th th:text="${lotGiay.ma}"></th>
+                                    <td th:text="${lotGiay.ten}"></td>
+
+                                    <td>
+                                        <a th:href="@{'../admin/lot-giay/view-update/' + ${lotGiay.id}}">
+                                            <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                        <a th:href="@{'../admin/lot-giay/delete/' + ${lotGiay.id}}">
+                                            <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                    </td>
+                                </tr>
                                 </tbody>
-                            </table>
-                        </div>
+                            </table>                        </div>
                     </div>
                 </div>
             </div>
@@ -289,22 +175,19 @@
             <div style="margin-top: 5%; margin-left: 42%;">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                        <li class="page-item" >
+                            <a class="page-link" th:href="@{/admin/lot-giay/pre}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:text="${index}"></a></li>
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" th:href="@{/admin/lot-giay/next}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
-
                     </ul>
-                </nav>
-            </div>
+                </nav>            </div>
             <!-- Footer Start -->
             <div class="container-fluid pt-4">
                 <div class="bg-light rounded-top p-4">

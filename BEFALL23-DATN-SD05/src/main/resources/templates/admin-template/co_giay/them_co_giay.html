@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -126,22 +126,22 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Cổ Giày </h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <form th:action="@{/admin/co-giay/add}" method="post" th:object="${coGiay}">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mã Cổ Giày</label>
+                            <label for="exampleInputEmail1" class="form-label">Mã </label>
                             <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
+                                   aria-describedby="emailHelp" th:field="*{ma}" />
+                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tên Cổ Giày</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="exampleInputPassword1" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{ten}" />
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Thêm
                         </button>
                     </form>
-
-
                 </div>
                 <!-- Recent Sales End -->
 
