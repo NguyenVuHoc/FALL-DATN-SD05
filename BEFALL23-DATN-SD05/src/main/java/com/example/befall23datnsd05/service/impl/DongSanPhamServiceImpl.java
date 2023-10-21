@@ -37,6 +37,18 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
         return repository.getPageDongSanPhamCusTom(pageable);
     }
 
+    @Override
+    public Page<DongSanphamCustom> getPageByActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getDongSpByTrangThaiHoatDong(pageable);
+    }
+
+    @Override
+    public Page<DongSanphamCustom> getPageByInActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getDongSpByTrangThaiDungThaiHoatDong(pageable);
+    }
+
 
     @Override
     public DongSanPham save(DongSanPhamRequest request) {
@@ -81,5 +93,15 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
     @Override
     public Integer tranferPage(Integer pageNo) {
         return null;
+    }
+
+    @Override
+    public Integer tranferPageTest(Integer pageNo, Page<DongSanphamCustom> page) {
+        return null;
+    }
+
+    @Override
+    public boolean exist(String ma) {
+        return repository.existsByMa(ma);
     }
 }

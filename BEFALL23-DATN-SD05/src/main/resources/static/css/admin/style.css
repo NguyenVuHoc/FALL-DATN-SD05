@@ -275,3 +275,15 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+/* CSS */
+.image-container {
+    width: 65px; /* Độ rộng của khung hình ảnh */
+    height: auto; /* Chiều cao tự động điều chỉnh để duy trì tỷ lệ khung hình */
+    max-width: 100%; /* Giữ cho hình ảnh không vượt quá độ rộng đã chỉ định */
+    overflow: hidden; /* Ẩn bất kỳ phần nào vượt ra ngoài khung */
+}
+
+.product-image {
+    width: 100%; /* Đặt kích thước hình ảnh để lấp đầy toàn bộ khung hình */
+    height: auto; /* Chiều cao tự động điều chỉnh để duy trì tỷ lệ khung hình */
+}

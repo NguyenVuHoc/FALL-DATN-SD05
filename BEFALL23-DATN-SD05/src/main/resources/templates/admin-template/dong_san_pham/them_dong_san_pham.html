@@ -131,14 +131,17 @@
                         <label class="form-label">Mã Dòng Sản Phẩm</label>
                         <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
                                aria-describedby="emailHelp"/>
-                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" class="alert alert-danger"></div>
+                        <div th:if="${error}" class="alert alert-danger">
+                            <p th:text="${error}"></p>
+                        </div>
 
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tên Dòng Sản Phẩm</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
                                aria-describedby="emailHelp"/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" class="alert alert-danger"></div>
 
                     </div>
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">

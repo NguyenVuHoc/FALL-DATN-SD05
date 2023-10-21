@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.custom.DongSanphamCustom;
+import com.example.befall23datnsd05.custom.ThuongHieuCustom;
 import com.example.befall23datnsd05.entity.DongSanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.DongSanPhamRequest;
@@ -15,6 +16,10 @@ public interface DongSanPhamService {
 
     Page<DongSanphamCustom> getPage(Integer pageNo, Integer size);
 
+    Page<DongSanphamCustom> getPageByActivity(Integer pageNo, Integer size);
+
+    Page<DongSanphamCustom> getPageByInActivity(Integer pageNo, Integer size);
+
     DongSanPham save(DongSanPhamRequest request);
 
     DongSanPham update(DongSanPhamRequest request);
@@ -24,6 +29,10 @@ public interface DongSanPhamService {
     DongSanPham findById(Long id);
 
     Integer tranferPage(Integer pageNo);
+
+    Integer tranferPageTest(Integer pageNo, Page<DongSanphamCustom> page);
+
+    boolean exist(String ma);
 
 
 }

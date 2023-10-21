@@ -12,8 +12,11 @@ public interface ThuongHieuService {
 
     List<ThuongHieu> getList();
 
-    List<ThuongHieuCustom> getListTransfer();
+    Integer transferPageTest(Integer pageNo, Page<ThuongHieuCustom> list);
 
+    Page<ThuongHieuCustom> getPageByActivity(Integer pageNo, Integer size);
+
+    Page<ThuongHieuCustom> getPageByInActivity(Integer pageNo, Integer size);
 
     Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size);
 
@@ -24,6 +27,8 @@ public interface ThuongHieuService {
     void remove(Long id);
 
     ThuongHieu findById(Long id);
+
+    boolean exist(String ma);
 
     Integer transferPage(Integer pageNo);
 

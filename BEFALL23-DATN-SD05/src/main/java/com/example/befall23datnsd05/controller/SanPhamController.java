@@ -37,6 +37,8 @@ public class SanPhamController {
                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
 
         model.addAttribute("listSanPham", sanPhamService.getPage(pageNo, 5));
+        model.addAttribute("index", pageNo + 1);
+
         return "admin-template/san_pham/san_pham";
     }
 

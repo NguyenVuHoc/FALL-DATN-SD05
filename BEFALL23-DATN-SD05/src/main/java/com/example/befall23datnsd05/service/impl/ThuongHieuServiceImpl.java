@@ -30,9 +30,25 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
-    public List<ThuongHieuCustom> getListTransfer() {
-        return repository.getThuongHieuCusTom();
+    public Integer transferPageTest(Integer pageNo, Page<ThuongHieuCustom> list) {
+
+        return null;
     }
+
+    @Override
+    public Page<ThuongHieuCustom> getPageByActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        System.out.println(repository.getThuongHieuByTrangThaiHoatDong(pageable).toString());
+        return repository.getThuongHieuByTrangThaiHoatDong(pageable);
+    }
+
+    @Override
+    public Page<ThuongHieuCustom> getPageByInActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        System.out.println(repository.getThuongHieuByTrangThaiDungHoatDong(pageable).toString());
+        return repository.getThuongHieuByTrangThaiHoatDong(pageable);
+    }
+
 
     @Override
     public Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size) {
@@ -43,6 +59,7 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
 
     @Override
     public ThuongHieu save(ThuongHieuRequest request) {
+
         ThuongHieu thuongHieu = new ThuongHieu();
         thuongHieu.setMa(request.getMa());
         thuongHieu.setTen(request.getTen());
@@ -82,15 +99,21 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
+    public boolean exist(String ma) {
+        return repository.existsByMa(ma);
+    }
+
+
+    @Override
     public Integer transferPage(Integer pageNo) {
         Integer sizeList = repository.findAll().size();
         System.out.println(sizeList);
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
+        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
         System.out.println(pageCount);
-        if (pageNo >= pageCount){
+        if (pageNo >= pageCount) {
             pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
+        } else if (pageNo < 0) {
+            pageNo = pageCount - 1;
         }
         System.out.println(pageNo);
         return pageNo;

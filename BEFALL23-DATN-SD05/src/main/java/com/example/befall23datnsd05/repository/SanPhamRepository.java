@@ -26,4 +26,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
 
     @Query(value = "select p from SanPham p where p.trangThai='1'", nativeQuery = false)
     Page<SanPham> getSanPhamByTrangThaiDungHoatDong(TrangThai trangThai, Pageable pageable);
+
+    boolean existsByMa(String ma);
+
 }

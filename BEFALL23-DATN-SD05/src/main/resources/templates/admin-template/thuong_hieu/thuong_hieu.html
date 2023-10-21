@@ -134,10 +134,16 @@
                             Tìm Kiếm
                         </button>
                     </form>
+                    <div  class="btn-group" role="group" aria-label="Basic example">
+                        <a th:href="@{/admin/thuong-hieu}" type="button" class="btn btn-outline-info ">Tất Cả</a>
+                        <a th:href="@{/admin/thuong-hieu/get-trang-thai-hoat-dong}" type="button" class="btn btn-outline-info ">Hoạt Động</a>
+                        <a th:href="@{/admin/thuong-hieu/get-trang-thai-dung-hoat-dong}" type="button"class="btn btn-outline-info ">Dừng Hoạt Động</a>
+                    </div>
                 </div>
                 <div style="width: 20%;">
                     <button class="btn btn-outline-success">
-                        <a class="them" href="/admin/thuong-hieu/view-add-thuong-hieu" style="color: darkgreen;">Thêm</a>
+                        <a class="them" href="/admin/thuong-hieu/view-add-thuong-hieu"
+                           style="color: darkgreen;">Thêm</a>
                     </button>
                 </div>
             </div>
@@ -182,7 +188,7 @@
         <div style="margin-top: 5%; margin-left: 42%;">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item" >
+                    <li class="page-item">
                         <a class="page-link" th:href="@{/admin/thuong-hieu/pre}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
