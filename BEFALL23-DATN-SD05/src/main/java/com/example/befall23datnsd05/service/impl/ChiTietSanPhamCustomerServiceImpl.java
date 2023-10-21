@@ -56,4 +56,11 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
     public List<ChiTietSanPhamCustomerCustom> list3Limited() {
         return repository.list3Limited();
     }
+
+    @Override
+    public ChiTietSanPham getById(Long id) {
+        return repository.getReferenceById(id);
+    }
+
+
 }

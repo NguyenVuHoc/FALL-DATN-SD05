@@ -50,11 +50,10 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="active ">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
+                    <a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a>
                 </li>
-                <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
-                <li></li>
-                <a class="nav-link" href="about.html">Đội ngũ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
+                <li><a class="nav-link" href="about.html">Đội ngũ</a></li>
                 <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
                 <li><a class="nav-link" href="blog.html">Thông tin</a></li>
                 <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
@@ -78,9 +77,9 @@
                 <div class="intro-excerpt">
                     <h1>Wingman Shoes</h1>
                     <p class="mb-4">Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman liền nhé!</p>
-                    <p><a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a><a href="blog.html"
-                                                                                         class="btn btn-white-outline">Khám
-                        phá</a></p>
+                    <p><a th:href="@{/wingman/cua-hang}" class="btn btn-secondary me-2">Mua ngay</a>
+                        <a href="blog.html"
+                           class="btn btn-white-outline">Khám phá</a></p>
                 </div>
             </div>
             <div class="col-lg-7">
@@ -103,21 +102,24 @@
                 <h2 class="mb-4 section-title">Sản phẩm mới.</h2>
                 <p class="mb-4">Đây là những sự kết hợp tinh tế giữa thiết kế đẹp mắt và hiệu suất vượt trội, mang đến
                     cho bạn trải nghiệm sự thoải mái và phong cách độc đáo. </p>
-                <p><a href="shop.html" class="btn">Khám phá ngay</a></p>
+                <p><a th:href="@{/wingman/cua-hang}" class="btn">Khám phá ngay</a></p>
             </div>
             <!-- End Column 1 -->
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3New : ${list3New}">
-                <a class="product-item" href="cart.html">
-                    <img th:src="@{/images/airMid-x-kimetsu.png}" class="img-fluid product-thumbnail">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3New.getId()}}">
+                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                    </a>
                     <h3 class="product-title" th:text="${ctsp3New.getTen()}"></h3>
                     <strong class="product-price" th:text="${ctsp3New.getGiaBan()}"></strong>
-
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
 
@@ -143,15 +145,18 @@
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3prominent : ${list3Prominent}">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/giay1_preview_rev_1.png" class="img-fluid product-thumbnail">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3prominent.getId()}}">
+                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                    </a>
                     <h3 class="product-title" th:text="${ctsp3prominent.getTen()}"></h3>
-                    <strong class="product-price" th:text="${ctsp3prominent.getGiaBan}"></strong>
-
+                    <strong class="product-price" th:text="${ctsp3prominent.getGiaBan()}"></strong>
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
 

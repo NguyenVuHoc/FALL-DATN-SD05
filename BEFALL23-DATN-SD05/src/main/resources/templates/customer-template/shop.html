@@ -50,9 +50,9 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item ">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
+                    <a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a>
                 </li>
-                <li class="active"><a class="nav-link" href="shop.html">Cửa hàng</a></li>
+                <li class="active"><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
                 <li><a class="nav-link" href="about.html">Đội ngũ</a></li>
                 <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
                 <li><a class="nav-link" href="blog.html">Thông tin</a></li>
@@ -209,7 +209,7 @@
             <!-- Start Column 1 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
                 <div class="product-item">
-                    <a href="detail.html">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}">
                         <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title" th:text="${ctsp.sanPham.ten}"></h3>
@@ -266,15 +266,18 @@
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspCustom : ${list3Custom}">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}">
+                        <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                    </a>
                     <h3 class="product-title" th:text="${ctspCustom.getTen()}"></h3>
                     <strong class="product-price" th:text="${ctspCustom.getGiaBan()}"></strong>
-
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
 
@@ -290,15 +293,18 @@
 
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspLimited : ${list3Limited}">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}">
+                        <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                    </a>
                     <h3 class="product-title" th:text="${ctspLimited.getTen()}"></h3>
                     <strong class="product-price" th:text="${ctspLimited.getGiaBan()}"></strong>
-
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
 

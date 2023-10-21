@@ -11,26 +11,26 @@ import java.util.List;
 @Repository
 public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, Long> {
 
-    @Query(value = "select anh.url, san_pham.ten, chi_tiet_san_pham.gia_ban \n" +
+    @Query(value = "select anh.url, san_pham.ten, chi_tiet_san_pham.gia_ban, san_pham.id \n" +
             "from chi_tiet_san_pham \n" +
             "join san_pham on chi_tiet_san_pham.id_san_pham = san_pham.id \n" +
             "join anh on san_pham.id = anh.id_san_pham\n" +
             "limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3New();
 
-    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban \n" +
+    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban, san_pham.id  \n" +
             "from chi_tiet_san_pham\n" +
             "join san_pham  on chi_tiet_san_pham.id_san_pham = san_pham.id \n" +
             "where san_pham.id_thuong_hieu like 6 limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Prominent();
 
-    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban \n" +
+    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban, san_pham.id  \n" +
             "from chi_tiet_san_pham\n" +
             "join san_pham  on chi_tiet_san_pham.id_san_pham = san_pham.id \n" +
             "where san_pham.id_dong_san_pham like 24 limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Custom();
 
-    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban \n" +
+    @Query(value = "select san_pham.ten, chi_tiet_san_pham.gia_ban, san_pham.id  \n" +
             "from chi_tiet_san_pham\n" +
             "join san_pham  on chi_tiet_san_pham.id_san_pham = san_pham.id \n" +
             "where san_pham.id_dong_san_pham like 23 limit 3", nativeQuery = true)

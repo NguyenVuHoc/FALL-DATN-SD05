@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -57,5 +58,13 @@ public class ChiTietSanPhamController {
         model.addAttribute("list3Prominent", list3prominent.stream().toList());
         return "customer-template/index";
     }
+
+    @GetMapping("/wingman/chi-tiet-san-pham/{id}")
+    public String detailCustomerSanPham(@PathVariable("id") Long id, Model model){
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
+        model.addAttribute("spDetail", chiTietSanPham);
+        return "customer-template/detail";
+    }
+
 
 }

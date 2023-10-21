@@ -9,6 +9,8 @@ public interface ChiTietSanPhamCustomerCustom {
 
     String getTen();
 
+    Long getId();
+
     BigDecimal getGiaBan();
 
     List<AnhSanPham> getListAnhSanPham();
