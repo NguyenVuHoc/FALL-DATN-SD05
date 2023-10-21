@@ -142,7 +142,7 @@
                                             data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                                             aria-selected="true" th:each="hdc : ${listHoaDonCho}">
                                         <a th:href="@{'/admin/ban-hang/detail/' + ${hdc.getId()}}"
-                                           th:text="${hdc.getId()}"></a>
+                                           th:text="${hdc.getMa()}"></a>
                                     </button>
                                 </div>
                             </nav>
@@ -169,7 +169,9 @@
                                             <td th:text="${hdct.getGiaBan()}"></td>
                                             <td th:text="${hdct.getSoLuong()}"></td>
                                             <td>
-                                                <a href="" style="margin-left: 50%;">
+                                                <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}
+                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}"
+                                                   style="margin-left: 50%;">
                                                     <img src="/../../img/xoa_v2.png"
                                                          style="width: 25px; padding-right: 5px;">
                                                 </a>
@@ -185,14 +187,15 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
+                                    <a th:href="@{/admin/ban-hang/pre/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}" class="page-link"
+                                       aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" th:text="${index}"></a></li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
+                                    <a th:href="@{/admin/ban-hang/next/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}" class="page-link"
+                                       aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -203,19 +206,21 @@
                 <div class="col-sm-12 col-xl-6" style="width: 30%;">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Thông Tin</h6>
-                        <form>
+                        <form th:action="@{/admin/ban-hang/thanh-toan}" method="post" th:object="${hoaDonCho}">
+                            <input type="hidden" th:field="*{id}"/>
                             <div class="mb-3">
                                 <label class="form-label">Mã Hóa Đơn</label>
-                                <input type="text" class="form-control"/>
+                                <input type="text" class="form-control" name="ma" th:field="*{ma}" readonly/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Số Điện Thoại</label>
-                                <input type="text" class="form-control"/>
+                                <input type="text" class="form-control" name="sdt" th:field="*{khachHang.sdt}"/>
                             </div>
                             <div class="mb-3 row g-2">
                                 <div style="width: 75%;">
                                     <label class="form-label">Tên Khách Hàng</label>
-                                    <input type="text" class="form-control"/>
+                                    <input type="text" class="form-control" name="khachHang"
+                                           th:field="*{khachHang.ten}"/>
                                 </div>
                                 <div style="width: 25%;">
                                     <!-- Button trigger modal -->
@@ -282,14 +287,14 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Ngày Tạo</label>
-                                <input type="date" class="form-control"/>
+                                <input type="date" class="form-control" name="ngayTao" th:value="*{ngayTao}" readonly/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Thành Tiền</label>
-                                <input type="text" class="form-control"/>
+                                <input type="text" class="form-control" name="thanhToan" th:value="${thanhTien}"/>
                             </div>
                             <button type="submit" class="btn btn-primary">Thanh Toán</button>
-                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>
+                            <!--                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>-->
                         </form>
                     </div>
                 </div>
@@ -353,9 +358,13 @@
                                 <td th:text="${sanPham.getGiaBan()}"></td>
                                 <td th:text="${sanPham.getSoLuongTon()}"></td>
                                 <td>
-                                    <a href="#">
-                                        <img src="/../../img/them.png" style="width: 30px;">
-                                    </a>
+                                    <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
+                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.getId()})}" th:object="${sanPham}"
+                                          method="post">
+                                        <button type="submit" style="border: none;background-color: aliceblue">
+                                            <img src="/../../img/them.png" style="width: 30px;">
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             </tbody>
