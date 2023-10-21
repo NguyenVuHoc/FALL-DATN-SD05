@@ -340,6 +340,7 @@
                                 <th>Kích Thước</th>
                                 <th>Đế Giày</th>
                                 <th>Cổ Giày</th>
+                                <th>Lót Giày</th>
                                 <th>Giá bán</th>
                                 <th>Số lượng</th>
                                 <th>Thêm</th>
@@ -361,8 +362,8 @@
                                     <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
                                     (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.getId()})}" th:object="${sanPham}"
                                           method="post">
-                                        <button type="submit" style="border: none;background-color: aliceblue">
-                                            <img src="/../../img/them.png" style="width: 30px;">
+                                        <button type="submit" class="btn btn-outline-primary">
+                                            <img src="/../../img/them.png" style="width: 20px;">
                                         </button>
                                     </form>
                                 </td>

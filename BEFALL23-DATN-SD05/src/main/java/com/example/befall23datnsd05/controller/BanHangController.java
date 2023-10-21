@@ -124,11 +124,13 @@ public class BanHangController {
                 .trangThai(TrangThai.CHO_XAC_NHAN)
                 .build();
         banHangService.taoHoaDonChiTiet(Long.valueOf(idSanPham), Long.valueOf(idHoaDonCho), hoaDonChiTiet);
+        banHangService.updateSoLuong(Long.valueOf(idSanPham));
         return "redirect:/admin/ban-hang/detail/{idHoaDon}";
     }
 
     @GetMapping("/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}")
     public String xoaHoaDonChitiet(@PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
+        banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
         banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
         return "redirect:/admin/ban-hang/detail/{idHoaDon}";
     }

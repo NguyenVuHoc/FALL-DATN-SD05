@@ -103,8 +103,10 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public void xoaHoaDonChiTiet(Long idHoaDonChiTiet) {
-        hoaDonChiTietRepository.deleteById(idHoaDonChiTiet);
+    public HoaDonChiTiet xoaHoaDonChiTiet(Long idHoaDonChiTiet) {
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.getReferenceById(idHoaDonChiTiet);
+        hoaDonChiTiet.setTrangThai(TrangThai.DUNG_HOAT_DONG);
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
     @Override
@@ -157,6 +159,27 @@ public class BanHangServiceImpl implements BanHangService {
             pageNo = pageCount - 1;
         }
         return pageNo;
+    }
+
+    @Override
+    public ChiTietSanPham updateSoLuong(Long idSanPham) {
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getChiTietSanPhamById(idSanPham).orElse(null);
+        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() -1);
+        return chiTietSanPhamRepository.save(chiTietSanPham);
+    }
+
+    @Override
+    public ChiTietSanPham updateSoLuongTuHDCT(Long idHDCT) {
+        Long idSanPham;
+        for (HoaDonChiTiet hoaDonChiTiet: hoaDonChiTietRepository.findAll()){
+            if (hoaDonChiTiet.getId() == idHDCT){
+                idSanPham =  hoaDonChiTiet.getChiTietSanPham().getId();
+                ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getChiTietSanPhamById(idSanPham).orElse(null);
+                chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + hoaDonChiTiet.getSoLuong());
+                return chiTietSanPhamRepository.save(chiTietSanPham);
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) {

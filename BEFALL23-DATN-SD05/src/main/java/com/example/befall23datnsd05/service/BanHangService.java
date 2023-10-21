@@ -29,7 +29,7 @@ public interface BanHangService {
 
     HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham,Long idHoaDon, HoaDonChiTiet hoaDonChiTiet);
 
-    void xoaHoaDonChiTiet(Long idHoaDonChiTiet);
+    HoaDonChiTiet xoaHoaDonChiTiet(Long idHoaDonChiTiet);
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
@@ -40,5 +40,9 @@ public interface BanHangService {
     Page<HoaDonChiTiet> getPhanTrang(Long idHoaDon, Integer pageNo, Integer size);
 
     Integer checkPageHDCT(Long idHoaDon, Integer pageNo);
+
+    ChiTietSanPham updateSoLuong(Long idSanPham);
+
+    ChiTietSanPham updateSoLuongTuHDCT(Long idHDCT);
 
 }
