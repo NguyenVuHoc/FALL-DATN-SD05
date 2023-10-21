@@ -51,17 +51,25 @@ public class SanPham {
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL)
     private List<ChiTietSanPham> listChiTietSanPham;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_thuong_hieu", referencedColumnName = "id")
     private ThuongHieu thuongHieu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_dong_san_pham", referencedColumnName = "id")
     private DongSanPham dongSanPham;
 
 
     @Transient
     public String getMainImagePath() {
-        return "/images/images/" + this.listAnhSanPham.get(0).getUrl();
+        if (id == null || id == null) return "/assets/images/image-thumbnail.png";
+        return "/assets/images/" + this.listAnhSanPham.get(0).getUrl();
     }
+
+    @Column(name = "anh_chinh")
+    private String anhChinh;
+
+    @Transient
+    private String currentMainImage; // Trường ẩn để lưu tên ảnh hiện tại
+
 }

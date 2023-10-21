@@ -188,12 +188,15 @@
                                 <td th:text="${sp.trangThai == 0 ? 'Đang Hoạt Động' :
                                  (sp.trangThai == 1 ? 'Dừng Hoạt Động' : 'Unknown')}"></td>
                                 <td>
-                                    <a th:href="@{'/admin/dong-san-pham/view-update/' + ${sp.id}}">
+                                    <a th:href="@{'/admin/san-pham/edit/' + ${sp.id}}">
                                         <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                     </a>
-                                    <a th:href="@{'/admin/dong-san-pham/remove/' + ${sp.id}}">
-                                        <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
-                                    </a>
+                                </td>
+                                <td>
+                                    <img th:src="@{'../../images/' + ${sp.getAnhChinh()}}"
+                                         th:style="'width: 65px; height: auto; max-width: 100%;'"
+                                    >
+                                    <!--                                <td>[[${sp.getAnhChinh()}]]</td>-->
                                 </td>
                             </tr>
                             </tbody>

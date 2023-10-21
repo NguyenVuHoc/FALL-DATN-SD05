@@ -33,12 +33,10 @@ public class DongSanPham {
     private Long id;
 
     @Column(name = "ma", nullable = false, unique = true)
-    @NotBlank(message = "Mã không được để trống!")
     private String ma;
 
     @Column(name = "ten", nullable = false, unique = true)
-    @NotBlank(message = "Mã không được để trống!")
-    private String ten;
+     private String ten;
 
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;

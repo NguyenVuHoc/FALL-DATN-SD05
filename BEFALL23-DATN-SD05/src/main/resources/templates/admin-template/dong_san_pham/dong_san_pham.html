@@ -148,8 +148,8 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Id </th>
-                                <th>Mã </th>
+                                <th>Id</th>
+                                <th>Mã</th>
                                 <th>Tên</th>
                                 <th>Trạng Thái</th>
                                 <th>Thao tác</th>
@@ -158,7 +158,7 @@
                             </thead>
                             <tbody>
 
-                            <tr th:each="dongSp : ${listDongSp.content}">
+                            <tr th:each="dongSp : ${listDongSp}">
                                 <td th:text="${dongSp.id}"></td>
                                 <td th:text="${dongSp.ma}"></td>
                                 <td th:text="${dongSp.ten}"></td>
@@ -184,18 +184,16 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+                        <a class="page-link" th:href="@{/admin/dong-san-pham/pre}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#" th:text="${index}"></a></li>
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                        <a class="page-link" th:href="@{/admin/dong-san-pham/next}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-
                 </ul>
             </nav>
         </div>

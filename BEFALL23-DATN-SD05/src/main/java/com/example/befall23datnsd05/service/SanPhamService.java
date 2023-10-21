@@ -2,8 +2,6 @@ package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.custom.SanPhamCustom;
 import com.example.befall23datnsd05.entity.SanPham;
-import com.example.befall23datnsd05.entity.SanPham;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.SanPhamRequest;
 import org.springframework.data.domain.Page;
 
@@ -23,6 +21,8 @@ public interface SanPhamService {
     void remove(Long id);
 
     SanPham findById(Long id);
+
+    Integer transferPage(Integer pageNo);
 
 
 }

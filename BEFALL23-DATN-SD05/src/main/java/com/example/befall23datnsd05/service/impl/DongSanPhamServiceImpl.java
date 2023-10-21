@@ -26,7 +26,6 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
     }
 
 
-
     @Override
     public List<DongSanPham> getList() {
         return repository.findAll();
@@ -76,6 +75,11 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
         if (dongSanPham.isPresent()) {
             return dongSanPham.get();
         }
+        return null;
+    }
+
+    @Override
+    public Integer tranferPage(Integer pageNo) {
         return null;
     }
 }

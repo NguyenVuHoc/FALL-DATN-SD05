@@ -30,6 +30,11 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
+    public List<ThuongHieuCustom> getListTransfer() {
+        return repository.getThuongHieuCusTom();
+    }
+
+    @Override
     public Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size, Sort.by("ngayTao").descending());
         return repository.getPageThuongHieuCusTom(pageable);
@@ -74,5 +79,20 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
             return ThuongHieu.get();
         }
         return null;
+    }
+
+    @Override
+    public Integer transferPage(Integer pageNo) {
+        Integer sizeList = repository.findAll().size();
+        System.out.println(sizeList);
+        Integer pageCount = (int) Math.ceil((double) sizeList/5);
+        System.out.println(pageCount);
+        if (pageNo >= pageCount){
+            pageNo = 0;
+        }else if(pageNo < 0){
+            pageNo = pageCount -1;
+        }
+        System.out.println(pageNo);
+        return pageNo;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.entity.AnhSanPham;
+import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.AnhSanPhamRepository;
 import com.example.befall23datnsd05.service.AnhSanPhamService;
@@ -26,6 +27,11 @@ public class AnhServiceImpl implements AnhSanPhamService {
     @Override
     public AnhSanPham save(AnhSanPham anhSanPham) {
         return repository.save(anhSanPham);
+    }
+
+    @Override
+    public List<AnhSanPham> getAnh(SanPham sanPham) {
+        return repository.findBySanPham(sanPham);
     }
 
 

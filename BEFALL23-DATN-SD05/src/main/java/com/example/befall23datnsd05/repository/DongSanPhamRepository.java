@@ -15,9 +15,6 @@ import java.util.List;
 public interface DongSanPhamRepository extends JpaRepository<DongSanPham, Long> {
 
     @Query(value = "select p from DongSanPham p", nativeQuery = false)
-    List<DongSanphamCustom> getDongSanPhamCusTom();
-
-    @Query(value = "select p from DongSanPham p", nativeQuery = false)
     Page<DongSanphamCustom> getPageDongSanPhamCusTom(Pageable pageable);
 
     @Query(value = "select p from DongSanPham p where p.trangThai='0'", nativeQuery = false)

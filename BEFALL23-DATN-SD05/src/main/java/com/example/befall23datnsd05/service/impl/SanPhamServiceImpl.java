@@ -5,10 +5,10 @@ import com.example.befall23datnsd05.entity.DongSanPham;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.entity.ThuongHieu;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.repository.DongSanPhamRepository;
 import com.example.befall23datnsd05.repository.SanPhamRepository;
-import com.example.befall23datnsd05.request.DongSanPhamRequest;
+import com.example.befall23datnsd05.repository.ThuongHieuRepository;
 import com.example.befall23datnsd05.request.SanPhamRequest;
-import com.example.befall23datnsd05.request.ThuongHieuRequest;
 import com.example.befall23datnsd05.service.SanPhamService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,9 +23,13 @@ import java.util.Optional;
 @Repository
 public class SanPhamServiceImpl implements SanPhamService {
     private final SanPhamRepository repository;
+    private final DongSanPhamRepository dongSanPhamRepository;
+    private final ThuongHieuRepository thuongHieuRepository;
 
-    public SanPhamServiceImpl(SanPhamRepository repository) {
+    public SanPhamServiceImpl(SanPhamRepository repository, DongSanPhamRepository dongSanPhamRepository, ThuongHieuRepository thuongHieuRepository) {
         this.repository = repository;
+        this.dongSanPhamRepository = dongSanPhamRepository;
+        this.thuongHieuRepository = thuongHieuRepository;
     }
 
 
@@ -47,8 +51,12 @@ public class SanPhamServiceImpl implements SanPhamService {
         sanPham.setMa(request.getMa());
         sanPham.setTen(request.getTen());
         sanPham.setMoTa(request.getMoTa());
-        sanPham.setDongSanPham(DongSanPham.builder().id(request.getIdDongSanPham()).build());
-        sanPham.setThuongHieu(ThuongHieu.builder().id(request.getIdThuongHieu()).build());
+        sanPham.setListAnhSanPham(request.getListAnh());
+        sanPham.setAnhChinh(request.getAnhChinh());
+        DongSanPham dongSanPham = dongSanPhamRepository.findById(request.getDongSanPham()).orElse(null);
+        sanPham.setDongSanPham(dongSanPham);
+        ThuongHieu thuongHieu = thuongHieuRepository.findById(request.getThuongHieu()).orElse(null);
+        sanPham.setThuongHieu(thuongHieu);
         sanPham.setNgayTao(LocalDate.now());
         sanPham.setNgaySua(LocalDate.now());
         sanPham.setTrangThai(TrangThai.DANG_HOAT_DONG);
@@ -62,6 +70,13 @@ public class SanPhamServiceImpl implements SanPhamService {
         if (sanPham != null) {
             sanPham.setMa(request.getMa());
             sanPham.setTen(request.getTen());
+            sanPham.setMoTa(request.getMoTa());
+            sanPham.setListAnhSanPham(request.getListAnh());
+            sanPham.setAnhChinh(request.getAnhChinh());
+            DongSanPham dongSanPham = dongSanPhamRepository.findById(request.getDongSanPham()).orElse(null);
+            sanPham.setDongSanPham(dongSanPham);
+            ThuongHieu thuongHieu = thuongHieuRepository.findById(request.getThuongHieu()).orElse(null);
+            sanPham.setThuongHieu(thuongHieu);
             sanPham.setNgaySua(LocalDate.now());
             sanPham.setTrangThai(request.getTrangThai());
             return repository.save(sanPham);
@@ -82,5 +97,20 @@ public class SanPhamServiceImpl implements SanPhamService {
             return sanPham.get();
         }
         return null;
+    }
+
+    @Override
+    public Integer transferPage(Integer pageNo) {
+        Integer sizeList = repository.findAll().size();
+        System.out.println(sizeList);
+        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
+        System.out.println(pageCount);
+        if (pageNo >= pageCount) {
+            pageNo = 0;
+        } else if (pageNo < 0) {
+            pageNo = pageCount - 1;
+        }
+        System.out.println(pageNo);
+        return pageNo;
     }
 }

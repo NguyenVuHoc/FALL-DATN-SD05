@@ -15,7 +15,6 @@ public interface DongSanPhamService {
 
     Page<DongSanphamCustom> getPage(Integer pageNo, Integer size);
 
-
     DongSanPham save(DongSanPhamRequest request);
 
     DongSanPham update(DongSanPhamRequest request);
@@ -23,6 +22,8 @@ public interface DongSanPhamService {
     void remove(Long id);
 
     DongSanPham findById(Long id);
+
+    Integer tranferPage(Integer pageNo);
 
 
 }

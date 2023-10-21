@@ -2,8 +2,6 @@ package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.custom.ThuongHieuCustom;
 import com.example.befall23datnsd05.entity.ThuongHieu;
-import com.example.befall23datnsd05.entity.ThuongHieu;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.ThuongHieuRequest;
 import org.springframework.data.domain.Page;
 
@@ -14,6 +12,9 @@ public interface ThuongHieuService {
 
     List<ThuongHieu> getList();
 
+    List<ThuongHieuCustom> getListTransfer();
+
+
     Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size);
 
     ThuongHieu save(ThuongHieuRequest request);
@@ -23,6 +24,8 @@ public interface ThuongHieuService {
     void remove(Long id);
 
     ThuongHieu findById(Long id);
+
+    Integer transferPage(Integer pageNo);
 
 
 }

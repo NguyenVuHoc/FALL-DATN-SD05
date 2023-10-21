@@ -157,7 +157,7 @@
                             </thead>
                             <tbody>
 
-                            <tr th:each="thuongHieu : ${listThuongHieu.content}">
+                            <tr th:each="thuongHieu : ${listThuongHieu}">
                                 <td th:text="${thuongHieu.id}"></td>
                                 <td th:text="${thuongHieu.ma}"></td>
                                 <td th:text="${thuongHieu.ten}"></td>
@@ -182,19 +182,17 @@
         <div style="margin-top: 5%; margin-left: 42%;">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+                    <li class="page-item" >
+                        <a class="page-link" th:href="@{/admin/thuong-hieu/pre}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#" th:text="${index}"></a></li>
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                        <a class="page-link" th:href="@{/admin/thuong-hieu/next}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-
                 </ul>
             </nav>
         </div>

@@ -24,6 +24,6 @@ public interface SanPhamCustom {
 
     List<AnhSanPham> listAnh();
 
-    String getMainImagePath();
+    String getAnhChinh();
 
 }

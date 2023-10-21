@@ -19,12 +19,27 @@ public class DongSanPhamController {
         this.dongSanPhamService = dongSanPhamService;
     }
 
-    @GetMapping("/hien-thi")
-    public String getAll(Model model,
-                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
-        model.addAttribute("listDongSp", dongSanPhamService.getPage(pageNo,5));
-//        model.addAttribute("index", pageNo + 1);
+    Integer pageNo=0;
+
+    @GetMapping()
+    public String getAll(Model model) {
+        model.addAttribute("listDongSp", dongSanPhamService.getPage(pageNo, 5).stream().toList());
+        model.addAttribute("index", pageNo + 1);
         return "admin-template/dong_san_pham/dong_san_pham";
+    }
+
+    @GetMapping("/pre")
+    public String pre() {
+        pageNo--;
+        pageNo = dongSanPhamService.tranferPage(pageNo);
+        return "redirect:/admin/thuong-hieu";
+    }
+
+    @GetMapping("/next")
+    public String next() {
+        pageNo++;
+        pageNo = dongSanPhamService.tranferPage(pageNo);
+        return "redirect:/admin/thuong-hieu";
     }
 
     @GetMapping("/view-add-dong-san-pham")
@@ -40,14 +55,14 @@ public class DongSanPhamController {
             return "admin-template/dong_san_pham/them_dong_san_pham";
         } else {
             dongSanPhamService.save(dongSanPham);
-            return "redirect:/admin/dong-san-pham/hien-thi";
+            return "redirect:/admin/dong-san-pham";
         }
     }
 
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
         dongSanPhamService.remove(id);
-        return "redirect:/admin/dong-san-pham/hien-thi";
+        return "redirect:/admin/dong-san-pham";
     }
 
     @GetMapping("view-update/{id}")
@@ -67,7 +82,7 @@ public class DongSanPhamController {
             return "admin-template/dong_san_pham/sua_dong_san_pham";
         }
         dongSanPhamService.update(dongSanPham);
-        return "redirect:/admin/dong-san-pham/hien-thi";
+        return "redirect:/admin/dong-san-pham";
     }
 }
 

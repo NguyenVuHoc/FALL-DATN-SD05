@@ -19,13 +19,27 @@ public class ThuongHieuController {
         this.thuongHieuService = thuongHieuService;
     }
 
+    Integer pageNo = 0;
 
-    @GetMapping("/hien-thi")
-    public String getAll(Model model,
-                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
-        model.addAttribute("listThuongHieu", thuongHieuService.getPage(pageNo, 5));
-//        model.addAttribute("index", pageNo + 1);
+    @GetMapping()
+    public String getAll(Model model) {
+        model.addAttribute("listThuongHieu", thuongHieuService.getPage(pageNo, 5).stream().toList());
+        model.addAttribute("index", pageNo + 1);
         return "admin-template/thuong_hieu/thuong_hieu";
+    }
+
+    @GetMapping("/pre")
+    public String pre() {
+        pageNo--;
+        pageNo = thuongHieuService.transferPage(pageNo);
+        return "redirect:/admin/thuong-hieu";
+    }
+
+    @GetMapping("/next")
+    public String next() {
+        pageNo++;
+        pageNo = thuongHieuService.transferPage(pageNo);
+        return "redirect:/admin/thuong-hieu";
     }
 
     @GetMapping("/view-add-thuong-hieu")
@@ -41,14 +55,14 @@ public class ThuongHieuController {
             return "admin-template/thuong_hieu/them_thuong_hieu";
         } else {
             thuongHieuService.save(thuongHieu);
-            return "redirect:/admin/thuong-hieu/hien-thi";
+            return "redirect:/admin/thuong-hieu";
         }
     }
 
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
         thuongHieuService.remove(id);
-        return "redirect:/admin/thuong-hieu/hien-thi";
+        return "redirect:/admin/thuong-hieu";
     }
 
     @GetMapping("/view-update/{id}")
@@ -68,7 +82,7 @@ public class ThuongHieuController {
             return "admin-template/thuong_hieu/sua_thuong_hieu";
         }
         thuongHieuService.update(thuongHieu);
-        return "redirect:/admin/thuong-hieu/hien-thi";
+        return "redirect:/admin/thuong-hieu";
     }
 }
 
