@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.dto;
 
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -34,5 +35,5 @@ public class NhanVienRequest {
     @NotBlank(message = "Mật khẩu không được để trống")
     private String matKhau;
 
-    private String trangThai;
+    private TrangThai trangThai;
 }

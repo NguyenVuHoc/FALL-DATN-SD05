@@ -25,5 +25,7 @@ public interface NhanVienService {
 
     Page<NhanVien> timTen(String ten,Integer pageNo, Integer size);
 
+    Page<NhanVien> getTrangThaiHoatDong(Integer pageNo, Integer size);
 
+    Page<NhanVien> getTrangThaiDungHoatDong(Integer pageNo, Integer size);
 }

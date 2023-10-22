@@ -20,4 +20,9 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Long> {
 
     boolean existsByMa(String ma);
 
+    @Query(value = "select * from nhan_vien where trang_thai = 0", nativeQuery = true)
+    Page<NhanVien> getTrangThaiHoatDong(Pageable pageable);
+
+    @Query(value = "select * from nhan_vien where trang_thai = 1", nativeQuery = true)
+    Page<NhanVien> getTrangThaiDungHoatDong(Pageable pageable);
 }

@@ -103,4 +103,20 @@ public class NhanVienController {
         model.addAttribute("index", pageNo + 1);
         return "admin-template/nhan_vien/nhan_vien";
     }
+
+    @GetMapping("/trang-thai-hoat-dong")
+    public String getTrangThaiHoatDong(Model model){
+        Page<NhanVien> page = nhanVienService.getTrangThaiHoatDong(pageNo, 5);
+        model.addAttribute("list", page.stream().toList());
+        model.addAttribute("index", pageNo + 1);
+        return "admin-template/nhan_vien/nhan_vien";
+    }
+
+    @GetMapping("/trang-thai-dung-hoat-dong")
+    public String getTrangThaiDungHoatDong(Model model){
+        Page<NhanVien> page = nhanVienService.getTrangThaiDungHoatDong(pageNo, 5);
+        model.addAttribute("list", page.stream().toList());
+        model.addAttribute("index", pageNo + 1);
+        return "admin-template/nhan_vien/nhan_vien";
+    }
 }

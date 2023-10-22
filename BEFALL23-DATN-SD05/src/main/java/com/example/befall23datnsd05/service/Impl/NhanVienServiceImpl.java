@@ -61,7 +61,7 @@ public class NhanVienServiceImpl implements NhanVienService {
         existingNhanVien.setNgaySua(LocalDate.now());
         existingNhanVien.setEmail(nhanVienRequest.getEmail());
         existingNhanVien.setMatKhau(nhanVienRequest.getMatKhau());
-        existingNhanVien.setTrangThai(TrangThai.DANG_HOAT_DONG);
+        existingNhanVien.setTrangThai(nhanVienRequest.getTrangThai());
 
         try {
             nhanVienRepository.save(existingNhanVien);
@@ -110,6 +110,18 @@ public class NhanVienServiceImpl implements NhanVienService {
     public Page<NhanVien> timTen(String ten, Integer pageNo, Integer size) {
         Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
         return nhanVienRepository.findByTenContains(ten,pageable1);
+    }
+
+    @Override
+    public Page<NhanVien> getTrangThaiHoatDong(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return nhanVienRepository.getTrangThaiHoatDong(pageable);
+    }
+
+    @Override
+    public Page<NhanVien> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return nhanVienRepository.getTrangThaiDungHoatDong(pageable);
     }
 
 

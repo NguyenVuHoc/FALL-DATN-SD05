@@ -132,7 +132,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Mã Nhân Viên</label>
                         <input type="text" class="form-control" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" th:field="*{ma}" />
+                               aria-describedby="emailHelp" th:field="*{ma}" readonly />
                         <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
                     </div>
                     <div class="mb-3">
