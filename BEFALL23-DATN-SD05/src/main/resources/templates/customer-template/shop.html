@@ -210,9 +210,10 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}">
-                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title" th:text="${ctsp.sanPham.ten}"></h3>
+                    <h3 class="product-title"
+                        th:text="${ctsp.sanPham.ten + ctsp.sanPham.dongSanPham.ten + ctsp.deGiay.ten + ctsp.coGiay.ten + ctsp.lotGiay.ten}"></h3>
                     <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -268,10 +269,10 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspCustom : ${list3Custom}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}">
-                        <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title" th:text="${ctspCustom.getTen()}"></h3>
-                    <strong class="product-price" th:text="${ctspCustom.getGiaBan()}"></strong>
+                    <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -295,10 +296,10 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspLimited : ${list3Limited}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}">
-                        <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title" th:text="${ctspLimited.getTen()}"></h3>
-                    <strong class="product-price" th:text="${ctspLimited.getGiaBan()}"></strong>
+                    <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">

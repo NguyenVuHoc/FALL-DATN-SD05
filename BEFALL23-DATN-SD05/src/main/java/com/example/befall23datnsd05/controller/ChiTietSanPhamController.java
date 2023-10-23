@@ -19,9 +19,6 @@ public class ChiTietSanPhamController {
     @Autowired
     private ChiTietSanPhamCustomerService chiTietSanPhamService;
 
-    @Autowired
-    private SanPhamCustomerService SanPhamService;
-
     Integer pageNo = 0;
 
     @GetMapping("/wingman/cua-hang")

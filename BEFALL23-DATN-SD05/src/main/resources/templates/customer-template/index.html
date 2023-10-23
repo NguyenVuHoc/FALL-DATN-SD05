@@ -110,10 +110,10 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3New : ${list3New}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3New.getId()}}">
-                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title" th:text="${ctsp3New.getTen()}"></h3>
-                    <strong class="product-price" th:text="${ctsp3New.getGiaBan()}"></strong>
+                    <strong class="product-price" th:text="${ctsp3New.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -147,10 +147,10 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3prominent : ${list3Prominent}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3prominent.getId()}}">
-                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp3prominent.getAnh_chinh()}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title" th:text="${ctsp3prominent.getTen()}"></h3>
-                    <strong class="product-price" th:text="${ctsp3prominent.getGiaBan()}"></strong>
+                    <strong class="product-price" th:text="${ctsp3prominent.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">

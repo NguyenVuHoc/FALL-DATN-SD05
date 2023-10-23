@@ -52,6 +52,9 @@ public class SanPham {
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
 
+    @Column(name = "anh_chinh")
+    private String anhChinh;
+
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
