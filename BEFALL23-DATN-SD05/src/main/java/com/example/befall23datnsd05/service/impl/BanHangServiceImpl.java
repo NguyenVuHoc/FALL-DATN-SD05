@@ -11,6 +11,7 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepository;
+import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Autowired
     private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    private KhachHangRepository khachHangRepository;
 
     @Override
     public List<HoaDon> getHoaDonCho() {
@@ -95,7 +99,7 @@ public class BanHangServiceImpl implements BanHangService {
     public HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham, Long idHoaDon, HoaDonChiTiet hoaDonChiTiet) {
         for (HoaDonChiTiet hdct : hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon)) {
             if (hdct.getChiTietSanPham().getId() == idSanPham) {
-                hdct.setSoLuong(hdct.getSoLuong() + 1);
+                hdct.setSoLuong(hdct.getSoLuong() + hoaDonChiTiet.getSoLuong());
                 return hoaDonChiTietRepository.save(hdct);
             }
         }
@@ -121,7 +125,7 @@ public class BanHangServiceImpl implements BanHangService {
             hoaDon.setId(Long.valueOf(hoaDon.getId()));
             hoaDon.setNgayThanhToan(LocalDate.now());
             hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(hoaDonRequest.getThanhToan())));
-            hoaDon.setTenKhachHang(hoaDon.getTenKhachHang());
+            hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
             hoaDon.setTrangThai(TrangThai.HOAN_THANH);
             return hoaDonRepository.save(hoaDon);
         }
@@ -162,9 +166,9 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public ChiTietSanPham updateSoLuong(Long idSanPham) {
+    public ChiTietSanPham updateSoLuong(Long idSanPham, Integer soLuong) {
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getChiTietSanPhamById(idSanPham).orElse(null);
-        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() -1);
+        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - soLuong);
         return chiTietSanPhamRepository.save(chiTietSanPham);
     }
 
@@ -178,6 +182,22 @@ public class BanHangServiceImpl implements BanHangService {
                 chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + hoaDonChiTiet.getSoLuong());
                 return chiTietSanPhamRepository.save(chiTietSanPham);
             }
+        }
+        return null;
+    }
+
+    @Override
+    public List<KhachHang> getAllKhachHang() {
+        return khachHangRepository.findAll();
+    }
+
+    @Override
+    public HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang) {
+        HoaDon hoaDon = hoaDonRepository.getReferenceById(idHoaDon);
+        KhachHang khachHang = khachHangRepository.getReferenceById(idKhachHang);
+        if (hoaDon != null){
+            hoaDon.setKhachHang(khachHang);
+            hoaDonRepository.save(hoaDon);
         }
         return null;
     }

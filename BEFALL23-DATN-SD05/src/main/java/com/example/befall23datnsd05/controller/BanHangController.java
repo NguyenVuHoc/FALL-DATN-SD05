@@ -37,6 +37,7 @@ public class BanHangController {
         model.addAttribute("listSanPham", banHangService.getChiTietSanPham());
         model.addAttribute("hoaDon", new HoaDon());
         model.addAttribute("hoaDonCho", new HoaDon());
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("index", page);
         return "admin-template/ban_hang/ban_hang";
     }
@@ -52,7 +53,9 @@ public class BanHangController {
         model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
         model.addAttribute("listSanPham", banHangService.getChiTietSanPham());
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
+        model.addAttribute("listKhachHang", banHangService.getAllKhachHang());
         model.addAttribute("idHoaDonCho", idHoaDon);
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -68,6 +71,7 @@ public class BanHangController {
         model.addAttribute("listSanPham", banHangService.getChiTietSanPham());
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
         model.addAttribute("idHoaDonCho", idHoaDon);
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -83,6 +87,7 @@ public class BanHangController {
         model.addAttribute("listSanPham", banHangService.getChiTietSanPham());
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
         model.addAttribute("idHoaDonCho", idHoaDon);
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -106,12 +111,20 @@ public class BanHangController {
         return "redirect:/admin/ban-hang";
     }
 
+    @PostMapping("/them-khach-hang/{idHoaDon}/{idKhachHang}")
+    public String updateKhhachHang(@PathVariable("idHoaDon") String idHoaDon,
+                                   @PathVariable("idKhachHang") String idKhachHang){
+        banHangService.updateKhachHang(Long.valueOf(idHoaDon), Long.valueOf(idKhachHang));
+        return "redirect:/admin/ban-hang/detail/{idHoaDon}";
+    }
+
     @PostMapping("/them-san-pham/{idHoaDon}/{idSanPham}")
     public String themHoaDonChitiet(@PathVariable("idHoaDon") String idHoaDonCho,
-                                    @PathVariable("idSanPham") String idSanPham) {
+                                    @PathVariable("idSanPham") String idSanPham,
+                                    @ModelAttribute("hoaDonChiTiet") HoaDonChiTiet hoaDonChiTiet) {
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDonCho));
         ChiTietSanPham chiTietSanPham = banHangService.getChiTietSanPhamById(Long.valueOf(idSanPham));
-        HoaDonChiTiet hoaDonChiTiet = HoaDonChiTiet.builder()
+        hoaDonChiTiet = HoaDonChiTiet.builder()
                 .hoaDon(hoaDon)
                 .chiTietSanPham(chiTietSanPham)
                 .deGiay(chiTietSanPham.getDeGiay().getTen())
@@ -120,18 +133,18 @@ public class BanHangController {
                 .tenSanPham(chiTietSanPham.getSanPham().getTen())
                 .ngayTao(LocalDate.now())
                 .giaBan(chiTietSanPham.getGiaBan())
-                .soLuong(1)
+                .soLuong(hoaDonChiTiet.getSoLuong())
                 .trangThai(TrangThai.CHO_XAC_NHAN)
                 .build();
         banHangService.taoHoaDonChiTiet(Long.valueOf(idSanPham), Long.valueOf(idHoaDonCho), hoaDonChiTiet);
-        banHangService.updateSoLuong(Long.valueOf(idSanPham));
+        banHangService.updateSoLuong(Long.valueOf(idSanPham), hoaDonChiTiet.getSoLuong());
         return "redirect:/admin/ban-hang/detail/{idHoaDon}";
     }
 
     @GetMapping("/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}")
     public String xoaHoaDonChitiet(@PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
-        banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
         banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
+        banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
         return "redirect:/admin/ban-hang/detail/{idHoaDon}";
     }
 

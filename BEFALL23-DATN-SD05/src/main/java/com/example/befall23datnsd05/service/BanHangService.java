@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
+import com.example.befall23datnsd05.entity.KhachHang;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
@@ -41,8 +42,12 @@ public interface BanHangService {
 
     Integer checkPageHDCT(Long idHoaDon, Integer pageNo);
 
-    ChiTietSanPham updateSoLuong(Long idSanPham);
+    ChiTietSanPham updateSoLuong(Long idSanPham, Integer soLuong);
 
     ChiTietSanPham updateSoLuongTuHDCT(Long idHDCT);
+
+    List<KhachHang> getAllKhachHang();
+
+    HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang);
 
 }
