@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service;
 
 
+import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.LotGiay;
 import org.springframework.data.domain.Page;
 
@@ -17,4 +18,8 @@ public interface LotGiayService {
 
     Page<LotGiay> phanTrang(Integer pageNo, Integer size);
     Integer chuyenPage(Integer pageNo);
+    boolean exist(String ma);
+
+    Page<LotGiay> timTen(String ten, Integer pageNo, Integer size);
+
 }

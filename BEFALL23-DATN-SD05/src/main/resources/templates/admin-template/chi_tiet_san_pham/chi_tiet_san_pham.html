@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="../../images/WingMan-black.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,11 +146,17 @@
                     </div>
                     <div style="width: 20%; margin-left: 20px;">
                         <button class="btn btn-outline-success" style="margin-right: -200px;">
-                            <a class="them" href="them_chi_tiet_san_pham.html" style="color: darkgreen;">Thêm</a>
+                            <a class="them" th:href="@{../admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
                         </button>
                     </div>
                 </div>
             </div>
+
+            <nav  style="padding-bottom: 30px; margin-left: 20px; margin-bottom: -20px">
+                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Tất cả</a>
+                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Đang hoạt động</a>
+                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Dừng hoạt động</a>
+            </nav>
 
             <div class="container-fluid pt-4">
                 <div class="bg-light text-center rounded p-4">
@@ -158,139 +164,40 @@
                         <div class="bg-light rounded h-100 p-4">
                             <table class="table table-striped">
                                 <thead>
-                                    <tr>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Màu sắc</th>
-                                        <th>Chất Liệu</th>
-                                        <th>Chiều cao</th>
-                                        <th>Thương hiệu</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Chức Năng</th>
-                                    </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng tồn</th>
+                                    <th>Giá bán</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chức Năng</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="../chi_tiet_san_pham/sua_chi_tiet_san_pham.html">
-                                                <img src="../../img/pen_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                            <a href="">
-                                                <img src="../../img/xoa_v2.png"
-                                                    style="width: 25px; padding-right: 5px;">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                <tr th:each="chiTietSanPham : ${listCTSP}">
+                                    <td th:text="${chiTietSanPham.id}"></td>
+                                    <td th:text="${chiTietSanPham.deGiay.ten}"></td>
+                                    <td th:text="${chiTietSanPham.deGiay.ten}"></td>
+                                    <td th:text="${chiTietSanPham.mauSac.ten}"></td>
+                                    <td th:text="${chiTietSanPham.kichThuoc.ten}"></td>
+                                    <td th:text="${chiTietSanPham.soLuongTon}"></td>
+                                    <td th:text="${chiTietSanPham.giaBan}"></td>
+                                    <td>
+                                        <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
+                                        <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'../admin/chi-tiet-san-pham/view-update/' + ${chiTietSanPham.id}}">
+                                            <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                        <a th:href="@{'../admin/chi-tiet-san-pham/delete/' + ${chiTietSanPham.id}}">
+                                            <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -300,19 +207,17 @@
             <div style="margin-top: 5%; margin-left: 42%;">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                        <li class="page-item" >
+                            <a class="page-link" th:href="@{/admin/chi-tiet-san-pham/pre}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#" th:text="${index}"></a></li>
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" th:href="@{/admin/chi-tiet-san-pham/next}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>

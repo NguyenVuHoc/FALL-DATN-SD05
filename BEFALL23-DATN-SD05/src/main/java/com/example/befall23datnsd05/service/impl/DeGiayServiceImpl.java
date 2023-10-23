@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.impl;
 
+import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.repository.DeGiayRepository;
 import com.example.befall23datnsd05.service.DeGiayService;
@@ -75,5 +76,16 @@ public class DeGiayServiceImpl implements DeGiayService {
             pageNo = pageCount -1;
         }
         return pageNo;
+    }
+
+    @Override
+    public boolean exist(String ma) {
+        return repository.existsByMa(ma);
+    }
+
+    @Override
+    public Page<DeGiay> timTen(String ten, Integer pageNo, Integer size) {
+        Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
+        return repository.findByTenContains(ten,pageable1);
     }
 }

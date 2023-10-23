@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="../../images/WingMan-black.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -126,11 +126,11 @@
                 <h6 class="mb-4" style="font-size: 40px;">Quản Lý Lót Giày</h6>
                 <div class="row g-2">
                     <div style="width: 80%;">
-                        <form class="d-none d-md-flex">
+                        <form class="d-none d-md-flex" th:action="@{/admin/lot-giay/search}" method="get">
                             <input class="form-control border-1"
-                                style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
-                                type="search" placeholder="Nhập lót giày cần tìm" />
-                            <button type="button" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
+                                   style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;" type="search"
+                                   placeholder="Nhập lót giày cần tìm" name="ten" th:value="${param.ten}"/>
+                            <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
                                 Tìm Kiếm
                             </button>
                         </form>
@@ -147,6 +147,7 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Mã</th>
                                     <th>Tên</th>
                                     <th>Chức Năng</th>
@@ -154,6 +155,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="lotGiay : ${listLG}">
+                                    <th th:text="${lotGiay.id}"></th>
                                     <th th:text="${lotGiay.ma}"></th>
                                     <td th:text="${lotGiay.ten}"></td>
 

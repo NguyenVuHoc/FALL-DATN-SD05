@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.controller;
 
+import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.service.DeGiayService;
 import jakarta.validation.Valid;
@@ -8,11 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/admin/de-giay")
@@ -94,6 +91,15 @@ public class DeGiayController {
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
         return "redirect:/admin/de-giay";
+    }
+
+    @GetMapping("/search")
+    public String timTen(@RequestParam("ten") String ten,
+                         Model model){
+        Page<DeGiay> page = service.timTen(ten, pageNo, 5);
+        model.addAttribute("listDG", page.stream().toList());
+        model.addAttribute("index", pageNo + 1);
+        return "admin-template/de_giay/de_giay";
     }
 }
 

@@ -76,4 +76,16 @@ public class CoGiayServiceImpl implements CoGiayService {
         }
         return pageNo;
     }
+
+    @Override
+    public boolean exist(String ma) {
+        return repository.existsByMa(ma);
+    }
+
+    @Override
+    public Page<CoGiay> timTen(String ten, Integer pageNo, Integer size) {
+        Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
+        return repository.findByTenContains(ten,pageable1);
+    }
+
 }

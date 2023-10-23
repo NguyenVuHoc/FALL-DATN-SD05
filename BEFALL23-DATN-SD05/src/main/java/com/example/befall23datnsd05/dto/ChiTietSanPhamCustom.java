@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public interface ChiTietSanPhamCustom {
 
-     String getSanPham();
+//     String getSanPham();
 
      String getDeGiay();
 

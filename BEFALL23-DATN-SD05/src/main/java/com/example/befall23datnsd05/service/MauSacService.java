@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service;
 
+import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.MauSac;
 import org.springframework.data.domain.Page;
 
@@ -16,4 +17,9 @@ public interface MauSacService {
 
     Page<MauSac> phanTrang(Integer pageNo, Integer size);
     Integer chuyenPage(Integer pageNo);
+
+    boolean exist(String ma);
+
+    Page<MauSac> timTen(String ten, Integer pageNo, Integer size);
+
 }

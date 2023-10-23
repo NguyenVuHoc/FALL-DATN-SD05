@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.impl;
 
+import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.repository.LotGiayRepository;
 import com.example.befall23datnsd05.service.LotGiayService;
@@ -75,5 +76,16 @@ public class LotGiayServiceImpl implements LotGiayService {
             pageNo = pageCount -1;
         }
         return pageNo;
+    }
+
+    @Override
+    public boolean exist(String ma) {
+        return repository.existsByMa(ma);
+    }
+
+    @Override
+    public Page<LotGiay> timTen(String ten, Integer pageNo, Integer size) {
+        Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
+        return repository.findByTenContains(ten,pageable1);
     }
 }
