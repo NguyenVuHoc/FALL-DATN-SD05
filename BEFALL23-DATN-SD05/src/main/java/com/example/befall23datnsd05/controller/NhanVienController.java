@@ -74,14 +74,14 @@ public class NhanVienController {
                 model.addAttribute("error", "Mã đã tồn tại");
             }
             nhanVienService.add(nhanVienRequest);
-            return "redirect:/admin/nhan-vien";
+            return "redirect:/admin/nhan-vien?success";
         }
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         nhanVienService.remove(id);
-        return "redirect:/admin/nhan-vien";
+        return "redirect:/admin/nhan-vien?success";
     }
 
     @PostMapping("/update")
@@ -91,7 +91,7 @@ public class NhanVienController {
             return "admin-template/nhan_vien/sua_nhan_vien";
         }else {
             nhanVienService.update(nhanVienRequest);
-            return "redirect:/admin/nhan-vien";
+            return "redirect:/admin/nhan-vien?success";
         }
     }
 
