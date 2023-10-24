@@ -44,6 +44,18 @@ public class SanPhamServiceImpl implements SanPhamService {
         return repository.getPageSanPhamCusTom(pageable);
     }
 
+    @Override
+    public Page<SanPhamCustom> getPageByActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getSanPhamByTrangThaiHoatDong(pageable);
+    }
+
+    @Override
+    public Page<SanPhamCustom> getPageByInActivity(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getSanPhamByTrangThaiDungHoatDong(pageable);
+    }
+
 
     @Override
     public SanPham save(SanPhamRequest request) {
@@ -100,7 +112,7 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     @Override
-    public Integer transferPage(Integer pageNo) {
+    public Integer tranferPage(Integer pageNo) {
         Integer sizeList = repository.findAll().size();
         System.out.println(sizeList);
         Integer pageCount = (int) Math.ceil((double) sizeList / 5);
@@ -112,5 +124,22 @@ public class SanPhamServiceImpl implements SanPhamService {
         }
         System.out.println(pageNo);
         return pageNo;
+
     }
+
+    @Override
+    public boolean existByMa(String ma) {
+        return repository.existsByMa(ma);
+    }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
+    }
+
 }

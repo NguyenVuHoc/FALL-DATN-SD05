@@ -14,19 +14,22 @@ import java.util.List;
 
 @Repository
 public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
-    @Query(value = "select p from SanPham p", nativeQuery = false)
-    List<SanPhamCustom> getSanPhamCusTom();
 
     @Query(value = "select p from SanPham p", nativeQuery = false)
     Page<SanPhamCustom> getPageSanPhamCusTom(Pageable pageable);
 
-    @Query(value = "select p from SanPham p where p.trangThai='0'", nativeQuery = false)
-    Page<SanPham> getSanPhamByTrangThaiHoatDong(TrangThai trangThai, Pageable pageable);
+    @Query(value = "select p from SanPham p where p.trangThai=0", nativeQuery = false)
+    Page<SanPhamCustom> getSanPhamByTrangThaiHoatDong(Pageable pageable);
 
 
-    @Query(value = "select p from SanPham p where p.trangThai='1'", nativeQuery = false)
-    Page<SanPham> getSanPhamByTrangThaiDungHoatDong(TrangThai trangThai, Pageable pageable);
+    @Query(value = "select p from SanPham p where p.trangThai=1", nativeQuery = false)
+    Page<SanPhamCustom> getSanPhamByTrangThaiDungHoatDong(Pageable pageable);
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
+
 
 }

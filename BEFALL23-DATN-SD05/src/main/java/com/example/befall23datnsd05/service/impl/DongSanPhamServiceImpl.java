@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,21 +31,22 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
     }
 
     @Override
-    public Page<DongSanphamCustom> getPage(Integer pageNo, Integer size) {
+    public Page<DongSanPham> getPage(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size, Sort.by("ngayTao").descending());
         return repository.getPageDongSanPhamCusTom(pageable);
     }
 
     @Override
-    public Page<DongSanphamCustom> getPageByActivity(Integer pageNo, Integer size) {
+    public Page<DongSanPham> getPageByActivity(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size);
         return repository.getDongSpByTrangThaiHoatDong(pageable);
     }
 
+
     @Override
-    public Page<DongSanphamCustom> getPageByInActivity(Integer pageNo, Integer size) {
+    public Page<DongSanPham> getPageByInActivity(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getDongSpByTrangThaiDungThaiHoatDong(pageable);
+        return repository.getDongSpByTrangThaiDungHoatDong(pageable);
     }
 
 
@@ -92,7 +92,18 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
 
     @Override
     public Integer tranferPage(Integer pageNo) {
-        return null;
+        Integer sizeList = repository.findAll().size();
+        System.out.println(sizeList);
+        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
+        System.out.println(pageCount);
+        if (pageNo >= pageCount) {
+            pageNo = 0;
+        } else if (pageNo < 0) {
+            pageNo = pageCount - 1;
+        }
+        System.out.println(pageNo);
+        return pageNo;
+
     }
 
     @Override
@@ -101,7 +112,25 @@ public class DongSanPhamServiceImpl implements DongSanPhamService {
     }
 
     @Override
-    public boolean exist(String ma) {
+    public boolean existByMa(String ma) {
         return repository.existsByMa(ma);
     }
+
+
+//    @Override
+//    public boolean existByTenUpdate(String ten, String tenHienTai) {
+//        return repository.existsByTenUpdate(ten, tenHienTai);
+//    }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
+    }
+
+
 }

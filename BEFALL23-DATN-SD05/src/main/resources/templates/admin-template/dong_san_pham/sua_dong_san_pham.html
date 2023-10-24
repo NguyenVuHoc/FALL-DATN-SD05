@@ -130,15 +130,16 @@
                     <div class="mb-3">
                         <label class="form-label">Mã Dòng Sản Phẩm</label>
                         <input type="text" class="form-control" id="ma" th:field="*{ma}"
-                               aria-describedby="emailHelp"/>
-                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+                               aria-describedby="emailHelp" readonly/>
 
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tên Dòng Sản Phẩm</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
-
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"class="alert alert-danger"></div>
+                        <div th:if="${errorTen}" class="alert alert-danger">
+                            <p th:text="${errorTen}"></p>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Trạng Thái</label>

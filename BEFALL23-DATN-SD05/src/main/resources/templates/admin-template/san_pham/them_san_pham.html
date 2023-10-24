@@ -129,13 +129,16 @@
                 <form th:action="@{/admin/san-pham/add}" method="post"
                       enctype="multipart/form-data"
                       th:object="${sanPham}">
-                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.anhChinh}"/>
+<!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.anhChinh}"/>-->
 
                     <div class="mb-3">
                         <div class="mb-3">
                             <label class="form-label">Mã Sản Phẩm</label>
                             <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
                                    aria-describedby="emailHelp" required/>
+                            <div th:if="${errorMa}" class="alert alert-danger">
+                                <p th:text="${errorMa}"></p>
+                            </div>
                         </div>
 
                     </div>
@@ -143,7 +146,10 @@
                         <label class="form-label">Tên Sản Phẩm</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
                                aria-describedby="emailHelp" required/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                        <!--                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>-->
+                        <div th:if="${errorTen}" class="alert alert-danger">
+                            <p th:text="${errorTen}"></p>
+                        </div>
                     </div>
                     <div class="mb-3 row g-2">
                         <div style="width: 80%;">
@@ -155,57 +161,6 @@
                             </select>
 
                         </div>
-                        <!--                        <div style="width: 20%;">-->
-                        <!--                            <td>-->
-                        <!--                                <div class="mb-3 row g-2">-->
-                        <!--                                    <div style="width: 25%;">-->
-                        <!--                                        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-                        <!--                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"-->
-                        <!--                                                data-bs-target="#exampleModal" style="margin-top: 30px;">-->
-                        <!--                                            Thêm-->
-                        <!--                                        </button>-->
-                        <!--                                        &lt;!&ndash; Modal &ndash;&gt;-->
-                        <!--                                        <div class="modal fade" id="exampleModal" tabindex="-1"-->
-                        <!--                                             aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-                        <!--                                            <div class="modal-dialog">-->
-                        <!--                                                <div class="modal-content">-->
-                        <!--                                                    <div class="modal-header">-->
-                        <!--                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm-->
-                        <!--                                                            Dòng Sản-->
-                        <!--                                                            Phẩm</h1>-->
-                        <!--                                                        <button type="button" class="btn-close"-->
-                        <!--                                                                data-bs-dismiss="modal" aria-label="Close"></button>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="modal-body">-->
-                        <!--                                                        <form>-->
-                        <!--                                                            <div class="mb-3">-->
-                        <!--                                                                <label for="recipient-name"-->
-                        <!--                                                                       class="col-form-label">Mã Dòng Sản Phẩm:</label>-->
-                        <!--                                                                <input type="text" class="form-control"-->
-                        <!--                                                                       id="recipient-name">-->
-                        <!--                                                            </div>-->
-                        <!--                                                            <div class="mb-3">-->
-                        <!--                                                                <label for="message-text" class="col-form-label">Tên-->
-                        <!--                                                                    Dòng Sản Phẩm:</label>-->
-                        <!--                                                                <input class="form-control"-->
-                        <!--                                                                       id="message-text"></input>-->
-                        <!--                                                            </div>-->
-                        <!--                                                        </form>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="modal-footer">-->
-                        <!--                                                        <button type="button" class="btn btn-secondary"-->
-                        <!--                                                                data-bs-dismiss="modal">Đóng-->
-                        <!--                                                        </button>-->
-                        <!--                                                        <button type="button" class="btn btn-success">Thêm-->
-                        <!--                                                        </button>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </td>-->
-                        <!--                        </div>-->
                     </div>
                     <div class="mb-3 row g-2">
                         <div style="width: 80%;">
@@ -216,56 +171,7 @@
                                         th:text="${thuongHieu.ten}"></option>
                             </select>
                         </div>
-                        <!--                        <div style="width: 20%;">-->
-                        <!--                            <td>-->
-                        <!--                                <div class="mb-3 row g-2">-->
-                        <!--                                    <div style="width: 25%;">-->
-                        <!--                                        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-                        <!--                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"-->
-                        <!--                                                data-bs-target="#exampleModal" style="margin-top: 30px;">-->
-                        <!--                                            Thêm-->
-                        <!--                                        </button>-->
-                        <!--                                        &lt;!&ndash; Modal &ndash;&gt;-->
-                        <!--                                        <div class="modal fade" id="exampleModal" tabindex="-1"-->
-                        <!--                                             aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-                        <!--                                            <div class="modal-dialog">-->
-                        <!--                                                <div class="modal-content">-->
-                        <!--                                                    <div class="modal-header">-->
-                        <!--                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Sản-->
-                        <!--                                                            Phẩm</h1>-->
-                        <!--                                                        <button type="button" class="btn-close"-->
-                        <!--                                                                data-bs-dismiss="modal" aria-label="Close"></button>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="modal-body">-->
-                        <!--                                                        <form>-->
-                        <!--                                                            <div class="mb-3">-->
-                        <!--                                                                <label for="recipient-name"-->
-                        <!--                                                                       class="col-form-label">Mã Sản Phẩm:</label>-->
-                        <!--                                                                <input type="text" class="form-control"-->
-                        <!--                                                                       id="recipient-name">-->
-                        <!--                                                            </div>-->
-                        <!--                                                            <div class="mb-3">-->
-                        <!--                                                                <label for="message-text" class="col-form-label">Tên-->
-                        <!--                                                                    Sản Phẩm:</label>-->
-                        <!--                                                                <input class="form-control"-->
-                        <!--                                                                       id="message-text"></input>-->
-                        <!--                                                            </div>-->
-                        <!--                                                        </form>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="modal-footer">-->
-                        <!--                                                        <button type="button" class="btn btn-secondary"-->
-                        <!--                                                                data-bs-dismiss="modal">Đóng-->
-                        <!--                                                        </button>-->
-                        <!--                                                        <button type="button" class="btn btn-success">Thêm-->
-                        <!--                                                        </button>-->
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </td>-->
-                        <!--                        </div>-->
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô Tả</label>
@@ -278,22 +184,24 @@
                     <div class="tab-pane" id="images" role="tabpanel">
                         <div class="row">
                             <div class="col border m-3 p-2">
-                                <div><label>
-                                    Ảnh Hiển Thị
-                                    <img id="imagePreview" src="" alt="Ảnh sản phẩm"
-                                         style="width: 200px; height: auto; max-width: 100%; display: none;"/>
-                                    <div>
-                                </label></div>
-
+                                <div>
+                                    <label>
+                                        Ảnh Hiển Thị
+                                        <img id="imagePreview" src="" alt="Ảnh sản phẩm"
+                                             style="width: 200px; height: auto; max-width: 100%; display: none;"/>
+                                    </label>
+                                </div>
                             </div>
-
-                            <input type="file" id="fileImage" name="fileImage" onchange="previewImage(event)"
-                                   accept="image/png,image/jpeg"/>
                         </div>
-                        <!--                            validate-->
-                        <div th:if="${chuadoianh != null}">
-                            <span th:text="${chuadoianh}" style="color: red"></span>
-                        </div>
+                        <input type="file"  id="fileImage" name="fileImage" onchange="previewImage(event)"
+                               accept="image/png,image/jpeg,img/jpg,img/jfif"/>
+                    </div>
+                    <!--                            validate-->
+                    <div th:if="${chuadoianh != null}">
+                        <span th:text="${chuadoianh}" style="color: red"></span>
+                    </div>
+                    <div th:if="${errorAnh}" class="alert alert-danger">
+                        <p th:text="${errorAnh}"></p>
                     </div>
             </div>
             <button type="submit" class="btn btn-success " style="margin-left: 40%;">
@@ -315,11 +223,10 @@
     </div>
     <!-- Content End -->
 
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
-
+</div>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -330,10 +237,11 @@
 <script src="../../lib/tempusdominus/js/moment.min.js"></script>
 <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-<script src="../../../static/js/admin/anh.js"></script>
 
 <!-- Template Javascript -->
 <script src="../../js/admin/main.js"></script>
+<script src="../../../static/js/admin/index_form.js"></script>
+
 <script>
     function previewImage(event) {
         var fileInput = event.target;

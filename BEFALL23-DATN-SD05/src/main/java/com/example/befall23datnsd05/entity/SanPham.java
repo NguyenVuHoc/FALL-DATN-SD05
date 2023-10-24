@@ -69,7 +69,6 @@ public class SanPham {
     @Column(name = "anh_chinh")
     private String anhChinh;
 
-    @Transient
-    private String currentMainImage; // Trường ẩn để lưu tên ảnh hiện tại
+
 
 }

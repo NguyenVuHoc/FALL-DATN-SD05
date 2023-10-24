@@ -1,9 +1,7 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.custom.DongSanphamCustom;
-import com.example.befall23datnsd05.custom.ThuongHieuCustom;
 import com.example.befall23datnsd05.entity.DongSanPham;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.DongSanPhamRequest;
 import org.springframework.data.domain.Page;
 
@@ -14,11 +12,12 @@ public interface DongSanPhamService {
 
     List<DongSanPham> getList();
 
-    Page<DongSanphamCustom> getPage(Integer pageNo, Integer size);
+    Page<DongSanPham> getPage(Integer pageNo, Integer size);
 
-    Page<DongSanphamCustom> getPageByActivity(Integer pageNo, Integer size);
+    Page<DongSanPham> getPageByActivity(Integer pageNo, Integer size);
 
-    Page<DongSanphamCustom> getPageByInActivity(Integer pageNo, Integer size);
+
+    Page<DongSanPham> getPageByInActivity(Integer pageNo, Integer size);
 
     DongSanPham save(DongSanPhamRequest request);
 
@@ -32,7 +31,13 @@ public interface DongSanPhamService {
 
     Integer tranferPageTest(Integer pageNo, Page<DongSanphamCustom> page);
 
-    boolean exist(String ma);
+    boolean existByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+
+    boolean existsByTenAndIdNot(String ten,Long id);
+
 
 
 }

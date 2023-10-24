@@ -35,8 +35,6 @@ public class SanPhamRequest {
     @NotBlank(message = "Mô tả không được để trống!")
     private String moTa;
 
-    @Transient
-    private String currentMainImage; // Trường ẩn để lưu tên ảnh hiện tại
 
 
 }

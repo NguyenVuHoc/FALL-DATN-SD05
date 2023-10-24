@@ -14,6 +14,10 @@ public interface SanPhamService {
 
     Page<SanPhamCustom> getPage(Integer pageNo, Integer size);
 
+    Page<SanPhamCustom> getPageByActivity(Integer pageNo, Integer size);
+
+    Page<SanPhamCustom> getPageByInActivity(Integer pageNo, Integer size);
+
     SanPham save(SanPhamRequest request);
 
     SanPham update(SanPhamRequest request);
@@ -22,9 +26,13 @@ public interface SanPhamService {
 
     SanPham findById(Long id);
 
-    Integer transferPage(Integer pageNo);
+    Integer tranferPage(Integer pageNo);
+
+    boolean existByMa(String ma);
 
 
+    boolean existsByTen(String ten);
 
+    boolean existsByTenAndIdNot(String ten, Long id);
 
 }

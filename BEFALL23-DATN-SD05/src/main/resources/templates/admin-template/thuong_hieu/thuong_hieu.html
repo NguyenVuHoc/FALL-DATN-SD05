@@ -120,6 +120,9 @@
             </div>
         </nav>
         <!-- Navbar End -->
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
         <!-- Recent Sales Start -->
 
         <div class="container-fluid pt-4">
@@ -167,8 +170,10 @@
                                 <td th:text="${thuongHieu.id}"></td>
                                 <td th:text="${thuongHieu.ma}"></td>
                                 <td th:text="${thuongHieu.ten}"></td>
-                                <td th:if="${thuongHieu.getTrangThai()==0}">Đang Hoạt Động</td>
-                                <td th:if="${thuongHieu.getTrangThai()==1}">Dừng Hoạt Động</td>
+                                <td>
+                                    <span th:if="${thuongHieu != null and thuongHieu.trangThai != null and thuongHieu.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
+                                    <span th:if="${thuongHieu != null and thuongHieu.trangThai != null and thuongHieu.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
+                                </td>
                                 <td>
                                     <a th:href="@{'/admin/thuong-hieu/view-update/' + ${thuongHieu.id}}">
                                         <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
@@ -178,6 +183,7 @@
                                     </a>
                                 </td>
                             </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -232,6 +238,7 @@
 
 <!-- Template Javascript -->
 <script src="../../js/admin/main.js"></script>
+<script src="../../js/admin/index_form.js"></script>
 </body>
 
 </html>

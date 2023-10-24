@@ -132,8 +132,8 @@
                         <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
                                aria-describedby="emailHelp"/>
                         <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" class="alert alert-danger"></div>
-                        <div th:if="${error}" class="alert alert-danger">
-                            <p th:text="${error}"></p>
+                        <div th:if="${errorMa}" class="alert alert-danger">
+                            <p th:text="${errorMa}"></p>
                         </div>
 
                     </div>
@@ -142,6 +142,10 @@
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
                                aria-describedby="emailHelp"/>
                         <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" class="alert alert-danger"></div>
+                        <div th:if="${errorTen}" class="alert alert-danger">
+                            <p th:text="${errorTen}"></p>
+                        </div>
+
 
                     </div>
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">
@@ -183,6 +187,9 @@
 
 <!-- Template Javascript -->
 <script src="../../js/admin/main.js"></script>
+
+
+
 </body>
 
 </html>

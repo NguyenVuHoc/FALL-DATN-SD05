@@ -14,11 +14,11 @@ public interface ThuongHieuService {
 
     Integer transferPageTest(Integer pageNo, Page<ThuongHieuCustom> list);
 
-    Page<ThuongHieuCustom> getPageByActivity(Integer pageNo, Integer size);
+    Page<ThuongHieu> getPageByActivity(Integer pageNo, Integer size);
 
-    Page<ThuongHieuCustom> getPageByInActivity(Integer pageNo, Integer size);
+    Page<ThuongHieu> getPageByInActivity(Integer pageNo, Integer size);
 
-    Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size);
+    Page<ThuongHieu> getPage(Integer pageNo, Integer size);
 
     ThuongHieu save(ThuongHieuRequest request);
 
@@ -28,7 +28,12 @@ public interface ThuongHieuService {
 
     ThuongHieu findById(Long id);
 
-    boolean exist(String ma);
+    boolean existByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
+
 
     Integer transferPage(Integer pageNo);
 

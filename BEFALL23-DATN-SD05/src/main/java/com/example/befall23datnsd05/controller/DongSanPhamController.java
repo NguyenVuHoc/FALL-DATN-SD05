@@ -19,7 +19,7 @@ public class DongSanPhamController {
         this.dongSanPhamService = dongSanPhamService;
     }
 
-    Integer pageNo=0;
+    Integer pageNo = 0;
 
     @GetMapping()
     public String getAll(Model model) {
@@ -46,14 +46,14 @@ public class DongSanPhamController {
     public String pre() {
         pageNo--;
         pageNo = dongSanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/thuong-hieu";
+        return "redirect:/admin/dong-san-pham";
     }
 
     @GetMapping("/next")
     public String next() {
         pageNo++;
         pageNo = dongSanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/thuong-hieu";
+        return "redirect:/admin/dong-san-pham";
     }
 
     @GetMapping("/view-add-dong-san-pham")
@@ -63,26 +63,37 @@ public class DongSanPhamController {
 
     @PostMapping("/add")
     public String addNew(@Valid @ModelAttribute("dongSp") DongSanPhamRequest dongSanPham,
-                         BindingResult bindingResult,Model model
+                         BindingResult bindingResult, Model model
     ) {
         String ma = dongSanPham.getMa();
-
+        String ten = dongSanPham.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/dong_san_pham/them_dong_san_pham";
-        } else {
-            if(dongSanPhamService.exist(ma)){
-                model.addAttribute("error", "Mã  đã tồn tại");
-                return "admin-template/dong_san_pham/them_dong_san_pham";
-            }
-            dongSanPhamService.save(dongSanPham);
-            return "redirect:/admin/dong-san-pham";
         }
+        if (dongSanPhamService.existByMa(ma) && dongSanPhamService.existsByTen(ten)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/dong_san_pham/them_dong_san_pham";
+        }
+        if (dongSanPhamService.existByMa(ma)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            return "admin-template/dong_san_pham/them_dong_san_pham";
+        }
+        if (dongSanPhamService.existsByTen(ten)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/dong_san_pham/them_dong_san_pham";
+        }
+        model.addAttribute("success", "Thêm thành công");
+
+        dongSanPhamService.save(dongSanPham);
+        return "redirect:/admin/dong-san-pham?success";
+        
     }
 
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
         dongSanPhamService.remove(id);
-        return "redirect:/admin/dong-san-pham";
+        return "redirect:/admin/dong-san-pham?success";
     }
 
     @GetMapping("view-update/{id}")
@@ -97,12 +108,20 @@ public class DongSanPhamController {
                          BindingResult bindingResult,
                          Model model
     ) {
-
+        String ten = dongSanPham.getTen();
+        Long id = dongSanPham.getId();
         if (bindingResult.hasErrors()) {
             return "admin-template/dong_san_pham/sua_dong_san_pham";
+        } else {
+            if (dongSanPhamService.existsByTenAndIdNot(ten, id)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/dong_san_pham/sua_dong_san_pham";
+            }
+            model.addAttribute("success", "Thêm thành công");
+
+            dongSanPhamService.update(dongSanPham);
+            return "redirect:/admin/dong-san-pham?success";
         }
-        dongSanPhamService.update(dongSanPham);
-        return "redirect:/admin/dong-san-pham";
     }
 }
 

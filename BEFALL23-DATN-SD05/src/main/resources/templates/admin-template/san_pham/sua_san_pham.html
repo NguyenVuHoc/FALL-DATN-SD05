@@ -129,12 +129,12 @@
                       enctype="multipart/form-data"
                       th:object="${sanPham}">
                     <input type="hidden" th:field="*{id}"/>
-                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.getAnhChinh()}"/>
+<!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.getAnhChinh()}"/>-->
                     <div class="mb-3">
                         <div class="mb-3">
                             <label class="form-label">Mã Sản Phẩm</label>
                             <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
-                                   aria-describedby="emailHelp" required/>
+                                   aria-describedby="emailHelp" required readonly/>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -142,6 +142,9 @@
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
                                aria-describedby="emailHelp" required/>
                         <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                        <div th:if="${errorTen}" class="alert alert-danger">
+                            <p th:text="${errorTen}"></p>
+                        </div>
                     </div>
                     <div class="mb-3 row g-2">
                         <div style="width: 80%;">
@@ -171,7 +174,8 @@
                                 <label for="trangThaiHoatDong" class="form-check-label">Hoạt Động</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input id="trangThaiKhongHoatDong" name="trangThai" type="radio" class="form-check-input"
+                                <input id="trangThaiKhongHoatDong" name="trangThai" type="radio"
+                                       class="form-check-input"
                                        th:value="DUNG_HOAT_DONG"
                                        th:field="*{trangThai}"/>
                                 <label for="trangThaiKhongHoatDong" class="form-check-label">Dừng Hoạt Động</label>
@@ -193,13 +197,14 @@
                                 <div><label>Ảnh Chính</label></div>
                             </div>
                             <div class="m-2">
-                                <img th:src="@{'/images/' + ${sanPham.anhChinh}}" alt="Ảnh sản phẩm" th:style="'width: 200px; height: auto; max-width: 100%;'" />
+                                <img id="productImage" th:src="@{'/images/' + ${sanPham.anhChinh}}" alt="Ảnh sản phẩm"
+                                     th:style="'width: 200px; height: auto; max-width: 100%;'"/>
 
 
                             </div>
                             <div>
-                                <input type="file" id="fileImage" name="fileImage"
-                                       accept="image/png,image/jpeg"/>
+                                <input type="file" id="fileImage" name="fileImage" onchange="previewImage(event)"
+                                       accept="image/png,image/jpeg,img/jpg"/>
                             </div>
 
                         </div>
@@ -223,20 +228,38 @@
         <!-- Footer End -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+</div>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/../../lib/chart/chart.min.js"></script>
+<script src="/../../lib/easing/easing.min.js"></script>
+<script src="/../../lib/waypoints/waypoints.min.js"></script>
+<script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<script>
+    document.getElementById('fileImage').addEventListener('change', function (event) {
+        const imageElement = document.getElementById('productImage');
+        const fileInput = event.target;
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/../../lib/chart/chart.min.js"></script>
-    <script src="/../../lib/easing/easing.min.js"></script>
-    <script src="/../../lib/waypoints/waypoints.min.js"></script>
-    <script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/../../lib/tempusdominus/js/moment.min.js"></script>
-    <script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+        if (fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
 
-    <!-- Template Javascript -->
-    <script src="/../../js/admin/main.js"></script>
+            reader.onload = function (e) {
+                imageElement.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    });
+
+</script>
+
+
+<!-- Template Javascript -->
+<script src="/../../js/admin/main.js"></script>
 </body>
 
 </html>

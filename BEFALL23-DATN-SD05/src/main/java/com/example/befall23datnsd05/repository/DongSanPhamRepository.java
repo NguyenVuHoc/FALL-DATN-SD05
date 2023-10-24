@@ -16,15 +16,20 @@ import java.util.List;
 public interface DongSanPhamRepository extends JpaRepository<DongSanPham, Long> {
 
     @Query(value = "select p from DongSanPham p", nativeQuery = false)
-    Page<DongSanphamCustom> getPageDongSanPhamCusTom(Pageable pageable);
+    Page<DongSanPham> getPageDongSanPhamCusTom(Pageable pageable);
 
-    @Query(value = "select dong_san_pham.id,dong_san_pham.ma,dong_san_pham.ten,dong_san_pham.trang_thai from dong_san_pham  where dong_san_pham.trang_thai='0'", nativeQuery = true)
-    Page<DongSanphamCustom> getDongSpByTrangThaiHoatDong(Pageable pageable);
+    @Query(value = "select * from dong_san_pham where  trang_thai=0", nativeQuery = true)
+    Page<DongSanPham> getDongSpByTrangThaiHoatDong(Pageable pageable);
 
 
-    @Query(value = "select dong_san_pham.id,dong_san_pham.ma,dong_san_pham.ten,dong_san_pham.trang_thai from dong_san_pham  where dong_san_pham.trang_thai='1'", nativeQuery = true)
-    Page<DongSanphamCustom> getDongSpByTrangThaiDungThaiHoatDong(Pageable pageable);
+    @Query(value = "select * from dong_san_pham where  trang_thai=1", nativeQuery = true)
+    Page<DongSanPham> getDongSpByTrangThaiDungHoatDong(Pageable pageable);
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 
 }

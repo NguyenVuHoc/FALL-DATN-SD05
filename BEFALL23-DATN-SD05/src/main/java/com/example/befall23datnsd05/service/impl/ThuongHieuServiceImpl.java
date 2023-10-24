@@ -36,24 +36,22 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
-    public Page<ThuongHieuCustom> getPageByActivity(Integer pageNo, Integer size) {
+    public Page<ThuongHieu> getPageByActivity(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size);
-        System.out.println(repository.getThuongHieuByTrangThaiHoatDong(pageable).toString());
         return repository.getThuongHieuByTrangThaiHoatDong(pageable);
     }
 
     @Override
-    public Page<ThuongHieuCustom> getPageByInActivity(Integer pageNo, Integer size) {
+    public Page<ThuongHieu> getPageByInActivity(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size);
-        System.out.println(repository.getThuongHieuByTrangThaiDungHoatDong(pageable).toString());
-        return repository.getThuongHieuByTrangThaiHoatDong(pageable);
+        return repository.getThuongHieuByTrangThaiDungHoatDong(pageable);
     }
 
 
     @Override
-    public Page<ThuongHieuCustom> getPage(Integer pageNo, Integer size) {
+    public Page<ThuongHieu> getPage(Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size, Sort.by("ngayTao").descending());
-        return repository.getPageThuongHieuCusTom(pageable);
+        return repository.findAll(pageable);
     }
 
 
@@ -99,8 +97,19 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
-    public boolean exist(String ma) {
+    public boolean existByMa(String ma) {
         return repository.existsByMa(ma);
+    }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
+
     }
 
 

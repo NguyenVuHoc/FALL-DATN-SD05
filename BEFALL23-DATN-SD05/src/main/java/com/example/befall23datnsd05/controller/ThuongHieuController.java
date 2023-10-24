@@ -62,25 +62,36 @@ public class ThuongHieuController {
 
     @PostMapping("/add")
     public String addNew(@Valid @ModelAttribute("thuongHieu") ThuongHieuRequest thuongHieu,
-                         BindingResult bindingResult,Model model
+                         BindingResult bindingResult, Model model
     ) {
         String ma = thuongHieu.getMa();
+        String ten = thuongHieu.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/thuong_hieu/them_thuong_hieu";
-        } else {
-            if(thuongHieuService.exist(ma)){
-                model.addAttribute("error", "Mã  đã tồn tại");
-                return "admin-template/thuong_hieu/them_thuong_hieu";
-            }
-            thuongHieuService.save(thuongHieu);
-            return "redirect:/admin/thuong-hieu";
         }
+        if (thuongHieuService.existByMa(ma) && thuongHieuService.existsByTen(ten)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/thuong_hieu/them_thuong_hieu";
+        }
+        if (thuongHieuService.existByMa(ma)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            return "admin-template/thuong_hieu/them_thuong_hieu";
+        }
+        if (thuongHieuService.existsByTen(ten)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/thuong_hieu/them_thuong_hieu";
+        }
+        model.addAttribute("success", "Thêm thành công");
+
+        thuongHieuService.save(thuongHieu);
+        return "redirect:/admin/thuong-hieu?success";
     }
 
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Long id) {
         thuongHieuService.remove(id);
-        return "redirect:/admin/thuong-hieu";
+        return "redirect:/admin/thuong-hieu?success";
     }
 
     @GetMapping("/view-update/{id}")
@@ -95,12 +106,20 @@ public class ThuongHieuController {
                          BindingResult bindingResult,
                          Model model
     ) {
-
+        String ten = thuongHieu.getTen();
+        Long id = thuongHieu.getId();
         if (bindingResult.hasErrors()) {
             return "admin-template/thuong_hieu/sua_thuong_hieu";
+        } else {
+            if (thuongHieuService.existsByTenAndIdNot(ten, id)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/thuong_hieu/sua_thuong_hieu";
+            }
+            model.addAttribute("success", "Thêm thành công");
+
+            thuongHieuService.update(thuongHieu);
+            return "redirect:/admin/thuong-hieu?success";
         }
-        thuongHieuService.update(thuongHieu);
-        return "redirect:/admin/thuong-hieu";
     }
 }
 

@@ -119,6 +119,20 @@
             </div>
         </nav>
         <!-- Navbar End -->
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function() {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
             <h6 class="mb-4" style="font-size: 40px;">Quản Lý Dòng Sản Phẩm</h6>
@@ -132,10 +146,10 @@
                             Tìm Kiếm
                         </button>
                     </form>
-                    <div  class="btn-group" role="group" aria-label="Basic example">
-                        <a th:href="@{/admin/dong-san-pham}" type="button" class="btn btn-outline-info ">Tất Cả</a>
-                        <a th:href="@{/admin/dong-san-pham/get-trang-thai-hoat-dong}" type="button" class="btn btn-outline-info ">Hoạt Động</a>
-                        <a th:href="@{/admin/dong-san-pham/get-trang-thai-dung-hoat-dong}" type="button"class="btn btn-outline-info ">Dừng Hoạt Động</a>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a th:href="@{/admin/dong-san-pham}" type="button" class="btn btn-outline-info">Tất Cả</a>
+                        <a th:href="@{/admin/dong-san-pham/get-trang-thai-hoat-dong}" type="button" class="btn btn-outline-info">Hoạt Động</a>
+                        <a th:href="@{/admin/dong-san-pham/get-trang-thai-dung-hoat-dong}" type="button" class="btn btn-outline-info">Dừng Hoạt Động</a>
                     </div>
                 </div>
                 <div style="width: 20%;">
@@ -167,8 +181,10 @@
                                 <td th:text="${dongSp.id}"></td>
                                 <td th:text="${dongSp.ma}"></td>
                                 <td th:text="${dongSp.ten}"></td>
-                                <td th:if="${dongSp.getTrangThai()==0}">Đang Hoạt Động</td>
-                                <td th:if="${dongSp.getTrangThai()==1}">Dừng Hoạt Động</td>
+                                <td>
+                                    <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
+                                    <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
+                                </td>
                                 <td>
                                     <a th:href="@{'/admin/dong-san-pham/view-update/' + ${dongSp.id}}">
                                         <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
@@ -232,6 +248,9 @@
 
 <!-- Template Javascript -->
 <script src="../../js/admin/main.js"></script>
+<script src="../../js/admin/index_form.js"></script>
+
+
 </body>
 
 </html>
