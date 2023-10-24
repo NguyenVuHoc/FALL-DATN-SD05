@@ -169,11 +169,11 @@
                                             <td th:text="${hdct.getGiaBan()}"></td>
                                             <td th:text="${hdct.getSoLuong()}"></td>
                                             <td>
-<!--                                                <a class="suaSoLuong" th:href="@{/admin/ban-hang/sua-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
-<!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
-<!--                                                    <img src="/../../img/pen_v2.png"-->
-<!--                                                         style="width: 25px; padding-right: 5px">-->
-<!--                                                </a>-->
+                                                <!--                                                <a class="suaSoLuong" th:href="@{/admin/ban-hang/sua-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
+                                                <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
+                                                <!--                                                    <img src="/../../img/pen_v2.png"-->
+                                                <!--                                                         style="width: 25px; padding-right: 5px">-->
+                                                <!--                                                </a>-->
                                                 <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}
                                                  (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">
                                                     <img src="/../../img/xoa_v2.png"
@@ -321,7 +321,8 @@
                                     <div class="modal fade" id="themSoLuong" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
-                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.getId()})}" th:object="${hoaDonChiTiet}"
+                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.getId()})}"
+                                              th:object="${hoaDonChiTiet}"
                                               method="post">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -364,14 +365,12 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-
                         <li class="page-item"><a class="page-link" href="#">1</a></li>
                         <li class="page-item">
                             <a class="page-link" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>
