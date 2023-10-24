@@ -271,7 +271,7 @@
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}">
                         <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title" th:text="${ctspCustom.getTen()}"></h3>
+                    <h3 class="product-title" th:text="${ctspCustom.getTenSp() + ctspCustom.getTenDongSp() + ctspCustom.getTenDe_giay() + ctspCustom.getTenCo_giay() + ctspCustom.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -298,7 +298,7 @@
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}">
                         <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title" th:text="${ctspLimited.getTen()}"></h3>
+                    <h3 class="product-title" th:text="${ctspLimited.getTenSp() + ctspLimited.getTenDongSp() + ctspLimited.getTenDe_giay() + ctspLimited.getTenCo_giay() + ctspLimited.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">

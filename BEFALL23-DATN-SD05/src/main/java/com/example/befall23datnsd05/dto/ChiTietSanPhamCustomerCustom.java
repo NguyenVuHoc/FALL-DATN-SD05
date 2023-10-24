@@ -6,7 +6,15 @@ public interface ChiTietSanPhamCustomerCustom {
 
     Long getId();
 
-    String getTen();
+    String getTenSp();
+
+    String getTenDe_giay();
+
+    String getTenCo_giay();
+
+    String getTenLot_giay();
+
+    String getTenDongSp();
 
     BigDecimal getGia_ban();
 
