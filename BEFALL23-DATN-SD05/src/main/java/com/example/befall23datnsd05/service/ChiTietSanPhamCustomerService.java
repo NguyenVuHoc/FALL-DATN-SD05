@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service;
 
+import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ public interface ChiTietSanPhamCustomerService {
     List<ChiTietSanPhamCustomerCustom> list3Custom();
 
     List<ChiTietSanPhamCustomerCustom> list3Limited();
+
+    List<AnhCustomerCustom> listAnhDetail(Long id);
 
     ChiTietSanPham getById(Long id);
 }

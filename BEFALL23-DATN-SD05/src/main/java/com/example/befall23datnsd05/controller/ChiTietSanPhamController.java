@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.controller;
 
+import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
@@ -60,6 +61,8 @@ public class ChiTietSanPhamController {
     public String detailCustomerSanPham(@PathVariable("id") Long id, Model model){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
         model.addAttribute("spDetail", chiTietSanPham);
+        List<AnhCustomerCustom> listAnhdetail = chiTietSanPhamService.listAnhDetail(id);
+        model.addAttribute("listAnhDetail", listAnhdetail.stream().toList());
         return "customer-template/detail";
     }
 

@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.impl;
 
+import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
@@ -56,6 +57,9 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
     public List<ChiTietSanPhamCustomerCustom> list3Limited() {
         return repository.list3Limited();
     }
+
+    @Override
+    public List<AnhCustomerCustom> listAnhDetail(Long id) { return repository.listAnhDetail(id); }
 
     @Override
     public ChiTietSanPham getById(Long id) {
