@@ -321,7 +321,7 @@
                                     <div class="modal fade" id="themSoLuong" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
-                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.getId()})}"
+                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.id})}"
                                               th:object="${hoaDonChiTiet}"
                                               method="post">
                                             <div class="modal-dialog">

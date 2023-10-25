@@ -101,11 +101,9 @@ public class BanHangServiceImpl implements BanHangService {
             if (hdct.getChiTietSanPham().getId() == idSanPham) {
                 hdct.setSoLuong(hdct.getSoLuong() + hoaDonChiTiet.getSoLuong());
                 return hoaDonChiTietRepository.save(hdct);
-            }else {
-                return hoaDonChiTietRepository.save(hoaDonChiTiet);
             }
         }
-        return null;
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
     @Override
