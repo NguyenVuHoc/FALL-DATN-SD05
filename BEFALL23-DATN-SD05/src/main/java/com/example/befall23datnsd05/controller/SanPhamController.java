@@ -131,33 +131,46 @@ public class SanPhamController {
     }
 
     @PostMapping("/update")
-    public String updateProduct(@ModelAttribute("sanPham")SanPhamRequest sanPham, RedirectAttributes ra,
+    public String updateProduct(@ModelAttribute("sanPham") SanPhamRequest sanPham, RedirectAttributes ra,
                                 @RequestParam("fileImage") MultipartFile multipartFile, Model model) {
         String ten = sanPham.getTen();
         Long id = sanPham.getId();
-        if (sanPhamService.existsByTenAndIdNot(ten, id)) {
-//            model.addAttribute("sanPham", sanPhamService.)
-            model.addAttribute("listThuongHieu", thuongHieuService.getList());
-            model.addAttribute("listDongSp", dongSanPhamService.getList());
-            model.addAttribute("errorTen", "Tên  đã tồn tại");
-            return "admin-template/san_pham/sua_san_pham";
-        }
+
+        // Kiểm tra xem người dùng đã chọn một tệp mới hay không
         if (!multipartFile.isEmpty()) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             sanPham.setAnhChinh(fileName);
+
             AnhSanPham anhSanPham = new AnhSanPham();
             SanPham savedSanPham = sanPhamService.update(sanPham);
             anhSanPham.setSanPham(savedSanPham);
-            anhSanPham.setUrl(multipartFile.getOriginalFilename());
+            anhSanPham.setUrl(fileName);
             anhSanPhamService.save(anhSanPham);
 
             String uploadDir = "src/main/resources/static/images/";
-
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        } else {
+            // Người dùng không chọn tệp mới, giữ nguyên thông tin ảnh hiện có
+            // Lấy thông tin ảnh từ cơ sở dữ liệu hoặc từ bất kỳ nguồn nào bạn lưu trữ nó
+            SanPham existingSanPham = sanPhamService.findById(id); // Thay thế findById bằng phương thức thích hợp
+            if (existingSanPham != null) {
+                sanPham.setAnhChinh(existingSanPham.getAnhChinh());
+                sanPhamService.update(sanPham);
+
+            }
+        }
+
+        // Tiếp tục xử lý khác
+        if (sanPhamService.existsByTenAndIdNot(ten, id)) {
+            model.addAttribute("listThuongHieu", thuongHieuService.getList());
+            model.addAttribute("listDongSp", dongSanPhamService.getList());
+            model.addAttribute("errorTen", "Tên đã tồn tại");
+            return "admin-template/san_pham/sua_san_pham";
         }
 
         ra.addFlashAttribute("message", "Thay Đổi Thành Công.");
         return "redirect:/admin/san-pham";
     }
+
 }
 
