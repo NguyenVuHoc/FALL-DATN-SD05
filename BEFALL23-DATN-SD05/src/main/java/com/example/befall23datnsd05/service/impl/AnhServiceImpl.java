@@ -30,6 +30,16 @@ public class AnhServiceImpl implements AnhSanPhamService {
     }
 
     @Override
+    public AnhSanPham update(AnhSanPham anhSanPham) {
+        AnhSanPham anhSanPham1 = repository.findById(anhSanPham.getId()).orElse(null);
+        if (anhSanPham1 != null) {
+            anhSanPham.setUrl(anhSanPham1.getUrl());
+            return repository.save(anhSanPham);
+        }
+        return null;
+    }
+
+    @Override
     public List<AnhSanPham> getAnh(SanPham sanPham) {
         return repository.findBySanPham(sanPham);
     }

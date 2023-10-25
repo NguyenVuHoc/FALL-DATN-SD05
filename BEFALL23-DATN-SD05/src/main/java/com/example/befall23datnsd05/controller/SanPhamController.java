@@ -117,7 +117,7 @@ public class SanPhamController {
             ra.addFlashAttribute("chuadoianh", "Hãy chọn ảnh");
             return "redirect:/admin/san-pham/view-add-san-pham";
         }
-        return "redirect:/admin/san-pham";
+        return "redirect:/admin/san-pham?success";
     }
 
     @GetMapping("edit/{id}")
@@ -169,8 +169,9 @@ public class SanPhamController {
         }
 
         ra.addFlashAttribute("message", "Thay Đổi Thành Công.");
-        return "redirect:/admin/san-pham";
+        return "redirect:/admin/san-pham?success";
     }
+
 
 }
 
