@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class DongSanPham {
     private String ma;
 
     @Column(name = "ten", nullable = false, unique = true)
-    private String ten;
+     private String ten;
 
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
@@ -46,5 +47,5 @@ public class DongSanPham {
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
-    
+
 }

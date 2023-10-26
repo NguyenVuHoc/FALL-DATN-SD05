@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="/../../img/wingman.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,392 +21,400 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/admin/bootstrap.min.css" rel="stylesheet">
+    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../css/admin/style.css" rel="stylesheet">
+    <link href="/../../css/admin/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
-        <!-- Spinner End -->
+    </div>
+    <!-- Spinner End -->
 
 
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                        <div
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
-                        </div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
                     </div>
                 </div>
-                <div class="navbar-nav w-100">
-                    <a href="../ban_hang/ban_hang.html" class="nav-item nav-link active"><i
-                            class="fa fa-laptop me-2"></i>Bán
-                        Hàng</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Sản Phẩm</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="../san_pham/san_pham.html" class="dropdown-item">Sản Phẩm</a>
-                            <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
-                                Phẩm</a>
-                            <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item">Dòng Sản Phẩm</a>
-                            <a href="../thuong_hieu/thuong_hieu.html" class="dropdown-item">Thương Hiệu</a>
-                            <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
-                            <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
-                            <a href="../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
-                            <a href="../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
-                            <a href="../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
-                        </div>
-                    </div>
-                    <a href="../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
-                    <a href="../khach_hang/khach_hang.html" class="nav-item nav-link"><i
-                            class="fa fa-user me-2"></i>Khách Hàng</a>
-                    <a href="../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
-                        Viên</a>
-                    <a href="../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
-                            class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                    <a href="../thong_ke/thong_ke.html" class="nav-item nav-link"><i
-                            class="fa fa-chart-bar me-2"></i>Thống Kê</a>
+                <div class="ms-3">
+                    <h6 class="mb-0">Jhon Doe</h6>
+                    <span>Admin</span>
                 </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a aa href="../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
-                                style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-
-                            <a href="#" class="dropdown-item">Log Out</a>
-                        </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a href="../ban_hang/ban_hang.html" class="nav-item nav-link active"><i
+                        class="fa fa-laptop me-2"></i>Bán
+                    Hàng</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                            class="fa fa-laptop me-2"></i>Sản Phẩm</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="../san_pham/san_pham.html" class="dropdown-item">Sản Phẩm</a>
+                        <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
+                            Phẩm</a>
+                        <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item">Dòng Sản Phẩm</a>
+                        <a href="../thuong_hieu/thuong_hieu.html" class="dropdown-item">Thương Hiệu</a>
+                        <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
+                        <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
+                        <a href="../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
+                        <a href="../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
+                        <a href="../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
                     </div>
                 </div>
-            </nav>
-            <!-- Navbar End -->
+                <a href="../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
+                <a href="../khach_hang/khach_hang.html" class="nav-item nav-link"><i
+                        class="fa fa-user me-2"></i>Khách Hàng</a>
+                <a href="../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
+                    Viên</a>
+                <a href="../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a href="../thong_ke/thong_ke.html" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Thống Kê</a>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
 
-            <!-- Sales Chart Start -->
-            <div class="container-fluid pt-4">
-                <div style="margin-bottom: 2%; margin-right: -10%;">
-                    <button type="button" class="btn btn-outline-primary" style="margin-left: 78%;">
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a aa href="../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                             style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Doe</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+
+                        <a href="#" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+        <!-- Sales Chart Start -->
+        <div class="container-fluid pt-4">
+            <div style="margin-bottom: 2%; margin-right: -10%;">
+                <form th:action="@{/admin/ban-hang/tao-hoa-don}" method="post" th:object="${hoaDon}">
+                    <button type="submit" class="btn btn-outline-primary" style="margin-left: 78%;">
                         Tạo Hóa Đơn
                     </button>
-                </div>
-                <div class="row g-2">
-                    <div style="width: 70%;">
-                        <div>
-                            <div class="bg-light rounded h-100 p-4">
-                                <nav>
-                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                </form>
+            </div>
+            <div class="row g-2">
+                <div style="width: 70%;">
+                    <div>
+                        <div class="bg-light rounded h-100 p-4">
+
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
                                             data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                            aria-selected="true">
-                                            Hóa Đơn 1
-                                        </button>
-                                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-profile" type="button" role="tab"
-                                            aria-controls="nav-profile" aria-selected="false">
-                                            Hóa Đơn 2
-                                        </button>
-                                        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-contact" type="button" role="tab"
-                                            aria-controls="nav-contact" aria-selected="false">
-                                            Hóa Đơn 3
-                                        </button>
-                                    </div>
-                                </nav>
-                                <div class="tab-content pt-3" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                        aria-labelledby="nav-home-tab">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Mã sản phẩm</th>
-                                                    <th>Tên sản phẩm</th>
-                                                    <th>Màu sắc</th>
-                                                    <th>Đơn giá</th>
-                                                    <th>Số lượng</th>
-                                                    <th>Chức Năng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                        aria-labelledby="nav-profile-tab">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Mã sản phẩm</th>
-                                                    <th>Tên sản phẩm</th>
-                                                    <th>Màu sắc</th>
-                                                    <th>Đơn giá</th>
-                                                    <th>Số lượng</th>
-                                                    <th>Chức Năng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel"
-                                        aria-labelledby="nav-contact-tab">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Mã sản phẩm</th>
-                                                    <th>Tên sản phẩm</th>
-                                                    <th>Màu sắc</th>
-                                                    <th>Đơn giá</th>
-                                                    <th>Số lượng</th>
-                                                    <th>Chức Năng</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>2</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>3</th>
-                                                    <td>John</td>
-                                                    <td>Doe</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>jhon@email.com</td>
-                                                    <td>
-                                                        <a href="" style="margin-left: 50%;">
-                                                            <img src="../../img/xoa_v2.png"
-                                                                style="width: 25px; padding-right: 5px;">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-contact" role="tabpanel"
-                                        aria-labelledby="nav-contact-tab">
-
-                                    </div>
+                                            aria-selected="true" th:each="hdc : ${listHoaDonCho}">
+                                        <a th:href="@{'/admin/ban-hang/detail/' + ${hdc.getId()}}"
+                                           th:text="${hdc.getMa()}"></a>
+                                    </button>
                                 </div>
+                            </nav>
 
+                            <div class="tab-content pt-3" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                     aria-labelledby="nav-home-tab">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Mã sản phẩm</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Màu sắc</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Chức Năng</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="hdct : ${listHoaDonChiTiet}">
+                                            <td th:text="${hdct.getChiTietSanPham().getSanPham().getMa()}"></td>
+                                            <td th:text="${hdct.getTenSanPham()}"></td>
+                                            <td th:text="${hdct.getMauSac()}"></td>
+                                            <td th:text="${hdct.getGiaBan()}"></td>
+                                            <td th:text="${hdct.getSoLuong()}"></td>
+                                            <td>
+                                                <!--                                                <a class="suaSoLuong" th:href="@{/admin/ban-hang/sua-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
+                                                <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
+                                                <!--                                                    <img src="/../../img/pen_v2.png"-->
+                                                <!--                                                         style="width: 25px; padding-right: 5px">-->
+                                                <!--                                                </a>-->
+                                                <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}
+                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">
+                                                    <img src="/../../img/xoa_v2.png"
+                                                         style="width: 25px; padding-right: 5px;">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div style="margin-top: 5%; margin-left: 40%;">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a th:href="@{/admin/ban-hang/pre/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                       class="page-link"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item"><a class="page-link" th:text="${index}"></a></li>
+                                <li class="page-item">
+                                    <a th:href="@{/admin/ban-hang/next/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                       class="page-link"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xl-6" style="width: 30%;">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4">Thông Tin</h6>
+                        <form th:action="@{/admin/ban-hang/thanh-toan}" method="post" th:object="${hoaDonCho}">
+                            <input type="hidden" th:field="*{id}"/>
+                            <div class="mb-3">
+                                <label class="form-label">Mã Hóa Đơn</label>
+                                <input type="text" class="form-control" name="ma" th:field="*{ma}" readonly/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số Điện Thoại</label>
+                                <input type="text" class="form-control" name="sdt" th:field="*{khachHang.sdt}"/>
+                            </div>
+                            <div class="mb-3 row g-2">
+                                <div style="width: 75%;">
+                                    <label class="form-label">Tên Khách Hàng</label>
+                                    <input type="text" class="form-control" name="khachHang"
+                                           th:field="*{khachHang.ten}"/>
+                                </div>
+                                <div style="width: 25%;">
+                                    <!-- Button trigger modal -->
+                                    <button id="selectButton" type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#myModal" style="margin-top: 30px;">
+                                        Chọn
+                                    </button>
+
+                                    <!-- Modal -->
+
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Tạo</label>
+                                <input type="date" class="form-control" name="ngayTao" th:value="*{ngayTao}" readonly/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Thành Tiền</label>
+                                <input type="text" class="form-control" name="thanhToan" th:value="${thanhTien}"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Thanh Toán</button>
+                            <!--                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sales Chart End -->
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4">
+            <h6 class="mb-4" style="font-size: 25px;">Sản Phẩm</h6>
+            <div class="row g-2">
+                <div style="width: 50%;">
+                    <form class="d-none d-md-flex">
+                        <input class="form-control border-1"
+                               style="border: solid rgb(236, 233, 233) 1px ; width: 400px;" type="search"
+                               placeholder="Nhập từ khóa cần tìm"/>
+                        <button type="button" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
+                            Tìm Kiếm
+                        </button>
+                    </form>
+                </div>
+                <div style="width: 50%;">
+                    <select class="form-select" aria-label="Default select example" style="width: 200px;">
+                        <option selected>Tất cả</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid pt-4">
+
+            <div class="bg-light text-center rounded p-4">
+                <div>
+                    <div class="bg-light rounded h-100 p-4">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Thương Hiệu</th>
+                                <th>Màu sắc</th>
+                                <th>Kích Thước</th>
+                                <th>Đế Giày</th>
+                                <th>Cổ Giày</th>
+                                <th>Lót Giày</th>
+                                <th>Giá bán</th>
+                                <th>Số lượng</th>
+                                <th>Thêm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="sanPham : ${listSanPham}">
+                                <td th:text="${sanPham.getSanPham().getMa()}"></td>
+                                <td th:text="${sanPham.getSanPham().getTen()}"></td>
+                                <td th:text="${sanPham.getSanPham().getThuongHieu().getTen()}"></td>
+                                <td th:text="${sanPham.getMauSac().getTen()}"></td>
+                                <td th:text="${sanPham.getKichThuoc().getTen()}"></td>
+                                <td th:text="${sanPham.getDeGiay().getTen()}"></td>
+                                <td th:text="${sanPham.getCoGiay().getTen()}"></td>
+                                <td th:text="${sanPham.getLotGiay().getTen()}"></td>
+                                <td th:text="${sanPham.getGiaBan()}"></td>
+                                <td th:text="${sanPham.getSoLuongTon()}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#themSoLuong">
+                                        <img src="/../../img/them.png" style="width: 20px;">
+                                    </button>
+                                    <div class="modal fade" id="themSoLuong" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
+                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.id})}"
+                                              th:object="${hoaDonChiTiet}"
+                                              method="post">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Số
+                                                            Lượng</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label for="recipient-name" class="col-form-label">Số
+                                                                Lượng:</label>
+                                                            <input type="text" class="form-control" id="recipient-name"
+                                                                   name="soLuong" th:field="*{soLuong}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal">Đóng
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Thêm</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 5%; margin-left: 42%;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- Recent Sales End -->
+        <div class="modal" id="myModal" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Khách Hàng</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Mã Khách Hàng</th>
+                                <th>Tên Khách Hàng</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Chọn</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="khachHang : ${listKhachHang}">
+                                <td th:text="${khachHang.getMa()}"></td>
+                                <td th:text="${khachHang.getTen()}"></td>
+                                <td th:text="${khachHang.getSdt()}"></td>
+                                <td>
+                                    <form th:action="@{/admin/ban-hang/them-khach-hang/{idHoaDon}/{idKhachHang}
+                                                                    (idHoaDon=${idHoaDonCho},idKhachHang=${khachHang.getId()})}"
+                                          th:object="${khachHang}"
+                                          method="post">
+                                        <button type="submit"
+                                                class="btn btn-outline-primary">
+                                            <img src="/../../img/them.png"
+                                                 style="width: 20px;">
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                         <div style="margin-top: 5%; margin-left: 40%;">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
@@ -427,250 +435,83 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6" style="width: 30%;">
-                        <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">Thông Tin</h6>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Mã Hóa Đơn</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
-                                        aria-describedby="emailHelp" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Số Điện Thoại</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" />
-                                </div>
-                                <div class="mb-3 row g-2">
-                                    <div style="width: 75%;">
-                                        <label for="exampleInputPassword1" class="form-label">Tên Khách Hàng</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" />
-                                    </div>
-                                    <div style="width: 25%;">
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                            Chọn
-                                        </button>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Khách Hàng
-                                                        </h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-dialog modal-fullscreen-xxl-down">
-                                                        <table class="table table-striped">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Mã Khách Hàng</th>
-                                                                    <th>Tên Khách Hàng</th>
-                                                                    <th>Số Điện Thoại</th>
-                                                                    <th>Địa Chỉ</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th>1</th>
-                                                                    <td>John</td>
-                                                                    <td>Doe</td>
-                                                                    <td>jhon@email.com</td>
-
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>1</th>
-                                                                    <td>John</td>
-                                                                    <td>Doe</td>
-                                                                    <td>jhon@email.com</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>1</th>
-                                                                    <td>John</td>
-                                                                    <td>Doe</td>
-                                                                    <td>jhon@email.com</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Đóng</button>
-                                                        <button type="button" class="btn btn-primary">Thêm</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Ngày Tạo</label>
-                                    <input type="date" class="form-control" id="exampleInputPassword1" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Thành Tiền</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Thanh Toán</button>
-                                <button type="button" class="btn btn-danger">Hủy Đơn</button>
-                            </form>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger"
+                                data-bs-dismiss="modal">Đóng
+                        </button>
                     </div>
                 </div>
             </div>
-            <!-- Sales Chart End -->
-            <!-- Recent Sales Start -->
-            <div class="container-fluid pt-4">
-                <h6 class="mb-4" style="font-size: 25px;">Sản Phẩm</h6>
-                <div class="row g-2">
-                    <div style="width: 50%;">
-                        <form class="d-none d-md-flex">
-                            <input class="form-control border-1"
-                                style="border: solid rgb(236, 233, 233) 1px ; width: 400px;" type="search"
-                                placeholder="Nhập từ khóa cần tìm" />
-                            <button type="button" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
-                                Tìm Kiếm
-                            </button>
-                        </form>
-                    </div>
-                    <div style="width: 50%;">
-                        <select class="form-select" aria-label="Default select example" style="width: 200px;">
-                            <option selected>Tất cả</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid pt-4">
-
-                <div class="bg-light text-center rounded p-4">
-                    <div>
-
-                        <div class="bg-light rounded h-100 p-4">
-
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Màu sắc</th>
-                                        <th>Chất Liệu</th>
-                                        <th>Chiều cao</th>
-                                        <th>Thương hiệu</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Thêm</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="#">
-                                                <img src="../../img/them.png" style="width: 30px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="#">
-                                                <img src="../../img/them.png" style="width: 30px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>1</th>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>jhon@email.com</td>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>jhon@email.com</td>
-                                        <td>
-                                            <a href="#">
-                                                <img src="../../img/them.png" style="width: 30px;">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 5%; margin-left: 42%;">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <!-- Recent Sales End -->
-
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
         </div>
-        <!-- Content End -->
+        <!-- Footer Start -->
+        <div class="container-fluid pt-4">
+            <div class="bg-light rounded-top p-4">
+                <div class="row">
+                    <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
 
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+    <!-- Content End -->
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/chart/chart.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="../../js/admin/main.js"></script>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".suaSoLuong").on("click", function (e) {
+            e.preventDefault();
+            $("#modalThemSoLuong").modal("show").find(".modal-content").load("http://localhost:8080/admin/ban-hang/sua-hoa-don-chi-tiet/23/65");
+        });
+    });
+
+    var selectButton = document.getElementById('selectButton');
+    selectButton.addEventListener('click', function () {
+        // Lấy tham chiếu đến các phần tử trong modal
+        var modal = document.getElementById('myModal');
+        var closeButton = modal.querySelector('.btn-close');
+        var customerButtons = modal.querySelectorAll('.btn-outline-primary');
+
+        // Lắng nghe sự kiện click vào nút "Đóng" trong modal
+        closeButton.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Lắng nghe sự kiện click vào từng nút "Thêm" trong modal
+        customerButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Thực hiện các hành động khi chọn khách hàng
+                var customerId = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
+                var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
+
+                // Xử lý dữ liệu khách hàng tại đây
+            });
+        });
+
+        // Hiển thị modal
+        modal.style.display = 'block';
+    });
+    ```
+</script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/../../lib/chart/chart.min.js"></script>
+<script src="/../../lib/easing/easing.min.js"></script>
+<script src="/../../lib/waypoints/waypoints.min.js"></script>
+<script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/../../js/admin/main.js"></script>
 </body>
 
 </html>
