@@ -7,40 +7,18 @@
 */ -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="author" content="Untree.co"/>
-    <link rel="shortcut icon" href="../images/WingMan-black.png"/>
-
-    <meta name="description" content=""/>
-    <meta name="keywords" content="bootstrap, bootstrap4"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="../css/customer/bootstrap.min.css" rel="stylesheet"/>
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-            rel="stylesheet"
-    />
-    <link href="../css/customer/style.css" rel="stylesheet"/>
-    <link href="../css/customer/tiny-slider.css" rel="stylesheet"/>
-    <title>
-        Wingman
-    </title>
+<head th:replace="~{customer-template/fragments/fragment :: page_head}">
 </head>
-
 <body>
 
 <!-- Start Header/Navigation -->
 <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
-
     <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="../images/wingman.png"
-                                                       style="height: 50px; width: 50px;"><a class="navbar-brand"
-                                                                                             href="index.html">Wingman<span>.</span></a></a>
+        <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
+            <img th:src="@{/images/wingman.png}"
+                 style="height: 50px; width: 50px;">
+            <a class="navbar-brand"
+               th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
                 aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,10 +31,10 @@
                     <a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a>
                 </li>
                 <li><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
-                <li><a class="nav-link" href="about.html">Đội ngũ</a></li>
-                <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
-                <li><a class="nav-link" href="blog.html">Thông tin</a></li>
-                <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -112,7 +90,8 @@
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3New.getId()}}">
                         <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title" th:text="${ctsp3New.getTenSp() + ctsp3New.getTenDongSp() + ctsp3New.getTenDe_giay() + ctsp3New.getTenCo_giay() + ctsp3New.getTenLot_giay()}"></h3>
+                    <h3 class="product-title"
+                        th:text="${ctsp3New.getTenSp() + ctsp3New.getTenDongSp() + ctsp3New.getTenDe_giay() + ctsp3New.getTenCo_giay() + ctsp3New.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctsp3New.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -147,9 +126,11 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3prominent : ${list3Prominent}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3prominent.getId()}}">
-                        <img th:src="@{'../images/' + ${ctsp3prominent.getAnh_chinh()}}" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp3prominent.getAnh_chinh()}}"
+                             class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title" th:text="${ctsp3prominent.getTenSp() + ctsp3prominent.getTenDongSp() + ctsp3prominent.getTenDe_giay() + ctsp3prominent.getTenCo_giay() + ctsp3prominent.getTenLot_giay()}"></h3>
+                    <h3 class="product-title"
+                        th:text="${ctsp3prominent.getTenSp() + ctsp3prominent.getTenDongSp() + ctsp3prominent.getTenDe_giay() + ctsp3prominent.getTenCo_giay() + ctsp3prominent.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctsp3prominent.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -540,9 +521,5 @@
     </div>
 </footer>
 <!-- End Footer Section -->
-
-<script src="../js/customer/bootstrap.bundle.min.js"></script>
-<script src="../js/customer/tiny-slider.js"></script>
-<script src="../js/customer/custom.js"></script>
 </body>
 </html>

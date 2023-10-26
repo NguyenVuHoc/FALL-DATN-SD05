@@ -302,7 +302,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="sanPham : ${listSanPham}">
+                            <tr th:each="sanPham, status : ${listSanPham}">
                                 <td th:text="${sanPham.getSanPham().getMa()}"></td>
                                 <td th:text="${sanPham.getSanPham().getTen()}"></td>
                                 <td th:text="${sanPham.getSanPham().getThuongHieu().getTen()}"></td>
@@ -315,13 +315,12 @@
                                 <td th:text="${sanPham.getSoLuongTon()}"></td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#themSoLuong">
+                                            th:data-bs-target="'#themSoLuong' + ${sanPham.id}">
                                         <img src="/../../img/them.png" style="width: 20px;">
                                     </button>
-                                    <div class="modal fade" id="themSoLuong" tabindex="-1"
+                                    <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <form th:action="@{/admin/ban-hang/them-san-pham/{idHoaDon}/{idSanPham}
-                                    (idHoaDon=${idHoaDonCho},idSanPham=${sanPham.id})}"
+                                        <form th:action="@{'/admin/ban-hang/them-san-pham/' + ${idHoaDonCho} + '/' + ${sanPham.id}}"
                                               th:object="${hoaDonChiTiet}"
                                               method="post">
                                             <div class="modal-dialog">

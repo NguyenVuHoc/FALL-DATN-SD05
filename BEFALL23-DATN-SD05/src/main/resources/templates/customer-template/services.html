@@ -7,782 +7,733 @@
 */ -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="author" content="Untree.co" />
-    <link rel="shortcut icon" href="../images/WingMan-black.png" />
+<head th:replace="~{customer-template/fragments/fragment :: page_head}">
+</head>
+<body>
+<!-- Start Header/Navigation -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
+            <img th:src="@{/images/wingman.png}"
+                 style="height: 50px; width: 50px;">
+            <a class="navbar-brand"
+               th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
 
-    <meta name="description" content="" />
-    <meta name="keywords" content="bootstrap, bootstrap4" />
-
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link href="../css/customer/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/customer/tiny-slider.css" rel="stylesheet" />
-    <link href="../css/customer/style.css" rel="stylesheet" />
-    <title>Dịch vụ</title>
-  </head>
-
-  <body>
-    <!-- Start Header/Navigation -->
-    <nav
-      class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-      arial-label="Furni navigation bar"
-    >
-      <div class="container">
-        <a class="navbar-brand" href="index.html"
-          ><img
-            src="../images/wingman.png"
-            style="height: 50px; width: 50px"
-          /><a class="navbar-brand" href="index.html"
-            >Wingman<span>.</span></a
-          ></a
-        >
-
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarsFurni"
-          aria-controls="navbarsFurni"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
-          <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Trang chủ</a>
-            </li>
-            <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
-            <li>
-              <a class="nav-link" href="about.html">Đội ngũ</a>
-            </li>
-            <li class="active">
-              <a class="nav-link" href="services.html">Dịch vụ</a>
-            </li>
-            <li><a class="nav-link" href="blog.html">Thông tin</a></li>
-            <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
-          </ul>
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li><a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
+                <li class="active">
+                    <a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a>
+                </li>
+                <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
+            </ul>
 
-          <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-            <li>
-              <a class="nav-link" href="dangnhap.html"
-                ><img src="../images/user.svg"
-              /></a>
-            </li>
-            <li>
-              <a class="nav-link" href="cart.html"
-                ><img src="../images/cart.svg"
-              /></a>
-            </li>
-          </ul>
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
+                <li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
+            </ul>
         </div>
-      </div>
-    </nav>
-    <!-- End Header/Navigation -->
+    </div>
 
-    <!-- Start Hero Section -->
-    <div class="hero">
-      <div class="container">
+</nav>
+<!-- End Header/Navigation -->
+
+<!-- Start Hero Section -->
+<div class="hero">
+    <div class="container">
         <div class="row justify-content-between">
-          <div class="col-lg-5">
-            <div class="intro-excerpt">
-              <h1>Wingman Shoes</h1>
-              <p class="mb-4">
-                Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman
-                liền nhé!
-              </p>
-              <p>
-                <a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a
-                ><a href="blog.html" class="btn btn-white-outline">Khám phá</a>
-              </p>
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>Wingman Shoes</h1>
+                    <p class="mb-4">
+                        Nắng đã có mũ, mưa đã có ô, em đã có giày đẹp chưa, ghé Wingman
+                        liền nhé!
+                    </p>
+                    <p>
+                        <a href="shop.html" class="btn btn-secondary me-2">Mua ngay</a
+                        ><a href="blog.html" class="btn btn-white-outline">Khám phá</a>
+                    </p>
+                </div>
             </div>
-          </div>
-          <div class="col-lg-7">
-            <div class="hero-img-wrap">
-              <img src="../images/541d8cca-1.png" class="img-fluid" />
+            <div class="col-lg-7">
+                <div class="hero-img-wrap">
+                    <img src="../images/541d8cca-1.png" class="img-fluid"/>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <!-- End Hero Section -->
+</div>
+<!-- End Hero Section -->
 
-    <!-- Start Why Choose Us Section -->
-    <div class="heading-page">
-      <h1 style="text-align: center; padding-top: 90px">
+<!-- Start Why Choose Us Section -->
+<div class="heading-page">
+    <h1 style="text-align: center; padding-top: 90px">
         <strong>Các dịch vụ</strong>
-      </h1>
-    </div>
+    </h1>
+</div>
 
-    <div class="why-choose-section">
-      <div class="container">
+<div class="why-choose-section">
+    <div class="container">
         <div class="row my-5">
-          <div class="col-6 col-md-6 col-lg-3 mb-4">
-            <div class="feature">
-              <div class="icon">
-                <img src="../images/truck.svg" alt="Image" class="imf-fluid" />
-              </div>
-              <h3>Vận chuyển nhanh &amp; miễn phí</h3>
-              <p>Giao hàng nhanh, miễn phí toàn quốc</p>
+            <div class="col-6 col-md-6 col-lg-3 mb-4">
+                <div class="feature">
+                    <div class="icon">
+                        <img src="../images/truck.svg" alt="Image" class="imf-fluid"/>
+                    </div>
+                    <h3>Vận chuyển nhanh &amp; miễn phí</h3>
+                    <p>Giao hàng nhanh, miễn phí toàn quốc</p>
+                </div>
             </div>
-          </div>
 
-          <div class="col-6 col-md-6 col-lg-3 mb-4">
-            <div class="feature">
-              <div class="icon">
-                <img src="../images/bag.svg" alt="Image" class="imf-fluid" />
-              </div>
-              <h3>Dễ dàng mua sắm</h3>
-              <p>Thuận tiên, đảm bảo hàng chính hãng 100%</p>
+            <div class="col-6 col-md-6 col-lg-3 mb-4">
+                <div class="feature">
+                    <div class="icon">
+                        <img src="../images/bag.svg" alt="Image" class="imf-fluid"/>
+                    </div>
+                    <h3>Dễ dàng mua sắm</h3>
+                    <p>Thuận tiên, đảm bảo hàng chính hãng 100%</p>
+                </div>
             </div>
-          </div>
 
-          <div class="col-6 col-md-6 col-lg-3 mb-4">
-            <div class="feature">
-              <div class="icon">
-                <img
-                  src="../images/support.svg"
-                  alt="Image"
-                  class="imf-fluid"
-                />
-              </div>
-              <h3>Quy đổi xu</h3>
-              <p>Hỗ trợ giá tốt nhất cho các sản phẩm</p>
+            <div class="col-6 col-md-6 col-lg-3 mb-4">
+                <div class="feature">
+                    <div class="icon">
+                        <img
+                                src="../images/support.svg"
+                                alt="Image"
+                                class="imf-fluid"
+                        />
+                    </div>
+                    <h3>Quy đổi xu</h3>
+                    <p>Hỗ trợ giá tốt nhất cho các sản phẩm</p>
+                </div>
             </div>
-          </div>
 
-          <div class="col-6 col-md-6 col-lg-3 mb-4">
-            <div class="feature">
-              <div class="icon">
-                <img src="../images/return.svg" alt="Image" class="imf-fluid" />
-              </div>
-              <h3>Đổi trả hàng</h3>
-              <p>Trả hàng miễn phí hoàn toàn trong 7 ngày</p>
+            <div class="col-6 col-md-6 col-lg-3 mb-4">
+                <div class="feature">
+                    <div class="icon">
+                        <img src="../images/return.svg" alt="Image" class="imf-fluid"/>
+                    </div>
+                    <h3>Đổi trả hàng</h3>
+                    <p>Trả hàng miễn phí hoàn toàn trong 7 ngày</p>
+                </div>
             </div>
-          </div>
 
-          <!-- van chuyen -->
-          <div class="heading-page">
-            <h1
-              style="
+            <!-- van chuyen -->
+            <div class="heading-page">
+                <h1
+                        style="
                 text-align: center;
                 padding-top: 30px;
                 padding-bottom: 50px;
               "
-            >
-              <strong>Vận chuyển nhanh</strong>
-            </h1>
-          </div>
-          <p>
-            - Dịch vụ giao hàng: thương mại điện tử, giao nhanh toàn quốc, miễn
-            phí thu hộ COD, miễn phí giao lại, miễn phí trả hàng.
-          </p>
-          <p>
-            - Miễn phí lấy hàng:sẽ không thu phí lấy hàng cho các đơn hàng nhân
-            viên giao nhận đến tận nơi để nhận hàng.
-          </p>
-          <p>
-            - Miễn phí giao lại: Trong trường hợp giao hàng lần đầu không thành
-            công, GHN sẽ miễn phí giao lại 2 lần tiếp theo trước khi hoàn trả
-            hàng cho người gửi.
-          </p>
-          <p>- Giao hàng nhanh chóng đơn giản và miễn phí toàn quốc</p>
+                >
+                    <strong>Vận chuyển nhanh</strong>
+                </h1>
+            </div>
+            <p>
+                - Dịch vụ giao hàng: thương mại điện tử, giao nhanh toàn quốc, miễn
+                phí thu hộ COD, miễn phí giao lại, miễn phí trả hàng.
+            </p>
+            <p>
+                - Miễn phí lấy hàng:sẽ không thu phí lấy hàng cho các đơn hàng nhân
+                viên giao nhận đến tận nơi để nhận hàng.
+            </p>
+            <p>
+                - Miễn phí giao lại: Trong trường hợp giao hàng lần đầu không thành
+                công, GHN sẽ miễn phí giao lại 2 lần tiếp theo trước khi hoàn trả
+                hàng cho người gửi.
+            </p>
+            <p>- Giao hàng nhanh chóng đơn giản và miễn phí toàn quốc</p>
 
-          <div class="heading-page">
-            <h1
-              style="
+            <div class="heading-page">
+                <h1
+                        style="
                 text-align: center;
                 padding-top: 30px;
                 padding-bottom: 50px;
               "
-            >
-              <strong>Dễ dàng mua sắm</strong>
-            </h1>
-          </div>
-          <p>- Thuận tiên, đảm bảo hàng chính hãng 100%</p>
-          <p>- Dễ tiếp cận các loại sản phẩm mới ra mắt</p>
-          <p>- Các loại giày thể thao đa dạng</p>
+                >
+                    <strong>Dễ dàng mua sắm</strong>
+                </h1>
+            </div>
+            <p>- Thuận tiên, đảm bảo hàng chính hãng 100%</p>
+            <p>- Dễ tiếp cận các loại sản phẩm mới ra mắt</p>
+            <p>- Các loại giày thể thao đa dạng</p>
 
-          <div class="heading-page">
-            <h1
-              style="
+            <div class="heading-page">
+                <h1
+                        style="
                 text-align: center;
                 padding-top: 30px;
                 padding-bottom: 50px;
               "
-            >
-              <strong>Chính sách quy đổi xu</strong>
-            </h1>
-          </div>
-          <p>- Khách hàng có hóa đơn thuộc trong khoảng tương ứng</p>
-          <p>+ 500.000VND - 1.000.000VND : 1.000VND = 10xu</p>
-          <p>+ 1.000.000VND - 5.000.000VND : 1.000VND = 40xu</p>
-          <p>+ 5.000.000VND - 10.000.000VND : 1.000VND = 80xu</p>
-          <p>+ 10.000.000VND trở lên : 1.000VND = 120xu</p>
+                >
+                    <strong>Chính sách quy đổi xu</strong>
+                </h1>
+            </div>
+            <p>- Khách hàng có hóa đơn thuộc trong khoảng tương ứng</p>
+            <p>+ 500.000VND - 1.000.000VND : 1.000VND = 10xu</p>
+            <p>+ 1.000.000VND - 5.000.000VND : 1.000VND = 40xu</p>
+            <p>+ 5.000.000VND - 10.000.000VND : 1.000VND = 80xu</p>
+            <p>+ 10.000.000VND trở lên : 1.000VND = 120xu</p>
 
-          <p>- Xu được áp dụng cho các sản phẩm tại website WingMan.</p>
-          <p>- Thời hạn sử dụng: Sau 6 tháng xu sẽ hết hạn sử dụng</p>
-          <p>
-            <strong>Lưu ý(*)</strong> không vượt quá 50% giá trị đơn hàng cho 1
-            lần thanh toán
-          </p>
-          <!-- doi tra -->
-          <div class="heading-page">
-            <h1
-              style="
+            <p>- Xu được áp dụng cho các sản phẩm tại website WingMan.</p>
+            <p>- Thời hạn sử dụng: Sau 6 tháng xu sẽ hết hạn sử dụng</p>
+            <p>
+                <strong>Lưu ý(*)</strong> không vượt quá 50% giá trị đơn hàng cho 1
+                lần thanh toán
+            </p>
+            <!-- doi tra -->
+            <div class="heading-page">
+                <h1
+                        style="
                 text-align: center;
                 padding-top: 30px;
                 padding-bottom: 80px;
               "
-            >
-              <strong>Chính sách bảo hành và đổi trả</strong>
-            </h1>
-          </div>
-          <div class="tab-editor-container ywtm_content_tab">
-            <p>
+                >
+                    <strong>Chính sách bảo hành và đổi trả</strong>
+                </h1>
+            </div>
+            <div class="tab-editor-container ywtm_content_tab">
+                <p>
               <span style="font-size: 100%; color: #000000"
-                ><strong>+ Bảo hành chính hãng 6 tháng </strong>cho tất cả các
+              ><strong>+ Bảo hành chính hãng 6 tháng </strong>cho tất cả các
                 thương hiệu</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; - Khi hết thời gian cho giày thể thao chính hãng
+              >&nbsp; &nbsp; - Khi hết thời gian cho giày thể thao chính hãng
                 mua tại WingMan, quý khách sẽ được<span style="color: #030303">
                   thêm 3 tháng bảo hành&nbsp;tại WingMan</span
-                >&nbsp;với&nbsp; tất cả các loại giày</span
+                  >&nbsp;với&nbsp; tất cả các loại giày</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; - Trong thời gian bảo hành, nếu có hàng lỗi gãy
+              >&nbsp; &nbsp; - Trong thời gian bảo hành, nếu có hàng lỗi gãy
                 gót, bong keo, hư da quý khách sẽ được lại miễn phí&nbsp;&nbsp;
               </span>
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%"
-                ><span style="color: #000000"
-                  ><strong
-                    >+Thời gian nhận và trả bảo hành:&nbsp;&nbsp;</strong
-                  ></span
-                ><span style="color: #000000"
-                  >Từ 8h30 đến 20h00 các ngày trong tuần.</span
-                ></span
+              ><span style="color: #000000"
+              ><strong
+              >+Thời gian nhận và trả bảo hành:&nbsp;&nbsp;</strong
+              ></span
+              ><span style="color: #000000"
+              >Từ 8h30 đến 20h00 các ngày trong tuần.</span
+              ></span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp;<strong
-                  ><em> Trường hợp được bảo hành:</em></strong
-                ></span
+              >&nbsp;<strong
+              ><em> Trường hợp được bảo hành:</em></strong
+              ></span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Sản phẩm trong thời hạn còn bảo hành; -
+              >&nbsp; &nbsp; &nbsp; - Sản phẩm trong thời hạn còn bảo hành; -
                 Lỗi về giày gãy gót, bong keo, hư da,
               </span>
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Sản phẩm được bảo hành theo quy định của
+              >&nbsp; &nbsp; &nbsp; - Sản phẩm được bảo hành theo quy định của
                 hãng cung cấp</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Quý khách xuất trình phiếu bảo hành khi
+              >&nbsp; &nbsp; &nbsp; - Quý khách xuất trình phiếu bảo hành khi
                 đi bảo hành.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%"
-                ><strong
-                  ><em
-                    ><span style="color: #000000"
-                      >&nbsp; Trường hợp không được bảo hành:</span
-                    ></em
-                  ></strong
-                ></span
+              ><strong
+              ><em
+              ><span style="color: #000000"
+              >&nbsp; Trường hợp không được bảo hành:</span
+              ></em
+              ></strong
+              ></span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Những sản phẩm không thể xác định được
+              >&nbsp; &nbsp; &nbsp; - Những sản phẩm không thể xác định được
                 nguồn gốc mua tại WingMan thì cửa hàng có quyền từ chối bảo
                 hành.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Sản phẩm đã quá thời hạn ghi trên Phiếu
+              >&nbsp; &nbsp; &nbsp; - Sản phẩm đã quá thời hạn ghi trên Phiếu
                 bảo hành hoặc mất Phiếu bảo hành.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Phiếu bảo hành không bị rách, không còn
+              >&nbsp; &nbsp; &nbsp; - Phiếu bảo hành không bị rách, không còn
                 nguyên thẻ hoặc không được dán đè hoặc bị sửa đổi.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Phiếu bảo hành không ghi rõ Mã số giày
+              >&nbsp; &nbsp; &nbsp; - Phiếu bảo hành không ghi rõ Mã số giày
                 và ngày mua hàng.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Giày dép bị hư do lỗi quý khách gây ra
+              >&nbsp; &nbsp; &nbsp; - Giày dép bị hư do lỗi quý khách gây ra
                 như: trầy xước, mòn đế, nóng chảy, thú vật cắn,....</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Các loại đế PU tự hủy qua thời gian sử
+              >&nbsp; &nbsp; &nbsp; - Các loại đế PU tự hủy qua thời gian sử
                 dụng, sản phẩm bị biến dạng hoặc không có phiếu bảo hành..</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >&nbsp; &nbsp; &nbsp; - Giày dép bị hao mòn tự nhiên trong quá
+              >&nbsp; &nbsp; &nbsp; - Giày dép bị hao mòn tự nhiên trong quá
                 trình sử dụng.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="color: #000000"
-                ><strong>Chính sách đổi trả:</strong></span
+              ><strong>Chính sách đổi trả:</strong></span
               >
-            </p>
-            <ol>
-              <li>
+                </p>
+                <ol>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  ><strong>Quý khách lưu ý</strong></span
+                ><strong>Quý khách lưu ý</strong></span
                 >
-              </li>
-            </ol>
-            <ul>
-              <li>
+                    </li>
+                </ol>
+                <ul>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Giày mua rồi có thể đổi trả với tình trạng mới 100% trong
+                >Giày mua rồi có thể đổi trả với tình trạng mới 100% trong
                   vòng 7 ngày – Chỉ chấp nhận đổi mới sản phẩm nếu có lỗi do nhà
                   sản xuất.</span
                 >
-              </li>
-              <li>
+                    </li>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Lỗi của nhà sản xuất (NSX) là các lỗi phát sinh trước hoặc
+                >Lỗi của nhà sản xuất (NSX) là các lỗi phát sinh trước hoặc
                   trong quá trình sử dụng do NSX gây ra. Cụ thể ở đây là các lỗi
                   về trầy xước, mòn đế,...</span
                 >
-              </li>
-            </ul>
-            <ol start="2">
-              <li>
+                    </li>
+                </ul>
+                <ol start="2">
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  ><strong>Điều kiện đổi sản phẩm</strong></span
+                ><strong>Điều kiện đổi sản phẩm</strong></span
                 >
-              </li>
-            </ol>
-            <ul>
-              <li>
+                    </li>
+                </ol>
+                <ul>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Trong vòng 7 ngày tính từ ngày mua sản phẩm.</span
+                >Trong vòng 7 ngày tính từ ngày mua sản phẩm.</span
                 >
-              </li>
-              <li>
+                    </li>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Sản phẩm không có dấu hiệu đã qua sử dụng.</span
+                >Sản phẩm không có dấu hiệu đã qua sử dụng.</span
                 >
-              </li>
-              <li>
+                    </li>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Sản phẩm không bị trầy xước, hư hỏng, dính hoá chất
+                >Sản phẩm không bị trầy xước, hư hỏng, dính hoá chất
                 </span>
-              </li>
+                    </li>
 
-              <li>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Hộp đựng, bao bì, đóng gói sản phẩm còn nguyên vẹn.</span
+                >Hộp đựng, bao bì, đóng gói sản phẩm còn nguyên vẹn.</span
                 >
-              </li>
-            </ul>
-            <ol start="3">
-              <li>
+                    </li>
+                </ul>
+                <ol start="3">
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  ><strong>Lưu ý</strong></span
+                ><strong>Lưu ý</strong></span
                 >
-              </li>
-            </ol>
-            <ul>
-              <li>
+                    </li>
+                </ol>
+                <ul>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Va chạm khiến giày bị trầy xước hoặc vô nước không phải là
+                >Va chạm khiến giày bị trầy xước hoặc vô nước không phải là
                   lỗi của nhà sản xuất. Những sản phẩm này sẽ được chuyển qua
                   chế độ bảo hành theo quy định của hãng.</span
                 >
-              </li>
-              <li>
+                    </li>
+                    <li>
                 <span style="font-size: 100%; color: #000000"
-                  >Ngoài ra, không áp dụng trả hàng với bất kỳ lý do nào</span
+                >Ngoài ra, không áp dụng trả hàng với bất kỳ lý do nào</span
                 >
-              </li>
-            </ul>
+                    </li>
+                </ul>
 
-            <p>
+                <p>
               <span style="font-size: 100%; color: #000000"
-                >- Không nên để va chạm mạnh xảy ra, sử dụng thô bạo, và tiếp
+              >- Không nên để va chạm mạnh xảy ra, sử dụng thô bạo, và tiếp
                 xúc với chất ăn mòn, nhiệt độ cao hoặc từ trường mạnh.</span
               >
-            </p>
-            <p>
+                </p>
+                <p>
               <span style="font-size: 100%; color: #000000">
                 - Sản phẩm cần đổi còn mới 100% chưa qua sử dụng hoặc giặt tẩy,
                 nguyên phiếu bảo hành, tem nhãn sản phẩm, không bị dơ bẩn, trầy
                 xước, đầy đủ bao bì, túi hộp (nếu có)..</span
               >
-            </p>
-          </div>
+                </p>
+            </div>
         </div>
-      </div>
     </div>
-    <!-- End Why Choose Us Section -->
+</div>
+<!-- End Why Choose Us Section -->
 
-    <div class="blog-section">
-      <div class="container">
+<div class="blog-section">
+    <div class="container">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-4 mb-5">
-            <div class="post-entry">
-              <a href="#" class="post-thumbnail"
-                ><img src="../images/giay1.jpg" alt="Image" class="img-fluid"
-              /></a>
-              <div class="post-content-entry">
-                <h3><a href="#">Tôn cá tính với 9 đôi sneakers đa sắc</a></h3>
-                <div class="meta">
-                  <span>by <a href="#">Khánh Nguyễn</a></span>
-                  <span>on <a href="#">Dec 19,2021</a></span>
+            <div class="col-12 col-sm-6 col-md-4 mb-5">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"
+                    ><img src="../images/giay1.jpg" alt="Image" class="img-fluid"
+                    /></a>
+                    <div class="post-content-entry">
+                        <h3><a href="#">Tôn cá tính với 9 đôi sneakers đa sắc</a></h3>
+                        <div class="meta">
+                            <span>by <a href="#">Khánh Nguyễn</a></span>
+                            <span>on <a href="#">Dec 19,2021</a></span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
 
-          <div class="col-12 col-sm-6 col-md-4 mb-5">
-            <div class="post-entry">
-              <a href="#" class="post-thumbnail"
-                ><img src="../images/giay2.jpg" alt="Image" class="img-fluid"
-              /></a>
-              <div class="post-content-entry">
-                <h3>
-                  <a href="#"
-                    >Những đôi sneakers nổi tiếng được sao ưa chuộng</a
-                  >
-                </h3>
-                <div class="meta">
-                  <span>by <a href="#">Hưng Trần</a></span>
-                  <span>on <a href="#">Dec 19,2021</a></span>
+            <div class="col-12 col-sm-6 col-md-4 mb-5">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"
+                    ><img src="../images/giay2.jpg" alt="Image" class="img-fluid"
+                    /></a>
+                    <div class="post-content-entry">
+                        <h3>
+                            <a href="#"
+                            >Những đôi sneakers nổi tiếng được sao ưa chuộng</a
+                            >
+                        </h3>
+                        <div class="meta">
+                            <span>by <a href="#">Hưng Trần</a></span>
+                            <span>on <a href="#">Dec 19,2021</a></span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
 
-          <div class="col-12 col-sm-6 col-md-4 mb-5">
-            <div class="post-entry">
-              <a href="#" class="post-thumbnail"
-                ><img src="../images/giay3.jpg" alt="Image" class="img-fluid"
-              /></a>
-              <div class="post-content-entry">
-                <h3>
-                  <a href="#"
-                    >Giày thể thao Anta giảm nửa giá nhân Vòng loại World Cup</a
-                  >
-                </h3>
-                <div class="meta">
-                  <span>by <a href="#">Học Vũ</a></span>
-                  <span>on <a href="#">Dec 19,2021</a></span>
+            <div class="col-12 col-sm-6 col-md-4 mb-5">
+                <div class="post-entry">
+                    <a href="#" class="post-thumbnail"
+                    ><img src="../images/giay3.jpg" alt="Image" class="img-fluid"
+                    /></a>
+                    <div class="post-content-entry">
+                        <h3>
+                            <a href="#"
+                            >Giày thể thao Anta giảm nửa giá nhân Vòng loại World Cup</a
+                            >
+                        </h3>
+                        <div class="meta">
+                            <span>by <a href="#">Học Vũ</a></span>
+                            <span>on <a href="#">Dec 19,2021</a></span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <!-- Start Testimonial Slider -->
-    <div class="testimonial-section before-footer-section">
-      <div class="container">
+<!-- Start Testimonial Slider -->
+<div class="testimonial-section before-footer-section">
+    <div class="container">
         <div class="row">
-          <div class="col-lg-7 mx-auto text-center">
-            <h2 class="section-title">Khách hàng</h2>
-          </div>
+            <div class="col-lg-7 mx-auto text-center">
+                <h2 class="section-title">Khách hàng</h2>
+            </div>
         </div>
 
         <div class="row justify-content-center">
-          <div class="col-lg-12">
-            <div class="testimonial-slider-wrap text-center">
-              <div id="testimonial-nav">
+            <div class="col-lg-12">
+                <div class="testimonial-slider-wrap text-center">
+                    <div id="testimonial-nav">
                 <span class="prev" data-controls="prev"
-                  ><span class="fa fa-chevron-left"></span
+                ><span class="fa fa-chevron-left"></span
                 ></span>
-                <span class="next" data-controls="next"
-                  ><span class="fa fa-chevron-right"></span
-                ></span>
-              </div>
-
-              <div class="testimonial-slider">
-                <div class="item">
-                  <div class="row justify-content-center">
-                    <div class="col-lg-8 mx-auto">
-                      <div class="testimonial-block text-center">
-                        <blockquote class="mb-5">
-                          <p>
-                            &ldquo;Mình đã lựa chọn một đôi giày ổn với chân của
-                            mình và cuối cùng đã tìm thấy Wingman. WingMan có
-                            chất liệu rất tích cực và độ bền cao, mình đã dùng
-                            trong một thời gian khá dài và vẫn còn mới như ban
-                            đầu. &rdquo;
-                          </p>
-                        </blockquote>
-
-                        <div class="author-info">
-                          <div class="author-pic">
-                            <img
-                              src="../images/MinhHang.jpg"
-                              alt="Maria Jones"
-                              class="img-fluid"
-                            />
-                          </div>
-                          <h3 class="font-weight-bold">Minh Hằng</h3>
-                          <span class="position d-block mb-3">Sinh viên</span>
-                        </div>
-                      </div>
+                        <span class="next" data-controls="next"
+                        ><span class="fa fa-chevron-right"></span
+                        ></span>
                     </div>
-                  </div>
-                </div>
-                <!-- END item -->
 
-                <div class="item">
-                  <div class="row justify-content-center">
-                    <div class="col-lg-8 mx-auto">
-                      <div class="testimonial-block text-center">
-                        <blockquote class="mb-5">
-                          <p>
-                            &ldquo;Mình rất thích giày Wingman vì chúng rất nhẹ
-                            và thoải mái, phù hợp khi đi dạo hoặc đi
-                            chơi.&rdquo;
-                          </p>
-                        </blockquote>
+                    <div class="testimonial-slider">
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>
+                                                &ldquo;Mình đã lựa chọn một đôi giày ổn với chân của
+                                                mình và cuối cùng đã tìm thấy Wingman. WingMan có
+                                                chất liệu rất tích cực và độ bền cao, mình đã dùng
+                                                trong một thời gian khá dài và vẫn còn mới như ban
+                                                đầu. &rdquo;
+                                            </p>
+                                        </blockquote>
 
-                        <div class="author-info">
-                          <div class="author-pic">
-                            <img
-                              src="../images/seeding2.jpg"
-                              alt="Maria Jones"
-                              class="img-fluid"
-                            />
-                          </div>
-                          <h3 class="font-weight-bold">Trịnh Tuấn</h3>
-                          <span class="position d-block mb-3">Học sinh</span>
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img
+                                                        src="../images/MinhHang.jpg"
+                                                        alt="Maria Jones"
+                                                        class="img-fluid"
+                                                />
+                                            </div>
+                                            <h3 class="font-weight-bold">Minh Hằng</h3>
+                                            <span class="position d-block mb-3">Sinh viên</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- END item -->
+                        <!-- END item -->
 
-                <div class="item">
-                  <div class="row justify-content-center">
-                    <div class="col-lg-8 mx-auto">
-                      <div class="testimonial-block text-center">
-                        <blockquote class="mb-5">
-                          <p>
-                            &ldquo;Wingman có đế giày êm và giúp giảm áp lực khi
-                            đi, tạo ấn tượng thoải mái cho chân. Mình rất thích
-                            Wingman vì giày cực kỳ êm và không gây đau chân khi
-                            đi lâu. Wingman có sắc màu và tư thế rất nhiều loại,
-                            phù hợp với nhiều phong cách thời trang.&rdquo;
-                          </p>
-                        </blockquote>
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>
+                                                &ldquo;Mình rất thích giày Wingman vì chúng rất nhẹ
+                                                và thoải mái, phù hợp khi đi dạo hoặc đi
+                                                chơi.&rdquo;
+                                            </p>
+                                        </blockquote>
 
-                        <div class="author-info">
-                          <div class="author-pic">
-                            <img
-                              src="../images/seeding3.jpg"
-                              alt="Maria Jones"
-                              class="img-fluid"
-                            />
-                          </div>
-                          <h3 class="font-weight-bold">Thúy Hằng</h3>
-                          <span class="position d-block mb-3"
-                            >Nhân viên văn phòng</span
-                          >
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img
+                                                        src="../images/seeding2.jpg"
+                                                        alt="Maria Jones"
+                                                        class="img-fluid"
+                                                />
+                                            </div>
+                                            <h3 class="font-weight-bold">Trịnh Tuấn</h3>
+                                            <span class="position d-block mb-3">Học sinh</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                        <!-- END item -->
+
+                        <div class="item">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 mx-auto">
+                                    <div class="testimonial-block text-center">
+                                        <blockquote class="mb-5">
+                                            <p>
+                                                &ldquo;Wingman có đế giày êm và giúp giảm áp lực khi
+                                                đi, tạo ấn tượng thoải mái cho chân. Mình rất thích
+                                                Wingman vì giày cực kỳ êm và không gây đau chân khi
+                                                đi lâu. Wingman có sắc màu và tư thế rất nhiều loại,
+                                                phù hợp với nhiều phong cách thời trang.&rdquo;
+                                            </p>
+                                        </blockquote>
+
+                                        <div class="author-info">
+                                            <div class="author-pic">
+                                                <img
+                                                        src="../images/seeding3.jpg"
+                                                        alt="Maria Jones"
+                                                        class="img-fluid"
+                                                />
+                                            </div>
+                                            <h3 class="font-weight-bold">Thúy Hằng</h3>
+                                            <span class="position d-block mb-3"
+                                            >Nhân viên văn phòng</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END item -->
                     </div>
-                  </div>
                 </div>
-                <!-- END item -->
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-    <!-- End Testimonial Slider -->
+</div>
+<!-- End Testimonial Slider -->
 
-    <!-- Start Footer Section -->
-    <footer class="footer-section">
-      <div class="container relative">
+<!-- Start Footer Section -->
+<footer class="footer-section">
+    <div class="container relative">
         <div class="sofa-img">
-          <img
-            src="../images/WingMan-black.png"
-            style="height: 200px; width: 200px; margin-top: 150px"
-            alt="Image"
-            class="img-fluid"
-          />
+            <img
+                    src="../images/WingMan-black.png"
+                    style="height: 200px; width: 200px; margin-top: 150px"
+                    alt="Image"
+                    class="img-fluid"
+            />
         </div>
 
         <div class="row">
-          <div class="col-lg-8">
-            <div class="subscription-form">
-              <h3 class="d-flex align-items-center">
+            <div class="col-lg-8">
+                <div class="subscription-form">
+                    <h3 class="d-flex align-items-center">
                 <span class="me-1"
-                  ><img
-                    src="../images/envelope-outline.svg"
-                    alt="Image"
-                    class="img-fluid" /></span
+                ><img
+                        src="../images/envelope-outline.svg"
+                        alt="Image"
+                        class="img-fluid"/></span
                 ><span>Đăng ký nhận thông tin khuyến mãi</span>
-              </h3>
+                    </h3>
 
-              <form action="#" class="row g-3">
-                <div class="col-auto">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Họ và tên"
-                  />
+                    <form action="#" class="row g-3">
+                        <div class="col-auto">
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Họ và tên"
+                            />
+                        </div>
+                        <div class="col-auto">
+                            <input
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="Email"
+                            />
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">
+                                <span class="fa fa-paper-plane"></span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-auto">
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="Email"
-                  />
-                </div>
-                <div class="col-auto">
-                  <button class="btn btn-primary">
-                    <span class="fa fa-paper-plane"></span>
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
         </div>
 
         <div class="row g-5 mb-5">
-          <div class="col-lg-4">
-            <div class="mb-4 footer-logo-wrap">
-              <a href="#" class="footer-logo">Wingman<span>.</span></a>
+            <div class="col-lg-4">
+                <div class="mb-4 footer-logo-wrap">
+                    <a href="#" class="footer-logo">Wingman<span>.</span></a>
+                </div>
+                <p class="mb-4">
+                    Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.
+                </p>
+
+                <ul class="list-unstyled custom-social">
+                    <li>
+                        <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
+                    </li>
+                </ul>
             </div>
-            <p class="mb-4">
-              Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.
-            </p>
 
-            <ul class="list-unstyled custom-social">
-              <li>
-                <a href="#"><span class="fa fa-brands fa-facebook-f"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-twitter"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-instagram"></span></a>
-              </li>
-              <li>
-                <a href="#"><span class="fa fa-brands fa-linkedin"></span></a>
-              </li>
-            </ul>
-          </div>
+            <div class="col-lg-8">
+                <div class="row links-wrap">
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Dịch vụ</a></li>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#">Trung tâm trợ giúp</a></li>
+                        </ul>
+                    </div>
 
-          <div class="col-lg-8">
-            <div class="row links-wrap">
-              <div class="col-6 col-sm-6 col-md-3">
-                <ul class="list-unstyled">
-                  <li><a href="#">Liên hệ</a></li>
-                  <li><a href="#">Dịch vụ</a></li>
-                  <li><a href="#">Thông tin</a></li>
-                  <li><a href="#">Trung tâm trợ giúp</a></li>
-                </ul>
-              </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Vận chuyển</a></li>
+                            <li><a href="#">Khu vực</a></li>
+                            <li><a href="#">Kênh bán hàng</a></li>
+                        </ul>
+                    </div>
 
-              <div class="col-6 col-sm-6 col-md-3">
-                <ul class="list-unstyled">
-                  <li><a href="#">Vận chuyển</a></li>
-                  <li><a href="#">Khu vực</a></li>
-                  <li><a href="#">Kênh bán hàng</a></li>
-                </ul>
-              </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Đội ngũ</a></li>
+                            <li><a href="#">Trả hàng</a></li>
+                            <li><a href="#">Bảo mật</a></li>
+                        </ul>
+                    </div>
 
-              <div class="col-6 col-sm-6 col-md-3">
-                <ul class="list-unstyled">
-                  <li><a href="#">Hướng dẫn mua hàng</a></li>
-                  <li><a href="#">Đội ngũ</a></li>
-                  <li><a href="#">Trả hàng</a></li>
-                  <li><a href="#">Bảo mật</a></li>
-                </ul>
-              </div>
-
-              <div class="col-6 col-sm-6 col-md-3">
-                <ul class="list-unstyled">
-                  <li><a href="#">Chăm sóc khách hàng</a></li>
-                  <li><a href="#">Chính sách bảo hành</a></li>
-                  <li><a href="#">Hoàn tiền</a></li>
-                </ul>
-              </div>
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Chăm sóc khách hàng</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Hoàn tiền</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
         <div class="border-top copyright">
-          <div class="row pt-4">
-            <div class="col-lg-6">
-              <p class="mb-2 text-center text-lg-start">
-                Chủ sở hữu &copy;
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                &mdash; Thiết kế tâm huyết của nhóm <a href="">SD-05</a>
-                <a hreff=""></a>
-                <!-- License information: https://untree.co/license/ -->
-              </p>
-            </div>
+            <div class="row pt-4">
+                <div class="col-lg-6">
+                    <p class="mb-2 text-center text-lg-start">
+                        Chủ sở hữu &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        &mdash; Thiết kế tâm huyết của nhóm <a href="">SD-05</a>
+                        <a hreff=""></a>
+                        <!-- License information: https://untree.co/license/ -->
+                    </p>
+                </div>
 
-            <div class="col-lg-6 text-center text-lg-end">
-              <ul class="list-unstyled d-inline-flex ms-auto">
-                <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
-                <li>
-                  <a href="#">Xây dựng Website bán giày thể thao Wingman</a>
-                </li>
-              </ul>
+                <div class="col-lg-6 text-center text-lg-end">
+                    <ul class="list-unstyled d-inline-flex ms-auto">
+                        <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
+                        <li>
+                            <a href="#">Xây dựng Website bán giày thể thao Wingman</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </footer>
-    <!-- End Footer Section -->
-
-    <script src="../js/customer/bootstrap.bundle.min.js"></script>
-    <script src="../js/customer/tiny-slider.js"></script>
-    <script src="../js/customer/custom.js"></script>
-  </body>
+    </div>
+</footer>
+<!-- End Footer Section -->
+</body>
 </html>
