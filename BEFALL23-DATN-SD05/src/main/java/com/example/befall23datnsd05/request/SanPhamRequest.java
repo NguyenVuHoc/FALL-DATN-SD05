@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class SanPhamRequest {
     @NotBlank(message = "Mô tả không được để trống!")
     private String moTa;
 
+    private List<MultipartFile> fileImages; // List of image files
 
 
 }
