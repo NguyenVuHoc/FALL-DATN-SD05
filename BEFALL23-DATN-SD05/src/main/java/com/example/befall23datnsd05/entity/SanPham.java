@@ -69,9 +69,5 @@ public class SanPham {
         return "/assets/images/" + this.listAnhSanPham.get(0).getUrl();
     }
 
-    @Column(name = "anh_chinh")
-    private String anhChinh;
-
-
 
 }
