@@ -6,7 +6,7 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <meta
@@ -50,9 +50,9 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li class="nav-item ">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
+                    <a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a>
                 </li>
-                <li class="active"><a class="nav-link" href="shop.html">Cửa hàng</a></li>
+                <li class="active"><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
                 <li><a class="nav-link" href="about.html">Đội ngũ</a></li>
                 <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
                 <li><a class="nav-link" href="blog.html">Thông tin</a></li>
@@ -207,13 +207,14 @@
 
         <div class="row">
             <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
+            <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
                 <div class="product-item">
-                    <a href="detail.html">
-                        <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}">
+                        <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail">
                     </a>
-                    <h3 class="product-title">Under Armour Curry 6 - International Boulevard</h3>
-                    <strong class="product-price">2.390.000₫</strong>
+                    <h3 class="product-title"
+                        th:text="${ctsp.sanPham.ten + ctsp.sanPham.dongSanPham.ten + ctsp.deGiay.ten + ctsp.coGiay.ten + ctsp.lotGiay.ten}"></h3>
+                    <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -223,272 +224,6 @@
             </div>
             <!-- End Column 1 -->
 
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/under-armour.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Under Armour Jet</h3>
-                    <strong class="product-price">1.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/shop-balen-1.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">WOMEN'S SPEED 2.0 CLEAR SOLE RECYCLED KNIT SNEAKER IN BLACK</h3>
-                    <strong class="product-price">3.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/shop-vans-1.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">VANS SKATE OLD SKOOL BLACK/WHITE</h3>
-                    <strong class="product-price">2.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
-
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/van-old-skool.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Vans Old Skool - Cordura Forest</h3>
-                    <strong class="product-price">2.590.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 1 -->
-
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/Shop-adidas-2.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">ADIDAS PRO MODEL 80 POOCHIE</h3>
-                    <strong class="product-price">3.300.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/Garcons%20PLAY%20x%20Converse.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Garcons PLAY x Converse</h3>
-                    <strong class="product-price">3.500.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/shop-vans-2.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">VANS CHECKERBOARD SLIP-ON CLASSIC BLACK/OFF WHITE</h3>
-                    <strong class="product-price">1.450.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
-
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/scorpion-mortal-kombat.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
-                    <strong class="product-price">7.399.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 1 -->
-
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
-
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/under-armour-6.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Under Armour Curry 6 - International Boulevard</h3>
-                    <strong class="product-price">2.390.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 1 -->
-
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/under-armour.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Under Armour Jet</h3>
-                    <strong class="product-price">1.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/shop-balen-1.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">WOMEN'S SPEED 2.0 CLEAR SOLE RECYCLED KNIT SNEAKER IN BLACK</h3>
-                    <strong class="product-price">3.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5">
-                <a class="product-item" href="#">
-                    <img src="../images/shop-vans-1.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">VANS SKATE OLD SKOOL BLACK/WHITE</h3>
-                    <strong class="product-price">2.200.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
-
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/scorpion-mortal-kombat.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
-                    <strong class="product-price">7.399.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 1 -->
-
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
-
         </div>
 
         <br>
@@ -496,17 +231,17 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <button class="btn"> |<<</button>
+                        <a class="btn" href="#"> |<< </a>
                     </li>
                     <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <button class="btn" href="#"> <<</button>
+                        <a class="btn" href="/wingman/cua-hang-pre"> << </a>
                     </li>
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0"><p class="btn"> 1 </p></li>
+                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0"><p class="btn" th:text="${index}"></p></li>
                     <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <button class="btn" href="#"> >></button>
+                        <a class="btn" href="/wingman/cua-hang-next"> >> </a>
                     </li>
                     <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <button class="btn" href="#"> >>|</button>
+                        <a class="btn" href="#"> >>| </a>
                     </li>
                 </ul>
             </nav>
@@ -531,46 +266,22 @@
             <!-- End Column 1 -->
 
             <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
-
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspCustom : ${list3Custom}">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}">
+                        <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail">
+                    </a>
+                    <h3 class="product-title" th:text="${ctspCustom.getTenSp() + ctspCustom.getTenDongSp() + ctspCustom.getTenDe_giay() + ctspCustom.getTenCo_giay() + ctspCustom.getTenLot_giay()}"></h3>
+                    <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
 
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
         </div>
 
         <!-- TIÊU ĐỀ 4 -->
@@ -582,46 +293,21 @@
         <div class="row">
 
             <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
-
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspLimited : ${list3Limited}">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}">
+                        <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail">
+                    </a>
+                    <h3 class="product-title" th:text="${ctspLimited.getTenSp() + ctspLimited.getTenDongSp() + ctspLimited.getTenDe_giay() + ctspLimited.getTenCo_giay() + ctspLimited.getTenLot_giay()}"></h3>
+                    <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
+                    <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
 
             <!-- Start Column 1 -->
             <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
