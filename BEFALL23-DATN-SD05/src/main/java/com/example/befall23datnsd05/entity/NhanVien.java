@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,12 +35,15 @@ public class NhanVien {
     private Long id;
 
     @Column(name = "ma", unique = true)
+    @NotBlank(message = "Mã không được để trống")
     private String ma;
 
     @Column(name = "ten")
+    @NotBlank(message = "Tên không được để trống")
     private String ten;
 
     @Column(name = "sdt", unique = true)
+    @NotBlank(message = "Sđt không được để trống")
     private String sdt;
 
     @Column(name = "gioi_tinh")
@@ -53,9 +57,11 @@ public class NhanVien {
     private LocalDate ngaySua;
 
     @Column(name = "email")
+    @NotBlank(message = "Email không được để trống")
     private String email;
 
     @Column(name = "mat_khau")
+    @NotBlank(message = "Mật khẩu không được để trống")
     private String matKhau;
 
     @Column(name = "trang_thai")
