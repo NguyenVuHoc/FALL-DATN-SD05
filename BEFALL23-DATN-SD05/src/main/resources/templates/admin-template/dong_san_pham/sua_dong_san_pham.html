@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>WINGMAN</title>
@@ -9,7 +8,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="/../../img/wingman.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,165 +20,174 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/admin/bootstrap.min.css" rel="stylesheet">
+    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../css/admin/style.css" rel="stylesheet">
+    <link href="/../../css/admin/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
-
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                        <div
-                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
-                        </div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
-                    </div>
-                </div>
-                <div class="navbar-nav w-100">
-                    <a href="../ban_hang/ban_hang.html" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
-                        Hàng</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Sản
-                            Phẩm</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="../san_pham/san_pham.html" class="dropdown-item">Sản Phẩm</a>
-                            <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
-                                Phẩm</a>
-                            <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item active">Dòng Sản Phẩm</a>
-                            <a href="../thuong_hieu/thuong_hieu.html" class="dropdown-item">Thương Hiệu</a>
-                            <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
-                            <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
-                            <a href="../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
-                            <a href="../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
-                            <a href="../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
-                        </div>
-                    </div>
-                    <a href="../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
-                    <a href="../khach_hang/khach_hang.html" class="nav-item nav-link"><i
-                            class="fa fa-user me-2"></i>Khách
-                        Hàng</a>
-                    <a href="../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
-                        Viên</a>
-                    <a href="../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
-                            class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                    <a href="../thong_ke/thong_ke.html" class="nav-item nav-link"><i
-                            class="fa fa-chart-bar me-2"></i>Thống Kê</a>
-                </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a aa href="../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
-                                style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-
-                            <a href="#" class="dropdown-item">Log Out</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <!-- Navbar End -->
-            <!-- Recent Sales Start -->
-            <div class="container-fluid pt-4">
-                <h6 class="mb-4" style="font-size: 40px; text-align: center;">Sửa Dòng Sản Phẩm</h6>
-                <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mã Dòng Sản Phẩm</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tên Dòng Sản Phẩm</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Trạng Thái</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                    value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Hoạt Động</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                    value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">Ngừng Hoạt Động</label>
-                            </div>
-                            <button type="submit" class="btn btn-success " style="margin-left: 40%; margin-top: 15px;">
-                                Sửa
-                            </button>
-                    </form>
-                </div>
-                <!-- Recent Sales End -->
-            </div>
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4" style="margin-top: 10%;">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/chart/chart.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Spinner End -->
 
-    <!-- Template Javascript -->
-    <script src="../../js/admin/main.js"></script>
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a href="/../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                    </div>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">Jhon Doe</h6>
+                    <span>Admin</span>
+                </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a href="/../ban_hang/ban_hang.html" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
+                    Hàng</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                            class="fa fa-laptop me-2"></i>Sản
+                        Phẩm</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="/admin/san-pham" class="dropdown-item active">Sản Phẩm</a>
+                        <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
+                            Phẩm</a>
+                        <a href="/admin/dong-san-pham" class="dropdown-item active">Dòng Sản Phẩm</a>
+                        <a href="/admin/thuong-hieu" class="dropdown-item">Thương Hiệu</a>
+                        <a href="/../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
+                        <a href="/../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
+                        <a href="/../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
+                        <a href="/../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
+                        <a href="/../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
+                    </div>
+                </div>
+                <a href="/../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
+                <a href="/../khach_hang/khach_hang.html" class="nav-item nav-link"><i
+                        class="fa fa-user me-2"></i>Khách
+                    Hàng</a>
+                <a href="/../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
+                    Viên</a>
+                <a href="/../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a href="/../thong_ke/thong_ke.html" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Thống Kê</a>
+            </div>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a aa href="/../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                             style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Doe</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+
+                        <a href="#" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4">
+            <h6 class="mb-4" style="font-size: 40px; text-align: center;">Sửa Dòng Sản Phẩm</h6>
+            <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
+                <form th:object="${dongSp}" th:action="@{/admin/dong-san-pham/update}" method="post">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="mb-3">
+                        <label class="form-label">Mã Dòng Sản Phẩm</label>
+                        <input type="text" class="form-control" id="ma" th:field="*{ma}"
+                               aria-describedby="emailHelp" readonly/>
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tên Dòng Sản Phẩm</label>
+                        <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"/>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"class="alert alert-danger"></div>
+                        <div th:if="${errorTen}" class="alert alert-danger">
+                            <p th:text="${errorTen}"></p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trạng Thái</label>
+                        <div class="form-check form-check-inline">
+                            <input id="trangThaiHoatDong" name="trangThai" type="radio" class="form-check-input"
+                                   th:value="DANG_HOAT_DONG"
+                                   th:field="*{trangThai}"/>
+                            <label for="trangThaiHoatDong" class="form-check-label">Hoạt Động</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input id="trangThaiKhongHoatDong" name="trangThai" type="radio" class="form-check-input"
+                                   th:value="DUNG_HOAT_DONG"
+                                   th:field="*{trangThai}"/>
+                            <label for="trangThaiKhongHoatDong" class="form-check-label">Dừng Hoạt Động</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success " style="margin-left: 40%; margin-top: 15px;">
+                        Sửa
+                    </button>
+                </form>
+            </div>
+            <!-- Recent Sales End -->
+        </div>
+        <!-- Footer Start -->
+        <div class="container-fluid pt-4" style="margin-top: 10%;">
+            <div class="bg-light rounded-top p-4">
+                <div class="row">
+                    <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+</div>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/../../lib/chart/chart.min.js"></script>
+<script src="/../../lib/easing/easing.min.js"></script>
+<script src="/../../lib/waypoints/waypoints.min.js"></script>
+<script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment.min.js"></script>
+<script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="/../../js/admin/main.js"></script>
 </body>
 
 </html>

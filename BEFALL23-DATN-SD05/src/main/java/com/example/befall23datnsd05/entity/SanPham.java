@@ -1,18 +1,7 @@
 package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +41,9 @@ public class SanPham {
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
 
+    @Column(name = "anh_chinh")
+    private String anhChinh;
+
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
@@ -62,12 +54,24 @@ public class SanPham {
     @OneToMany(mappedBy = "sanPham", cascade = CascadeType.ALL)
     private List<ChiTietSanPham> listChiTietSanPham;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_thuong_hieu", referencedColumnName = "id")
     private ThuongHieu thuongHieu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_dong_san_pham", referencedColumnName = "id")
     private DongSanPham dongSanPham;
+
+
+    @Transient
+    public String getMainImagePath() {
+        if (id == null || id == null) return "/assets/images/image-thumbnail.png";
+        return "/assets/images/" + this.listAnhSanPham.get(0).getUrl();
+    }
+
+    @Column(name = "anh_chinh")
+    private String anhChinh;
+
+
 
 }
