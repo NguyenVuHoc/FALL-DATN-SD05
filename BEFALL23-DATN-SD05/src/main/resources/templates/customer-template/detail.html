@@ -7,7 +7,32 @@
 */ -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{customer-template/fragments/fragment :: page_head}">
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co"/>
+    <link rel="shortcut icon" href="favicon.png"/>
+
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="/../css/customer/bootstrap.min.css" rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link href="/../css/customer/style.css" rel="stylesheet"/>
+    <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
+    <link href="/../css/customer/shop.css" rel="stylesheet"/>
+    <link href="/../css/customer/detail.css" rel="stylesheet"/>
+    <link href="/../css/customer/detail.css" rel="stylesheet"/>
+    <title>
+        Wingman
+    </title>
 </head>
 <body>
 
@@ -38,8 +63,8 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
-                <li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
+                <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
+                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg"></a></li>
             </ul>
         </div>
     </div>
@@ -161,23 +186,33 @@
                         <p class="p">Số lượng:</p>
                     </div>
 
-                    <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                         style="max-width: 120px">
+                    <div
+                            class="input-group mb-3 d-flex align-items-center quantity-container"
+                            style="max-width: 120px"
+                    >
                         <div class="input-group-prepend">
-                            <button class="detail-btn-sl btn-outline-black decrease"
-                                    type="button"> &minus;
+                            <button
+                                    class="detail-btn-sl btn-outline-black decrease"
+                                    type="button"
+                            >
+                                &minus;
                             </button>
                         </div>
-                        <input type="text"
-                               class="form-control text-center quantity-amount detail-text-ph"
-                               value="1"
-                               placeholder=""
-                               aria-label="Example text with button addon"
-                               aria-describedby="button-addon1"
-                               style="border: 1px solid #0c0e12"/>
+                        <input
+                                type="text"
+                                class="form-control text-center quantity-amount detail-text-ph"
+                                value="1"
+                                placeholder=""
+                                aria-label="Example text with button addon"
+                                aria-describedby="button-addon1"
+                                style="border: 1px solid #0c0e12"
+                        />
                         <div class="input-group-append">
-                            <button class="detail-btn-sl btn-outline-black increase"
-                                    type="button"> &plus;
+                            <button
+                                    class="detail-btn-sl btn-outline-black increase"
+                                    type="button"
+                            >
+                                &plus;
                             </button>
                         </div>
                     </div>
@@ -511,5 +546,8 @@
     </div>
 </footer>
 <!-- End Footer Section -->
+<script src="/../js/customer/bootstrap.bundle.min.js"></script>
+<script src="/../js/customer/tiny-slider.js"></script>
+<script src="/../js/customer/custom.js"></script>
 </body>
 </html>
