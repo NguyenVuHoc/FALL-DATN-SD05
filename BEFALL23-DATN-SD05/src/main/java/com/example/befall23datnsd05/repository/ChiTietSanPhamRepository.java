@@ -44,7 +44,7 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             "join co_giay on chi_tiet_san_pham.id_co_giay = co_giay.id \n" +
             "join lot_giay on chi_tiet_san_pham.id_lot_giay = lot_giay.id \n" +
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id \n" +
-            "where san_pham.id_dong_san_pham like 24 limit 3", nativeQuery = true)
+            "where dong_san_pham.ten = 'Giày custom' limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Custom();
 
     @Query(value = "select san_pham.ten as tenSp, san_pham.anh_chinh, chi_tiet_san_pham.id, chi_tiet_san_pham.gia_ban, de_giay.ten as tenDe_giay, co_giay.ten as tenCo_giay, lot_giay.ten as tenLot_giay, dong_san_pham.ten as tenDongSp\n" +
@@ -54,7 +54,7 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             "join co_giay on chi_tiet_san_pham.id_co_giay = co_giay.id \n" +
             "join lot_giay on chi_tiet_san_pham.id_lot_giay = lot_giay.id \n" +
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id \n" +
-            "where san_pham.id_dong_san_pham like 23 limit 3", nativeQuery = true)
+            "where dong_san_pham.ten = 'Giày limited' limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Limited();
 
     @Query(value = "select anh.url, chi_tiet_san_pham.id from chi_tiet_san_pham\n" +
