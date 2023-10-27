@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -126,25 +126,54 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Khách Hàng</h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <form th:action="@{/admin/khach-hang/add}" method="post" th:object="${khachHang}">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Mã Khách Hàng</label>
                             <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
+                                   aria-describedby="emailHelp" th:field="*{ma}" />
+                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
+                            <div th:if="${error}">
+                                <p th:text="${error}"></p>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Họ Và Tên</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="exampleInputPassword11" class="form-label">Họ Và Tên</label>
+                            <input type="text" class="form-control" id="exampleInputPassword11" th:field="*{ten}" />
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Số Điện Thoại</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="exampleInputPassword12" class="form-label">Số Điện Thoại</label>
+                            <input type="text" class="form-control" id="exampleInputPassword12" th:field="*{sdt}" />
+                            <div th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giới Tính</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gioiTinh" id="namRadio" value="NAM"
+                                       th:field="*{gioiTinh}"/>
+                                <label class="form-check-label" for="namRadio">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gioiTinh" id="nuRadio" value="NU"
+                                       th:field="*{gioiTinh}"/>
+                                <label class="form-check-label" for="nuRadio">Nữ</label>
+                            </div>
+                            <div th:if="${#fields.hasErrors('gioiTinh')}" th:errors="*{gioiTinh}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword13" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="exampleInputPassword13" th:field="*{email}" />
+                            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword14" class="form-label">Mật khẩu</label>
+                            <input type="text" class="form-control" id="exampleInputPassword14" th:field="*{matKhau}" />
+                            <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Thêm
                         </button>
                     </form>
-
 
                 </div>
                 <!-- Recent Sales End -->
