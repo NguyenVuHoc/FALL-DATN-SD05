@@ -29,7 +29,6 @@
     <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
     <link href="/../css/customer/shop.css" rel="stylesheet"/>
     <link href="/../css/customer/detail.css" rel="stylesheet"/>
-    <link href="/../css/customer/detail.css" rel="stylesheet"/>
     <title>
         Wingman
     </title>
@@ -89,7 +88,7 @@
             <div class="col-lg-6">
 
                 <h2 style="color: #0c0e12"
-                    th:text="*{sanPham.ten +'|'+ sanPham.dongSanPham.ten +'|'+ deGiay.ten +'|'+ coGiay.ten +'|'+ lotGiay.ten}"></h2>
+                    th:text="*{sanPham.ten +' '+ sanPham.dongSanPham.ten +' '+ deGiay.ten +' '+ coGiay.ten +' '+ lotGiay.ten}"></h2>
 
                 <div class="row">
                     <div class="col-lg-4">
@@ -115,40 +114,9 @@
                     <p style="font-family: 'Montserrat Medium'" class="p">Kích cỡ:</p>
                     <div class="row" style="margin-bottom: 3%">
                         <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1">38</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio2">39</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio3">40</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio4">41</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio5">42</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio6">43</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio7">44</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio8">45</label>
-                        </div>
+                            <input type="radio" class="btn-check" name="size-radio" id="vbtn-radio1" autocomplete="off" checked>
+                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1" th:text="*{kichThuoc.ten}"></label>
+                     </div>
                     </div>
                 </div>
 
@@ -156,25 +124,8 @@
                     <p class="p">Màu Sắc:</p>
                     <div class="row" style="margin-bottom: 3%">
                         <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color1"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1">
-                                Đỏ
-                            </label>
-                        </div>
-                        <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color2"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color2">
-                                Đen
-                            </label>
-                        </div>
-                        <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color3"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color3">
-                                Xanh
-                            </label>
+                            <input type="radio" class="btn-check" name="color-radio" id="vbtn-radio-color1" autocomplete="off" checked>
+                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1" th:text="*{mauSac.ten}"></label>
                         </div>
                     </div>
                 </div>
