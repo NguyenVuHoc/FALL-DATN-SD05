@@ -1,5 +1,6 @@
-package com.example.befall23datnsd05.service.impl;
+package com.example.befall23datnsd05.service.Impl;
 
+import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
@@ -10,12 +11,7 @@ import com.example.befall23datnsd05.entity.MauSac;
 import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
-import com.example.befall23datnsd05.repository.CoGiayRepository;
-import com.example.befall23datnsd05.repository.DeGiayRepository;
-import com.example.befall23datnsd05.repository.KichThuocRepository;
-import com.example.befall23datnsd05.repository.LotGiayRepository;
-import com.example.befall23datnsd05.repository.MauSacRepository;
+import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +46,9 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Autowired
     private CoGiayRepository coGiayRepository;
 
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+
 
     @Override
     public List<ChiTietSanPham> getAll() {
@@ -70,6 +69,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Override
     public ChiTietSanPham add(ChiTietSanPhamRequest chiTietSanPham) {
         ChiTietSanPham chiTietSanPham1 = new ChiTietSanPham();
+        SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
+        chiTietSanPham1.setSanPham(sanPham);
         DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
         chiTietSanPham1.setDeGiay(deGiay);
         MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
@@ -96,6 +97,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         if(chiTietSanPham1==null){
             return null;
         }
+        SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
+        chiTietSanPham1.setSanPham(sanPham);
         DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
         chiTietSanPham1.setDeGiay(deGiay);
         MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
@@ -136,6 +139,24 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
             pageNo = pageCount -1;
         }
         return pageNo;
+    }
+
+    @Override
+    public Page<ChiTietSanPham> searchTen(String ten, Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.searchTen(ten, pageable);
+    }
+
+    @Override
+    public Page<ChiTietSanPham> getTrangThaiHoatDong(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getTrangThaiHoatDong(pageable);
+    }
+
+    @Override
+    public Page<ChiTietSanPham> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.getTrangThaiDungHoatDong(pageable);
     }
 
 }
