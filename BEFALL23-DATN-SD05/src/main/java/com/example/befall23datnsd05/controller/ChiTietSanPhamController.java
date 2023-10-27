@@ -68,6 +68,12 @@ public class ChiTietSanPhamController {
         return "redirect:/wingman/cua-hang";
     }
 
+    @GetMapping("/wingman/cua-hang-first")
+    private String firstCustome() {
+        pageNo = chiTietSanPhamService.nextPage(0);
+        return "redirect:/wingman/cua-hang";
+    }
+
     @GetMapping("/wingman/cua-hang-next")
     private String nextCustomer() {
         pageNo++;
