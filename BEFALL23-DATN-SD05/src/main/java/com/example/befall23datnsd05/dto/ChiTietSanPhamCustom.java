@@ -6,17 +6,15 @@ import java.math.BigDecimal;
 
 public interface ChiTietSanPhamCustom {
 
-     SanPham getSanPham();
+     Long getId();
 
-     DeGiay getDeGiay();
+     SanPham getSanPham();
 
      MauSac getMauSac();
 
      KichThuoc getKichThuoc();
 
      Integer getSoLuongTon();
-
-     BigDecimal getGiaMacDinh();
 
      BigDecimal getGiaBan();
 

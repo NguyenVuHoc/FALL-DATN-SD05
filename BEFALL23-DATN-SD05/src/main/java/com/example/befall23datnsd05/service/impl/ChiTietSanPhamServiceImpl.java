@@ -144,7 +144,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Override
     public Page<ChiTietSanPham> searchTen(String ten, Integer pageNo, Integer size) {
         Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.searchTen(ten, pageable);
+        return repository.findBySanPham_TenContainingIgnoreCase(ten, pageable);
     }
 
     @Override

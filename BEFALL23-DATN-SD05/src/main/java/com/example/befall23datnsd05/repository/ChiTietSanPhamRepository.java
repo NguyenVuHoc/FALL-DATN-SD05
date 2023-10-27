@@ -81,16 +81,12 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             "from chi_tiet_san_pham", nativeQuery = true)
     Page<ChiTietSanPhamCustom> getPage(PageRequest page);
 
-    @Query(value = "SELECT chi_tiet_san_pham.* " +
-            "FROM chi_tiet_san_pham " +
-            "JOIN san_pham ON chi_tiet_san_pham.id_san_pham = san_pham.id " +
-            "WHERE san_pham.ten like :ten", nativeQuery = true)
-    Page<ChiTietSanPham> searchTen(@Param("ten") String ten,Pageable pageable);
-
 
     @Query(value = "select * from chi_tiet_san_pham where trang_thai = 0", nativeQuery = true)
     Page<ChiTietSanPham> getTrangThaiHoatDong(Pageable pageable);
 
     @Query(value = "select * from chi_tiet_san_pham where trang_thai = 1", nativeQuery = true)
     Page<ChiTietSanPham> getTrangThaiDungHoatDong(Pageable pageable);
+
+    Page<ChiTietSanPham> findBySanPham_TenContainingIgnoreCase(String ten, Pageable pageable);
 }
