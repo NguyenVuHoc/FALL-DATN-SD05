@@ -25,6 +25,7 @@ public class HoaDonRequest {
         hoaDon.setId(Long.valueOf(this.getId()));
         hoaDon.setMa(this.getMaHoaDon());
         hoaDon.setNgaySua(LocalDate.now());
+        hoaDon.setSdt(this.sdt);
         hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(this.getThanhToan())));
         hoaDon.setKhachHang(KhachHang.builder().ten(this.tenKhachHang).build());
         return hoaDon;

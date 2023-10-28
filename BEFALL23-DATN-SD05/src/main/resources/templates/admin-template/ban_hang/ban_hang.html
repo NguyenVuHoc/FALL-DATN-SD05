@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../images/WingMan-black.png" rel="icon">
+    <link href="/../../images/WingMan-black.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,18 +134,16 @@
                 <div style="width: 70%;">
                     <div>
                         <div class="bg-light rounded h-100 p-4">
-
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
                                             data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                                             aria-selected="true" th:each="hdc : ${listHoaDonCho}">
-                                        <a th:href="@{'/admin/ban-hang/detail/' + ${hdc.getId()}}"
+                                        <a th:href="@{'/admin/ban-hang/hoa-don/' + ${hdc.getId()}}"
                                            th:text="${hdc.getMa()}"></a>
                                     </button>
                                 </div>
                             </nav>
-
                             <div class="tab-content pt-3" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                      aria-labelledby="nav-home-tab">
@@ -190,7 +188,7 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a th:href="@{/admin/ban-hang/pre/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                    <a th:href="@{/admin/ban-hang/hoa-don/pre/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
                                        class="page-link"
                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
@@ -198,7 +196,7 @@
                                 </li>
                                 <li class="page-item"><a class="page-link" th:text="${index}"></a></li>
                                 <li class="page-item">
-                                    <a th:href="@{/admin/ban-hang/next/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                    <a th:href="@{/admin/ban-hang/hoa-don/next/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
                                        class="page-link"
                                        aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
@@ -219,7 +217,8 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Số Điện Thoại</label>
-                                <input type="text" class="form-control" name="sdt" th:field="*{khachHang.sdt}"/>
+                                <input type="text" class="form-control" name="sdt"
+                                       th:field="*{khachHang.sdt}"/>
                             </div>
                             <div class="mb-3 row g-2">
                                 <div style="width: 75%;">
@@ -228,15 +227,11 @@
                                            th:field="*{khachHang.ten}"/>
                                 </div>
                                 <div style="width: 25%;">
-                                    <!-- Button trigger modal -->
                                     <button id="selectButton" type="button" class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target="#myModal" style="margin-top: 30px;">
                                         Chọn
                                     </button>
-
-                                    <!-- Modal -->
-
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -260,11 +255,14 @@
             <h6 class="mb-4" style="font-size: 25px;">Sản Phẩm</h6>
             <div class="row g-2">
                 <div style="width: 50%;">
-                    <form class="d-none d-md-flex">
+                    <form th:action="@{'/admin/ban-hang/hoa-don/san-pham/tim-kiem/' + ${idHoaDonCho}}"
+                          class="d-none d-md-flex">
                         <input class="form-control border-1"
-                               style="border: solid rgb(236, 233, 233) 1px ; width: 400px;" type="search"
-                               placeholder="Nhập từ khóa cần tìm"/>
-                        <button type="button" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
+                               style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
+                               type="search"
+                               placeholder="Nhập sản phẩm cần tìm" name="ten"
+                               th:value="${param.ten}"/>
+                        <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
                             Tìm Kiếm
                         </button>
                     </form>
@@ -332,7 +330,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="mb-3">
-                                                            <label for="recipient-name" class="col-form-label">Số
+                                                            <label for="recipient-name" class="col-form-label">Nhập Số
                                                                 Lượng:</label>
                                                             <input type="text" class="form-control" id="recipient-name"
                                                                    name="soLuong" th:field="*{soLuong}">
@@ -359,13 +357,15 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                            <a class="page-link" aria-label="Previous"
+                               th:href="@{'/admin/ban-hang/hoa-don/san-pham/pre/' + ${idHoaDonCho}}">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" th:text="${indexChiTietSP}"></a></li>
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" aria-label="Next"
+                               th:href="@{'/admin/ban-hang/hoa-don/san-pham/next/' + ${idHoaDonCho}}">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -417,14 +417,15 @@
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
                                     <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
+                                        <a class="page-link" aria-label="Previous"
+                                           th:href="@{/admin/ban-hang/hoa-don/khach-hang/pre}">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" th:text="${indexKhachHang}"></a></li>
                                     <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
+                                        <a class="page-link" aria-label="Next"
+                                           th:href="@{/admin/ban-hang/hoa-don/khach-hang/next}">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
