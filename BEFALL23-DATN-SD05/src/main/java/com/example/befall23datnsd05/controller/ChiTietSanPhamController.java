@@ -1,20 +1,30 @@
 package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.dto.AnhCustomerCustom;
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
-import com.example.befall23datnsd05.entity.ChiTietSanPham;
-import com.example.befall23datnsd05.service.*;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
+import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
+import com.example.befall23datnsd05.service.ChiTietSanPhamService;
+import com.example.befall23datnsd05.service.CoGiayService;
+import com.example.befall23datnsd05.service.DeGiayService;
+import com.example.befall23datnsd05.service.KichThuocService;
+import com.example.befall23datnsd05.service.LotGiayService;
+import com.example.befall23datnsd05.service.MauSacService;
+import com.example.befall23datnsd05.service.SanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import org.springframework.validation.BindingResult;
 
 @Controller
 public class ChiTietSanPhamController {
@@ -60,6 +70,12 @@ public class ChiTietSanPhamController {
     private String preCustome() {
         pageNo--;
         pageNo = chiTietSanPhamService.nextPage(pageNo);
+        return "redirect:/wingman/cua-hang";
+    }
+
+    @GetMapping("/wingman/cua-hang-first")
+    private String firstCustome() {
+        pageNo = chiTietSanPhamService.nextPage(0);
         return "redirect:/wingman/cua-hang";
     }
 
