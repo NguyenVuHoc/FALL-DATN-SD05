@@ -9,8 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="/../../img/wingman.png" rel="icon">
-
+    <link href="../../images/WingMan-black.png" rel="icon">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,7 +45,7 @@
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
-            <a href="../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
+            <a th:href="@{/admin/ban-hang}" class="navbar-brand mx-4 mb-3">
                 <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
@@ -62,34 +61,32 @@
                 </div>
             </div>
             <div class="navbar-nav w-100">
-                <a href="../ban_hang/ban_hang.html" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
+                <a th:href="@{/admin/ban-hang}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
                     Hàng</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
-                            class="fa fa-laptop me-2"></i>Sản
-                        Phẩm</a>
+                            class="fa fa-laptop me-2"></i>Sản Phẩm</a>
                     <div class="dropdown-menu bg-transparent border-0">
-                        <a href="/admin/san-pham" class="dropdown-item active">Sản Phẩm</a>
-                        <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item">Chi Tiết Sản
+                        <a th:href="@{/admin/san-pham}" class="dropdown-item active">Sản Phẩm</a>
+                        <a th:href="@{/admin/chi-tiet-san-pham}" class="dropdown-item">Chi Tiết Sản
                             Phẩm</a>
-                        <a href="/admin/dong-san-pham" class="dropdown-item">Dòng Sản Phẩm</a>
-                        <a href="/admin/thuong-hieu" class="dropdown-item">Thương Hiệu</a>
-                        <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
-                        <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
-                        <a href="../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
-                        <a href="../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
-                        <a href="../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
+                        <a th:href="@{/admin/dong-san-pham}" class="dropdown-item">Dòng Sản Phẩm</a>
+                        <a th:href="@{/admin/thuong-hieu}" class="dropdown-item">Thương Hiệu</a>
+                        <a th:href="@{/admin/mau-sac}" class="dropdown-item">Màu Sắc</a>
+                        <a th:href="@{/admin/kich-thuoc}" class="dropdown-item">Kích Thước</a>
+                        <a th:href="@{/admin/de-giay}" class="dropdown-item">Đế Giày</a>
+                        <a th:href="@{/admin/lot-giay}" class="dropdown-item">Lót Giày</a>
+                        <a th:href="@{/admin/co-giay}" class="dropdown-item ">Cổ Giày</a>
                     </div>
                 </div>
-                <a href="../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
-                <a href="../khach_hang/khach_hang.html" class="nav-item nav-link"><i
-                        class="fa fa-user me-2"></i>Khách
-                    Hàng</a>
-                <a href="../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
+                <a th:href="@{/admin/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
+                <a th:href="@{/admin/khach-hang}" class="nav-item nav-link"><i
+                        class="fa fa-user me-2"></i>Khách Hàng</a>
+                <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
-                <a href="../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
+                <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                <a href="../thong_ke/thong_ke.html" class="nav-item nav-link"><i
+                <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
         </nav>
@@ -129,7 +126,7 @@
                       enctype="multipart/form-data"
                       th:object="${sanPham}">
                     <input type="hidden" th:field="*{id}"/>
-<!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.getAnhChinh()}"/>-->
+                    <!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.getAnhChinh()}"/>-->
                     <div class="mb-3">
                         <div class="mb-3">
                             <label class="form-label">Mã Sản Phẩm</label>
@@ -191,24 +188,57 @@
                     </div>
                     <!--ADD IMG-->
                     <div class="tab-pane" id="images" role="tabpanel">
-                        <div class="row">
+                        <style>
+                            #imageList {
+                                list-style: none;
+                                display: flex;
+                            }
 
+                            #imageList li {
+                                margin-right: 10px;
+                            }
+
+                            #imageList li img {
+                                max-width: 200px;
+                                max-height: auto;
+                                width: 100%;
+                                border: 2px solid #ccc;
+                                border-radius: 5px;
+                                margin: 10px;
+                                /*transition: transform 0.3s; !* Thêm hiệu ứng chuyển đổi *!*/
+                            }
+
+                            #imageList li:first-child img {
+                                transform: scale(1.25); /* Phóng to ảnh đầu tiên lên 150% */
+                            }
+
+                            #imageList li:nth-child(2) img {
+                                transform: scale(1); /* Ảnh thứ hai giữ nguyên kích thước */
+                            }
+                        </style>
+
+                        <div class="row">
                             <div class="col border m-3 p-2">
-                                <div><label>Ảnh Chính</label></div>
+                                <div><label>Danh sách ảnh</label></div>
                             </div>
                             <div class="m-2">
-                                <img id="productImage" th:src="@{'/images/' + ${sanPham.anhChinh}}" alt="Ảnh sản phẩm"
-                                     th:style="'width: 200px; height: auto; max-width: 100%;'"/>
-
-
+                                <ul id="imageList" class="horizontal-list">
+                                    <li th:each="image, iterStat : ${listAnh}">
+                                        <img th:src="@{'/images/' + ${image.url}}" alt="Ảnh sản phẩm" style="max-width: 200px; max-height: auto; width: 100%;" />
+                                    </li>
+                                </ul>
                             </div>
                             <div>
-                                <input type="file" id="fileImage" name="fileImage" onchange="previewImage(event)"
-                                       accept="image/png,image/jpeg,img/jpg"/>
+                                <input type="file" multiple="multiple" id="fileImages" name="fileImages"
+                                       onchange="previewImages(event)" accept="image/png,image/jpeg,img/jpg"/>
+                                <div th:if="${errorAnh}" class="alert alert-danger">
+                                    <p th:text="${errorAnh}"></p>
+                                </div>
                             </div>
-
                         </div>
+
                     </div>
+
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                         Sửa
                     </button>
@@ -240,22 +270,58 @@
 <script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 <script>
-    document.getElementById('fileImage').addEventListener('change', function (event) {
-        const imageElement = document.getElementById('productImage');
+    function previewImages(event) {
+        const imageList = document.getElementById('imageList');
         const fileInput = event.target;
+        const selectedFiles = event.target.files;
+        const maxImageCount = 4;
+        const highlightFirstImage = true; // Biến xác định việc làm nổi bật ảnh đầu tiên
 
-        if (fileInput.files && fileInput.files[0]) {
+        if (selectedFiles.length > maxImageCount) {
+            alert('Bạn chỉ được phép chọn tối đa ' + maxImageCount + ' ảnh.');
+            while (selectedFiles.length > maxImageCount) {
+                selectedFiles.pop();
+            }
+            fileInput.value = '';
+        }
+
+        // Xóa tất cả các ảnh hiện có
+        while (imageList.firstChild) {
+            imageList.removeChild(imageList.firstChild);
+        }
+
+        Array.from(selectedFiles).forEach(function (file, index) {
             const reader = new FileReader();
 
             reader.onload = function (e) {
+                // Tạo một phần tử hình ảnh
+                const imageElement = document.createElement('img');
                 imageElement.src = e.target.result;
+                imageElement.style.maxWidth = '200px';
+                imageElement.style.maxHeight = 'auto';
+                imageElement.style.width = '100%';
+                imageElement.style.border = '2px solid #ccc';
+                imageElement.style.borderRadius = '5px';
+                imageElement.style.margin = '10px';
+
+                // Nếu là ảnh đầu tiên và được đánh dấu là nổi bật
+                if (index === 0 && highlightFirstImage) {
+                    imageElement.style.border = '2px solid red'; // Đổi viền ảnh đầu tiên thành màu đỏ
+                }
+
+                // Thêm hình ảnh vào danh sách
+                const listItem = document.createElement('li');
+                listItem.appendChild(imageElement);
+                imageList.appendChild(listItem);
             };
 
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    });
+            reader.readAsDataURL(file);
+        });
+    }
+
 
 </script>
+
 
 
 <!-- Template Javascript -->
