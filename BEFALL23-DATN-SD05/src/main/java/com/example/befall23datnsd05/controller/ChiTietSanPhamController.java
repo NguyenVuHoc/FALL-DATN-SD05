@@ -11,6 +11,7 @@ import com.example.befall23datnsd05.service.DeGiayService;
 import com.example.befall23datnsd05.service.KichThuocService;
 import com.example.befall23datnsd05.service.LotGiayService;
 import com.example.befall23datnsd05.service.MauSacService;
+import com.example.befall23datnsd05.service.SanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,6 +31,9 @@ public class ChiTietSanPhamController {
 
     @Autowired
     private ChiTietSanPhamCustomerService chiTietSanPhamService;
+
+    @Autowired
+    private SanPhamService sanPhamService;
 
     @Autowired
     private ChiTietSanPhamService service;
@@ -110,6 +115,7 @@ public class ChiTietSanPhamController {
         model.addAttribute("listKT",kichThuocService.getAll());
         model.addAttribute("listLG",lotGiayService.getAll());
         model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("index", pageNo+1);
         return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
@@ -138,6 +144,7 @@ public class ChiTietSanPhamController {
         model.addAttribute("listKT",kichThuocService.getAll());
         model.addAttribute("listLG",lotGiayService.getAll());
         model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("chiTietSanPham", new ChiTietSanPham());
         return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
@@ -156,11 +163,12 @@ public class ChiTietSanPhamController {
             model.addAttribute("listKT",kichThuocService.getAll());
             model.addAttribute("listLG",lotGiayService.getAll());
             model.addAttribute("listCG",coGiayService.getAll());
+            model.addAttribute("listSP",sanPhamService.getList());
 
             return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
         }else{
             service.add(chiTietSanPham);
-            return "redirect:/admin/chi-tiet-san-pham";
+            return "redirect:/admin/chi-tiet-san-pham?success";
         }
     }
 
@@ -174,6 +182,7 @@ public class ChiTietSanPhamController {
         model.addAttribute("listKT",kichThuocService.getAll());
         model.addAttribute("listLG",lotGiayService.getAll());
         model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("chiTietSanPham",service.getById(id));
         return "admin-template/chi_tiet_san_pham/sua_chi_tiet_san_pham";
@@ -190,17 +199,64 @@ public class ChiTietSanPhamController {
             model.addAttribute("listKT",kichThuocService.getAll());
             model.addAttribute("listLG",lotGiayService.getAll());
             model.addAttribute("listCG",coGiayService.getAll());
+            model.addAttribute("listSP",sanPhamService.getList());
 
             return "admin-template/chi_tiet_san_pham/sua_chi_tiet_san_pham";
         }
         service.update(chiTietSanPham);
-        return "redirect:/admin/chi-tiet-san-pham";
+        return "redirect:/admin/chi-tiet-san-pham?success";
     }
 
     @GetMapping("/admin/chi-tiet-san-pham/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
-        return "redirect:/admin/chi-tiet-san-pham";
+        return "redirect:/admin/chi-tiet-san-pham?success";
+    }
+
+    @GetMapping("/admin/chi-tiet-san-pham/search")
+    public String searchTen(Model model,
+                            @RequestParam("ten") String ten){
+        Page<ChiTietSanPham> page = service.searchTen(ten,pageNo,5);
+        model.addAttribute("listCTSP",page.stream().toList());
+        model.addAttribute("listDG",deGiayService.getAll());
+        model.addAttribute("listMS",mauSacService.getAll());
+        model.addAttribute("listKT",kichThuocService.getAll());
+        model.addAttribute("listLG",lotGiayService.getAll());
+        model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
+
+        model.addAttribute("index", pageNo+1);
+        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
+    }
+
+    @GetMapping("/admin/chi-tiet-san-pham/trang-thai-hoat-dong")
+    public String getTrangThaiHoatDong(Model model){
+        Page<ChiTietSanPham> page = service.getTrangThaiHoatDong(pageNo,5);
+        model.addAttribute("listCTSP",page.stream().toList());
+        model.addAttribute("listDG",deGiayService.getAll());
+        model.addAttribute("listMS",mauSacService.getAll());
+        model.addAttribute("listKT",kichThuocService.getAll());
+        model.addAttribute("listLG",lotGiayService.getAll());
+        model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
+
+        model.addAttribute("index", pageNo+1);
+        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
+    }
+
+    @GetMapping("/admin/chi-tiet-san-pham/trang-thai-dung-hoat-dong")
+    public String getTrangThaiDungHoatDong(Model model){
+        Page<ChiTietSanPham> page = service.getTrangThaiDungHoatDong(pageNo,5);
+        model.addAttribute("listCTSP",page.stream().toList());
+        model.addAttribute("listDG",deGiayService.getAll());
+        model.addAttribute("listMS",mauSacService.getAll());
+        model.addAttribute("listKT",kichThuocService.getAll());
+        model.addAttribute("listLG",lotGiayService.getAll());
+        model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listSP",sanPhamService.getList());
+
+        model.addAttribute("index", pageNo+1);
+        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
 
 }
