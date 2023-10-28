@@ -126,7 +126,7 @@
                 <form th:action="@{/admin/san-pham/add}" method="post"
                       enctype="multipart/form-data"
                       th:object="${sanPham}">
-<!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.anhChinh}"/>-->
+                    <!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.anhChinh}"/>-->
 
                     <div class="mb-3">
                         <div class="mb-3">
@@ -183,13 +183,13 @@
                                 <div>
                                     <label>
                                         Ảnh Hiển Thị
-                                        <img id="imagePreview" src="" alt="Ảnh sản phẩm"
-                                             style="width: 200px; height: auto; max-width: 100%; display: none;"/>
+                                        <ul id="imageList"
+                                            style="list-style-type: none; display: flex; gap: 10px;"></ul>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <input type="file"  id="fileImage" name="fileImage" onchange="previewImage(event)"
+                        <input type="file" multiple id="fileImage" name="fileImage" onchange="previewImage(event)"
                                accept="image/png,image/jpeg,img/jpg,img/jfif"/>
                     </div>
                     <!--                            validate-->
@@ -198,30 +198,32 @@
                     </div>
                     <div th:if="${errorAnh}" class="alert alert-danger">
                         <p th:text="${errorAnh}"></p>
-                    </div>
-            </div>
-            <button type="submit" class="btn btn-success " style="margin-left: 40%;">
-                Thêm
-            </button>
-            </form>
-        </div>
-        <!-- Recent Sales End -->
 
-        <!-- Footer Start -->
-        <div class="container-fluid pt-4">
-            <div class="bg-light rounded-top p-4">
-                <div class="row">
-                    <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-success " style="margin-left: 40%;">
+                        Thêm
+                    </button>
+                </form>
+
+            </div>
+            <!-- Recent Sales End -->
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+                    </div>
                 </div>
             </div>
+            <!-- Footer End -->
         </div>
-        <!-- Footer End -->
-    </div>
-    <!-- Content End -->
+        <!-- Content End -->
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
 </div>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -240,19 +242,34 @@
 
 <script>
     function previewImage(event) {
-        var fileInput = event.target;
-        var imagePreview = document.getElementById("imagePreview");
+        const imageList = document.getElementById('imageList');
+        const fileInput = event.target;
 
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = "block";
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        } else {
-            imagePreview.src = "";
-            imagePreview.style.display = "none";
+        // Xóa tất cả các ảnh hiện có
+        while (imageList.firstChild) {
+            imageList.removeChild(imageList.firstChild);
+        }
+
+        if (fileInput.files) {
+            Array.from(fileInput.files).forEach(function (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Tạo một phần tử hình ảnh
+                    const imageElement = document.createElement('img');
+                    imageElement.src = e.target.result;
+                    imageElement.style.maxWidth = '200px';
+                    imageElement.style.maxHeight = 'auto';
+                    imageElement.style.width = '100%';
+
+                    // Thêm hình ảnh vào danh sách
+                    const listItem = document.createElement('li');
+                    listItem.appendChild(imageElement);
+                    imageList.appendChild(listItem);
+                };
+
+                reader.readAsDataURL(file);
+            });
         }
     }
 </script>
