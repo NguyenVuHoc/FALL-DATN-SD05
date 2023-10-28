@@ -121,31 +121,34 @@
             </nav>
             <!-- Navb-->
             <!-- Navbar End -->
+            <div th:if="${param.success}">
+                <div class="alert alert-info" id="success-alert">Success!</div>
+            </div>
             <!-- Recent Sales Start -->
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
                 <div class="row g-2">
                     <div style="width: 50%;">
-                        <form class="d-none d-md-flex">
+                        <form class="d-none d-md-flex" method="get" th:action="@{/admin/chi-tiet-san-pham/search}">
                             <input class="form-control border-1"
                                 style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
-                                type="search" placeholder="Nhập sản phẩm cần tìm" />
+                                type="search" placeholder="Nhập sản phẩm cần tìm" name="ten" th:value="${param.ten}"/>
                             <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
                                 Tìm Kiếm
                             </button>
                         </form>
                     </div>
-                    <div style="width: 30%; margin-left: -20px;">
-                        <select class="form-select" aria-label="Default select example" style="width: 200px;">
-                            <option selected>Tất cả</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
+<!--                    <div style="width: 30%; margin-left: -20px;">-->
+<!--                        <select class="form-select" aria-label="Default select example" style="width: 200px;">-->
+<!--                            <option selected>Tất cả</option>-->
+<!--                            <option value="1">One</option>-->
+<!--                            <option value="2">Two</option>-->
+<!--                            <option value="3">Three</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
                     <div style="width: 20%; margin-left: 20px;">
                         <button class="btn btn-outline-success" style="margin-right: -200px;">
-                            <a class="them" th:href="@{../admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
+                            <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
                         </button>
                     </div>
                 </div>
@@ -153,8 +156,8 @@
 
             <nav  style="padding-bottom: 30px; margin-left: 20px; margin-bottom: -20px">
                 <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Tất cả</a>
-                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Đang hoạt động</a>
-                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Dừng hoạt động</a>
+                <a th:href="@{/admin/chi-tiet-san-pham/trang-thai-hoat-dong}" type="button" class="btn btn-outline-primary">Đang hoạt động</a>
+                <a th:href="@{/admin/chi-tiet-san-pham/trang-thai-dung-hoat-dong}" type="button" class="btn btn-outline-primary">Dừng hoạt động</a>
             </nav>
 
             <div class="container-fluid pt-4">
@@ -178,8 +181,8 @@
                                 <tbody>
                                 <tr th:each="chiTietSanPham : ${listCTSP}">
                                     <td th:text="${chiTietSanPham.id}"></td>
-                                    <td th:text="${chiTietSanPham.deGiay.ten}"></td>
-                                    <td th:text="${chiTietSanPham.deGiay.ten}"></td>
+                                    <td th:text="${chiTietSanPham.sanPham.ma}"></td>
+                                    <td th:text="${chiTietSanPham.sanPham.ten}"></td>
                                     <td th:text="${chiTietSanPham.mauSac.ten}"></td>
                                     <td th:text="${chiTietSanPham.kichThuoc.ten}"></td>
                                     <td th:text="${chiTietSanPham.soLuongTon}"></td>
@@ -189,10 +192,10 @@
                                         <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
                                     </td>
                                     <td>
-                                        <a th:href="@{'../admin/chi-tiet-san-pham/view-update/' + ${chiTietSanPham.id}}">
+                                        <a th:href="@{'/admin/chi-tiet-san-pham/view-update/' + ${chiTietSanPham.id}}">
                                             <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
-                                        <a th:href="@{'../admin/chi-tiet-san-pham/delete/' + ${chiTietSanPham.id}}">
+                                        <a th:href="@{'/admin/chi-tiet-san-pham/delete/' + ${chiTietSanPham.id}}">
                                             <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
                                     </td>
@@ -252,6 +255,7 @@
 
     <!-- Template Javascript -->
     <script src="../../js/admin/main.js"></script>
+    <script src="../../js/admin/index_form.js"></script>
 </body>
 
 </html>

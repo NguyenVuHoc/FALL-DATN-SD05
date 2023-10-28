@@ -21,6 +21,4 @@ public interface ChiTietSanPhamCustomerCustom {
     String getAnh_chinh();
 
 
-
-
 }

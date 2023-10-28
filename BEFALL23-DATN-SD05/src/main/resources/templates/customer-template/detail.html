@@ -7,7 +7,31 @@
 */ -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{customer-template/fragments/fragment :: page_head}">
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co"/>
+    <link rel="shortcut icon" href="favicon.png"/>
+
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="/../css/customer/bootstrap.min.css" rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link href="/../css/customer/style.css" rel="stylesheet"/>
+    <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
+    <link href="/../css/customer/shop.css" rel="stylesheet"/>
+    <link href="/../css/customer/detail.css" rel="stylesheet"/>
+    <title>
+        Wingman
+    </title>
 </head>
 <body>
 
@@ -28,9 +52,7 @@
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                 <li><a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a></li>
-                <li class="active">
-                    <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
-                </li>
+                <li><a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
@@ -38,8 +60,8 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
-                <li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
+                <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
+                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg"></a></li>
             </ul>
         </div>
     </div>
@@ -66,7 +88,7 @@
             <div class="col-lg-6">
 
                 <h2 style="color: #0c0e12"
-                    th:text="*{sanPham.ten + sanPham.dongSanPham.ten + deGiay.ten + coGiay.ten + lotGiay.ten}"></h2>
+                    th:text="*{sanPham.ten +' '+ sanPham.dongSanPham.ten +' '+ deGiay.ten +' '+ coGiay.ten +' '+ lotGiay.ten}"></h2>
 
                 <div class="row">
                     <div class="col-lg-4">
@@ -92,40 +114,9 @@
                     <p style="font-family: 'Montserrat Medium'" class="p">Kích cỡ:</p>
                     <div class="row" style="margin-bottom: 3%">
                         <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1">38</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio2">39</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio3">40</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio4">41</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio5">42</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio6">43</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio7">44</label>
-                        </div>
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8"
-                                   autocomplete="off">
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio8">45</label>
-                        </div>
+                            <input type="radio" class="btn-check" name="size-radio" id="vbtn-radio1" autocomplete="off" checked>
+                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1" th:text="*{kichThuoc.ten}"></label>
+                     </div>
                     </div>
                 </div>
 
@@ -133,25 +124,8 @@
                     <p class="p">Màu Sắc:</p>
                     <div class="row" style="margin-bottom: 3%">
                         <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color1"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1">
-                                Đỏ
-                            </label>
-                        </div>
-                        <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color2"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color2">
-                                Đen
-                            </label>
-                        </div>
-                        <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-color3"
-                                   autocomplete="off">
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color3">
-                                Xanh
-                            </label>
+                            <input type="radio" class="btn-check" name="color-radio" id="vbtn-radio-color1" autocomplete="off" checked>
+                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1" th:text="*{mauSac.ten}"></label>
                         </div>
                     </div>
                 </div>
@@ -161,23 +135,33 @@
                         <p class="p">Số lượng:</p>
                     </div>
 
-                    <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                         style="max-width: 120px">
+                    <div
+                            class="input-group mb-3 d-flex align-items-center quantity-container"
+                            style="max-width: 120px"
+                    >
                         <div class="input-group-prepend">
-                            <button class="detail-btn-sl btn-outline-black decrease"
-                                    type="button"> &minus;
+                            <button
+                                    class="detail-btn-sl btn-outline-black decrease"
+                                    type="button"
+                            >
+                                &minus;
                             </button>
                         </div>
-                        <input type="text"
-                               class="form-control text-center quantity-amount detail-text-ph"
-                               value="1"
-                               placeholder=""
-                               aria-label="Example text with button addon"
-                               aria-describedby="button-addon1"
-                               style="border: 1px solid #0c0e12"/>
+                        <input
+                                type="text"
+                                class="form-control text-center quantity-amount detail-text-ph"
+                                value="1"
+                                placeholder=""
+                                aria-label="Example text with button addon"
+                                aria-describedby="button-addon1"
+                                style="border: 1px solid #0c0e12"
+                        />
                         <div class="input-group-append">
-                            <button class="detail-btn-sl btn-outline-black increase"
-                                    type="button"> &plus;
+                            <button
+                                    class="detail-btn-sl btn-outline-black increase"
+                                    type="button"
+                            >
+                                &plus;
                             </button>
                         </div>
                     </div>
@@ -511,5 +495,8 @@
     </div>
 </footer>
 <!-- End Footer Section -->
+<script src="/../js/customer/bootstrap.bundle.min.js"></script>
+<script src="/../js/customer/tiny-slider.js"></script>
+<script src="/../js/customer/custom.js"></script>
 </body>
 </html>

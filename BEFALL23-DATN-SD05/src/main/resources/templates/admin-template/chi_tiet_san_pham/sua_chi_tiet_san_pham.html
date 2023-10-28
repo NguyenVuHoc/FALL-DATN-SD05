@@ -125,7 +125,14 @@
 
                 <form th:action="@{/admin/chi-tiet-san-pham/update}" method="post" th:object="${chiTietSanPham}">
                     <input type="hidden" th:field="*{id}">
-
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Sản phẩm</label>
+                        <select class="form-select mb-3" th:field="*{sanPham}">
+                            <option th:each="sanPham : ${listSP}"
+                                    th:value="${sanPham.id}" th:text="${sanPham.ten}"
+                            />
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Đế giày</label>
                         <select class="form-select mb-3" aria-label="Default select example" th:field="*{deGiay}">
