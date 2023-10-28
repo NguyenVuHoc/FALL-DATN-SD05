@@ -12,4 +12,6 @@ public interface AnhSanPhamService {
 
     List<AnhSanPham> getAnh(SanPham sanPham);
 
+    void deleteByIdSp(Long id);
+
 }
