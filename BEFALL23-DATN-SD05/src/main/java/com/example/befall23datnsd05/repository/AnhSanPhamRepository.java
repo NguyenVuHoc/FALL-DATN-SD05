@@ -13,5 +13,5 @@ public interface AnhSanPhamRepository extends JpaRepository<AnhSanPham, Long> {
 
     List<AnhSanPham> findBySanPham(SanPham sanPham);
 
-
+    List<AnhSanPham> findBySanPhamId(Long id);
 }

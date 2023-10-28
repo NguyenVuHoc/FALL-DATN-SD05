@@ -15,6 +15,7 @@
 .detail-btn-size {
     background-color: white;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
     width: 30px;
     height: 30px;
@@ -28,6 +29,7 @@
 .detail-btn-color{
     background-color: #ffffff;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
     width: 60px;
     height: 30px;
@@ -42,6 +44,7 @@
 .detail-btn-sl{
     background-color: white;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
     height: 30px;
     text-align: center;

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +43,13 @@ public class AnhServiceImpl implements AnhSanPhamService {
     @Override
     public List<AnhSanPham> getAnh(SanPham sanPham) {
         return repository.findBySanPham(sanPham);
+    }
+
+    @Transactional
+    @Override
+    public void deleteByIdSp(Long id) {
+        List<AnhSanPham> anhSanPhams = repository.findBySanPhamId(id);
+        repository.deleteInBatch(anhSanPhams);
     }
 
 

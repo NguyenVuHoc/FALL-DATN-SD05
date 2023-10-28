@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -76,102 +77,125 @@ public class SanPhamController {
         return "admin-template/san_pham/them_san_pham";
     }
 
+
     @PostMapping("/add")
     public String saveProduct(@Valid @ModelAttribute("sanPham") SanPhamRequest sanPham, RedirectAttributes ra,
-                              @RequestParam("fileImage") MultipartFile multipartFile,
+                              @RequestParam("fileImage") MultipartFile[] multipartFiles,
                               Model model) {
         String ma = sanPham.getMa();
         String ten = sanPham.getTen();
-        if (multipartFile.getSize() >= 1048576) {
+        if (multipartFiles.length > 4) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
-            model.addAttribute("errorAnh", "Ảnh phải có kích cỡ nhỏ hơn 2KB");
+            model.addAttribute("errorAnh", "Chỉ được tải lên tối đa 4 ảnh");
             return "admin-template/san_pham/them_san_pham";
-
         }
-        if (!multipartFile.isEmpty()) {
-            if (sanPhamService.existByMa(ma)) {
+        for (MultipartFile multipartFile : multipartFiles) {
+            if (multipartFile.getSize() >= 1048576) {
                 model.addAttribute("listThuongHieu", thuongHieuService.getList());
                 model.addAttribute("listDongSp", dongSanPhamService.getList());
-                model.addAttribute("errorMa", "Mã  đã tồn tại");
+                model.addAttribute("errorAnh", "Ảnh phải có kích cỡ nhỏ hơn 2KB");
                 return "admin-template/san_pham/them_san_pham";
             }
-            if (sanPhamService.existsByTen(ten)) {
-                model.addAttribute("listThuongHieu", thuongHieuService.getList());
-                model.addAttribute("listDongSp", dongSanPhamService.getList());
-                model.addAttribute("errorTen", "Tên  đã tồn tại");
-                return "admin-template/san_pham/them_san_pham";
-            } else {
+        }
 
-                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-                sanPham.setAnhChinh(fileName);
+        if (sanPhamService.existByMa(ma)) {
+            model.addAttribute("listThuongHieu", thuongHieuService.getList());
+            model.addAttribute("listDongSp", dongSanPhamService.getList());
+            model.addAttribute("errorMa", "Mã đã tồn tại");
+            return "admin-template/san_pham/them_san_pham";
+        }
+
+        if (sanPhamService.existsByTen(ten)) {
+            model.addAttribute("listThuongHieu", thuongHieuService.getList());
+            model.addAttribute("listDongSp", dongSanPhamService.getList());
+            model.addAttribute("errorTen", "Tên đã tồn tại");
+            return "admin-template/san_pham/them_san_pham";
+        }
+
+        if (multipartFiles.length > 0) {
+            // Lấy ảnh đầu tiên từ danh sách
+            MultipartFile firstImage = multipartFiles[0];
+            String fileName = StringUtils.cleanPath(firstImage.getOriginalFilename());
+            sanPham.setAnhChinh(fileName);
+
+            // Xử lý lưu sản phẩm
+            SanPham savedSanPham = sanPhamService.save(sanPham);
+
+            for (MultipartFile multipartFile : multipartFiles) {
+                fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 AnhSanPham anhSanPham = new AnhSanPham();
-                SanPham savedSanPham = sanPhamService.save(sanPham);
                 anhSanPham.setSanPham(savedSanPham);
-                anhSanPham.setUrl(multipartFile.getOriginalFilename());
+                anhSanPham.setUrl(fileName);
                 anhSanPhamService.save(anhSanPham);
+
                 String uploadDir = "src/main/resources/static/images/";
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
             }
         } else {
-            ra.addFlashAttribute("chuadoianh", "Hãy chọn ảnh");
+            ra.addFlashAttribute("chuadoianh", "Hãy chọn ít nhất một ảnh");
             return "redirect:/admin/san-pham/view-add-san-pham";
         }
+
+        // ...
         return "redirect:/admin/san-pham?success";
     }
+
 
     @GetMapping("edit/{id}")
     public String editProduct(@PathVariable("id") Long id, Model model) {
 
         SanPham sanPham = sanPhamService.findById(id);
+        List<AnhSanPham> listAnh = sanPham.getListAnhSanPham();
         model.addAttribute("listThuongHieu", thuongHieuService.getList());
         model.addAttribute("listDongSp", dongSanPhamService.getList());
+        model.addAttribute("listAnh", listAnh);
         model.addAttribute("sanPham", sanPham);
         return "admin-template/san_pham/sua_san_pham";
     }
 
     @PostMapping("/update")
-    public String updateProduct(@ModelAttribute("sanPham") SanPhamRequest sanPham, RedirectAttributes ra,
-                                @RequestParam("fileImage") MultipartFile multipartFile, Model model) {
-        String ten = sanPham.getTen();
-        Long id = sanPham.getId();
+    public String updateProduct(@ModelAttribute("sanPham") SanPhamRequest sanPhamRequest, Model model) {
+        String ten = sanPhamRequest.getTen();
+        Long id = sanPhamRequest.getId();
+        SanPham existingSanPham = sanPhamService.findById(id);
+        List<AnhSanPham> existingImg = existingSanPham.getListAnhSanPham(); // Danh sách ảnh mới
+        List<String> newImageUrls = new ArrayList<>();
 
-        // Kiểm tra xem người dùng đã chọn một tệp mới hay không
-        if (!multipartFile.isEmpty()) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            sanPham.setAnhChinh(fileName);
-
-            AnhSanPham anhSanPham = new AnhSanPham();
-            SanPham savedSanPham = sanPhamService.update(sanPham);
-            anhSanPham.setSanPham(savedSanPham);
-            anhSanPham.setUrl(fileName);
-            anhSanPhamService.save(anhSanPham);
-
-            String uploadDir = "src/main/resources/static/images/";
-            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-        } else {
-            // Người dùng không chọn tệp mới, giữ nguyên thông tin ảnh hiện có
-            // Lấy thông tin ảnh từ cơ sở dữ liệu hoặc từ bất kỳ nguồn nào bạn lưu trữ nó
-            SanPham existingSanPham = sanPhamService.findById(id); // Thay thế findById bằng phương thức thích hợp
-            if (existingSanPham != null) {
-                sanPham.setAnhChinh(existingSanPham.getAnhChinh());
-                sanPhamService.update(sanPham);
-
-            }
-        }
-
-        // Tiếp tục xử lý khác
         if (sanPhamService.existsByTenAndIdNot(ten, id)) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
             model.addAttribute("errorTen", "Tên đã tồn tại");
-            return "admin-template/san_pham/sua_san_pham";
+            return "redirect:/admin/san-pham/edit/" + id;
         }
 
-        ra.addFlashAttribute("message", "Thay Đổi Thành Công.");
+        List<MultipartFile> multipartFiles = sanPhamRequest.getFileImages();
+        if (multipartFiles != null && !multipartFiles.isEmpty()) {
+            List<AnhSanPham> newImages = new ArrayList<>();
+            String uploadDir = "src/main/resources/static/images";
+            anhSanPhamService.deleteByIdSp(id);
+
+            for (MultipartFile multipartFile : multipartFiles) {
+                if (!multipartFile.isEmpty()) {
+                    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                    AnhSanPham anhSanPham = new AnhSanPham();
+                    anhSanPham.setSanPham(existingSanPham);
+                    existingSanPham.setAnhChinh(fileName);
+                    anhSanPham.setUrl(fileName);
+                    anhSanPhamService.save(anhSanPham);
+                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                    newImages.add(anhSanPham);
+                    newImageUrls.add(anhSanPham.getUrl());
+                    String firstImageUrl = newImageUrls.get(0);
+                    sanPhamRequest.setAnhChinh(firstImageUrl);
+                }
+            }
+            existingImg.addAll(newImages);
+        }
+
+        existingSanPham.setListAnhSanPham(existingImg);
+        sanPhamService.update(sanPhamRequest);
         return "redirect:/admin/san-pham?success";
     }
-
-
 }
 
