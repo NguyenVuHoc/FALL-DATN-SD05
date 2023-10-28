@@ -21,4 +21,9 @@ public interface ChiTietSanPhamService {
     Page<ChiTietSanPham> phanTrang(Integer pageNo, Integer size);
     Integer chuyenPage(Integer pageNo);
 
+    Page<ChiTietSanPham> searchTen(String ten, Integer pageNo, Integer size);
+
+    Page<ChiTietSanPham> getTrangThaiHoatDong(Integer pageNo, Integer size);
+
+    Page<ChiTietSanPham> getTrangThaiDungHoatDong(Integer pageNo, Integer size);
 }

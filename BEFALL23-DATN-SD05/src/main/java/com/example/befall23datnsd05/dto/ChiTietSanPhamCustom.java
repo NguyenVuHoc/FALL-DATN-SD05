@@ -1,25 +1,23 @@
 package com.example.befall23datnsd05.dto;
 
+import com.example.befall23datnsd05.entity.*;
+
 import java.math.BigDecimal;
 
 public interface ChiTietSanPhamCustom {
 
-//     String getSanPham();
+     Long getId();
 
-     String getDeGiay();
+     SanPham getSanPham();
 
-     String getMauSac();
+     MauSac getMauSac();
 
-     String getKichThuoc();
-
-     String getLotGiay();
-
-     String getCoGiay();
+     KichThuoc getKichThuoc();
 
      Integer getSoLuongTon();
 
-     BigDecimal getGiaMacDinh();
-
      BigDecimal getGiaBan();
+
+     Integer getTrangThai();
 
 }
