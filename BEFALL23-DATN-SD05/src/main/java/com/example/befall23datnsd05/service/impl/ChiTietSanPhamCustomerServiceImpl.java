@@ -27,7 +27,7 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
     public Integer nextPage(Integer pageNo) {
         Integer sizeList = repository.findAll().size();
         System.out.println(sizeList);
-        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
+        Integer pageCount = (int) Math.ceil((double) sizeList / 20);
         System.out.println(pageCount);
         if (pageNo >= pageCount) {
             pageNo = 0;

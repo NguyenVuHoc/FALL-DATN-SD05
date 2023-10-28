@@ -192,7 +192,7 @@
                         <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title"
-                        th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
+                        th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten  +' Size '+ ctsp.kichThuoc.ten +' '+ ctsp.mauSac.ten}"></h3>
                     <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -220,7 +220,7 @@
                         <a class="btn" href="/wingman/cua-hang-next"> >> </a>
                     </li>
                     <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <a class="btn" href="#"> >>| </a>
+                        <a class="btn" href="/wingman/cua-hang-last"> >>| </a>
                     </li>
                 </ul>
             </nav>
@@ -251,7 +251,7 @@
                         <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title"
-                        th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()}"></h3>
+                        th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()  +' Size '+ ctspCustom.getTenKich_thuoc() +' '+ ctspCustom.getTenMau_sac()}"></h3>
                     <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -279,7 +279,7 @@
                         <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title"
-                        th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()}"></h3>
+                        th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()  +' Size '+ ctspLimited.getTenKich_thuoc() +' '+ ctspLimited.getTenMau_sac()}"></h3>
                     <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">

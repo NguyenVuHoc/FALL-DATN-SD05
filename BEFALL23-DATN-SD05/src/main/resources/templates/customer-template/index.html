@@ -91,7 +91,7 @@
                         <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title"
-                        th:text="${ctsp3New.getTenSp() +' '+ ctsp3New.getTenDongSp() +' '+ ctsp3New.getTenDe_giay() +' '+ ctsp3New.getTenCo_giay() +' '+ ctsp3New.getTenLot_giay()}"></h3>
+                        th:text="${ctsp3New.getTenSp() +' '+ ctsp3New.getTenDongSp() +' '+ ctsp3New.getTenDe_giay() +' '+ ctsp3New.getTenCo_giay() +' '+ ctsp3New.getTenLot_giay() +' Size '+ ctsp3New.getTenKich_thuoc() +' '+ ctsp3New.getTenMau_sac()}"></h3>
                     <strong class="product-price" th:text="${ctsp3New.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
@@ -130,7 +130,7 @@
                              class="img-fluid product-thumbnail">
                     </a>
                     <h3 class="product-title"
-                        th:text="${ctsp3prominent.getTenSp() +' '+ ctsp3prominent.getTenDongSp() +' '+ ctsp3prominent.getTenDe_giay() +' '+ ctsp3prominent.getTenCo_giay() +' '+ ctsp3prominent.getTenLot_giay()}"></h3>
+                        th:text="${ctsp3prominent.getTenSp() +' '+ ctsp3prominent.getTenDongSp() +' '+ ctsp3prominent.getTenDe_giay() +' '+ ctsp3prominent.getTenCo_giay() +' '+ ctsp3prominent.getTenLot_giay() +' Size '+ ctsp3prominent.getTenKich_thuoc() +' '+ ctsp3prominent.getTenMau_sac()}"></h3>
                     <strong class="product-price" th:text="${ctsp3prominent.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">

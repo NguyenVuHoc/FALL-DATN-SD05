@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.CoGiayService;
@@ -30,6 +31,9 @@ import java.util.List;
 public class ChiTietSanPhamController {
 
     @Autowired
+    private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
     private ChiTietSanPhamCustomerService chiTietSanPhamService;
 
     @Autowired
@@ -52,6 +56,7 @@ public class ChiTietSanPhamController {
 
     @Autowired
     private CoGiayService coGiayService;
+
     Integer pageNo = 0;
 
     @GetMapping("/wingman/cua-hang")
@@ -76,6 +81,15 @@ public class ChiTietSanPhamController {
     @GetMapping("/wingman/cua-hang-first")
     private String firstCustome() {
         pageNo = chiTietSanPhamService.nextPage(0);
+        return "redirect:/wingman/cua-hang";
+    }
+
+    @GetMapping("/wingman/cua-hang-last")
+    private String lastCustome() {
+        Integer sizeList = chiTietSanPhamRepository.findAll().size();
+        Integer pageCount = (int) Math.ceil((double) sizeList / 20);
+        pageNo = pageCount -1;
+        pageNo = chiTietSanPhamService.nextPage(pageNo);
         return "redirect:/wingman/cua-hang";
     }
 
