@@ -296,5 +296,20 @@
     transition: background-color 0.3s;
 }
 
+.horizontal-list {
+    list-style-type: none;
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các ảnh */
+}
+
+.horizontal-list li {
+    display: inline;
+}
+
+.horizontal-list img {
+    max-width: 100px; /* Kích thước tối đa của ảnh */
+    max-height: 100px; /* Kích thước tối đa của ảnh */
+    object-fit: cover; /* Điều chỉnh việc hiển thị hình ảnh */
+}
 
 
