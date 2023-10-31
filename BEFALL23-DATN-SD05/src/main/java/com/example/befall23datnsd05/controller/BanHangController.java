@@ -64,7 +64,7 @@ public class BanHangController {
             model.addAttribute("isActive", isActive);
             return "redirect:/admin/ban-hang";
         } else if (banHangService.getOneById(Long.valueOf(idHoaDon)) != null) {
-            isActive = false;
+            isActive = true;
             Page<HoaDonChiTiet> listHDCTPhanTrang = banHangService.getPhanTrang(Long.valueOf(idHoaDon), page, 5);
             model.addAttribute("listHoaDonChiTiet", listHDCTPhanTrang);
             model.addAttribute("index", page + 1);
@@ -151,7 +151,8 @@ public class BanHangController {
     }
 
     @PostMapping("/tao-hoa-don")
-    public String taoHoaDon(@ModelAttribute("hoaDon") HoaDon hoaDon) {
+    public String taoHoaDon(@ModelAttribute("hoaDon") HoaDon hoaDon,
+                            Model model) {
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
@@ -167,7 +168,8 @@ public class BanHangController {
                 .trangThai(TrangThai.HOA_DON_CHO)
                 .build();
         banHangService.themHoaDon(hoaDon);
-        return "redirect:/admin/ban-hang";
+        model.addAttribute("success", "Thêm thành công");
+        return "redirect:/admin/ban-hang?success";
     }
 
     @PostMapping("/them-khach-hang/{idHoaDon}/{idKhachHang}")

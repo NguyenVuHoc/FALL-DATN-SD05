@@ -30,15 +30,12 @@
     <!-- Template Stylesheet -->
     <link href="/../../css/admin/style.css" rel="stylesheet">
 
-    <style>
-        .active {
-            color: black;
-        }
-
-        .inactive {
-            color: #0b5ed7;
-        }
-    </style>
+<!--    <style>-->
+<!--        .nav-link:hover {-->
+<!--            background-color: #0c63e4;-->
+<!--            color: white;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 
 <body>
@@ -130,7 +127,18 @@
             </div>
         </nav>
         <!-- Navbar End -->
-
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
+<!--        <script th:inline="javascript">-->
+<!--            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */-->
+<!--            setTimeout(function () {-->
+<!--                var successAlert = document.getElementById('success-alert');-->
+<!--                if (successAlert) {-->
+<!--                    successAlert.style.display = 'none';-->
+<!--                }-->
+<!--            }, 5000);-->
+<!--        </script>-->
         <!-- Sales Chart Start -->
         <div class="container-fluid pt-4">
             <div style="margin-bottom: 2%; margin-right: -10%;">
@@ -146,14 +154,18 @@
                         <div class="bg-light rounded h-100 p-4">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button th:class="'nav-link ' + (${isActive} ? 'active' : 'inactive')"
-                                            id="nav-home-tab myElement" data-bs-toggle="tab"
-                                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                            aria-selected="true" th:each="hdc : ${listHoaDonCho}">
-                                        <a th:href="@{'/admin/ban-hang/hoa-don/' + ${hdc.getId()}}"
-                                           th:text="${hdc.getMa()}"
-                                        ></a>
-                                    </button>
+                                    <div th:each="hdc : ${listHoaDonCho}" class="highlight">
+                                        <button
+                                                th:class="'nav-link ' + ((${idHoaDonCho} == ${hdc.id}) ? 'active' : '') "
+                                                id="nav-home-tab myElement" data-bs-toggle="tab"
+                                                data-bs-target="#nav-home" type="button" role="tab"
+                                                aria-controls="nav-home"
+                                                aria-selected="true">
+                                            <a th:href="@{'/admin/ban-hang/hoa-don/' + ${hdc.getId()}}"
+                                               th:text="${hdc.getMa()}"
+                                            ></a>
+                                        </button>
+                                    </div>
                                 </div>
                             </nav>
                             <div class="tab-content pt-3" id="nav-tabContent">
@@ -182,7 +194,8 @@
                                                 <!--                                                (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
                                                 <!--                                                    <img src="/../../img/pen_v2.png"-->
                                                 <!--                                                         style="width: 25px; padding-right: 5px">-->
-                                                <!--                                                </a>-->
+                                                <!--                                                </a>
+                                            -->
                                                 <div class="row g-2">
                                                     <div style="width: 50%">
                                                         <button class="btn btn-outline-primary"
@@ -229,8 +242,9 @@
                                                              aria-labelledby="giamSoLuongLabel" tabindex="-1">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
-                                                                    <form th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
-                                                                          method="post">
+                                                                    <form
+                                                                            th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
+                                                                            method="post">
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title fs-5"
                                                                                 id="giamSoLuongLabel">Giảm số lượng</h1>
@@ -260,15 +274,18 @@
                                                             <!--                                                                  th:object="${hoaDonChiTiet}"-->
                                                             <!--                                                                  method="post">-->
                                                             <!--                                                                -->
-                                                            <!--                                                            </form>-->
+                                                            <!--
+                                                        </form>
+                                                        -->
                                                         </div>
                                                         <div class="modal fade" th:id="'tangSoLuong' + ${hdct.id}"
                                                              aria-hidden="true"
                                                              aria-labelledby="tangSoLuongLabel" tabindex="-1">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
-                                                                    <form th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
-                                                                          method="post">
+                                                                    <form
+                                                                            th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
+                                                                            method="post">
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title fs-5"
                                                                                 id="tangSoLuongLabel">Tăng số lượng</h1>
@@ -298,7 +315,9 @@
                                                             <!--                                                                  th:object="${hoaDonChiTiet}"-->
                                                             <!--                                                                  method="post">-->
                                                             <!--                                                               -->
-                                                            <!--                                                            </form>-->
+                                                            <!--
+                                                        </form>
+                                                        -->
                                                         </div>
                                                     </div>
                                                     <div style="width: 50%">
@@ -312,7 +331,8 @@
                                                         <div class="modal fade" th:id="'xoaSanPham' + ${hdct.id}"
                                                              aria-hidden="true"
                                                              aria-labelledby="xoaSanPhamLabel" tabindex="-1">
-                                                            <form th:action="@{'/admin/ban-hang/xoa-hoa-don-chi-tiet/' + ${idHoaDonCho}+'/' +${hdct.id}}">
+                                                            <form
+                                                                    th:action="@{'/admin/ban-hang/xoa-hoa-don-chi-tiet/' + ${idHoaDonCho}+'/' +${hdct.id}}">
                                                                 <div class="modal-dialog modal-dialog-centered">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -323,15 +343,18 @@
                                                                                     aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            Xác nhận xóa sản phẩm(Có/Không)?
+                                                                            Xác nhận xóa sản phẩm(Không/Có)?
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-danger"
-                                                                                    data-bs-dismiss="modal">Đóng
+                                                                                    data-bs-dismiss="modal"
+                                                                                    style="width: 80px">
+                                                                                Không
                                                                             </button>
                                                                             <button type="submit"
-                                                                                    class="btn btn-primary">
-                                                                                Xác nhận
+                                                                                    class="btn btn-primary"
+                                                                                    style="width: 80px;">
+                                                                                Có
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -342,7 +365,8 @@
                                                         <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
                                                         <!--                                                            <img src="/../../img/xoa_v2.png"-->
                                                         <!--                                                                 style="width: 25px; padding-right: 5px;">-->
-                                                        <!--                                                        </a>-->
+                                                        <!--                                                        </a>
+                                                    -->
                                                     </div>
                                                 </div>
                                             </td>
@@ -486,22 +510,26 @@
                                     </button>
                                     <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <form th:action="@{'/admin/ban-hang/them-san-pham/' + ${idHoaDonCho} + '/' + ${sanPham.id}}"
-                                              th:object="${hoaDonChiTiet}"
-                                              method="post">
+                                        <form
+                                                th:action="@{'/admin/ban-hang/them-san-pham/' + ${idHoaDonCho} + '/' + ${sanPham.id}}"
+                                                th:object="${hoaDonChiTiet}"
+                                                method="post">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Số
                                                             Lượng</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="mb-3">
-                                                            <label for="recipient-name" class="col-form-label">Nhập Số
+                                                            <label for="recipient-name" class="col-form-label">Nhập
+                                                                Số
                                                                 Lượng:</label>
-                                                            <input type="text" class="form-control" id="recipient-name"
+                                                            <input type="text" class="form-control"
+                                                                   id="recipient-name"
                                                                    name="soLuong" th:field="*{soLuong}">
                                                         </div>
                                                     </div>
@@ -629,9 +657,11 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
+
 <script type="text/javascript">
 
-    // const buttons = document.querySelectorAll("#nav-tab button");
+    // const buttons = document.querySelectorAll("#nav-tab button
+    // ");
     //
     // buttons.forEach(button => {
     //     button.addEventListener("click", function () {
@@ -693,6 +723,7 @@
 
 <!-- Template Javascript -->
 <script src="/../../js/admin/main.js"></script>
+<script src="/js/admin/index_form.js"></script>
 </body>
 
 </html>
