@@ -7,6 +7,7 @@ import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
+import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
@@ -90,8 +91,8 @@ public class BanHangServiceImpl implements BanHangService {
     @Override
     public HoaDon themHoaDon(HoaDon hoaDon) {
         if (hoaDonRepository.checkHoaDonCho() < 4) {
-            for (KhachHang khachHang: khachHangRepository.findAll()){
-                if (khachHang.getMa().equals("KH000")){
+            for (KhachHang khachHang : khachHangRepository.findAll()) {
+                if (khachHang.getMa().equals("KH000")) {
                     hoaDon.setKhachHang(khachHang);
                     return hoaDonRepository.save(hoaDon);
                 }
@@ -102,7 +103,7 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Override
     public HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham, Long idHoaDon, HoaDonChiTiet hoaDonChiTiet) {
-        if (idHoaDon == null){
+        if (idHoaDon == null) {
             return null;
         }
         for (HoaDonChiTiet hdct : hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon)) {
@@ -112,6 +113,11 @@ public class BanHangServiceImpl implements BanHangService {
             }
         }
         return hoaDonChiTietRepository.save(hoaDonChiTiet);
+    }
+
+    @Override
+    public HoaDonChiTiet getOneByIdHDCT(Long idHDCT) {
+        return hoaDonChiTietRepository.getReferenceById(idHDCT);
     }
 
     @Override
@@ -165,7 +171,7 @@ public class BanHangServiceImpl implements BanHangService {
         try {
             Pageable pageable = PageRequest.of(pageNo, size);
             return hoaDonChiTietRepository.getPhanTrang(pageable, idHoaDon);
-        }catch (NumberFormatException numberFormatException){
+        } catch (NumberFormatException numberFormatException) {
             return null;
         }
     }
@@ -217,6 +223,30 @@ public class BanHangServiceImpl implements BanHangService {
             hoaDonRepository.save(hoaDon);
         }
         return null;
+    }
+
+    @Override
+    public HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong) {
+        Long idSanPham;
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.getReferenceById(idHDCT);
+        hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() + soLuong);
+        idSanPham = hoaDonChiTiet.getChiTietSanPham().getId();
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getReferenceById(idSanPham);
+        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - soLuong);
+        chiTietSanPhamRepository.save(chiTietSanPham);
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
+    }
+
+    @Override
+    public HoaDonChiTiet giamSoLuongSanPham(Long idHDCT, Integer soLuong) {
+        Long idSanPham;
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.getReferenceById(idHDCT);
+        hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() - soLuong);
+        idSanPham = hoaDonChiTiet.getChiTietSanPham().getId();
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getReferenceById(idSanPham);
+        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + soLuong);
+        chiTietSanPhamRepository.save(chiTietSanPham);
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
     public static void main(String[] args) {

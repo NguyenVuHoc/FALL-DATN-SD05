@@ -30,6 +30,8 @@ public interface BanHangService {
 
     HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham,Long idHoaDon, HoaDonChiTiet hoaDonChiTiet);
 
+    HoaDonChiTiet getOneByIdHDCT(Long idHDCT);
+
     HoaDonChiTiet xoaHoaDonChiTiet(Long idHoaDonChiTiet);
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
@@ -50,4 +52,7 @@ public interface BanHangService {
 
     HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang);
 
+    HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong);
+
+    HoaDonChiTiet giamSoLuongSanPham(Long idHDCT, Integer soLuong);
 }

@@ -29,6 +29,16 @@
 
     <!-- Template Stylesheet -->
     <link href="/../../css/admin/style.css" rel="stylesheet">
+
+    <style>
+        .active {
+            color: black;
+        }
+
+        .inactive {
+            color: #0b5ed7;
+        }
+    </style>
 </head>
 
 <body>
@@ -136,11 +146,13 @@
                         <div class="bg-light rounded h-100 p-4">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
+                                    <button th:class="'nav-link ' + (${isActive} ? 'active' : 'inactive')"
+                                            id="nav-home-tab myElement" data-bs-toggle="tab"
                                             data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                                             aria-selected="true" th:each="hdc : ${listHoaDonCho}">
                                         <a th:href="@{'/admin/ban-hang/hoa-don/' + ${hdc.getId()}}"
-                                           th:text="${hdc.getMa()}"></a>
+                                           th:text="${hdc.getMa()}"
+                                        ></a>
                                     </button>
                                 </div>
                             </nav>
@@ -167,15 +179,172 @@
                                             <td th:text="${hdct.getSoLuong()}"></td>
                                             <td>
                                                 <!--                                                <a class="suaSoLuong" th:href="@{/admin/ban-hang/sua-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
-                                                <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
+                                                <!--                                                (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
                                                 <!--                                                    <img src="/../../img/pen_v2.png"-->
                                                 <!--                                                         style="width: 25px; padding-right: 5px">-->
                                                 <!--                                                </a>-->
-                                                <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}
-                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">
-                                                    <img src="/../../img/xoa_v2.png"
-                                                         style="width: 25px; padding-right: 5px;">
-                                                </a>
+                                                <div class="row g-2">
+                                                    <div style="width: 50%">
+                                                        <button class="btn btn-outline-primary"
+                                                                th:data-bs-target="'#suaSoLuong' + ${hdct.id}"
+                                                                data-bs-toggle="modal"
+                                                                style="width: auto">
+                                                            <img src="/../../img/pen_v2.png"
+                                                                 style="width: 15px;">
+                                                        </button>
+                                                        <div class="modal fade" th:id="'suaSoLuong' + ${hdct.id}"
+                                                             aria-hidden="true"
+                                                             aria-labelledby="suaSoLuongLabel" tabindex="-1">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h1 class="modal-title fs-5"
+                                                                            id="suaSoLuongLabel">Sửa số lượng sản
+                                                                            phẩm</h1>
+                                                                        <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Vui lòng chọn tăng hoặc giảm số lượng sản phẩm!
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                                data-bs-dismiss="modal">Đóng
+                                                                        </button>
+                                                                        <button class="btn btn-primary"
+                                                                                th:data-bs-target="'#giamSoLuong' + ${hdct.id}"
+                                                                                data-bs-toggle="modal">Giảm
+                                                                        </button>
+                                                                        <button class="btn btn-primary"
+                                                                                th:data-bs-target="'#tangSoLuong' + ${hdct.id}"
+                                                                                data-bs-toggle="modal">Tăng
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" th:id="'giamSoLuong' + ${hdct.id}"
+                                                             aria-hidden="true"
+                                                             aria-labelledby="giamSoLuongLabel" tabindex="-1">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <form th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
+                                                                          method="post">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5"
+                                                                                id="giamSoLuongLabel">Giảm số lượng</h1>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Nhập số lượng:
+                                                                            <input class="form-control"
+                                                                                   type="text"
+                                                                                   name="soLuong"
+                                                                                   th:value="${param.soLuong}"/>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                    data-bs-dismiss="modal">Đóng
+                                                                            </button>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-primary">Xác nhận
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <!--                                                            <form th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"-->
+                                                            <!--                                                                  th:object="${hoaDonChiTiet}"-->
+                                                            <!--                                                                  method="post">-->
+                                                            <!--                                                                -->
+                                                            <!--                                                            </form>-->
+                                                        </div>
+                                                        <div class="modal fade" th:id="'tangSoLuong' + ${hdct.id}"
+                                                             aria-hidden="true"
+                                                             aria-labelledby="tangSoLuongLabel" tabindex="-1">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <form th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
+                                                                          method="post">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5"
+                                                                                id="tangSoLuongLabel">Tăng số lượng</h1>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Nhập số lượng:
+                                                                            <input class="form-control"
+                                                                                   type="text"
+                                                                                   name="soLuong"
+                                                                                   th:value="${param.soLuong}"/>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                    data-bs-dismiss="modal">Đóng
+                                                                            </button>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-primary">Xác nhận
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <!--                                                            <form th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"-->
+                                                            <!--                                                                  th:object="${hoaDonChiTiet}"-->
+                                                            <!--                                                                  method="post">-->
+                                                            <!--                                                               -->
+                                                            <!--                                                            </form>-->
+                                                        </div>
+                                                    </div>
+                                                    <div style="width: 50%">
+                                                        <button class="btn btn-outline-danger"
+                                                                th:data-bs-target="'#xoaSanPham' + ${hdct.id}"
+                                                                data-bs-toggle="modal"
+                                                                style="width: auto">
+                                                            <img src="/../../img/xoa_v2.png"
+                                                                 style="width: 15px;">
+                                                        </button>
+                                                        <div class="modal fade" th:id="'xoaSanPham' + ${hdct.id}"
+                                                             aria-hidden="true"
+                                                             aria-labelledby="xoaSanPhamLabel" tabindex="-1">
+                                                            <form th:action="@{'/admin/ban-hang/xoa-hoa-don-chi-tiet/' + ${idHoaDonCho}+'/' +${hdct.id}}">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h1 class="modal-title fs-5"
+                                                                                id="xoaSanPhamLabel">Xác nhận</h1>
+                                                                            <button type="button" class="btn-close"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Xác nhận xóa sản phẩm(Có/Không)?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                    data-bs-dismiss="modal">Đóng
+                                                                            </button>
+                                                                            <button type="submit"
+                                                                                    class="btn btn-primary">
+                                                                                Xác nhận
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <!--                                                        <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
+                                                        <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
+                                                        <!--                                                            <img src="/../../img/xoa_v2.png"-->
+                                                        <!--                                                                 style="width: 25px; padding-right: 5px;">-->
+                                                        <!--                                                        </a>-->
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -462,40 +631,53 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $(".suaSoLuong").on("click", function (e) {
-            e.preventDefault();
-            $("#modalThemSoLuong").modal("show").find(".modal-content").load("http://localhost:8080/admin/ban-hang/sua-hoa-don-chi-tiet/23/65");
-        });
-    });
+    // const buttons = document.querySelectorAll("#nav-tab button");
+    //
+    // buttons.forEach(button => {
+    //     button.addEventListener("click", function () {
+    //         // Xóa lớp "active" khỏi tất cả các nút
+    //         buttons.forEach(btn => {
+    //             btn.classList.remove("active");
+    //         });
+    //
+    //         // Áp dụng lớp "active" cho nút được click
+    //         button.classList.add("active");
+    //     });
+    // });
 
-    var selectButton = document.getElementById('selectButton');
-    selectButton.addEventListener('click', function () {
-        // Lấy tham chiếu đến các phần tử trong modal
-        var modal = document.getElementById('myModal');
-        var closeButton = modal.querySelector('.btn-close');
-        var customerButtons = modal.querySelectorAll('.btn-outline-primary');
-
-        // Lắng nghe sự kiện click vào nút "Đóng" trong modal
-        closeButton.addEventListener('click', function () {
-            modal.style.display = 'none';
-        });
-
-        // Lắng nghe sự kiện click vào từng nút "Thêm" trong modal
-        customerButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                // Thực hiện các hành động khi chọn khách hàng
-                var customerId = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
-                var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
-
-                // Xử lý dữ liệu khách hàng tại đây
-            });
-        });
-
-        // Hiển thị modal
-        modal.style.display = 'block';
-    });
-    ```
+    // $(document).ready(function () {
+    //     $(".suaSoLuong").on("click", function (e) {
+    //         e.preventDefault();
+    //         $("#modalThemSoLuong").modal("show").find(".modal-content").load("http://localhost:8080/admin/ban-hang/sua-hoa-don-chi-tiet/23/65");
+    //     });
+    // });
+    //
+    // var selectButton = document.getElementById('selectButton');
+    // selectButton.addEventListener('click', function () {
+    //     // Lấy tham chiếu đến các phần tử trong modal
+    //     var modal = document.getElementById('myModal');
+    //     var closeButton = modal.querySelector('.btn-close');
+    //     var customerButtons = modal.querySelectorAll('.btn-outline-primary');
+    //
+    //     // Lắng nghe sự kiện click vào nút "Đóng" trong modal
+    //     closeButton.addEventListener('click', function () {
+    //         modal.style.display = 'none';
+    //     });
+    //
+    //     // Lắng nghe sự kiện click vào từng nút "Thêm" trong modal
+    //     customerButtons.forEach(function (button) {
+    //         button.addEventListener('click', function () {
+    //             // Thực hiện các hành động khi chọn khách hàng
+    //             var customerId = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
+    //             var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
+    //
+    //             // Xử lý dữ liệu khách hàng tại đây
+    //         });
+    //     });
+    //
+    //     // Hiển thị modal
+    //     modal.style.display = 'block';
+    // });
 </script>
 
 <!-- JavaScript Libraries -->
