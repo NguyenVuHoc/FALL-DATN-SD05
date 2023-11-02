@@ -32,14 +32,11 @@ public class DiaChi {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "ma", unique = true)
-    private String ma;
+    @Column(name = "ten_nguoi_nhan")
+    private String tenNguoiNhan;
 
     @Column(name = "dia_chi")
     private String diaChi;
-
-    @Column(name = "thanh_pho")
-    private String thanhPho;
 
     @Column(name = "sdt")
     private String sdt;

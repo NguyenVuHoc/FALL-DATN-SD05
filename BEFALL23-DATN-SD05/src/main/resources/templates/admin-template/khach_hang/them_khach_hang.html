@@ -163,8 +163,12 @@
                             <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputPassword134" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="exampleInputPassword134"  />
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputPassword14" class="form-label">Mật khẩu</label>
-                            <input type="text" class="form-control" id="exampleInputPassword14" th:field="*{matKhau}" />
+                            <input type="password" class="form-control" id="exampleInputPassword14" th:field="*{matKhau}" />
                             <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">

@@ -159,10 +159,61 @@
                             <input type="text" class="form-control" id="exampleInputPassword13" th:field="*{email}"/>
                             <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword14" class="form-label">Mật khẩu</label>
-                            <input type="text" class="form-control" id="exampleInputPassword14" th:field="*{matKhau}"/>
-                            <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></div>
+                        <div class="mb-3 row">
+                            <div style="width: 82%">
+                                <label for="exampleInputPassword145" class="form-label">Địa chỉ</label>
+                                <select class="form-select mb-3" id="exampleInputPassword145" aria-label="Default select example">
+                                    <option/>
+                                </select>
+                            </div>
+                            <div style="width: 18%;">
+                                <!-- Button trigger modal -->
+                                <button id="selectButton" type="button" class="btn btn-success"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#themDiaChi" style="margin-top: 30px; width: 60px">
+                                     +
+                                </button>
+                                <div class="modal fade" id="themDiaChi" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <form
+                                          method="post">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Địa Chỉ</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name1" class="col-form-label">Tên người nhận:</label>
+                                                        <input type="text" class="form-control" id="recipient-name1">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name2" class="col-form-label">Số điện thoại:</label>
+                                                        <input type="text" class="form-control" id="recipient-name2">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name3" class="col-form-label">Địa chỉ:</label>
+                                                        <input type="text" class="form-control" id="recipient-name3">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-name4" class="col-form-label">Ghi chú:</label>
+                                                        <input type="text" class="form-control" id="recipient-name4">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal">Đóng
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- Modal -->
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label  class="form-label">Trạng Thái</label>
