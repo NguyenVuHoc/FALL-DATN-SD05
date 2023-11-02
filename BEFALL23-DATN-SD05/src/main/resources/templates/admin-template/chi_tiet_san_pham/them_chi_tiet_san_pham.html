@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/wingman.png" rel="icon">
+    <link href="../../images/WingMan-black.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,14 +44,14 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-light navbar-light">
-                <a href="../ban_hang/ban_hang.html" class="navbar-brand mx-4 mb-3">
+                <a th:href="@{/admin/ban-hang}" class="navbar-brand mx-4 mb-3">
                     <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div
-                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                                class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                         </div>
                     </div>
                     <div class="ms-3">
@@ -60,33 +60,32 @@
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="../ban_hang/ban_hang.html" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
+                    <a th:href="@{/admin/ban-hang}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
                         Hàng</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
                                 class="fa fa-laptop me-2"></i>Sản Phẩm</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="../san_pham/san_pham.html" class="dropdown-item">Sản Phẩm</a>
-                            <a href="../chi_tiet_san_pham/chi_tiet_san_pham.html" class="dropdown-item active">Chi Tiết
-                                Sản
+                            <a th:href="@{/admin/san-pham}" class="dropdown-item">Sản Phẩm</a>
+                            <a th:href="@{/admin/chi-tiet-san-pham}" class="dropdown-item active">Chi Tiết Sản
                                 Phẩm</a>
-                            <a href="../dong_san_pham/dong_san_pham.html" class="dropdown-item">Dòng Sản Phẩm</a>
-                            <a href="../thuong_hieu/thuong_hieu.html" class="dropdown-item">Thương Hiệu</a>
-                            <a href="../mau_sac/mau_sac.html" class="dropdown-item">Màu Sắc</a>
-                            <a href="../kich_thuoc/kich_thuoc.html" class="dropdown-item">Kích Thước</a>
-                            <a href="../de_giay/de_giay.html" class="dropdown-item">Đế Giày</a>
-                            <a href="../lot_giay/lot_giay.html" class="dropdown-item">Lót Giày</a>
-                            <a href="../co_giay/co_giay.html" class="dropdown-item">Cổ Giày</a>
+                            <a th:href="@{/admin/dong-san-pham}" class="dropdown-item">Dòng Sản Phẩm</a>
+                            <a th:href="@{/admin/thuong-hieu}" class="dropdown-item">Thương Hiệu</a>
+                            <a th:href="@{/admin/mau-sac}" class="dropdown-item">Màu Sắc</a>
+                            <a th:href="@{/admin/kich-thuoc}" class="dropdown-item">Kích Thước</a>
+                            <a th:href="@{/admin/de-giay}" class="dropdown-item">Đế Giày</a>
+                            <a th:href="@{/admin/lot-giay}" class="dropdown-item">Lót Giày</a>
+                            <a th:href="@{/admin/co-giay}" class="dropdown-item ">Cổ Giày</a>
                         </div>
                     </div>
-                    <a href="../hoa_don/hoa_don.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
-                    <a href="../khach_hang/khach_hang.html" class="nav-item nav-link"><i
+                    <a th:href="@{/admin/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
+                    <a th:href="@{/admin/khach-hang}" class="nav-item nav-link"><i
                             class="fa fa-user me-2"></i>Khách Hàng</a>
-                    <a href="../nhan_vien/nhan_vien.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
+                    <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                         Viên</a>
-                    <a href="../khuyen_mai/khuyen_mai.html" class="nav-item nav-link"><i
+                    <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                    <a href="../thong_ke/thong_ke.html" class="nav-item nav-link"><i
+                    <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Thống Kê</a>
                 </div>
             </nav>
@@ -124,381 +123,76 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Chi Tiết Sản Phẩm</h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <form th:action="@{/admin/chi-tiet-san-pham/add}" method="post" th:object="${chiTietSanPham}">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Mã Chi Tiết Sản Phẩm</label>
+                            <label for="exampleInputPassword1" class="form-label">Sản phẩm</label>
+                            <select class="form-select mb-3" th:field="*{sanPham}">
+                                <option th:each="sanPham : ${listSP}"
+                                        th:value="${sanPham.id}" th:text="${sanPham.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Đế giày</label>
+                            <select class="form-select mb-3" th:field="*{deGiay}">
+                                <option th:each="deGiay : ${listDG}"
+                                        th:value="${deGiay.id}" th:text="${deGiay.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Màu sắc</label>
+                            <select class="form-select mb-3" th:field="*{mauSac}">
+                                <option th:each="mauSac : ${listMS}"
+                                        th:value="${mauSac.id}" th:text="${mauSac.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Kích thước</label>
+                            <select class="form-select mb-3" th:field="*{kichThuoc}">
+                                <option th:each="kichThuoc : ${listKT}"
+                                        th:value="${kichThuoc.id}" th:text="${kichThuoc.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Lót giày</label>
+                            <select class="form-select mb-3" th:field="*{lotGiay}">
+                                <option th:each="lotGiay : ${listLG}"
+                                        th:value="${lotGiay.id}" th:text="${lotGiay.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Cổ giày</label>
+                            <select class="form-select mb-3" th:field="*{coGiay}">
+                                <option th:each="coGiay : ${listDG}"
+                                        th:value="${coGiay.id}" th:text="${coGiay.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Số lượng tồn </label>
                             <input type="text" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" />
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Sản Phẩm</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div class="mb-3 row g-2">
-                                        <div style="width: 25%;">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                                Thêm
-                                            </button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Sản
-                                                                Phẩm</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name"
-                                                                        class="col-form-label">Mã Sản Phẩm:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="recipient-name">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Tên
-                                                                        Sản Phẩm:</label>
-                                                                    <input class="form-control"
-                                                                        id="message-text"></input>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-success">Thêm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Màu Sắc</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div class="mb-3 row g-2">
-                                        <div style="width: 25%;">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                                Thêm
-                                            </button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Màu
-                                                                Sắc</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name"
-                                                                        class="col-form-label">Mã Màu Sắc:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="recipient-name">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Tên
-                                                                        Màu Sắc:</label>
-                                                                    <input class="form-control"
-                                                                        id="message-text"></input>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-success">Thêm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Kích Thước</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div style="width: 25%;">
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                            Thêm
-                                        </button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Đế
-                                                            Giày</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name" class="col-form-label">Mã Đế
-                                                                    Giày:</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="recipient-name">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="message-text" class="col-form-label">Tên
-                                                                    Đế Giày:</label>
-                                                                <input class="form-control" id="message-text"></input>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Đóng</button>
-                                                        <button type="button" class="btn btn-success">Thêm
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Đế Giày</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div class="mb-3 row g-2">
-                                        <div style="width: 25%;">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                                Thêm
-                                            </button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Đế
-                                                                Giày</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name"
-                                                                        class="col-form-label">Mã Đế Giày:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="recipient-name">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Tên
-                                                                        Đế Giày:</label>
-                                                                    <input class="form-control"
-                                                                        id="message-text"></input>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-success">Thêm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Lót Giày</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div class="mb-3 row g-2">
-                                        <div style="width: 25%;">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                                Thêm
-                                            </button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Lót
-                                                                Giày</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name"
-                                                                        class="col-form-label">Mã Lót Giày:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="recipient-name">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Tên
-                                                                        Lót Giày:</label>
-                                                                    <input class="form-control"
-                                                                        id="message-text"></input>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-success">Thêm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
-                        </div>
-                        <div class="mb-3 row g-2">
-                            <div style="width: 80%;">
-                                <label for="exampleInputPassword1" class="form-label">Cổ Giày</label>
-                                <select class="form-select mb-3" aria-label="Default select example">
-                                    <option selected>Open this select menu</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </select>
-                            </div>
-                            <div style="width: 20%;">
-                                <td>
-                                    <div class="mb-3 row g-2">
-                                        <div style="width: 25%;">
-                                            <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" style="margin-top: 30px;">
-                                                Thêm
-                                            </button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Cổ
-                                                                Giày</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form>
-                                                                <div class="mb-3">
-                                                                    <label for="recipient-name"
-                                                                        class="col-form-label">Mã Cổ Giày:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="recipient-name">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="message-text" class="col-form-label">Tên
-                                                                        Cổ Giày:</label>
-                                                                    <input class="form-control"
-                                                                        id="message-text"></input>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Đóng</button>
-                                                            <button type="button" class="btn btn-success">Thêm
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </div>
+                                   aria-describedby="emailHelp" th:field="*{soLuongTon}"/>
+                            <div th:if="${#fields.hasErrors('soLuongTon')}" th:errors="*{soLuongTon}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Số Lượng</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="exampleInputPassword1" class="form-label">Giá mặc định</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{giaMacDinh}"/>
+                            <div th:if="${#fields.hasErrors('giaMacDinh')}" th:errors="*{giaMacDinh}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Gía bán</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="exampleInputPassword2" class="form-label">Giá bán</label>
+                            <input type="text" class="form-control" id="exampleInputPassword2" th:field="*{giaBan}"/>
+                            <div th:if="${#fields.hasErrors('giaBan')}" th:errors="*{giaBan}"></div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Thêm
                         </button>
                     </form>
+
                 </div>
             </div>
             <!-- Recent Sales End -->

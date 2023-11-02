@@ -15,29 +15,36 @@
 .detail-btn-size {
     background-color: white;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
-    padding: 2px 8px;
+    width: 30px;
+    height: 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 13px;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .detail-btn-color{
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
-    padding: 8px 15px;
+    width: 60px;
+    height: 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    cursor: pointer
+    font-family: "Montserrat Medium";
+    font-size: 14px;
+    cursor: pointer;
 }
 
 .detail-btn-sl{
     background-color: white;
     border: 1px solid #0f1116;
+    border-radius: 9%;
     color: #0f1116;
     height: 30px;
     text-align: center;

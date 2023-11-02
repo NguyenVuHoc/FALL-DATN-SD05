@@ -1,84 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta name="author" content="Untree.co"/>
-    <link rel="shortcut icon" href="/images/WingMan-black.png"/>
-
-    <meta name="description" content=""/>
-    <meta name="keywords" content="bootstrap, bootstrap4"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="/css/customer/bootstrap.min.css" rel="stylesheet"/>
-    <link
-            th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}"
-            rel="stylesheet"
-    />
-    <link href="/css/customer/tiny-slider.css" rel="stylesheet"/>
-    <link href="/css/customer/style.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/css/customer/dangky.css"/>
-    <title>Đăng ký</title>
+<html lang="en">
+<head th:replace="~{customer-template/fragments/fragment :: page_head}">
 </head>
 <body>
 <!-- Start Header/Navigation -->
-<nav
-        class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-        arial-label="Furni navigation bar"
->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
     <div class="container">
-        <a class="navbar-brand" href="index.html"
-        ><img
-                src="../images/wingman.png"
-                style="height: 50px; width: 50px"
-        /><a class="navbar-brand" href="index.html"
-        >Wingman<span>.</span></a
-        ></a
-        >
+        <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
+            <img th:src="@{/images/wingman.png}"
+                 style="height: 50px; width: 50px;">
+            <a class="navbar-brand"
+               th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
 
-        <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarsFurni"
-                aria-controls="navbarsFurni"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Trang chủ</a>
-                </li>
-                <li><a class="nav-link" href="shop.html">Cửa hàng</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a></li>
                 <li>
-                    <a class="nav-link" href="about.html">Đội ngũ</a>
+                    <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
                 </li>
-                <li><a class="nav-link" href="services.html">Dịch vụ</a></li>
-                <li>
-                    <a class="nav-link" href="blog.html">Thông tin</a>
-                </li>
-                <li><a class="nav-link" href="contact.html">Liên hệ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li>
-                    <a class="nav-link" href="#"><img src="../images/user.svg"/></a>
-                </li>
-                <li>
-                    <a class="nav-link" href="cart.html"
-                    ><img src="../images/cart.svg"
-                    /></a>
-                </li>
+                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
+                <li><a class="nav-link" href="cart.html"><img src="../images/cart.svg"></a></li>
             </ul>
         </div>
     </div>
+
 </nav>
 
 <!-- Start Hero Section -->
@@ -118,31 +75,42 @@
             <!-- PERSONAL-INFOMATION START -->
             <div class="personal-infomation">
                 <form
+                        class="primari-box personal-info-box ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength ng-valid-pattern ng-valid-email ng-valid-minlength"
+                        id="personalinfo"
                         method="post"
-                        th:action="@{/khach-hang/dang-ky}"
-                        th:object="${khachHang}"
+                        novalidate=""
+                        name="formRegister"
                 >
-                    <h3>Thông tin của bạn</h3>
-                    <div>
-                        <div>
-                            <label for="name"> Tên đầy đủ <sup>*</sup></label>
+                    <h3 class="box-subheading">Thông tin của bạn</h3>
+                    <div class="personal-info-content">
+                        <div class="form-group primary-form-group p-info-group">
+                            <label for="firstname"> Tên đầy đủ <sup>*</sup></label>
                             <input
                                     type="text"
-                                    id="name"
-                                    class="form-control"
-                                    th:field="*{ten}"
+                                    name="txtTen"
+                                    ng-model="user.tenKhachHang"
+                                    maxlength="60"
+                                    required=""
+                                    id="firstname"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-maxlength"
                             />
                         </div>
-                        <div style="padding-top: 10px; padding-bottom: 10px">
+                        <div
+                                class="form-group primary-form-group p-info-group"
+                                style="padding-top: 10px; padding-bottom: 10px"
+                        >
                             <label>Giới tính</label>
                             <span class="radio-box">
                     <input
                             id="radio1"
                             type="radio"
                             name="gender"
+                            ng-value="0"
+                            ng-model="user.gioiTinh"
+                            ng-required="!user.gioiTinh"
+                            class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                            value="0"
                             required="required"
-                            th:field="*{gioiTinh}"
-                            th:value="0"
                     />
                     <label for="radio1">Nam</label>
                   </span>
@@ -151,50 +119,94 @@
                             id="radio2"
                             type="radio"
                             name="gender"
-                            th:field="*{gioiTinh}"
-                            th:value="0"
+                            value="1"
+                            ng-model="user.gioiTinh"
+                            ng-value="1"
+                            ng-required="!user.gioiTinh"
+                            class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                            required="required"
                     />
 
                     <label for="radio2">Nữ</label>
                   </span>
                         </div>
+
                         <div class="form-group primary-form-group p-info-group">
-                            <label for="dt"> Số điện thoại <sup>*</sup></label>
+                            <label for="firstname"> Địa chỉ<sup>*</sup></label>
                             <input
                                     type="text"
+                                    name="diaChi"
+                                    ng-model="user.diaChi"
+                                    required=""
+                                    id="diaChi"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required"
+                            />
+                        </div>
+                        <div class="form-group primary-form-group p-info-group">
+                            <label for="firstname"> Số điện thoại <sup>*</sup></label>
+                            <input
+                                    type="text"
+                                    name="txtSdt"
+                                    ng-model="user.soDienThoai"
+                                    ng-pattern="/^[0-9]*$/"
+                                    required=""
                                     id="dt"
-                                    class="form-control"
-                                    th:field="*{sdt}"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-pattern"
                             />
                         </div>
 
-                        <div>
+                        <div class="form-group primary-form-group p-info-group">
                             <label for="email">Email<sup>*</sup></label>
                             <input
                                     type="email"
+                                    name="txtemail"
+                                    ng-model="user.email"
+                                    required=""
                                     id="email"
-                                    class="form-control"
-                                    th:field="*{email}"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-valid-email ng-invalid ng-invalid-required"
                             />
                         </div>
-                        <div>
-                            <label>Mật khẩu <sup>*</sup></label>
+                        <div class="form-group primary-form-group p-info-group">
+                            <label for="password">Mật khẩu <sup>*</sup></label>
                             <input
                                     type="password"
-                                    class="form-control"
-                                    th:field="*{matKhau}"
+                                    name="txtPass"
+                                    ng-model="user.password"
+                                    ng-maxlength="30"
+                                    ng-minlength="4"
+                                    required=""
+                                    id="password"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength"
                             />
                         </div>
-                        <span class="text-danger"></span>
-                        <button type="submit" class="btn main-btn">
+                        <div class="form-group primary-form-group p-info-group">
+                            <label for="password">Nhập lại mật khẩu <sup>*</sup></label>
+                            <input
+                                    type="password"
+                                    name="txtPass"
+                                    ng-model="user.password"
+                                    ng-maxlength="30"
+                                    ng-minlength="4"
+                                    required=""
+                                    id="password"
+                                    class="form-control input-feild ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength"
+                            />
+                        </div>
+                        <span class="text-danger ng-binding"></span>
+                        <div
+                                class="submit-button p-info-submit-button"
+                                ng-click="registerClient()"
+                        >
+                            <p id="SubmitCreate" class="btn main-btn">
                     <span>
                       Đăng ký
                       <i class="fa fa-chevron-right"></i>
                     </span>
-                        </button>
-                        <span class="required-field"
-                        ><sup>*</sup>Yêu cầu điền đầy đủ</span
-                        >
+                            </p>
+                            <span class="required-field"
+                            ><sup>*</sup>Yêu cầu điền đầy đủ</span
+                            >
+                        </div>
                     </div>
                 </form>
             </div>
@@ -224,12 +236,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <!-- success message -->
-            <div th:if="${param.success}">
-                <div class="alert alert-info">You've successfully registered
-                    to our awesome app!
-                </div>
             </div>
             <!-- CREATE-NEW-ACCOUNT END -->
         </div>
