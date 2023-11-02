@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/khach-hang")
 public class LoginKhachHangController {
 
     @Autowired
     private KhachHangService khachHangService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "customer-template/dangnhap";
+    }
+
     @GetMapping("/dang-ky")
-    public String getFormDangKy(Model model){
+    public String getFormDangKy(Model model) {
         model.addAttribute("khachHang", new KhachHangDangKyDto());
         return "customer-template/dangky";
     }
@@ -26,7 +30,7 @@ public class LoginKhachHangController {
     @PostMapping("/dang-ky")
     public String dangKy(
             @ModelAttribute("khachHang") KhachHangDangKyDto khachHangDangKyDto
-    ){
+    ) {
         khachHangService.save(khachHangDangKyDto);
         return "redirect:/khach-hang/dang-ky";
     }
