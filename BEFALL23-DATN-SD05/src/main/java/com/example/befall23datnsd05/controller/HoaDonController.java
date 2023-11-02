@@ -26,51 +26,11 @@ public class HoaDonController {
     @Autowired
     private HoaDonService hoaDonService;
 
-    //    @GetMapping
-//    public String getAll(Model model,
-//                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
-//        model.addAttribute("hoadons", hoaDonService.getPage(pageNo).stream().toList());
-//        model.addAttribute("trangThais", list);
-//        return listByPage(pageNo, model, null, null, null, null);
-//    }
-//
-//
-//    @GetMapping("page/{pageNo}")
-//    public String listByPage(@PathVariable(name = "pageNo") int pageNo, Model model,
-//                             @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
-//                             @Param("keyword") String keyword,
-//                             @Param("trangThai") TrangThai trangThai) {
-//        Page<HoaDon> hoadons = hoaDonService.getByPageAndFilter(pageNo, keyword, startDate, endDate, trangThai);
-//
-//        model.addAttribute("hoadons", hoadons.stream().toList());
-//        model.addAttribute("keyword", keyword);
-//        model.addAttribute("pageNo", pageNo);
-//        model.addAttribute("index", hoadons.getTotalPages());
-//
-//        model.addAttribute("startDate", startDate);
-//        model.addAttribute("endDate", endDate);
-//        model.addAttribute("trangThais", list);
-//        model.addAttribute("trangThai", trangThai);
-//
-//        return "admin-template/hoa_don/hoa_don";
-//
-//    }
-//
-//
-//    @GetMapping("/trang-thai/{trangThai}")
-//    public String getByTrangThai(Model model,
-//                                 @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-//                                 @PathVariable("trangThai") TrangThai trangThai) {
-//        model.addAttribute("trangThais", list);
-//        model.addAttribute("hoadons", hoaDonService.getByTrangThai(trangThai, pageNo, 5));
-//        return "admin-template/hoa_don/hoa_don";
-//    }
+   
     @GetMapping
-    public String getAll(Model model,
-                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
-        model.addAttribute("hoadons", hoaDonService.getPage(pageNo).stream().toList());
-        model.addAttribute("trangThais", list);
-        return listByPage(pageNo, model, null, null, null, null);
+    public String getAll(Model model
+                         ){
+        return listByPage(0, model, null, null, null, null);
     }
 
     @GetMapping("page/{pageNo}")
@@ -78,17 +38,27 @@ public class HoaDonController {
                              @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate,
                              @Param("keyword") String keyword,
                              @Param("trangThai") TrangThai trangThai) {
-        Page<HoaDon> hoadons = hoaDonService.getByPageAndFilter(pageNo, keyword, startDate, endDate, trangThai);
-
-        model.addAttribute("hoadons", hoadons.stream().toList());
+        Page<HoaDon> page = hoaDonService.getByPageAndFilter(pageNo, keyword, startDate, endDate, trangThai);
+        List<HoaDon> hoaDons = page.getContent();
+        long startCount = (pageNo + 1) * 5;
+        long endCount = startCount + 5;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("hoadons", hoaDons);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pageNo", pageNo);
-        model.addAttribute("index", hoadons.getTotalPages());
+        model.addAttribute("index", page.getTotalPages());
+        model.addAttribute("totalItem", page.getTotalElements());
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
 
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
         model.addAttribute("trangThais", list);
         model.addAttribute("trangThai", trangThai);
+
 
         return "admin-template/hoa_don/hoa_don";
     }

@@ -1,10 +1,8 @@
 package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.custom.HoaDonCustom;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
-import com.example.befall23datnsd05.repository.HoaDonRepository;
 import com.example.befall23datnsd05.service.HoaDonService;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     @Autowired
     private HoaDonRepo repository;
 
-    @Override
-    public Page<HoaDon> getPage(Integer pageNo) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
-        return repository.findAll(pageable);
-    }
+
 
 
     @Override

@@ -8,9 +8,8 @@ import java.time.LocalDate;
 
 public interface HoaDonService {
 
-    Page<HoaDon> getPage(Integer pageNo);
 
     Page<HoaDon> getByTrangThai(TrangThai trangThai, Integer pageNo, Integer size);
 
-    Page<HoaDon> getByPageAndFilter(int pageNo, String keyWord, LocalDate startDate, LocalDate endDate,TrangThai trangThai);
+    Page<HoaDon> getByPageAndFilter(int pageNo, String keyWord, LocalDate startDate, LocalDate endDate, TrangThai trangThai);
 }

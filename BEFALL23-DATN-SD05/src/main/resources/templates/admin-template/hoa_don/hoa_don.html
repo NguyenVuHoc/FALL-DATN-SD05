@@ -136,13 +136,10 @@
             </ul>
         </div>
 
-        <!-- Sale & Revenue Start -->
-        <!-- Sale & Revenue End -->
-        <!-- Recent Sales Start -->
 
         <form th:action="@{/admin/hoa-don/page/0}" method="get">
             <div class="container-fluid pt-3">
-                <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}" />
+                <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
 
                 <div class="row g-2">
                     <div class="col-md-4">
@@ -152,7 +149,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Ngày bắt đầu</div>
                             </div>
-                            <input type="date" class="form-control" name="startDate" id="start7" th:value="${startDate}">
+                            <input type="date" class="form-control" name="startDate" id="start7"
+                                   th:value="${startDate}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -168,7 +166,8 @@
                     <div class="col-md-4">
                         <!-- Ô input thứ 3 -->
                         <label class="sr-only">Additional Input</label>
-                        <input type="text" replace="mời nhập từ cần tìm kiếm"  class="form-control" name="keyword" th:value="${keyword}">
+                        <input type="text" replace="mời nhập từ cần tìm kiếm" class="form-control" name="keyword"
+                               th:value="${keyword}">
                     </div>
                 </div>
 
@@ -179,7 +178,7 @@
                     </div>
                     <div class="col-md-2">
                         <!-- Button thứ hai -->
-                            <a class="btn btn-outline-info" href="/admin/hoa-don"> Làm mới</a>
+                        <a class="btn btn-outline-info" href="/admin/hoa-don"> Làm mới</a>
                     </div>
                 </div>
 
@@ -230,24 +229,31 @@
         </div>
         <!-- Chart End -->
 
-        <!-- (Hiển thị hoadons và các thông tin khác) -->
 
-        <div style="margin-top: 5%; margin-left: 42%;">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+        <div class="text-center m-1">
+            <span th:unless="${totalItem > 0}">Không có Chi Tiết Sản Phẩm trong trang này</span>
+        </div>
+
+        <div th:if="${totalPages > 1}">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${pageNo > 0 ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(1, 'Trang Đầu')"></a>
                     </li>
 
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <li th:class="${pageNo > 0 ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${pageNo - 1}, 'Trước')"></a>
                     </li>
-
+                    <li th:class="${pageNo != i ? 'page-item' : 'page-item active'}"
+                        th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${i}, ${i})"></a>
+                    </li>
+                    <li th:class="${pageNo < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${pageNo + 1}, 'Sau')"></a>
+                    </li>
+                    <li th:class="${pageNo < totalPages ? 'page-item' : 'page-item disabled'}">
+                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${totalPages}, 'Trang Cuối')"></a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -285,6 +291,38 @@
         document.getElementById('hiddenTrangThai').value = value;
     }
 </script>
+<style>
+    .pagination {
+        margin: 20px 0;
+        list-style: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination .page-item {
+        margin: 0 5px;
+    }
+
+    .pagination .page-item a {
+        display: block;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .pagination .page-item.disabled a {
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    .pagination .page-item.active a {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 3px;
+    }
+
+</style>
 </body>
 
 </html>
