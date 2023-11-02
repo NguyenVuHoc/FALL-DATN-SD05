@@ -1,6 +1,5 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
@@ -8,7 +7,6 @@ import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.entity.KichThuoc;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.entity.MauSac;
-import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.*;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
