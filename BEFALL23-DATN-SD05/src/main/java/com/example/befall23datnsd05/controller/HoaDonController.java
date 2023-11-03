@@ -26,10 +26,10 @@ public class HoaDonController {
     @Autowired
     private HoaDonService hoaDonService;
 
-   
+
     @GetMapping
     public String getAll(Model model
-                         ){
+    ) {
         return listByPage(0, model, null, null, null, null);
     }
 
@@ -79,4 +79,9 @@ public class HoaDonController {
     }
 
 
+    @GetMapping("/chi-tiet-hoa-don")
+    public String detail() {
+        return "admin-template/hoa_don/chi_tiet_hoa_don";
+
+    }
 }
