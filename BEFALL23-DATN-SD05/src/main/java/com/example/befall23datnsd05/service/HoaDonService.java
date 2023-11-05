@@ -2,14 +2,21 @@ package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface HoaDonService {
 
+    List<HoaDon> getAll();
 
-    Page<HoaDon> getByTrangThai(TrangThai trangThai, Integer pageNo, Integer size);
+    List<HoaDon> getByTrangThai(TrangThai trangThai);
 
-    Page<HoaDon> getByPageAndFilter(int pageNo, String keyWord, LocalDate startDate, LocalDate endDate, TrangThai trangThai);
+    HoaDon findById(Long id);
+
+    List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end, TrangThai trangThai);
+
+    boolean validate(HoaDon hoaDon, TrangThai trangThai, String newGhiChu);
+
+
 }

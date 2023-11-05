@@ -9,8 +9,8 @@
 
     <!-- Favicon -->
     <link href="/../../images/WingMan-black.png" rel="icon">
-    <!--thư viện css tích tìm kiếm-->
 
+    <!--thư viện css tích tìm kiếm-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
     <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'>
     <style>
@@ -31,6 +31,41 @@
             background-color: #c8cbcf; /* Màu nền xám nhạt khi hover hoặc nút được chọn */
             border: 1px solid #c8cbcf; /* Viền màu xám nhạt khi hover hoặc nút được chọn */
         }
+        /* Table Styling */
+        #example {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        #example th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #example th,
+        #example td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #example tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        #example img {
+            vertical-align: middle;
+        }
+
+        /* Hide the footer */
+        tfoot[hidden] {
+            display: none;
+        }
+
+
     </style>
     <!--thư viện css tích tìm kiếm-->
 
@@ -208,7 +243,6 @@
                                 </td>
                             </tr>
                             </tbody>
-
                             <!--    thêm ffoot sau tbody-->
                             <!--     thẻ th phải tương ứng với thead-->
                             <tfoot hidden="hidden">
@@ -221,7 +255,6 @@
                             </tr>
                             </tfoot>
                             <!--    thêm ffoot sau tbody end-->
-
                         </table>
                     </div>
                 </div>
@@ -230,6 +263,7 @@
         <!-- Recent Sales End -->
         <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
 </div>
 <!--thư viện js tích tìm kiếm-->
 <script>
@@ -258,7 +292,6 @@
 <!-- Template Javascript -->
 <script src="/../../js/admin/main.js"></script>
 <script src="/../../js/admin/index_form.js"></script>
-
 
 
 </body>

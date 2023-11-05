@@ -11,6 +11,72 @@
     <!-- Favicon -->
     <link href="/../../images/WingMan-black.png" rel="icon">
 
+    <!--thư viện css tích tìm kiếm-->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'>
+    <!--thư viện css tích tìm kiếm-->
+    <style>
+        /* Đổi màu nền và màu chữ của các nút phân trang */
+        .pagination .page-link {
+            color: #000; /* Màu chữ đen */
+            background-color: #e9ecef; /* Nền xám nhạt */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt */
+            border-radius: 0; /* Loại bỏ góc bo tròn */
+            margin: 0 2px; /* Điều chỉnh khoảng cách giữa các nút */
+            padding: 6px 12px; /* Điều chỉnh độ lớn của nút */
+        }
+
+        /* Đổi màu nền và màu chữ của nút khi được chọn hoặc hover */
+        .pagination .page-item.active .page-link,
+        .pagination .page-link:hover {
+            color: #000; /* Màu chữ đen khi hover hoặc nút được chọn */
+            background-color: #c8cbcf; /* Màu nền xám nhạt khi hover hoặc nút được chọn */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt khi hover hoặc nút được chọn */
+        }
+
+        /* Table Styling */
+        #example {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        #example th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #example th,
+        #example td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #example tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        #example img {
+            vertical-align: middle;
+        }
+
+        /* Hide the footer */
+        tfoot[hidden] {
+            display: none;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: #007bff; /* Màu sắc tương tự như màu của liên kết */
+            text-decoration: underline; /* Gạch chân cho văn bản */
+            cursor: pointer; /* Biểu tượng chuột nhấp nháy khi rê chuột vào */
+            padding: 0; /* Xóa đệm */
+        }
+    </style>
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -117,7 +183,13 @@
                 </div>
             </div>
         </nav>
+        <div th:if="${err != null}">hello</div>
+
         <!-- Navbar End -->
+        <div id="errorMessageDate"></div>
+        <!-- Các phần khác của template -->
+
+        <!-- Các phần khác của template -->
 
         <!-- Chart Start -->
         <div class="container-fluid pt-4">
@@ -137,7 +209,7 @@
         </div>
 
 
-        <form th:action="@{/admin/hoa-don/page/0}" method="get">
+        <form th:action="@{/admin/hoa-don/filter}" method="get" onsubmit="return validateDate()">
             <div class="container-fluid pt-3">
                 <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
 
@@ -163,12 +235,6 @@
                             <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <!-- Ô input thứ 3 -->
-                        <label class="sr-only">Additional Input</label>
-                        <input type="text" replace="mời nhập từ cần tìm kiếm" class="form-control" name="keyword"
-                               th:value="${keyword}">
-                    </div>
                 </div>
 
                 <div class="row g-2">
@@ -189,7 +255,7 @@
             <div class="bg-light text-center rounded p-4">
                 <div>
                     <div class="bg-light rounded h-100 p-4">
-                        <table class="table table-striped">
+                        <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
                                 <th>Id</th>
@@ -197,66 +263,136 @@
                                 <th>Tên Khách Hàng</th>
                                 <th>Ngày Tạo</th>
                                 <th>Trạng Thái</th>
-                                <th>Ghi Chú</th>
                                 <th>Thanh Toán</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-
                             <tr th:each="hd : ${hoadons}">
-                                <td th:text="${hd.id}"></td>
-                                <td th:text="${hd.ma}"></td>
-                                <td th:text="${hd.tenKhachHang}"></td>
-                                <td th:text="${hd.ngayTao}"></td>
-                                <td th:text="${hd.trangThai.getDisplayName()}"></td>
-                                <td th:text="${hd.ghiChu}"></td>
-                                <td th:text="${hd.thanhToan}"></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}" th:text="${hd.id}"
+                                       style="color: black;"></a></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}" th:text="${hd.ma}"
+                                       style="color: black;"></a></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
+                                       th:text="${hd.tenKhachHang}" style="color: black;"></a></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
+                                       th:text="${hd.ngayTao}" style="color: black;"></a></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
+                                       th:text="${hd.trangThai.getDisplayName()}" style="color: black;"></a></td>
+                                <td><a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
+                                       th:text="${hd.thanhToan}" style="color: black;"></a></td>
                                 <td>
-                                    <a th:href="@{'/admin/dong-san-pham/view-update/' + ${hd.id}}">
-                                        <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
-                                    </a>
-                                    <a th:href="@{'/admin/dong-san-pham/remove/' + ${hd.id}}">
-                                        <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
-                                    </a>
+                                    <div style="display: flex; align-items: center;">
+                                        <a th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}">
+                                            <i class="bi bi-pencil" style="font-size: 22px;margin-right: 10px"></i>
+                                        </a>
+                                        <div th:unless="${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).HOAN_THANH}
+                                        or    ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HOAN_TRA}
+                                        or
+                                               ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HUY}">
+                                            <button class="btn-link" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#ghiChu' + ${hd.id}">
+                                                <i class="bi bi-check2" style="font-size: 35px;"></i>
+                                            </button>
+                                        </div>
+                                        <div th:unless="${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).HOAN_THANH}
+                                        or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HOAN_TRA}
+                                        or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DANG_GIAO}
+                                        or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HUY}">
+                                            <button class="btn-link" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#huyDon' + ${hd.id}">
+                                                <i class="bi bi-x" style="font-size: 37px;"></i>
+                                            </button>
+                                        </div>
+                                        <!--Modal chuyển trạng thái-->
+                                        <div class="modal fade" th:id="'ghiChu' + ${hd.id}" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <h5 class="modal-title" style="text-align: center;margin-top: 10px">
+                                                        Chuyển Trạng Thái</h5>
+
+                                                    <div class="modal-header">
+
+                                                        <!--                                          form cũ -->
+                                                        <form th:action="@{/admin/hoa-don/validation}" method="post"
+                                                              class="my-form reduced-height">
+                                                            <input type="hidden" name="id" th:value="${hd.id}"/>
+                                                            <label class="form-label">Ghi chú cũ</label>
+                                                            <input type="text" class="form-control mb-3" name="id"
+                                                                   th:value="${hd.ghiChu}" readonly/>
+                                                            <label class="form-label">Ghi chú</label>
+                                                            <input type="text" class="form-control mb-3" name="ghiChu"
+                                                                   th:value="${ghiChu}"/>
+                                                            <div class="modal-footer" style="margin-left: 200px">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Đóng
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Chuyển
+                                                                    Trạng Thái
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                        <!--modalhuỷ đơn hàng-->
+                                        <div class="modal fade" th:id="'huyDon' + ${hd.id}" tabindex="-1"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <h5 class="modal-title" style="text-align: center;margin-top: 10px">
+                                                        Huỷ Đơn Hàng</h5>
+                                                    <div class="modal-header">
+                                                        <!--                                          form cũ -->
+                                                        <form th:action="@{/admin/hoa-don/validation/deny}"
+                                                              method="post"
+                                                              class="my-form reduced-height">
+                                                            <input type="hidden" name="id" th:value="${hd.id}"/>
+                                                            <label class="form-label">Ghi chú cũ</label>
+                                                            <input type="text" class="form-control mb-3" name="id"
+                                                                   th:value="${hd.ghiChu}" readonly/>
+                                                            <label class="form-label">Ghi chú</label>
+                                                            <input type="text" class="form-control mb-3" name="ghiChu"
+                                                                   th:value="${ghiChu}"/>
+                                                            <div class="modal-footer" style="margin-left: 200px">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Đóng
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Huỷ Đơn
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
+                            <tfoot hidden="hidden">
+                            <tr>
+                                <th>Id</th>
+                                <th>Mã</th>
+                                <th>Tên Khách Hàng</th>
+                                <th>Ngày Tạo</th>
+                                <th>Trạng Thái</th>
+                                <th>Thanh Toán</th>
+                                <th>Action</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Chart End -->
-
-
-        <div class="text-center m-1">
-            <span th:unless="${totalItem > 0}">Không có Chi Tiết Sản Phẩm trong trang này</span>
-        </div>
-
-        <div th:if="${totalPages > 1}">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li th:class="${pageNo > 0 ? 'page-item' : 'page-item disabled'}">
-                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(1, 'Trang Đầu')"></a>
-                    </li>
-
-                    <li th:class="${pageNo > 0 ? 'page-item' : 'page-item disabled'}">
-                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${pageNo - 1}, 'Trước')"></a>
-                    </li>
-                    <li th:class="${pageNo != i ? 'page-item' : 'page-item active'}"
-                        th:each="i : ${#numbers.sequence(1, totalPages)}">
-                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${i}, ${i})"></a>
-                    </li>
-                    <li th:class="${pageNo < totalPages ? 'page-item' : 'page-item disabled'}">
-                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${pageNo + 1}, 'Sau')"></a>
-                    </li>
-                    <li th:class="${pageNo < totalPages ? 'page-item' : 'page-item disabled'}">
-                        <a th:replace="admin-template/fragments/fragments::hoaDon_link(${totalPages}, 'Trang Cuối')"></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <!-- Modal -->
         <!-- Footer Start -->
         <div class="container-fluid pt-4">
             <div class="bg-light rounded-top p-4">
@@ -271,10 +407,25 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
 </div>
 
+</div>
+<!--thư viện js tích tìm kiếm-->
+<script>
+    new DataTable('#example');
+</script>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    })
+</script>
+<!--thư viện js tích tìm kiếm end-->
 <!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/../../lib/chart/chart.min.js"></script>
 <script src="/../../lib/easing/easing.min.js"></script>
@@ -291,38 +442,75 @@
         document.getElementById('hiddenTrangThai').value = value;
     }
 </script>
-<style>
-    .pagination {
-        margin: 20px 0;
-        list-style: none;
-        display: flex;
-        justify-content: center;
-    }
+<!--vlt tim kiem-->
+<script th:inline="javascript">
+    function validateDate() {
+        var startDate = document.getElementById('start7').value;
+        var endDate = document.getElementById('end7').value;
 
-    .pagination .page-item {
-        margin: 0 5px;
-    }
+        if (startDate === '' || endDate === '') {
+            document.getElementById('errorMessageDate').innerHTML = '<div class="alert alert-danger" role="alert">Vui lòng điền đầy đủ thông tin tìm kiếm</div>';
 
-    .pagination .page-item a {
-        display: block;
-        padding: 5px 10px;
-        text-decoration: none;
-        color: #333;
-    }
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                document.getElementById('errorMessageDate').innerHTML = '';
+            }, 5000);
 
-    .pagination .page-item.disabled a {
-        pointer-events: none;
-        cursor: default;
-        opacity: 0.5;
-    }
+            return false; // Ngăn form từ việc submit khi có lỗi
+        } else if (startDate > endDate) {
+            document.getElementById('errorMessageDate').innerHTML = '<div class="alert alert-danger" role="alert">Ngày bắt đầu không thể lớn hơn ngày kết thúc.</div>';
 
-    .pagination .page-item.active a {
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 3px;
-    }
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                document.getElementById('errorMessageDate').innerHTML = '';
+            }, 5000);
 
-</style>
+            return false; // Ngăn form từ việc submit khi có lỗi
+        } else {
+            document.getElementById('errorMessageDate').innerHTML = ''; // Xóa thông báo lỗi nếu đã được hiển thị
+            return true; // Cho phép form submit nếu không có lỗi
+        }
+    }
+</script>
+<script type="text/javascript">
+    var selectButton = document.getElementById('selectButton');
+    selectButton.addEventListener('click', function () {
+        // Lấy tham chiếu đến các phần tử trong modal
+        var modal = document.getElementById('myModal');
+        var closeButton = modal.querySelector('.btn-close');
+        var customerButtons = modal.querySelectorAll('.btn-outline-primary');
+
+        // Lắng nghe sự kiện click vào nút "Đóng" trong modal
+        closeButton.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+
+        // Lắng nghe sự kiện click vào từng nút "Thêm" trong modal
+        customerButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Thực hiện các hành động khi chọn khách hàng
+                var ghiChu = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
+                var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
+
+                // Xử lý dữ liệu khách hàng tại đây
+            });
+        });
+
+        customerButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Thực hiện các hành động khi chọn khách hàng
+                var huyDon = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
+                var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
+
+                // Xử lý dữ liệu khách hàng tại đây
+            });
+        });
+
+        // Hiển thị modal
+        modal.style.display = 'block';
+    });
+</script>
+
 </body>
 
 </html>
