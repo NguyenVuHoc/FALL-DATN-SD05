@@ -74,6 +74,8 @@
 
         <hr class="box">
 
+        <form th:action="@{/wingman/cart/add/{id}(id=${id})}" method="post">
+
         <div class="row">
             <!--Ảnh sản phẩm-->
             <div class="col-lg-6">
@@ -150,7 +152,8 @@
                         <input
                                 type="text"
                                 class="form-control text-center quantity-amount detail-text-ph"
-                                value="1"
+                                name="soLuong"
+                                th:value="${param.soLuong}"
                                 placeholder=""
                                 aria-label="Example text with button addon"
                                 aria-describedby="button-addon1"
@@ -184,7 +187,7 @@
                 <br>
 
                 <div class="row">
-                    <button type="button" class="btn" style="margin-bottom: 20px"> Thêm vào giỏ hàng</button>
+                    <button type="submit" class="btn" style="margin-bottom: 20px"> Thêm vào giỏ hàng</button>
 
                     <button type="button" class="btn "> Mua ngay</button>
                 </div>
@@ -192,7 +195,7 @@
             </div>
 
         </div>
-
+        </form>
         <!--Đường kẻ chia trang-->
         <div>
             <hr class="box" style="margin-top: 50px">

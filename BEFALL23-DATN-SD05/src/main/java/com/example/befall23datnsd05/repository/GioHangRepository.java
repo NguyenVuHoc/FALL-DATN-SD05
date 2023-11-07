@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GioHangRepository extends JpaRepository<GioHang, Long> {
+
+    GioHang getByKhachHangId(Long id);
 }

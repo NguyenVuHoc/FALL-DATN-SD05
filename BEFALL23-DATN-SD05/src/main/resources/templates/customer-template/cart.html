@@ -90,126 +90,126 @@
             <div class="site-blocks-table">
               <table class="table">
                 <thead>
-                  <tr>
-                    <th class="product-thumbnail">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      </div>
-                    </th>
-                    <th class="product-thumbnail">Ảnh</th>
-                    <th class="product-name">Sản phẩm</th>
-                    <th class="product-price">Giá</th>
-                    <th class="product-quantity">Số lượng</th>
-                    <th class="product-total">Thành tiền</th>
-                    <th class="product-remove">Xóa</th>
-                  </tr>
+                <tr>
+                  <th class="product-thumbnail">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="selectAllCheckbox"
+                             onclick="toggleCheckboxes(this)">
+                    </div>
+                  </th>
+                  <th class="product-thumbnail">Ảnh</th>
+                  <th class="product-name">Sản phẩm</th>
+                  <th class="product-price">Giá</th>
+                  <th class="product-quantity">Số lượng</th>
+                  <th class="product-total">Thành tiền</th>
+                  <th class="product-remove">Xóa</th>
+                </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                      </div>
-                    </td>
-                    <td class="product-thumbnail">
-                      <img
-                        src="/../images/giay.png"
-                        alt="Image"
-                        class="img-fluid"
-                      />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 1</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
-                      </div>
-                      <span style="font-size: 12px">Số lượng còn lại:</span>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
+                <tbody th:each="gioHangChiTiet : ${listGioHangChiTiet}">
+                <tr>
 
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                  <td>
+                    <div class="form-check">
+                      <span hidden  class="id"  th:data-id="${gioHangChiTiet.id}"></span>
+                      <span hidden  class="id-cart"  th:data-id="${gioHangChiTiet.gioHang.id}"></span>
+                      <input onchange="updatePrice(this)" class="form-check-input" type="checkbox">
+                    </div>
+                    <script>
+                      function getTotalMonye(){
+                        var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
+                        let total =0;
+                        checkboxes.forEach(item => {
+                          if(item.checked){
+                            let father = item.parentElement.parentElement.parentElement;
+                            let price = father.querySelector(".thanhtien").innerText;
+                            price = Number(price);
+                            total +=price;
+                          }
+                        })
+                        return total;
+                      }
+                      function updatePrice(e) {
+                        let totalE = document.querySelector(".total");
+                        let price = getTotalMonye();
+                        totalE.innerHTML = price;
+                      }
+
+                      function handlerChange(e) {
+                        let className = e.getAttribute("class");
+                        let father = e.parentElement.parentElement.parentElement.parentElement;
+                        let priceE = father.querySelector(".thanhtien");
+                        let price = father.querySelector(".price").innerText;
+                        price = Number(price);
+                        console.log(price)
+                        let qntE = father.querySelector(".quantity-amount");
+                        let qnt = father.querySelector(".quantity-amount").value;
+                        if(className == "cong"){
+                          qnt = Number(qnt) +1;
+                        }else{
+                          qnt = Number(qnt) - 1;
+                        }
+                        if(qnt <= 0 ){
+                          qutE.value = 0;
+                          return;
+
+                        }
+                        qntE.value = qnt;
+                        console.log(qnt)
+                        priceE.innerHTML = (price * qnt);
+                        let checkBox = father.querySelector("input[type='checkbox']");
+                        if (checkBox.checked) {
+                          updatePrice(checkBox);
+                        }
+
+                      }
+                    </script>
+                  </td>
+                  <td class="product-thumbnail">
+                    <img th:src="@{'../images/' + ${gioHangChiTiet.chiTietSanPham.sanPham.anhChinh}}"
+                         alt="Image"
+                         class="img-fluid"
+                    />
+                  </td>
+                  <td class="product-name">
+                    <h2 class="h5 text-black name" th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
+                  </td>
+                  <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                  <td>
+                    <div
+                            class="input-group mb-3 d-flex align-items-center quantity-container"
+                            style="max-width: 120px"
+                    >
+                      <div onclick="handlerChange(this)" class="tru">
+                        <button
+                                class="btn btn-outline-black "
+                                type="button"
+                        >
+                          &minus;
+                        </button>
                       </div>
-                    </td>
-                    <td class="product-thumbnail">
-                      <img
-                        src="/../images/giay3.png"
-                        alt="Image"
-                        class="img-fluid"
+                      <input
+                              type="text"
+                              class="form-control text-center quantity-amount"
+                              th:value="${gioHangChiTiet.soLuong}"
+                              placeholder=""
+                              aria-label="Example text with button addon"
+                              aria-describedby="button-addon1"
                       />
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Product 2</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div
-                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                        style="max-width: 120px"
-                      >
-                        <div class="input-group-prepend">
-                          <button
-                            class="btn btn-outline-black decrease"
-                            type="button"
-                          >
-                            &minus;
-                          </button>
-                        </div>
-                        <input
-                          type="text"
-                          class="form-control text-center quantity-amount"
-                          value="1"
-                          placeholder=""
-                          aria-label="Example text with button addon"
-                          aria-describedby="button-addon1"
-                        />
-                        <div class="input-group-append">
-                          <button
-                            class="btn btn-outline-black increase"
-                            type="button"
-                          >
-                            &plus;
-                          </button>
-                        </div>
+                      <div  onclick="handlerChange(this)" class="cong">
+                        <button
+                                class="btn btn-outline-black "
+                                type="button"
+                        >
+                          &plus;
+                        </button>
                       </div>
-                      <span style="font-size: 12px">Số lượng còn lại:</span>
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-black btn-sm">X</a></td>
-                  </tr>
+                    </div>
+                  </td>
+                  <td class="thanhtien"
+                      th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                  <td><a th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}"
+                         class="btn btn-black btn-sm">X</a></td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -220,11 +220,12 @@
           <div class="col-md-6">
             <div class="row mb-5">
               <div class="col-md-6">
-                <button class="btn btn-outline-black btn-sm btn-block">
+                <a type="button" class="btn btn-outline-black btn-sm btn-block" th:href="@{/wingman/cua-hang}">
                   Tiếp tục mua hàng
-                </button>
+                </a>
               </div>
             </div>
+
 
           </div>
           <div class="col-md-6 pl-5">
@@ -241,7 +242,7 @@
                     <span class="text-black">Tổng tiền</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black total">0</strong>
                   </div>
                 </div>
 
@@ -377,5 +378,17 @@
     <script src="/../js/customer/bootstrap.bundle.min.js"></script>
     <script src="/../js/customer/tiny-slider.js"></script>
     <script src="/../js/customer/custom.js"></script>
+    <script>
+      function toggleCheckboxes(checkbox) {
+        // Lấy tất cả các ô checkbox trong tbody
+        var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
+
+        // Đặt trạng thái của các ô checkbox đằng sau bằng giá trị của ô checkbox đầu tiên
+        checkboxes.forEach(item => {
+          item.checked = checkbox.checked;
+          updatePrice(item);
+        })
+      }
+    </script>
   </body>
 </html>
