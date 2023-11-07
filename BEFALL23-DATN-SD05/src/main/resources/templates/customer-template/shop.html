@@ -194,7 +194,7 @@
                     <h3 class="product-title"
                         th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
                     <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
-                    <a href="cart.html">
+                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp.id})}">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
@@ -253,7 +253,7 @@
                     <h3 class="product-title"
                         th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
-                    <a href="cart.html">
+                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspCustom.getId()})}">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
@@ -281,7 +281,7 @@
                     <h3 class="product-title"
                         th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
-                    <a href="cart.html">
+                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspLimited.getId()})}">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>

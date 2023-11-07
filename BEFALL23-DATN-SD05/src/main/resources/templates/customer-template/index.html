@@ -93,7 +93,7 @@
                     <h3 class="product-title"
                         th:text="${ctsp3New.getTenSp() +' '+ ctsp3New.getTenDongSp() +' '+ ctsp3New.getTenDe_giay() +' '+ ctsp3New.getTenCo_giay() +' '+ ctsp3New.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctsp3New.getGia_ban()}"></strong>
-                    <a href="cart.html">
+                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp3New.getId()})}">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
@@ -132,7 +132,7 @@
                     <h3 class="product-title"
                         th:text="${ctsp3prominent.getTenSp() +' '+ ctsp3prominent.getTenDongSp() +' '+ ctsp3prominent.getTenDe_giay() +' '+ ctsp3prominent.getTenCo_giay() +' '+ ctsp3prominent.getTenLot_giay()}"></h3>
                     <strong class="product-price" th:text="${ctsp3prominent.getGia_ban()}"></strong>
-                    <a href="cart.html">
+                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp3prominent.getId()})}">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
