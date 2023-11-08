@@ -79,8 +79,18 @@ public class LotGiayServiceImpl implements LotGiayService {
     }
 
     @Override
-    public boolean exist(String ma) {
+    public boolean existByMa(String ma) {
         return repository.existsByMa(ma);
+    }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
     }
 
     @Override

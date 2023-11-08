@@ -9,7 +9,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DeGiayRepository extends JpaRepository<DeGiay, Long> {
+
     Page<DeGiay> findByTenContains(String ten, Pageable pageable);
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

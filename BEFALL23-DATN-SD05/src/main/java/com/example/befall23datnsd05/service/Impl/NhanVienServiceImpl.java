@@ -23,11 +23,14 @@ public class NhanVienServiceImpl implements NhanVienService {
     @Autowired
     private NhanVienRepository nhanVienRepository;
 
+    @Override
+    public List<NhanVien> getList() {
+        return nhanVienRepository.findAll();
+    }
 
     @Override
-    public Page<NhanVien> phanTrang(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size, Sort.by(Sort.Order.desc("id")));
-        return nhanVienRepository.findAll(pageable);
+    public List<NhanVien> getByTrangThai(TrangThai trangThai) {
+        return nhanVienRepository.getAllByTrangThai(trangThai);
     }
 
     @Override
@@ -87,42 +90,24 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     @Override
-    public boolean exist(String ma) {
-        return nhanVienRepository.existsByMa(ma);
-    }
-
-    @Override
-    public Integer chuyenPage(Integer pageNo) {
-        Integer sizeList = nhanVienRepository.findAll().size();
-        System.out.println(sizeList);
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
-        System.out.println(pageCount);
-        if (pageNo >= pageCount){
-            pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
-        }
-        System.out.println(pageNo);
-        return pageNo;
-    }
-
-    @Override
     public Page<NhanVien> timTen(String ten, Integer pageNo, Integer size) {
         Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
         return nhanVienRepository.findByTenContains(ten,pageable1);
     }
 
     @Override
-    public Page<NhanVien> getTrangThaiHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return nhanVienRepository.getTrangThaiHoatDong(pageable);
+    public boolean existByMa(String ma) {
+        return nhanVienRepository.existsByMa(ma);
     }
 
     @Override
-    public Page<NhanVien> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return nhanVienRepository.getTrangThaiDungHoatDong(pageable);
+    public boolean existsByTen(String ten) {
+        return nhanVienRepository.existsByTen(ten);
     }
 
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return nhanVienRepository.existsByTenAndIdNot(ten, id);
+    }
 
 }

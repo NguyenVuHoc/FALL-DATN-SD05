@@ -24,24 +24,26 @@ public class LotGiayController {
     public String getAll(
             Model model
     ){
-        Page<LotGiay> page = service.phanTrang(pageNo,5);
-        model.addAttribute("listLG",page.stream().toList());
+//        Page<LotGiay> page = service.phanTrang(pageNo,5);
+//        model.addAttribute("listLG",page.stream().toList());
+        model.addAttribute("listLG", service.getAll());
         model.addAttribute("index", pageNo+1);
         return "admin-template/lot_giay/lot_giay";
     }
-    @GetMapping("/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/lot-giay";
-    }
 
-    @GetMapping("/next")
-    private String next() {
-        pageNo++;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/lot-giay";
-    }
+//    @GetMapping("/pre")
+//    private String pre() {
+//        pageNo--;
+//        pageNo = service.chuyenPage(pageNo);
+//        return "redirect:/admin/lot-giay";
+//    }
+//
+//    @GetMapping("/next")
+//    private String next() {
+//        pageNo++;
+//        pageNo = service.chuyenPage(pageNo);
+//        return "redirect:/admin/lot-giay";
+//    }
 
     @GetMapping("/view-add")
     public String viewAdd(
@@ -56,14 +58,31 @@ public class LotGiayController {
     public String add(
             @Valid
             @ModelAttribute("lotGiay") LotGiay lotGiay,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ){
+        String ma = lotGiay.getMa();
+        String ten = lotGiay.getTen();
         if(bindingResult.hasErrors()){
             return "admin-template/lot_giay/them_lot_giay";
-        }else{
-            service.add(lotGiay);
-            return "redirect:/admin/lot-giay";
         }
+        if (service.existByMa(ma) && service.existsByTen(ten)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/lot_giay/them_lot_giay";
+        }
+        if (service.existByMa(ma)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            return "admin-template/lot_giay/them_lot_giay";
+        }
+        if (service.existsByTen(ten)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/lot_giay/them_lot_giay";
+        }
+        model.addAttribute("success", "Thêm thành công");
+        service.add(lotGiay);
+        return "redirect:/admin/lot-giay?success";
+
     }
 
     @GetMapping("/view-update/{id}")
@@ -80,17 +99,25 @@ public class LotGiayController {
                          BindingResult bindingResult,
                          Model model
     ) {
+        String ten = lotGiay.getTen();
+        Long id = lotGiay.getId();
         if (bindingResult.hasErrors()) {
             return "admin-template/lot_giay/sua_lot_giay";
         }
+        if (service.existsByTenAndIdNot(ten, id)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/lot_giay/sua_lot_giay";
+        }
+        model.addAttribute("success", "Sửa thành công");
+
         service.update(lotGiay);
-        return "redirect:/admin/lot-giay";
+        return "redirect:/admin/lot-giay?success";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
-        return "redirect:/admin/lot-giay";
+        return "redirect:/admin/lot-giay?success";
     }
 
     @GetMapping("/search")
