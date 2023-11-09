@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -78,6 +79,10 @@ public class ChiTietSanPham {
 
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_khuyen_mai", referencedColumnName = "id")
+    private KhuyenMai khuyenMai;
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
