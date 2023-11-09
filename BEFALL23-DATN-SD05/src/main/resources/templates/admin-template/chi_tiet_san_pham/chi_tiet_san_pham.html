@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -9,8 +9,72 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../images/WingMan-black.png" rel="icon">
+    <link href="/../../images/WingMan-black.png" rel="icon">
 
+    <!--thư viện css tích tìm kiếm-->
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'>
+    <style>
+        /* Đổi màu nền và màu chữ của các nút phân trang */
+        .pagination .page-link {
+            color: #000; /* Màu chữ đen */
+            background-color: #e9ecef; /* Nền xám nhạt */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt */
+            border-radius: 0; /* Loại bỏ góc bo tròn */
+            margin: 0 2px; /* Điều chỉnh khoảng cách giữa các nút */
+            padding: 6px 12px; /* Điều chỉnh độ lớn của nút */
+        }
+
+        /* Đổi màu nền và màu chữ của nút khi được chọn hoặc hover */
+        .pagination .page-item.active .page-link,
+        .pagination .page-link:hover {
+            color: #000; /* Màu chữ đen khi hover hoặc nút được chọn */
+            background-color: #c8cbcf; /* Màu nền xám nhạt khi hover hoặc nút được chọn */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt khi hover hoặc nút được chọn */
+        }
+
+        /* Table Styling */
+        #example {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            padding-top: 20px;
+        }
+
+        #example th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        #example td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            color: #6a6a6a;
+        }
+
+        #example tbody tr:hover {
+            background-color: #b3e1ff;
+        }
+
+        #example img {
+            vertical-align: middle;
+        }
+
+        /* Hide the footer */
+        tfoot[hidden] {
+            display: none;
+        }
+
+
+    </style>
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,14 +85,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/admin/bootstrap.min.css" rel="stylesheet">
+    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../../css/admin/style.css" rel="stylesheet">
+    <link href="/../../css/admin/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -51,7 +115,7 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="//../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div
                                 class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                         </div>
@@ -108,7 +172,7 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
+                            <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
                                 style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex">John Doe</span>
                         </a>
@@ -126,45 +190,34 @@
             </div>
             <!-- Recent Sales Start -->
             <div class="container-fluid pt-4">
-                <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
                 <div class="row g-2">
-                    <div style="width: 50%;">
-                        <form class="d-none d-md-flex" method="get" th:action="@{/admin/chi-tiet-san-pham/search}">
-                            <input class="form-control border-1"
-                                style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
-                                type="search" placeholder="Nhập sản phẩm cần tìm" name="ten" th:value="${param.ten}"/>
-                            <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
-                                Tìm Kiếm
-                            </button>
-                        </form>
+                    <div style="width: 90%;">
+                        <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
                     </div>
-<!--                    <div style="width: 30%; margin-left: -20px;">-->
-<!--                        <select class="form-select" aria-label="Default select example" style="width: 200px;">-->
-<!--                            <option selected>Tất cả</option>-->
-<!--                            <option value="1">One</option>-->
-<!--                            <option value="2">Two</option>-->
-<!--                            <option value="3">Three</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-                    <div style="width: 20%; margin-left: 20px;">
+                    <div class="create" style="width: 10%;">
                         <button class="btn btn-outline-success" style="margin-right: -200px;">
                             <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
                         </button>
                     </div>
-                </div>
+                    <div/>
+                <ul class="nav nav-tabs">
+                    <button class="nav-link">
+                        <a href="/admin/chi-tiet-san-pham">Tất cả</a>
+                    </button>
+                    <li class="nav-item" th:each="tt : ${trangThais}">
+                        <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
+                                data-bs-toggle="tab" type="button" onclick="setHiddenValue('${tt}')">
+                            <a th:href="@{/admin/chi-tiet-san-pham/trang-thai/{status}(status=${tt})}"
+                               th:text="${tt.getDisplayName()}"></a>
+                        </button>
+                    </li>
+                </ul>
             </div>
-
-            <nav  style="padding-bottom: 30px; margin-left: 20px; margin-bottom: -20px">
-                <a th:href="@{/admin/chi-tiet-san-pham}" type="button" class="btn btn-outline-primary">Tất cả</a>
-                <a th:href="@{/admin/chi-tiet-san-pham/trang-thai-hoat-dong}" type="button" class="btn btn-outline-primary">Đang hoạt động</a>
-                <a th:href="@{/admin/chi-tiet-san-pham/trang-thai-dung-hoat-dong}" type="button" class="btn btn-outline-primary">Dừng hoạt động</a>
-            </nav>
-
             <div class="container-fluid pt-4">
                 <div class="bg-light text-center rounded p-4">
                     <div>
                         <div class="bg-light rounded h-100 p-4">
-                            <table class="table table-striped">
+                            <table id="example" class="table table-striped" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -193,14 +246,27 @@
                                     </td>
                                     <td>
                                         <a th:href="@{'/admin/chi-tiet-san-pham/view-update/' + ${chiTietSanPham.id}}">
-                                            <img src="../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
+                                            <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
                                         <a th:href="@{'/admin/chi-tiet-san-pham/delete/' + ${chiTietSanPham.id}}">
-                                            <img src="../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
+                                            <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
                                     </td>
                                 </tr>
                                 </tbody>
+                                <tfoot hidden="hidden">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng tồn</th>
+                                    <th>Giá bán</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chức Năng</th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -242,20 +308,32 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
+    <!--thư viện js tích tìm kiếm-->
+    <script>
+        new DataTable('#example');
+    </script>
+    <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        })
+    </script>
+
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/chart/chart.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/waypoints/waypoints.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment.min.js"></script>
-    <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="/../../lib/chart/chart.min.js"></script>
+    <script src="/../../lib/easing/easing.min.js"></script>
+    <script src="/../../lib/waypoints/waypoints.min.js"></script>
+    <script src="/../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../../js/admin/main.js"></script>
-    <script src="../../js/admin/index_form.js"></script>
+    <script src="/../../js/admin/main.js"></script>
+    <script src="/../../js/admin/index_form.js"></script>
 </body>
 
 </html>

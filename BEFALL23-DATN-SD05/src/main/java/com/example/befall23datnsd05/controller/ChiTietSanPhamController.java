@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -58,6 +61,9 @@ public class ChiTietSanPhamController {
     private CoGiayService coGiayService;
 
     Integer pageNo = 0;
+
+    List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
+
 
     @GetMapping("/wingman/cua-hang")
     public String getAllShopCustomer(Model model) {
@@ -122,30 +128,24 @@ public class ChiTietSanPhamController {
     public String getAll(
             Model model
     ){
-        Page<ChiTietSanPham> page = service.phanTrang(pageNo,5);
-        model.addAttribute("listCTSP",page.stream().toList());
+        model.addAttribute("listCTSP",service.getAll());
         model.addAttribute("listDG",deGiayService.getAll());
         model.addAttribute("listMS",mauSacService.getAll());
         model.addAttribute("listKT",kichThuocService.getAll());
         model.addAttribute("listLG",lotGiayService.getAll());
         model.addAttribute("listCG",coGiayService.getAll());
         model.addAttribute("listSP",sanPhamService.getList());
-
+        model.addAttribute("trangThais", list);
         model.addAttribute("index", pageNo+1);
         return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
-    @GetMapping("/admin/chi-tiet-san-pham/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/chi-tiet-san-pham";
-    }
 
-    @GetMapping("/admin/chi-tiet-san-pham/next")
-    private String next() {
-        pageNo++;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/chi-tiet-san-pham";
+    @GetMapping("/admin/chi-tiet-san-pham/trang-thai/{trangThai}")
+    public String getByTrangThai(Model model,
+                                 @PathVariable("trangThai") TrangThai trangThai) {
+        model.addAttribute("trangThais", list);
+        model.addAttribute("listCTSP", service.getByTrangThai(trangThai));
+        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
 
     @GetMapping("/admin/chi-tiet-san-pham/view-add")
@@ -225,52 +225,6 @@ public class ChiTietSanPhamController {
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
         return "redirect:/admin/chi-tiet-san-pham?success";
-    }
-
-    @GetMapping("/admin/chi-tiet-san-pham/search")
-    public String searchTen(Model model,
-                            @RequestParam("ten") String ten){
-        Page<ChiTietSanPham> page = service.searchTen(ten,pageNo,5);
-        model.addAttribute("listCTSP",page.stream().toList());
-        model.addAttribute("listDG",deGiayService.getAll());
-        model.addAttribute("listMS",mauSacService.getAll());
-        model.addAttribute("listKT",kichThuocService.getAll());
-        model.addAttribute("listLG",lotGiayService.getAll());
-        model.addAttribute("listCG",coGiayService.getAll());
-        model.addAttribute("listSP",sanPhamService.getList());
-
-        model.addAttribute("index", pageNo+1);
-        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
-    }
-
-    @GetMapping("/admin/chi-tiet-san-pham/trang-thai-hoat-dong")
-    public String getTrangThaiHoatDong(Model model){
-        Page<ChiTietSanPham> page = service.getTrangThaiHoatDong(pageNo,5);
-        model.addAttribute("listCTSP",page.stream().toList());
-        model.addAttribute("listDG",deGiayService.getAll());
-        model.addAttribute("listMS",mauSacService.getAll());
-        model.addAttribute("listKT",kichThuocService.getAll());
-        model.addAttribute("listLG",lotGiayService.getAll());
-        model.addAttribute("listCG",coGiayService.getAll());
-        model.addAttribute("listSP",sanPhamService.getList());
-
-        model.addAttribute("index", pageNo+1);
-        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
-    }
-
-    @GetMapping("/admin/chi-tiet-san-pham/trang-thai-dung-hoat-dong")
-    public String getTrangThaiDungHoatDong(Model model){
-        Page<ChiTietSanPham> page = service.getTrangThaiDungHoatDong(pageNo,5);
-        model.addAttribute("listCTSP",page.stream().toList());
-        model.addAttribute("listDG",deGiayService.getAll());
-        model.addAttribute("listMS",mauSacService.getAll());
-        model.addAttribute("listKT",kichThuocService.getAll());
-        model.addAttribute("listLG",lotGiayService.getAll());
-        model.addAttribute("listCG",coGiayService.getAll());
-        model.addAttribute("listSP",sanPhamService.getList());
-
-        model.addAttribute("index", pageNo+1);
-        return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
 
 }

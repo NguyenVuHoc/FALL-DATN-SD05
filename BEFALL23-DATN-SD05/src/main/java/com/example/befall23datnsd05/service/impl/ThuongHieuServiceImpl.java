@@ -30,29 +30,10 @@ public class ThuongHieuServiceImpl implements ThuongHieuService {
     }
 
     @Override
-    public Integer transferPageTest(Integer pageNo, Page<ThuongHieuCustom> list) {
-
-        return null;
+    public List<ThuongHieu> getByTrangThai(TrangThai trangThai) {
+        return repository.getAllByTrangThai(trangThai);
     }
 
-    @Override
-    public Page<ThuongHieu> getPageByActivity(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getThuongHieuByTrangThaiHoatDong(pageable);
-    }
-
-    @Override
-    public Page<ThuongHieu> getPageByInActivity(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getThuongHieuByTrangThaiDungHoatDong(pageable);
-    }
-
-
-    @Override
-    public Page<ThuongHieu> getPage(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size, Sort.by("ngayTao").descending());
-        return repository.findAll(pageable);
-    }
 
 
     @Override

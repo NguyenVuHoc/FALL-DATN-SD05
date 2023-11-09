@@ -23,23 +23,9 @@ public class MauSacController {
     public String getAll(
             Model model
     ){
-        Page<MauSac> page = service.phanTrang(pageNo,5);
-        model.addAttribute("listMS",page.stream().toList());
+        model.addAttribute("listMS",service.getAll());
         model.addAttribute("index", pageNo+1);
         return "admin-template/mau_sac/mau_sac";
-    }
-    @GetMapping("/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/mau-sac";
-    }
-
-    @GetMapping("/next")
-    private String next() {
-        pageNo++;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/mau-sac";
     }
 
     @GetMapping("/view-add")
@@ -92,13 +78,5 @@ public class MauSacController {
         return "redirect:/admin/mau-sac";
     }
 
-    @GetMapping("/search")
-    public String timTen(@RequestParam("ten") String ten,
-                         Model model){
-        Page<MauSac> page = service.timTen(ten, pageNo, 5);
-        model.addAttribute("listMS", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/mau_sac/mau_sac";
-    }
 }
 
