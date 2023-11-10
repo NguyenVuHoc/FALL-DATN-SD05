@@ -11,7 +11,8 @@ public enum TrangThai {
     HOAN_THANH(6),
     DA_HUY(7),
     XAC_NHAN_HOAN_TRA(8),
-    DA_HOAN_TRA(9);
+    DA_HOAN_TRA(9),
+    SAP_DIEN_RA(10);
 
     private final Integer trangThai;
 
@@ -21,6 +22,35 @@ public enum TrangThai {
 
     public Integer getTrangThai() {
         return this.trangThai;
+    }
+
+    public String getDisplayName() {
+        switch (this) {
+            case DANG_HOAT_DONG:
+                return "Đang hoạt động";
+            case DUNG_HOAT_DONG:
+                return "Dừng hoạt động";
+            case CHO_XAC_NHAN:
+                return "Chờ xác nhận";
+            case DANG_CHUAN_BI:
+                return "Đang chuẩn bị";
+            case DANG_GIAO:
+                return "Đang giao";
+            case HOAN_THANH:
+                return "Hoàn thành";
+            case DA_HUY:
+                return "Đã hủy";
+            case XAC_NHAN_HOAN_TRA:
+                return "Xác nhận hoàn trả";
+            case DA_HOAN_TRA:
+                return "Đã hoàn trả";
+            case HOA_DON_CHO:
+                return "Hoá đơn chờ";
+            case SAP_DIEN_RA:
+                return "Sắp diễn ra";
+            default:
+                return this.name(); // Returns the default enum name if no corresponding name is found
+        }
     }
 
 }
