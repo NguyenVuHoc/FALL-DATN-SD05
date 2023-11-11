@@ -54,5 +54,9 @@ public interface BanHangService {
 
     HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong);
 
-    HoaDonChiTiet giamSoLuongSanPham(Long idHDCT, Integer soLuong);
+    HoaDonChiTiet suaSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong);
+
+    ChiTietSanPham suaSoLuongSanPham(Long idHDCT);
+
+    Boolean checkThanhToan(Long idHoaDon);
 }

@@ -30,12 +30,12 @@
     <!-- Template Stylesheet -->
     <link href="/../../css/admin/style.css" rel="stylesheet">
 
-<!--    <style>-->
-<!--        .nav-link:hover {-->
-<!--            background-color: #0c63e4;-->
-<!--            color: white;-->
-<!--        }-->
-<!--    </style>-->
+    <!--    <style>-->
+    <!--        .nav-link:hover {-->
+    <!--            background-color: #0c63e4;-->
+    <!--            color: white;-->
+    <!--        }-->
+    <!--    </style>-->
 </head>
 
 <body>
@@ -130,16 +130,6 @@
         <div th:if="${param.success}">
             <div class="alert alert-info" id="success-alert">Success!</div>
         </div>
-<!--        <script th:inline="javascript">-->
-<!--            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */-->
-<!--            setTimeout(function () {-->
-<!--                var successAlert = document.getElementById('success-alert');-->
-<!--                if (successAlert) {-->
-<!--                    successAlert.style.display = 'none';-->
-<!--                }-->
-<!--            }, 5000);-->
-<!--        </script>-->
-        <!-- Sales Chart Start -->
         <div class="container-fluid pt-4">
             <div style="margin-bottom: 2%; margin-right: -10%;">
                 <form th:action="@{/admin/ban-hang/tao-hoa-don}" method="post" th:object="${hoaDon}">
@@ -174,9 +164,9 @@
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Mã sản phẩm</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Màu sắc</th>
+                                            <th>Kích thước</th>
                                             <th>Đơn giá</th>
                                             <th>Số lượng</th>
                                             <th>Chức Năng</th>
@@ -184,18 +174,13 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="hdct : ${listHoaDonChiTiet}">
-                                            <td th:text="${hdct.getChiTietSanPham().getSanPham().getMa()}"></td>
                                             <td th:text="${hdct.getTenSanPham()}"></td>
                                             <td th:text="${hdct.getMauSac()}"></td>
-                                            <td th:text="${hdct.getGiaBan()}"></td>
+                                            <td th:text="${hdct.getKichThuoc()}"></td>
+                                            <td th:text="${#numbers.formatDecimal(hdct.getGiaBan(), 0, 'COMMA', 0, 'POINT')} +
+                                            ' VND'"></td>
                                             <td th:text="${hdct.getSoLuong()}"></td>
                                             <td>
-                                                <!--                                                <a class="suaSoLuong" th:href="@{/admin/ban-hang/sua-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
-                                                <!--                                                (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
-                                                <!--                                                    <img src="/../../img/pen_v2.png"-->
-                                                <!--                                                         style="width: 25px; padding-right: 5px">-->
-                                                <!--                                                </a>
-                                            -->
                                                 <div class="row g-2">
                                                     <div style="width: 50%">
                                                         <button class="btn btn-outline-primary"
@@ -206,48 +191,18 @@
                                                                  style="width: 15px;">
                                                         </button>
                                                         <div class="modal fade" th:id="'suaSoLuong' + ${hdct.id}"
+                                                             data-bs-backdrop="static" data-bs-keyboard="false"
                                                              aria-hidden="true"
                                                              aria-labelledby="suaSoLuongLabel" tabindex="-1">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5"
-                                                                            id="suaSoLuongLabel">Sửa số lượng sản
-                                                                            phẩm</h1>
-                                                                        <button type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        Vui lòng chọn tăng hoặc giảm số lượng sản phẩm!
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger"
-                                                                                data-bs-dismiss="modal">Đóng
-                                                                        </button>
-                                                                        <button class="btn btn-primary"
-                                                                                th:data-bs-target="'#giamSoLuong' + ${hdct.id}"
-                                                                                data-bs-toggle="modal">Giảm
-                                                                        </button>
-                                                                        <button class="btn btn-primary"
-                                                                                th:data-bs-target="'#tangSoLuong' + ${hdct.id}"
-                                                                                data-bs-toggle="modal">Tăng
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal fade" th:id="'giamSoLuong' + ${hdct.id}"
-                                                             aria-hidden="true"
-                                                             aria-labelledby="giamSoLuongLabel" tabindex="-1">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <form
-                                                                            th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
-                                                                            method="post">
+                                                                    <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} +'/sua-so-luong/' + ${hdct.id}}"
+                                                                          method="post"
+                                                                          onsubmit="return checkSoLuong(this);">
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title fs-5"
-                                                                                id="giamSoLuongLabel">Giảm số lượng</h1>
+                                                                                id="suaSoLuongLabel">Sửa số lượng sản
+                                                                                phẩm</h1>
                                                                             <button type="button" class="btn-close"
                                                                                     data-bs-dismiss="modal"
                                                                                     aria-label="Close"></button>
@@ -258,66 +213,23 @@
                                                                                    type="text"
                                                                                    name="soLuong"
                                                                                    th:value="${param.soLuong}"/>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-danger"
-                                                                                    data-bs-dismiss="modal">Đóng
-                                                                            </button>
-                                                                            <button type="submit"
-                                                                                    class="btn btn-primary">Xác nhận
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                            <!--                                                            <form th:action="@{'/admin/ban-hang/hoa-don/giam-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"-->
-                                                            <!--                                                                  th:object="${hoaDonChiTiet}"-->
-                                                            <!--                                                                  method="post">-->
-                                                            <!--                                                                -->
-                                                            <!--
-                                                        </form>
-                                                        -->
-                                                        </div>
-                                                        <div class="modal fade" th:id="'tangSoLuong' + ${hdct.id}"
-                                                             aria-hidden="true"
-                                                             aria-labelledby="tangSoLuongLabel" tabindex="-1">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <form
-                                                                            th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"
-                                                                            method="post">
-                                                                        <div class="modal-header">
-                                                                            <h1 class="modal-title fs-5"
-                                                                                id="tangSoLuongLabel">Tăng số lượng</h1>
-                                                                            <button type="button" class="btn-close"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            Nhập số lượng:
                                                                             <input class="form-control"
                                                                                    type="text"
-                                                                                   name="soLuong"
-                                                                                   th:value="${param.soLuong}"/>
+                                                                                   name="idSanPham"
+                                                                                   hidden
+                                                                                   th:value="${hdct.getChiTietSanPham().getId()}"/>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-danger"
                                                                                     data-bs-dismiss="modal">Đóng
                                                                             </button>
                                                                             <button type="submit"
-                                                                                    class="btn btn-primary">Xác nhận
+                                                                                    class="btn btn-primary">Sửa
                                                                             </button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
                                                             </div>
-                                                            <!--                                                            <form th:action="@{'/admin/ban-hang/hoa-don/tang-so-luong/' + ${idHoaDonCho} + '/' + ${hdct.id}}"-->
-                                                            <!--                                                                  th:object="${hoaDonChiTiet}"-->
-                                                            <!--                                                                  method="post">-->
-                                                            <!--                                                               -->
-                                                            <!--
-                                                        </form>
-                                                        -->
                                                         </div>
                                                     </div>
                                                     <div style="width: 50%">
@@ -329,10 +241,10 @@
                                                                  style="width: 15px;">
                                                         </button>
                                                         <div class="modal fade" th:id="'xoaSanPham' + ${hdct.id}"
+                                                             data-bs-backdrop="static" data-bs-keyboard="false"
                                                              aria-hidden="true"
                                                              aria-labelledby="xoaSanPhamLabel" tabindex="-1">
-                                                            <form
-                                                                    th:action="@{'/admin/ban-hang/xoa-hoa-don-chi-tiet/' + ${idHoaDonCho}+'/' +${hdct.id}}">
+                                                            <form th:action="@{'/admin/ban-hang/hoa-don/'+ ${idHoaDonCho}+'/xoa-hoa-don-chi-tiet/'+${hdct.id}}">
                                                                 <div class="modal-dialog modal-dialog-centered">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -361,12 +273,6 @@
                                                                 </div>
                                                             </form>
                                                         </div>
-                                                        <!--                                                        <a th:href="@{/admin/ban-hang/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}-->
-                                                        <!--                                                 (idHoaDon=${idHoaDonCho},idHoaDonChiTiet=${hdct.getId()})}">-->
-                                                        <!--                                                            <img src="/../../img/xoa_v2.png"-->
-                                                        <!--                                                                 style="width: 25px; padding-right: 5px;">-->
-                                                        <!--                                                        </a>
-                                                    -->
                                                     </div>
                                                 </div>
                                             </td>
@@ -381,7 +287,7 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a th:href="@{/admin/ban-hang/hoa-don/pre/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                    <a th:href="@{/admin/ban-hang/hoa-don/pre/{idHoaDon}(idHoaDon=${idHoaDonCho})}"
                                        class="page-link"
                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
@@ -389,7 +295,7 @@
                                 </li>
                                 <li class="page-item"><a class="page-link" th:text="${index}"></a></li>
                                 <li class="page-item">
-                                    <a th:href="@{/admin/ban-hang/hoa-don/next/{idHoaDonCho}(idHoaDonCho=${idHoaDonCho})}"
+                                    <a th:href="@{/admin/ban-hang/hoa-don/next/{idHoaDon}(idHoaDon=${idHoaDonCho})}"
                                        class="page-link"
                                        aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
@@ -402,8 +308,10 @@
                 <div class="col-sm-12 col-xl-6" style="width: 30%;">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Thông Tin</h6>
-                        <form th:action="@{/admin/ban-hang/thanh-toan}" method="post" th:object="${hoaDonCho}">
-                            <input type="hidden" th:field="*{id}"/>
+                        <form th:action="@{/admin/ban-hang/thanh-toan}" method="post"
+                              th:object="${hoaDonCho}"
+                              onsubmit="return checkThanhToan(this);">
+                            <input type="hidden" th:field="*{id}" name="id"/>
                             <div class="mb-3">
                                 <label class="form-label">Mã Hóa Đơn</label>
                                 <input type="text" class="form-control" name="ma" th:field="*{ma}" readonly/>
@@ -422,7 +330,7 @@
                                 <div style="width: 25%;">
                                     <button id="selectButton" type="button" class="btn btn-primary"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#myModal" style="margin-top: 30px;">
+                                            data-bs-target="#khachHang" style="margin-top: 30px;">
                                         Chọn
                                     </button>
                                 </div>
@@ -433,13 +341,18 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Thành Tiền</label>
-                                <input type="text" class="form-control" name="thanhToan" th:value="${thanhTien}"/>
+                                <input id="thanhToanInput" type="text" class="form-control"
+                                       style="color: red"
+                                       name="thanhToan"
+                                       th:value="${thanhTien}">
                             </div>
-                            <button type="submit" class="btn btn-primary">Thanh Toán</button>
+                            <button type="submit" class="btn btn-primary">Thanh Toán
+                            </button>
                             <!--                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>-->
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
         <!-- Sales Chart End -->
@@ -448,12 +361,13 @@
             <h6 class="mb-4" style="font-size: 25px;">Sản Phẩm</h6>
             <div class="row g-2">
                 <div style="width: 50%;">
-                    <form th:action="@{'/admin/ban-hang/hoa-don/san-pham/tim-kiem/' + ${idHoaDonCho}}"
+                    <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} +'/san-pham/tim-kiem'}"
                           class="d-none d-md-flex">
                         <input class="form-control border-1"
                                style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
                                type="search"
-                               placeholder="Nhập sản phẩm cần tìm" name="ten"
+                               placeholder="Nhập sản phẩm cần tìm"
+                               name="ten"
                                th:value="${param.ten}"/>
                         <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">
                             Tìm Kiếm
@@ -472,20 +386,16 @@
         </div>
         <div class="container-fluid pt-4">
 
-            <div class="bg-light text-center rounded p-4">
+            <div>
                 <div>
                     <div class="bg-light rounded h-100 p-4">
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Thương Hiệu</th>
                                 <th>Màu sắc</th>
                                 <th>Kích Thước</th>
-                                <th>Đế Giày</th>
-                                <th>Cổ Giày</th>
-                                <th>Lót Giày</th>
                                 <th>Giá bán</th>
                                 <th>Số lượng</th>
                                 <th>Thêm</th>
@@ -493,29 +403,28 @@
                             </thead>
                             <tbody>
                             <tr th:each="sanPham, status : ${listSanPham}">
-                                <td th:text="${sanPham.getSanPham().getMa()}"></td>
                                 <td th:text="${sanPham.getSanPham().getTen()}"></td>
                                 <td th:text="${sanPham.getSanPham().getThuongHieu().getTen()}"></td>
                                 <td th:text="${sanPham.getMauSac().getTen()}"></td>
                                 <td th:text="${sanPham.getKichThuoc().getTen()}"></td>
-                                <td th:text="${sanPham.getDeGiay().getTen()}"></td>
-                                <td th:text="${sanPham.getCoGiay().getTen()}"></td>
-                                <td th:text="${sanPham.getLotGiay().getTen()}"></td>
-                                <td th:text="${sanPham.getGiaBan()}"></td>
+                                <td th:text="${#numbers.formatDecimal(sanPham.getGiaBan(), 0, 'COMMA', 0, 'POINT')} +  ' VND'"></td>
                                 <td th:text="${sanPham.getSoLuongTon()}"></td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            th:data-bs-target="'#themSoLuong' + ${sanPham.id}">
+                                    <button type="button" class="btn btn-primary themSoLuong" data-bs-toggle="modal"
+                                            th:data-bs-target="'#themSoLuong' + ${sanPham.id}"
+                                            th:data-so-luong-ton="${sanPham.soLuongTon}">
                                         <img src="/../../img/them.png" style="width: 20px;">
                                     </button>
-                                    <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}" tabindex="-1"
+                                    <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}"
+                                         data-bs-backdrop="static" data-bs-keyboard="false"
+                                         tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <form
-                                                th:action="@{'/admin/ban-hang/them-san-pham/' + ${idHoaDonCho} + '/' + ${sanPham.id}}"
-                                                th:object="${hoaDonChiTiet}"
-                                                method="post">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <form th:action="@{'/admin/ban-hang/hoa-don/'+ ${idHoaDonCho} +'/them-san-pham/' + ${sanPham.id}}"
+                                                      th:object="${hoaDonChiTiet}"
+                                                      onsubmit="return checkSoLuong(this);"
+                                                      method="post">
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Số
                                                             Lượng</h1>
@@ -524,14 +433,11 @@
                                                                 aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label for="recipient-name" class="col-form-label">Nhập
-                                                                Số
-                                                                Lượng:</label>
-                                                            <input type="text" class="form-control"
-                                                                   id="recipient-name"
-                                                                   name="soLuong" th:field="*{soLuong}">
-                                                        </div>
+                                                        Nhập Số Lượng:
+                                                        <input type="text" class="form-control"
+                                                               name="soLuong" th:field="*{soLuong}">
+                                                        <input type="text" name="soLuongTon" hidden
+                                                               th:value="${sanPham.soLuongTon}"/>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-danger"
@@ -539,9 +445,9 @@
                                                         </button>
                                                         <button type="submit" class="btn btn-primary">Thêm</button>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -555,14 +461,14 @@
                     <ul class="pagination">
                         <li class="page-item">
                             <a class="page-link" aria-label="Previous"
-                               th:href="@{'/admin/ban-hang/hoa-don/san-pham/pre/' + ${idHoaDonCho}}">
+                               th:href="@{'/admin/ban-hang/hoa-don/'+ ${idHoaDonCho}+'/san-pham/pre' }">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li class="page-item"><a class="page-link" th:text="${indexChiTietSP}"></a></li>
                         <li class="page-item">
                             <a class="page-link" aria-label="Next"
-                               th:href="@{'/admin/ban-hang/hoa-don/san-pham/next/' + ${idHoaDonCho}}">
+                               th:href="@{'/admin/ban-hang/hoa-don/'+ ${idHoaDonCho}+'/san-pham/next' }">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -571,20 +477,42 @@
             </div>
         </div>
         <!-- Recent Sales End -->
-        <div class="modal" id="myModal" tabindex="-1"
-             aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;">
+        <div class="modal fade" id="khachHang" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;"
+             data-bs-backdrop="static" data-bs-keyboard="false">
+            <script th:if="${checkModal=='modal'}">
+                window.addEventListener('DOMContentLoaded', (event) => {
+                    // Hiển thị modal
+                    var myModal = new bootstrap.Modal(document.getElementById('them-san-pham'));
+                    myModal.show();
+                });
+            </script>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Khách Hàng</h1>
+                        <h1 class="modal-title fs-5">Khách Hàng</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div style="width: 100%;">
+                            <form th:action="@{'/admin/ban-hang/hoa-don/'+ ${idHoaDonCho}+'/khach-hang/tim-kiem'}"
+                                  class="d-none d-md-flex">
+                                <input class="form-control border-1"
+                                       style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;"
+                                       type="search"
+                                       placeholder="Nhập khách hàng cần tìm"
+                                       name="ten"
+                                       th:value="${param.ten}"/>
+                                <button type="submit" class="btn btn-outline-info "
+                                        style="height: 38px;width: 30%;;margin-left: 10px;">
+                                    Tìm Kiếm
+                                </button>
+                            </form>
+                        </div>
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Mã Khách Hàng</th>
                                 <th>Tên Khách Hàng</th>
                                 <th>Số Điện Thoại</th>
                                 <th>Chọn</th>
@@ -592,11 +520,10 @@
                             </thead>
                             <tbody>
                             <tr th:each="khachHang : ${listKhachHang}">
-                                <td th:text="${khachHang.getMa()}"></td>
                                 <td th:text="${khachHang.getTen()}"></td>
                                 <td th:text="${khachHang.getSdt()}"></td>
                                 <td>
-                                    <form th:action="@{/admin/ban-hang/them-khach-hang/{idHoaDon}/{idKhachHang}
+                                    <form th:action="@{/admin/ban-hang/hoa-don/{idHoaDon}/them-khach-hang/{idKhachHang}
                                                                     (idHoaDon=${idHoaDonCho},idKhachHang=${khachHang.getId()})}"
                                           th:object="${khachHang}"
                                           method="post">
@@ -615,14 +542,14 @@
                                 <ul class="pagination">
                                     <li class="page-item">
                                         <a class="page-link" aria-label="Previous"
-                                           th:href="@{/admin/ban-hang/hoa-don/khach-hang/pre}">
+                                           th:href="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/khach-hang/pre'}">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                     <li class="page-item"><a class="page-link" th:text="${indexKhachHang}"></a></li>
                                     <li class="page-item">
                                         <a class="page-link" aria-label="Next"
-                                           th:href="@{/admin/ban-hang/hoa-don/khach-hang/next}">
+                                           th:href="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/khach-hang/next'}">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -639,6 +566,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Footer Start -->
         <div class="container-fluid pt-4">
             <div class="bg-light rounded-top p-4">
@@ -657,57 +585,81 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 
-
+<div class="modal fade text-center" id="modalDialog"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 
-    // const buttons = document.querySelectorAll("#nav-tab button
-    // ");
-    //
-    // buttons.forEach(button => {
-    //     button.addEventListener("click", function () {
-    //         // Xóa lớp "active" khỏi tất cả các nút
-    //         buttons.forEach(btn => {
-    //             btn.classList.remove("active");
-    //         });
-    //
-    //         // Áp dụng lớp "active" cho nút được click
-    //         button.classList.add("active");
-    //     });
-    // });
+    function checkThanhToan(form) {
+        var url = "[[@{/admin/ban-hang/check-thanh-toan}]]";
+        var idHoaDon = form.id.value;
+        var csrfValue = $("input[name='_csrf']").val();
 
-    // $(document).ready(function () {
-    //     $(".suaSoLuong").on("click", function (e) {
-    //         e.preventDefault();
-    //         $("#modalThemSoLuong").modal("show").find(".modal-content").load("http://localhost:8080/admin/ban-hang/sua-hoa-don-chi-tiet/23/65");
-    //     });
-    // });
-    //
-    // var selectButton = document.getElementById('selectButton');
-    // selectButton.addEventListener('click', function () {
-    //     // Lấy tham chiếu đến các phần tử trong modal
-    //     var modal = document.getElementById('myModal');
-    //     var closeButton = modal.querySelector('.btn-close');
-    //     var customerButtons = modal.querySelectorAll('.btn-outline-primary');
-    //
-    //     // Lắng nghe sự kiện click vào nút "Đóng" trong modal
-    //     closeButton.addEventListener('click', function () {
-    //         modal.style.display = 'none';
-    //     });
-    //
-    //     // Lắng nghe sự kiện click vào từng nút "Thêm" trong modal
-    //     customerButtons.forEach(function (button) {
-    //         button.addEventListener('click', function () {
-    //             // Thực hiện các hành động khi chọn khách hàng
-    //             var customerId = button.getAttribute('data-customer-id'); // Lấy id khách hàng từ thuộc tính data-customer-id của nút
-    //             var customerName = button.getAttribute('data-customer-name'); // Lấy tên khách hàng từ thuộc tính data-customer-name của nút
-    //
-    //             // Xử lý dữ liệu khách hàng tại đây
-    //         });
-    //     });
-    //
-    //     // Hiển thị modal
-    //     modal.style.display = 'block';
-    // });
+        var params = {
+            id: idHoaDon,
+            _csrf: csrfValue
+        };
+
+        $.post(url, params, function (response) {
+            if (response === "OK") {
+                form.submit();
+            } else if (response === "HoaDonNull") {
+                showWarningModal("Vui lòng chọn hóa đơn để thanh toán.");
+            } else if (response === "hoaDonChiTietNull") {
+                showWarningModal("Hóa đơn chưa có sản phẩm vui lòng thêm sản phẩm!");
+            } else {
+                showErrorModal("Lỗi phản hồi từ server");
+            }
+        }).fail(function () {
+            showErrorModal("Không thể kết nối đến server");
+        });
+        return false;
+    }
+
+    function checkSoLuong(form) {
+        var soLuongTon = $("input[name='soLuongTon']").val();
+        var soLuong = form.soLuong.value;
+
+        var url = "/admin/ban-hang/them-san-pham/check-so-luong/" + soLuongTon;
+
+        var params = {
+            soLuong: soLuong
+        };
+
+        $.post(url, params, function (response) {
+            if (response === "OK") {
+                form.submit();
+            } else if (response === "soLuongNull") {
+                showWarningModal("Vui lòng nhập số lượng!");
+            } else if (response === "soLuongLonHonKhong") {
+                showWarningModal("Số lượng phải > 0 ");
+            } else if (response === "lonHonSoLuongTon") {
+                showWarningModal("Số lượng phải <= số lượng tồn");
+            } else if (response === "soLuongPhaiLaSo") {
+                showWarningModal("Số lượng nhập phải là số!");
+            } else {
+                showErrorModal("Lỗi phản hồi từ server");
+            }
+        }).fail(function () {
+            showErrorModal("Không thể kết nối đến server");
+        });
+
+        return false;
+    }
 </script>
 
 <!-- JavaScript Libraries -->

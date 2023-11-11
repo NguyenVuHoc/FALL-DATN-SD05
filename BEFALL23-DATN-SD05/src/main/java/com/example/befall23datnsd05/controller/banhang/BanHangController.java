@@ -1,4 +1,4 @@
-package com.example.befall23datnsd05.controller;
+package com.example.befall23datnsd05.controller.banhang;
 
 import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
+import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/ban-hang")
@@ -45,6 +47,8 @@ public class BanHangController {
 
     private Boolean isActive = false;
 
+    private Boolean checkHoaDon = false;
+
     @GetMapping()
     public String hienThiBanHang(Model model) {
         model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
@@ -53,6 +57,7 @@ public class BanHangController {
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("index", page);
         model.addAttribute("indexChiTietSP", pageChiTietSanPham);
+        model.addAttribute("checkHoaDon", checkHoaDon);
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -60,27 +65,22 @@ public class BanHangController {
     public String hienThiHoaDonChiTiet(@PathVariable("idHoaDon") String idHoaDon,
                                        @RequestParam(name = "pageNo", defaultValue = "0") Integer page,
                                        Model model) {
-        if (idHoaDon.isEmpty() == true) {
-            model.addAttribute("isActive", isActive);
-            return "redirect:/admin/ban-hang";
-        } else if (banHangService.getOneById(Long.valueOf(idHoaDon)) != null) {
-            isActive = true;
-            Page<HoaDonChiTiet> listHDCTPhanTrang = banHangService.getPhanTrang(Long.valueOf(idHoaDon), page, 5);
-            model.addAttribute("listHoaDonChiTiet", listHDCTPhanTrang);
-            model.addAttribute("index", page + 1);
-            model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
-            model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
-            model.addAttribute("listSanPham", chiTietSanPhamService.phanTrang(pageChiTietSanPham, 5).stream().toList());
-            model.addAttribute("indexChiTietSP", pageChiTietSanPham + 1);
-            model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
-            model.addAttribute("listKhachHang", khachHangService.phanTrang(pageKhachHang, 5));
-            model.addAttribute("indexKhachHang", pageKhachHang + 1);
-            model.addAttribute("idHoaDonCho", idHoaDon);
-            model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
-            model.addAttribute("isActive", isActive);
-            return "admin-template/ban_hang/ban_hang";
-        }
-        return "redirect:/admin/ban-hang/hoa-don/" + idHoaDon;
+        isActive = true;
+        Page<HoaDonChiTiet> listHDCTPhanTrang = banHangService.getPhanTrang(Long.valueOf(idHoaDon), page, 5);
+        model.addAttribute("listHoaDonChiTiet", listHDCTPhanTrang);
+        model.addAttribute("index", page + 1);
+        model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
+        model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
+        model.addAttribute("listSanPham", chiTietSanPhamService.phanTrang(pageChiTietSanPham, 5).stream().toList());
+        model.addAttribute("indexChiTietSP", pageChiTietSanPham + 1);
+        model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
+        model.addAttribute("listKhachHang", khachHangService.phanTrang(pageKhachHang, 5));
+        model.addAttribute("indexKhachHang", pageKhachHang + 1);
+        model.addAttribute("idHoaDonCho", idHoaDon);
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
+        model.addAttribute("isActive", isActive);
+        model.addAttribute("checkHoaDon", checkHoaDon == true);
+        return "admin-template/ban_hang/ban_hang";
     }
 
     @GetMapping("/hoa-don/pre/{idHoaDon}")
@@ -95,7 +95,8 @@ public class BanHangController {
         model.addAttribute("listSanPham", chiTietSanPhamService.phanTrang(pageChiTietSanPham, 5).stream().toList());
         model.addAttribute("indexChiTietSP", pageChiTietSanPham + 1);
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
-        model.addAttribute("listKhachHang", banHangService.getAllKhachHang());
+        model.addAttribute("listKhachHang", khachHangService.phanTrang(pageKhachHang, 5));
+        model.addAttribute("indexKhachHang", pageKhachHang + 1);
         model.addAttribute("idHoaDonCho", idHoaDon);
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         return "admin-template/ban_hang/ban_hang";
@@ -113,27 +114,46 @@ public class BanHangController {
         model.addAttribute("listSanPham", chiTietSanPhamService.phanTrang(pageChiTietSanPham, 5).stream().toList());
         model.addAttribute("indexChiTietSP", pageChiTietSanPham + 1);
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
-        model.addAttribute("listKhachHang", banHangService.getAllKhachHang());
+        model.addAttribute("listKhachHang", khachHangService.phanTrang(pageKhachHang, 5));
+        model.addAttribute("indexKhachHang", pageKhachHang + 1);
         model.addAttribute("idHoaDonCho", idHoaDon);
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         return "admin-template/ban_hang/ban_hang";
     }
 
-    @GetMapping("/hoa-don/san-pham/pre/{idHoaDonCho}")
+    @GetMapping("/hoa-don/{idHoaDonCho}/san-pham/pre")
     public String preSanPham(@PathVariable("idHoaDonCho") String idHoaDonCho) {
         pageChiTietSanPham--;
         pageChiTietSanPham = chiTietSanPhamService.chuyenPage(pageChiTietSanPham);
         return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
     }
 
-    @GetMapping("/hoa-don/san-pham/next/{idHoaDonCho}")
+    @GetMapping("/hoa-don/{idHoaDonCho}/san-pham/next")
     public String nextSanPham(@PathVariable("idHoaDonCho") String idHoaDonCho) {
         pageChiTietSanPham++;
         pageChiTietSanPham = chiTietSanPhamService.chuyenPage(pageChiTietSanPham);
+
         return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
     }
 
-    @GetMapping("/hoa-don/san-pham/tim-kiem/{idHoaDonCho}")
+    @GetMapping("/hoa-don/{idHoaDonCho}/khach-hang/pre")
+    public String preKhachHang(@PathVariable("idHoaDonCho") String idHoaDonCho) {
+        pageKhachHang--;
+        pageKhachHang = khachHangService.chuyenPage(pageKhachHang);
+        return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
+    }
+
+    @GetMapping("/hoa-don/{idHoaDonCho}/khach-hang/next")
+    public String nextKhachHang(@PathVariable("idHoaDonCho") String idHoaDonCho,
+                                Model model) {
+        pageKhachHang++;
+        pageKhachHang = khachHangService.chuyenPage(pageKhachHang);
+        model.addAttribute("checkModal", "modal");
+        return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
+    }
+
+
+    @GetMapping("/hoa-don/{idHoaDonCho}/san-pham/tim-kiem")
     public String timKiemSanPham(@PathVariable("idHoaDonCho") String idHoaDonCho,
                                  @RequestParam("ten") String ten,
                                  Model model) {
@@ -163,8 +183,11 @@ public class BanHangController {
         hoaDon = HoaDon.builder()
                 .ma(maHD)
                 .nhanVien(nhanVien)
+                .sdt(khachHang.getSdt())
+                .tenKhachHang(khachHang.getTen())
                 .khachHang(khachHang)
                 .ngayTao(LocalDate.now())
+                .loaiHoaDon(LoaiHoaDon.HOA_DON_OFFLINE)
                 .trangThai(TrangThai.HOA_DON_CHO)
                 .build();
         banHangService.themHoaDon(hoaDon);
@@ -172,22 +195,17 @@ public class BanHangController {
         return "redirect:/admin/ban-hang?success";
     }
 
-    @PostMapping("/them-khach-hang/{idHoaDon}/{idKhachHang}")
+    @PostMapping("/hoa-don/{idHoaDon}/them-khach-hang/{idKhachHang}")
     public String updateKhhachHang(@PathVariable("idHoaDon") String idHoaDon,
                                    @PathVariable("idKhachHang") String idKhachHang) {
         banHangService.updateKhachHang(Long.valueOf(idHoaDon), Long.valueOf(idKhachHang));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
-    @PostMapping("/them-san-pham/{idHoaDon}/{idSanPham}")
+    @PostMapping("/hoa-don/{idHoaDon}/them-san-pham/{idSanPham}")
     public String themHoaDonChitiet(@PathVariable("idHoaDon") String idHoaDonCho,
                                     @PathVariable("idSanPham") String idSanPham,
                                     @ModelAttribute("hoaDonChiTiet") HoaDonChiTiet hoaDonChiTiet) {
-        if (idHoaDonCho == null) {
-            return "redirect:/admin/ban-hang";
-        } else if (hoaDonChiTiet.getSoLuong() == null) {
-            return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
-        }
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDonCho));
         ChiTietSanPham chiTietSanPham = banHangService.getChiTietSanPhamById(Long.valueOf(idSanPham));
         hoaDonChiTiet = HoaDonChiTiet.builder()
@@ -207,38 +225,49 @@ public class BanHangController {
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
-    @GetMapping("/xoa-hoa-don-chi-tiet/{idHoaDon}/{idHoaDonChiTiet}")
+    @GetMapping("/hoa-don/{idHoaDon}/xoa-hoa-don-chi-tiet/{idHoaDonChiTiet}")
     public String xoaHoaDonChitiet(@PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
         banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
         banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
-    @PostMapping("/hoa-don/giam-so-luong/{idHoaDonCho}/{idHDCT}")
+    @PostMapping("/hoa-don/{idHoaDonCho}/sua-so-luong/{idHDCT}")
     public String giamSoLuongSanPham(@PathVariable("idHoaDonCho") String idHoaDonCho,
                                      @PathVariable("idHDCT") String idHDCT,
-                                     @RequestParam("soLuong") String soLuong,
-                                     Model model) {
-        banHangService.giamSoLuongSanPham(Long.valueOf(idHDCT), Integer.valueOf(soLuong));
-        return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
-    }
-
-    @PostMapping("/hoa-don/tang-so-luong/{idHoaDonCho}/{idHDCT}")
-    public String tangSoLuongSanPham(@PathVariable("idHoaDonCho") String idHoaDonCho,
-                                     @PathVariable("idHDCT") String idHDCT,
-                                     @RequestParam("soLuong") String soLuong,
-                                     Model model) {
-        banHangService.tangSoLuongSanPham(Long.valueOf(idHDCT), Integer.valueOf(soLuong));
+                                     @RequestParam("soLuong") String soLuong) {
+        banHangService.suaSoLuongSanPham(Long.valueOf(idHDCT));
+        banHangService.suaSoLuongSanPhamHoaDon(Long.valueOf(idHDCT), Integer.valueOf(soLuong));
         return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
     }
 
     @PostMapping("/thanh-toan")
     public String thanhToanHoaDon(@ModelAttribute("hoaDonCho") HoaDonRequest hoaDonRequest) {
-        if (hoaDonRequest == null) {
-            return "redirect:/admin/ban-hang";
-        }
         banHangService.thanhToanHoaDon(hoaDonRequest);
         return "redirect:/admin/ban-hang";
+    }
+
+    @GetMapping("/hoa-don/{idHoaDonCho}/khach-hang/tim-kiem")
+    public String timKiemKhachHang(@PathVariable("idHoaDonCho") String idHoaDon,
+                                   @RequestParam("ten") String ten,
+                                   Model model){
+        Page<KhachHang> listKhacHang = khachHangService.timTen(ten, pageKhachHang, 5);
+        model.addAttribute("listKhachHang", listKhacHang);
+        isActive = true;
+        Page<HoaDonChiTiet> listHDCTPhanTrang = banHangService.getPhanTrang(Long.valueOf(idHoaDon), page, 5);
+        model.addAttribute("listHoaDonChiTiet", listHDCTPhanTrang);
+        model.addAttribute("index", page + 1);
+        model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
+        model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
+        model.addAttribute("listSanPham", chiTietSanPhamService.phanTrang(pageChiTietSanPham, 5).stream().toList());
+        model.addAttribute("indexChiTietSP", pageChiTietSanPham + 1);
+        model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
+        model.addAttribute("indexKhachHang", pageKhachHang + 1);
+        model.addAttribute("idHoaDonCho", idHoaDon);
+        model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
+        model.addAttribute("isActive", isActive);
+        model.addAttribute("checkHoaDon", checkHoaDon == true);
+        return "admin-template/ban_hang/ban_hang";
     }
 
 }
