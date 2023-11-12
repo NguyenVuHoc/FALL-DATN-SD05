@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.service.impl;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.ThuongHieu;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
 import com.example.befall23datnsd05.request.HoaDonRequest;
 import com.example.befall23datnsd05.service.HoaDonService;
@@ -24,8 +25,19 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
-    public List<HoaDon> getByTrangThai(TrangThai trangThai) {
+    public List<HoaDon> getAllByKhachHang(Long id) {
+        return repository.getAllByKhachHang(id);
+    }
+
+    @Override
+    public List<HoaDon> getByTrangThai(TrangThaiDonHang trangThai) {
         return repository.getAllByTrangThai(trangThai);
+    }
+
+    @Override
+    public List<HoaDon> getByTrangThaiAndKhachHang(TrangThaiDonHang trangThai, Long id) {
+//        return repository.getAllByTrangThaiAndKhachHang(trangThai.getTrangThai(), id);
+        return repository.findHoaDonByTrangThaiAndKhachHangId(trangThai,id);
     }
 
     @Override
@@ -38,18 +50,22 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
-    public List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end, TrangThai trangThai) {
+    public HoaDon save(HoaDon hoaDon) {
+        return repository.save(hoaDon);
+    }
+
+    @Override
+    public List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end, TrangThaiDonHang trangThai) {
         return repository.findHoaDonsByNgayTao(start, end);
     }
 
     @Override
-    public boolean validate(HoaDon hoaDon, TrangThai trangThai, String newGhiChu) {
+    public boolean validate(HoaDon hoaDon, TrangThaiDonHang trangThai, String newGhiChu) {
         hoaDon.setTrangThai(trangThai);
         hoaDon.setGhiChu(newGhiChu);
         hoaDon = repository.save(hoaDon);
         return hoaDon.getTrangThai().equals(trangThai);
     }
-
 
 
 }
