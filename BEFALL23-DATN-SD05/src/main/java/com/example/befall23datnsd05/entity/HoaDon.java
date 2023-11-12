@@ -1,6 +1,8 @@
 package com.example.befall23datnsd05.entity;
 
+import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -81,7 +83,11 @@ public class HoaDon {
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
-    private TrangThai trangThai;
+    private TrangThaiDonHang trangThai;
+
+    @Column(name = "loai_hoa_don")
+    @Enumerated(ORDINAL)
+    private LoaiHoaDon loaiHoaDon;
 
 
 }

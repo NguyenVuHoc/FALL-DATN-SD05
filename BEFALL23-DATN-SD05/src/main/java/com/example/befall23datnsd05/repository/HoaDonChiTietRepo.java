@@ -13,7 +13,7 @@ public interface HoaDonChiTietRepo extends JpaRepository<HoaDonChiTiet,Long> {
     @Query(value = "select * from hoa_don_chi_tiet where trang_thai = 3 and id_hoa_don = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> getHoaDonChiTietByIdHoaDon(@Param("idHoaDon") Long idHoaDon);
 
-    @Query(value = "UPDATE set ")
-    List<HoaDonChiTiet> getHoaDonChiTietByaIdHoaDon(@Param("idHoaDon") Long idHoaDon);
+//    @Query(value = "UPDATE set ")
+//    List<HoaDonChiTiet> getHoaDonChiTietByaIdHoaDon(@Param("idHoaDon") Long idHoaDon);
 
 }
