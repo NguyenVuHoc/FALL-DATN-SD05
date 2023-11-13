@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.Impl;
 
+import com.example.befall23datnsd05.custom.SanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
@@ -124,39 +125,9 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
-    public Page<ChiTietSanPham> phanTrang(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo,size, Sort.by(Sort.Order.desc("id")));
-        return repository.findAll(pageable);
+    public List<ChiTietSanPham> getByTrangThai(TrangThai trangThai) {
+        return repository.getAllByTrangThai(trangThai);
     }
 
-    @Override
-    public Integer chuyenPage(Integer pageNo) {
-        Integer sizeList = repository.findAll().size();
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
-        if (pageNo >= pageCount){
-            pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
-        }
-        return pageNo;
-    }
-
-    @Override
-    public Page<ChiTietSanPham> searchTen(String ten, Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.findBySanPham_TenContainingIgnoreCase(ten, pageable);
-    }
-
-    @Override
-    public Page<ChiTietSanPham> getTrangThaiHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getTrangThaiHoatDong(pageable);
-    }
-
-    @Override
-    public Page<ChiTietSanPham> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getTrangThaiDungHoatDong(pageable);
-    }
 
 }
