@@ -280,7 +280,8 @@
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <form th:action="@{'/admin/khach-hang/add-dia-chi/'+${khachHang.id}} "
                                                   method="post"
-                                                  class="my-form reduced-height" th:object="${diaChi}">
+                                                  class="my-form reduced-height" th:object="${diaChi}"
+                                                  onsubmit="return checkTrong(this);">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -293,26 +294,29 @@
                                                                 <label for="recipient-name1" class="col-form-label">Tên
                                                                     người nhận:</label>
                                                                 <input type="text" class="form-control"
-                                                                       id="recipient-name1"
+                                                                       id="recipient-name1" name="tenNguoiNhan"
                                                                        th:field="*{tenNguoiNhan}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="recipient-name2" class="col-form-label">Số
                                                                     điện thoại:</label>
                                                                 <input type="text" class="form-control"
-                                                                       id="recipient-name2" th:field="*{sdt}">
+                                                                       id="recipient-name2" name="sdt"
+                                                                       th:field="*{sdt}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="recipient-name3" class="col-form-label">Địa
                                                                     chỉ:</label>
                                                                 <input type="text" class="form-control"
-                                                                       id="recipient-name3" th:field="*{diaChi}">
+                                                                       id="recipient-name3" name="diaChi"
+                                                                       th:field="*{diaChi}">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="recipient-name4" class="col-form-label">Ghi
                                                                     chú:</label>
                                                                 <input type="text" class="form-control"
-                                                                       id="recipient-name4" th:field="*{ghiChu}">
+                                                                       id="recipient-name4" name="ghiChu"
+                                                                       th:field="*{ghiChu}">
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer" style="margin-left: 200px">
@@ -326,7 +330,9 @@
 
                                                 </div>
                                             </form>
+
                                         </div>
+
                                     </div>
                                 </td>
                             </tr>
@@ -339,6 +345,7 @@
                                 <th>Giới tính</th>
                                 <th>Email</th>
                                 <th>Địa chỉ</th>
+                                <!--                                <th>Trạng Thái</th>-->
                                 <th>Thao tác</th>
                             </tr>
                             </tfoot>
@@ -366,6 +373,24 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+<div class="modal fade text-center" id="modalDialog"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!--thư viện js tích tìm kiếm-->
@@ -420,6 +445,48 @@
         modal.style.display = 'block';
     });
 </script>
+
+
+<!--Check trong diaChi start-->
+<script type="text/javascript">
+
+    function checkTrong(form) {
+        var url = "[[@{/admin/khach-hang/add-dia-chi/check-trong}]]";
+        var tenNguoiNhan = form.tenNguoiNhan.value;
+        var sdt = form.sdt.value;
+        var diaChi = form.diaChi.value;
+        var ghiChu = form.ghiChu.value;
+
+        var params = {
+            tenNguoiNhan: tenNguoiNhan,
+            sdt: sdt,
+            diaChi: diaChi,
+            ghiChu: ghiChu
+        };
+
+        $.post(url, params, function (response) {
+            if (response === "OK") {
+                form.submit();
+            } else if (response === "tenNguoiNhanNull") {
+                showWarningModal("Tên người nhận không được để trống");
+            } else if (response === "sdtNull") {
+                showWarningModal("Số điện thoại không được để trống");
+            } else if (response === "diaChiNull") {
+                showWarningModal("Địa chỉ không được để trống");
+            } else if (response === "ghiChuNull") {
+                showWarningModal("Ghi chú không được để trống");
+            } else {
+                showErrorModal("Lỗi phản hồi từ server");
+            }
+        }).fail(function () {
+            showErrorModal("Không thể kết nối đến server");
+        });
+        return false;
+    }
+
+
+</script>
+<!--Check trong diaChi end-->
 
 <!-- JavaScript Libraries -->
 <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
