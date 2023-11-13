@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,6 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
 
     @Override
     public Page<ChiTietSanPham> pageAllInShop(Integer pageNo, Integer size) {
-//        return repository.findAll(PageRequest.of(pageNo, size));
         Pageable pageable = PageRequest.of(pageNo,size);
         return repository.pageAllInShop(pageable);
     }
