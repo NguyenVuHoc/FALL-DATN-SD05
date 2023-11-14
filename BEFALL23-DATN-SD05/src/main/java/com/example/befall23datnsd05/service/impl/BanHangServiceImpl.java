@@ -135,8 +135,8 @@ public class BanHangServiceImpl implements BanHangService {
             HoaDon hoaDon = hoaDonRepository.getReferenceById(Long.valueOf(hoaDonRequest.getId()));
             if (hoaDon != null) {
                 hoaDon.setNgayThanhToan(LocalDate.now());
-                hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(hoaDonRequest.getThanhToan())));
-                hoaDon.setSdt(hoaDonRequest.getSdt());
+                hoaDon.setThanhToan(hoaDonRequest.getThanhToan());
+                hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
                 hoaDon.setTrangThai(TrangThai.HOAN_THANH);
                 return hoaDonRepository.save(hoaDon);
@@ -234,13 +234,25 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDonChiTiet suaSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong) {
+    public HoaDonChiTiet tangSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong) {
         Long idSanPham;
         HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.findById(idHDCT).orElse(null);
-        hoaDonChiTiet.setSoLuong(soLuong);
+        hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() + soLuong);
         idSanPham = hoaDonChiTiet.getChiTietSanPham().getId();
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(idSanPham).orElse(null);
         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - soLuong);
+        chiTietSanPhamRepository.save(chiTietSanPham);
+        return hoaDonChiTietRepository.save(hoaDonChiTiet);
+    }
+
+    @Override
+    public HoaDonChiTiet giamSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong) {
+        Long idSanPham;
+        HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.findById(idHDCT).orElse(null);
+        hoaDonChiTiet.setSoLuong(hoaDonChiTiet.getSoLuong() - soLuong);
+        idSanPham = hoaDonChiTiet.getChiTietSanPham().getId();
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(idSanPham).orElse(null);
+        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + soLuong);
         chiTietSanPhamRepository.save(chiTietSanPham);
         return hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
@@ -261,6 +273,11 @@ public class BanHangServiceImpl implements BanHangService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public HoaDon save(HoaDon hoaDon) {
+        return hoaDonRepository.save(hoaDon);
     }
 
 }

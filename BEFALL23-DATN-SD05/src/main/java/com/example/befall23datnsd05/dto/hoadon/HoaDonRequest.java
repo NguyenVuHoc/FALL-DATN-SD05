@@ -17,16 +17,17 @@ public class HoaDonRequest {
     private String maHoaDon;
 
     private String sdt;
+
     private String tenKhachHang;
 
-    private String thanhToan;
+    private BigDecimal thanhToan;
 
     public HoaDon map(HoaDon hoaDon) {
         hoaDon.setId(Long.valueOf(this.getId()));
         hoaDon.setMa(this.getMaHoaDon());
         hoaDon.setNgaySua(LocalDate.now());
         hoaDon.setSdt(this.getSdt());
-        hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(this.getThanhToan())));
+        hoaDon.setThanhToan(this.getThanhToan());
         hoaDon.setKhachHang(KhachHang.builder().ten(this.getTenKhachHang()).build());
         return hoaDon;
     }

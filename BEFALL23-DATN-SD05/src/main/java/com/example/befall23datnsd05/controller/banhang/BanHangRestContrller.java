@@ -35,20 +35,38 @@ public class BanHangRestContrller {
     }
 
     @RequestMapping(value = "/admin/ban-hang/them-san-pham/check-so-luong/{soLuongTon}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String checkSoLuong(@RequestParam("soLuong") String soLuong,
+    public Integer checkSoLuong(@RequestParam("soLuong") String soLuong,
                                @PathVariable("soLuongTon") Integer soLuongTon) {
         try {
             if (soLuong.equals("")) {
-                return "soLuongNull";
+                return 1;
             } else if (Integer.parseInt(soLuong) <= 0) {
-                return "soLuongLonHonKhong";
+                return 2;
             } else if (Integer.parseInt(soLuong) > soLuongTon) {
-                return "lonHonSoLuongTon";
+                return 3;
             } else {
-                return "OK";
+                return 0;
             }
         } catch (NumberFormatException numberFormatException) {
-            return "soLuongPhaiLaSo";
+            return 4;
+        }
+    }
+
+    @RequestMapping(value = "/admin/ban-hang/them-san-pham/check-giam-so-luong/{soLuongSanPham}", method = {RequestMethod.GET, RequestMethod.POST})
+    public Integer checkGiamSoLuong(@RequestParam("soLuong") String soLuong,
+                                @PathVariable("soLuongSanPham") Integer soLuongSanPham) {
+        try {
+            if (soLuong.equals("")) {
+                return 1;
+            } else if (Integer.parseInt(soLuong) <= 0) {
+                return 2;
+            } else if (Integer.parseInt(soLuong) > soLuongSanPham) {
+                return 3;
+            } else {
+                return 0;
+            }
+        } catch (NumberFormatException numberFormatException) {
+            return 4;
         }
     }
 
