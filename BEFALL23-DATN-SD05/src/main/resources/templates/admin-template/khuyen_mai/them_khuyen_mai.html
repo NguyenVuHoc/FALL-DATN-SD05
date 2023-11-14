@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8" />
@@ -134,30 +134,36 @@
             <div class="container-fluid pt-4">
                 <h6 class="mb-4" style="font-size: 40px;text-align: center;">Thêm Khuyến Mãi</h6>
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                    <form>
+                    <form th:action="@{/admin/khuyen-mai/add}" method="post" th:object="${khuyenMai}" onsubmit="return validateDate()">
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Mã Khuyến Mãi</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="inputMa" class="form-label">Mã Khuyến Mãi</label>
+                            <input type="text" class="form-control" id="inputMa" th:field="*{ma}" />
+                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tên Khuyến Mãi</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
+                            <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Mức Khuyến Mãi</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                            <input type="text" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
+                            <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Ngày Bắt Đầu</label>
-                            <input type="date" class="form-control" name="dateStart" id="start7">
+                            <label for="NgayBatDau" class="form-label">Ngày Bắt Đầu</label>
+                            <input type="date" class="form-control" name="dateStart" id="NgayBatDau" th:field="*{ngayBatDau}">
+                            <div th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}" ></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Ngày Kết Thúc</label>
-                            <input type="date" class="form-control" name="dateStart" id="start7">
+                            <label for="NgayKetThuc" class="form-label">Ngày Kết Thúc</label>
+                            <input type="date" class="form-control" name="dateEnd" id="NgayKetThuc" th:field="*{ngayKetThuc}">
+                            <div th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Mô Tả</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" />
+                            <label for="Mota" class="form-label">Mô Tả</label>
+                            <input type="text" class="form-control" id="Mota" th:field="*{moTa}"/>
+                            <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}"></div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Thêm
@@ -183,6 +189,23 @@
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+
+    <script th:inline="javascript">
+        function validateDate() {
+            var ngayBatDau = document.getElementById('NgayBatDau').value;
+            var ngayKetThuc = document.getElementById('NgayKetThuc').value;
+
+            var startDate = new Date(ngayBatDau);
+            var endDate = new Date(ngayKetThuc);
+
+            if (startDate > endDate) {
+                alert('Ngày kết thúc phải sau hoặc bằng ngày bắt đầu');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
