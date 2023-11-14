@@ -16,6 +16,6 @@ public class GioHangChiTietServiceImpl implements GioHangChiTietService {
 
     @Override
     public List<GioHangChiTiet> getAll() {
-        return gioHangChiTietRepository.findAll();
+        return gioHangChiTietRepository.listGioHangNull();
     }
 }

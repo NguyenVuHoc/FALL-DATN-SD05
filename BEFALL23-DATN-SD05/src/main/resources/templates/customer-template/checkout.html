@@ -68,20 +68,6 @@
     </nav>
     <!-- End Header/Navigation -->
 
-    <!-- Start Hero Section -->
-<!--    <div class="hero">-->
-<!--      <div class="container">-->
-<!--        <div class="row justify-content-between">-->
-<!--          <div class="col-lg-5">-->
-<!--            <div class="intro-excerpt">-->
-<!--              <h1>Checkout</h1>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-lg-7"></div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-    <!-- End Hero Section -->
 
     <div class="untree_co-section">
       <div class="container">
@@ -107,6 +93,7 @@
                           class="form-control"
                           id="c_fname"
                           name="c_fname"
+                          placeholder="Họ tên"
                   />
                 </div>
               </div>
@@ -115,7 +102,7 @@
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black"
-                    >Địa chỉ <span class="text-danger">*</span></label
+                    >Địa chỉ cụ thể <span class="text-danger">*</span></label
                   >
                   <input
                     type="text"
@@ -315,36 +302,6 @@
           </div>
 
           <div class="col-md-6">
-<!--            <div class="row mb-5">-->
-<!--              <div class="col-md-12">-->
-<!--                <h2 class="h3 mb-3 text-black">Coupon Code</h2>-->
-<!--                <div class="p-3 p-lg-5 border bg-white">-->
-<!--                  <label for="c_code" class="text-black mb-3"-->
-<!--                    >Enter your coupon code if you have one</label-->
-<!--                  >-->
-<!--                  <div class="input-group w-75 couponcode-wrap">-->
-<!--                    <input-->
-<!--                      type="text"-->
-<!--                      class="form-control me-2"-->
-<!--                      id="c_code"-->
-<!--                      placeholder="Coupon Code"-->
-<!--                      aria-label="Coupon Code"-->
-<!--                      aria-describedby="button-addon2"-->
-<!--                    />-->
-<!--                    <div class="input-group-append">-->
-<!--                      <button-->
-<!--                        class="btn btn-black btn-sm"-->
-<!--                        type="button"-->
-<!--                        id="button-addon2"-->
-<!--                      >-->
-<!--                        Apply-->
-<!--                      </button>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-
             <div class="row mb-5">
               <div class="col-md-12">
                 <h2 class="h3 mb-3 text-black">Đơn hàng </h2>
@@ -355,22 +312,18 @@
                       <th>Giá</th>
                     </thead>
                     <tbody>
-                      <tr>
+                      <tr th:each="gioHangChiTiet : ${listGioHangChiTiet}">
                         <td>
-                          Top Up T-Shirt <strong class="mx-2">x</strong> 1
+                          [[${gioHangChiTiet.chiTietSanPham.sanPham.ten}]] <strong class="mx-2">x</strong> [[${gioHangChiTiet.soLuong}]]
                         </td>
-                        <td>$250.00</td>
-                      </tr>
-                      <tr>
-                        <td>Polo Shirt <strong class="mx-2">x</strong> 1</td>
-                        <td>$100.00</td>
+                        <td>[[${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}]]</td>
                       </tr>
                       <tr>
                         <td class="text-black font-weight-bold">
                           <strong>Tổng đơn hàng</strong>
                         </td>
                         <td class="text-black font-weight-bold">
-                          <strong>$350.00</strong>
+                          <strong th:text="${#aggregates.sum(listGioHangChiTiet.![chiTietSanPham.giaBan * soLuong])}"></strong>
                         </td>
                       </tr>
                     </tbody>

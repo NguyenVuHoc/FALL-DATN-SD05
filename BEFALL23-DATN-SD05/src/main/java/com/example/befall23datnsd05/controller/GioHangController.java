@@ -33,22 +33,18 @@ public class GioHangController {
     }
 
     @PostMapping("/add/{id}")
-    public String addCart(@PathVariable("id") Long idChiTietSanPham, Model model,
+    public String addCart(@PathVariable("id") Long idChiTietSanPham,
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                           @RequestParam("soLuong") Integer soLuong){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
-        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, soLuong);
         return "redirect:/wingman/cart";
     }
 
     @GetMapping("/addOne/{id}")
-    public String addOne(@PathVariable("id") Long idChiTietSanPham, Model model,
+    public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
-        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, 1);
         return "redirect:/wingman/cart";
     }
@@ -61,7 +57,9 @@ public class GioHangController {
     }
 
     @GetMapping("/checkout")
-    public String a(){
+    public String checkout(Model model){
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
+        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/checkout";
     }
 

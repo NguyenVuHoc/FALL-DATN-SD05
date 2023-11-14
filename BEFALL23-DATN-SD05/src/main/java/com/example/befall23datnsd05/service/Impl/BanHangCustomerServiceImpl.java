@@ -38,7 +38,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             gioHangRepository.save(gioHang);
         }
 
-        GioHangChiTiet gioHangChiTiet1 = gioHangChiTietRepository.findByGioHangAndChiTietSanPham(gioHang, chiTietSanPham);
+        GioHangChiTiet gioHangChiTiet1 = gioHangChiTietRepository.findByGioHangAndChiTietSanPhamAndHoaDonIsNull(gioHang, chiTietSanPham);
         if (gioHangChiTiet1 != null){
             gioHangChiTiet1.setSoLuong(gioHangChiTiet1.getSoLuong() + soLuong);
             gioHangChiTietRepository.save(gioHangChiTiet1);
