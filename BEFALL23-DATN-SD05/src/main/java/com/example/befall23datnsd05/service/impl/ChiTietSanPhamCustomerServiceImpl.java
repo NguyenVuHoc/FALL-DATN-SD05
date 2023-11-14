@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.service.impl;
 import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.repository.ChiTietSanPhamCustomerRepository;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomerService {
 
     @Autowired
-    private ChiTietSanPhamRepository repository;
+    private ChiTietSanPhamCustomerRepository repository;
 
     @Override
     public Page<ChiTietSanPham> pageAllInShop(Integer pageNo, Integer size) {

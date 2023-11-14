@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.KhuyenMaiRequest;
 import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhuyenMaiService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class KhuyenMaiController {
 
     @Autowired
     KhuyenMaiService service;
+
+    @Autowired
+    ChiTietSanPhamService ChiTietSanPhamservice;
 
     Integer pageNo = 0;
 
@@ -116,7 +120,8 @@ public class KhuyenMaiController {
     }
 
     @GetMapping("/them-san-pham-khuyen-mai")
-    public String sanPhamKhuyenMai(){
+    public String sanPhamKhuyenMai(Model model){
+
         return "admin-template/khuyen_mai/san_pham_khuyen_mai";
     }
 }
