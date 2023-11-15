@@ -5,13 +5,16 @@ import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BanHangCustomerServiceImpl implements BanHangCustomerService {
@@ -109,5 +112,22 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setTongTien(totalCost);
         hoaDonRepository.save(hoaDon);
 
+    }
+
+    @Override
+    public List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong) {
+        Optional<GioHangChiTiet> optionalGioHangChiTiet = gioHangChiTietRepository.findById(idGioHangChiTiet);
+        List<GioHangChiTiet> updatedItems = new ArrayList<>();
+
+        if (optionalGioHangChiTiet.isPresent()) {
+            GioHangChiTiet gioHangChiTiet1 = optionalGioHangChiTiet.get();
+            gioHangChiTiet1.setSoLuong(soLuong);
+            gioHangChiTietRepository.save(gioHangChiTiet1);
+            updatedItems.add(gioHangChiTiet1);
+        } else {
+            throw new EntityNotFoundException("Không tìm thấy GioHangChiTiet với ID: " + idGioHangChiTiet);
+        }
+
+        return updatedItems;
     }
 }

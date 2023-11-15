@@ -88,7 +88,7 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3New : ${list3New}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3New.getId()}}">
-                        <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail" style="width: 200px; height: 180px;">
                     </a>
                     <h3 class="product-title"
                         th:text="${ctsp3New.getTenSp() +' '+ ctsp3New.getTenDongSp() +' '+ ctsp3New.getTenDe_giay() +' '+ ctsp3New.getTenCo_giay() +' '+ ctsp3New.getTenLot_giay()}"></h3>
@@ -126,8 +126,9 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp3prominent : ${list3Prominent}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3prominent.getId()}}">
-                        <img th:src="@{'../images/' + ${ctsp3prominent.getAnh_chinh()}}"
-                             class="img-fluid product-thumbnail">
+                        <img th:src="@{'../images/' + ${ctsp3prominent.getAnh_chinh()}} "
+                             class="img-fluid product-thumbnail"
+                             style="width: 200px; height: 180px;">
                     </a>
                     <h3 class="product-title"
                         th:text="${ctsp3prominent.getTenSp() +' '+ ctsp3prominent.getTenDongSp() +' '+ ctsp3prominent.getTenDe_giay() +' '+ ctsp3prominent.getTenCo_giay() +' '+ ctsp3prominent.getTenLot_giay()}"></h3>

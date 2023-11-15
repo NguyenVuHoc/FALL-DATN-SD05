@@ -10,14 +10,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta
-            name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
     />
-    <meta name="author" content="Untree.co"/>
-    <link rel="shortcut icon" href="favicon.png"/>
+    <meta content="Untree.co" name="author"/>
+    <link href="../../images/WingMan-black.png" rel="icon"/>
 
-    <meta name="description" content=""/>
-    <meta name="keywords" content="bootstrap, bootstrap4"/>
+    <meta content="" name="description"/>
+    <meta content="bootstrap, bootstrap4" name="keywords"/>
 
     <!-- Bootstrap CSS -->
     <link href="/../css/customer/bootstrap.min.css" rel="stylesheet"/>
@@ -35,16 +35,16 @@
 </head>
 <body>
 <!-- Start Header/Navigation -->
-<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+<nav arial-label="Furni navigation bar" class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
-            <img th:src="@{/images/wingman.png}"
-                 style="height: 50px; width: 50px;">
+            <img style="height: 50px; width: 50px;"
+                 th:src="@{/images/wingman.png}">
             <a class="navbar-brand"
                th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarsFurni" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -82,213 +82,219 @@
     </div>
 </div>
 <!-- End Hero Section -->
+<form method="post" th:action="@{/wingman/cart/lay-gio-hang}">
 
-<div class="untree_co-section before-footer-section">
-    <div class="container">
-        <div class="row mb-5">
-            <form class="col-md-12" method="post">
-                <div class="site-blocks-table">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th class="product-thumbnail">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="selectAllCheckbox"
-                                           onclick="toggleCheckboxes(this)">
-                                </div>
-                            </th>
-                            <th class="product-thumbnail">Ảnh</th>
-                            <th class="product-name">Sản phẩm</th>
-                            <th class="product-price">Giá</th>
-                            <th class="product-quantity">Số lượng</th>
-                            <th class="product-total">Thành tiền</th>
-                            <th class="product-remove">Xóa</th>
-                        </tr>
-                        </thead>
-                        <tbody th:each="gioHangChiTiet : ${listGioHangChiTiet}">
-                        <tr>
+    <div class="untree_co-section before-footer-section">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <div class="site-blocks-table">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="product-thumbnail">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" type="checkbox"
+                                               value="">
+                                    </div>
+                                </th>
+                                <th class="product-thumbnail">Ảnh</th>
+                                <th class="product-name">Sản phẩm</th>
+                                <th class="product-price">Giá</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-total">Thành tiền</th>
+                                <th class="product-remove">Xóa</th>
+                            </tr>
+                            </thead>
+                            <tbody th:each="gioHangChiTiet : ${listGioHangChiTiet}">
+                            <input type="hidden" name="idGioHangChiTiet" th:value="${gioHangChiTiet.id}">
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <span class="id" hidden th:data-id="${gioHangChiTiet.id}"></span>
+                                        <span class="id-cart" hidden th:data-id="${gioHangChiTiet.gioHang.id}"></span>
+                                        <input class="form-check-input" onchange="updatePrice(this)" type="checkbox">
+                                    </div>
+                                    <script>
+                                        function getTotalMonye() {
+                                            var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
+                                            let total = 0;
+                                            checkboxes.forEach(item => {
+                                                if (item.checked) {
+                                                    let father = item.parentElement.parentElement.parentElement;
+                                                    let price = father.querySelector(".thanhtien").innerText;
+                                                    price = Number(price);
+                                                    total += price;
+                                                }
+                                            })
+                                            return total;
+                                        }
 
-                            <td>
-                                <div class="form-check">
-                                    <span hidden class="id" th:data-id="${gioHangChiTiet.id}"></span>
-                                    <span hidden class="id-cart" th:data-id="${gioHangChiTiet.gioHang.id}"></span>
-                                    <input onchange="updatePrice(this)" class="form-check-input" type="checkbox">
-                                </div>
-                                <script>
-                                    function getTotalMonye() {
-                                        var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
-                                        let total = 0;
-                                        checkboxes.forEach(item => {
-                                            if (item.checked) {
-                                                let father = item.parentElement.parentElement.parentElement;
-                                                let price = father.querySelector(".thanhtien").innerText;
-                                                price = Number(price);
-                                                total += price;
+                                        function updatePrice(e) {
+                                            let totalE = document.querySelector(".total");
+                                            let price = getTotalMonye();
+                                            totalE.innerHTML = price;
+                                        }
+
+                                        function handlerChange(e) {
+                                            let className = e.getAttribute("class");
+                                            let father = e.parentElement.parentElement.parentElement.parentElement;
+                                            let priceE = father.querySelector(".thanhtien");
+                                            let price = father.querySelector(".price").innerText;
+                                            price = Number(price);
+                                            console.log(price)
+                                            let qntE = father.querySelector(".quantity-amount");
+                                            let qnt = father.querySelector(".quantity-amount").value;
+                                            if (className == "cong") {
+                                                qnt = Number(qnt) + 1;
+                                            } else {
+                                                qnt = Number(qnt) - 1;
                                             }
-                                        })
-                                        return total;
-                                    }
+                                            if (qnt <= 0) {
+                                                qutE.value = 0;
+                                                return;
 
-                                    function updatePrice(e) {
-                                        let totalE = document.querySelector(".total");
-                                        let price = getTotalMonye();
-                                        totalE.innerHTML = price;
-                                    }
-
-                                    function handlerChange(e) {
-                                        let className = e.getAttribute("class");
-                                        let father = e.parentElement.parentElement.parentElement.parentElement;
-                                        let priceE = father.querySelector(".thanhtien");
-                                        let price = father.querySelector(".price").innerText;
-                                        price = Number(price);
-                                        console.log(price)
-                                        let qntE = father.querySelector(".quantity-amount");
-                                        let qnt = father.querySelector(".quantity-amount").value;
-                                        if (className == "cong") {
-                                            qnt = Number(qnt) + 1;
-                                        } else {
-                                            qnt = Number(qnt) - 1;
-                                        }
-                                        if (qnt <= 0) {
-                                            qutE.value = 0;
-                                            return;
+                                            }
+                                            qntE.value = qnt;
+                                            console.log(qnt)
+                                            priceE.innerHTML = (price * qnt);
+                                            let checkBox = father.querySelector("input[type='checkbox']");
+                                            if (checkBox.checked) {
+                                                updatePrice(checkBox);
+                                            }
 
                                         }
-                                        qntE.value = qnt;
-                                        console.log(qnt)
-                                        priceE.innerHTML = (price * qnt);
-                                        let checkBox = father.querySelector("input[type='checkbox']");
-                                        if (checkBox.checked) {
-                                            updatePrice(checkBox);
-                                        }
-
-                                    }
-                                </script>
-                            </td>
-                            <td class="product-thumbnail">
-                                <img th:src="@{'../images/' + ${gioHangChiTiet.chiTietSanPham.sanPham.anhChinh}}"
-                                     alt="Image"
-                                     class="img-fluid"
-                                />
-                            </td>
-                            <td class="product-name">
-                                <h2 class="h5 text-black name"
-                                    th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
-                            </td>
-                            <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
-                            <td>
-                                <div
-                                        class="input-group mb-3 d-flex align-items-center quantity-container"
-                                        style="max-width: 120px"
-                                >
-                                    <div onclick="handlerChange(this)" class="tru">
-                                        <button
-                                                class="btn btn-outline-black "
-                                                type="button"
-                                        >
-                                            &minus;
-                                        </button>
-                                    </div>
-                                    <input
-                                            type="text"
-                                            class="form-control text-center quantity-amount"
-                                            th:value="${gioHangChiTiet.soLuong}"
-                                            placeholder=""
-                                            aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1"
+                                    </script>
+                                </td>
+                                <td class="product-thumbnail">
+                                    <img alt="Image"
+                                         class="img-fluid"
+                                         th:src="@{'../images/' + ${gioHangChiTiet.chiTietSanPham.sanPham.anhChinh}}"
                                     />
-                                    <div onclick="handlerChange(this)" class="cong">
-                                        <button
-                                                class="btn btn-outline-black "
-                                                type="button"
-                                        >
-                                            &plus;
-                                        </button>
+                                </td>
+                                <td class="product-name">
+                                    <h2 class="h5 text-black name"
+                                        th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
+                                </td>
+                                <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                                <td>
+                                    <div
+                                            class="input-group mb-3 d-flex align-items-center quantity-container"
+                                            style="max-width: 120px"
+                                    >
+                                        <div class="tru" onclick="handlerChange(this)">
+                                            <button
+                                                    class="btn btn-outline-black "
+                                                    type="button"
+                                            >
+                                                &minus;
+                                            </button>
+                                        </div>
+                                        <input
+                                                aria-describedby="button-addon1"
+                                                aria-label="Example text with button addon"
+                                                class="form-control text-center quantity-amount"
+                                                placeholder=""
+                                                th:value="${gioHangChiTiet.soLuong}"
+                                                type="text"
+                                                name="soLuong"
+                                        />
+                                        <div class="cong" onclick="handlerChange(this)">
+                                            <button
+                                                    class="btn btn-outline-black "
+                                                    type="button"
+                                            >
+                                                &plus;
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="thanhtien"
-                                th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
-                            <td><a th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}"
-                                   class="btn btn-black btn-sm">X</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row mb-5">
-                    <div class="col-md-6">
-                        <a type="button" class="btn btn-outline-black btn-sm btn-block" th:href="@{/wingman/cua-hang}">
-                            Tiếp tục mua hàng
-                        </a>
+                                </td>
+                                <td class="thanhtien"
+                                    th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                                <td><a class="btn btn-black btn-sm"
+                                       th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}">X</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-
             </div>
-            <div class="col-md-6 pl-5">
-                <div class="row justify-content-end">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Giỏ hàng</h3>
-                            </div>
-                        </div>
 
-                        <div class="row mb-5">
-                            <div class="col-md-6">
-                                <span class="text-black">Tổng tiền</span>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <strong class="text-black total">0</strong>
-                            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <a class="btn btn-outline-black btn-sm btn-block" th:href="@{/wingman/cua-hang}" type="button">
+                                Tiếp tục mua hàng
+                            </a>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button
-                                        class="btn btn-black btn-lg py-3 btn-block"
-                                        onclick="window.location='/wingman/cart/checkout'"
-                                >
-                                    Mua hàng
-                                </button>
+
+                </div>
+                <div class="col-md-6 pl-5">
+                    <div class="row justify-content-end">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-12 text-right border-bottom mb-5">
+                                    <h3 class="text-black h4 text-uppercase">Giỏ hàng</h3>
+                                </div>
                             </div>
+
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <span class="text-black">Tổng tiền</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-black total">0</strong>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button
+                                            id="buyButton"
+                                            class="btn btn-black btn-lg py-3 btn-block"
+                                            onclick="window.location='/wingman/cart/checkout'"
+                                            type="submit"
+                                    >
+                                        Mua hàng
+                                    </button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+</form>
 <!-- Start Footer Section -->
 <footer class="footer-section">
     <div class="container relative">
 
         <div class="sofa-img">
-            <img src="/../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;"
-                 alt="Image"
-                 class="img-fluid">
+            <img alt="Image" class="img-fluid"
+                 src="/../images/WingMan-black.png"
+                 style="height: 200px; width: 200px; margin-top: 150px;">
         </div>
 
         <div class="row">
             <div class="col-lg-8">
                 <div class="subscription-form">
                     <h3 class="d-flex align-items-center"><span class="me-1"><img
-                            src="/../images/envelope-outline.svg" alt="Image"
-                            class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
+                            alt="Image" class="img-fluid"
+                            src="/../images/envelope-outline.svg"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
                     </h3>
 
                     <form action="#" class="row g-3">
                         <div class="col-auto">
-                            <input type="text" class="form-control" placeholder="Họ và tên">
+                            <input class="form-control" placeholder="Họ và tên" type="text">
                         </div>
                         <div class="col-auto">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input class="form-control" placeholder="Email" type="email">
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-primary">
@@ -303,7 +309,7 @@
 
         <div class="row g-5 mb-5">
             <div class="col-lg-4">
-                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
+                <div class="mb-4 footer-logo-wrap"><a class="footer-logo" href="#">Wingman<span>.</span></a></div>
                 <p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
 
                 <ul class="list-unstyled custom-social">

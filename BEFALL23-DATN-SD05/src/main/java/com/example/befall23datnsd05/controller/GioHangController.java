@@ -62,6 +62,12 @@ public class GioHangController {
         return "redirect:/wingman/cart";
     }
 
+    @GetMapping("/xoa-sp/{id}")
+    public String xoaSanPhamCheckOut(@PathVariable("id") Long id){
+        banHangCustomerService.xoaKhoiGioHang(id);
+        return "redirect:/wingman/cart/checkout";
+    }
+
     @GetMapping("/checkout")
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang
@@ -110,6 +116,24 @@ public class GioHangController {
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "redirect:/wingman/cart/checkout";
     }
+
+    @PostMapping("/lay-gio-hang")
+    public String layGioHangChoThanhToan(Model model,
+                                         @RequestParam("idGioHangChiTiet") List<Long> idGioHangChiTiet,
+                                         @RequestParam("soLuong") List<Integer> soLuong){
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
+        model.addAttribute("diaChi2", diaChi);
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
+        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
+        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+        for (int i = 0; i < idGioHangChiTiet.size(); i++) {
+            banHangCustomerService.updateGioHangChiTiet(idGioHangChiTiet.get(i), soLuong.get(i));
+        }
+        return "customer-template/checkout";
+    }
+
+
 
     @GetMapping("/thankyou")
     public String b(){
