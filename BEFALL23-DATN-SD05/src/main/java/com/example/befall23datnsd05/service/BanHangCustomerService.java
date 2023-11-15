@@ -5,4 +5,6 @@ public interface BanHangCustomerService {
     void themVaoGioHang(Long khachHangId, Long chiTietSanPhamId, Integer soLuong);
 
     void xoaKhoiGioHang(Long id);
+
+    void datHang(String ten,String diaChi, String sdt, String ghiChu);
 }

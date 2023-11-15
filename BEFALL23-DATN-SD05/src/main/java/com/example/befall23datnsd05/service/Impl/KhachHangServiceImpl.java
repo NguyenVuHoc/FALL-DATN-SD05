@@ -1,9 +1,11 @@
 package com.example.befall23datnsd05.service.Impl;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.repository.DiaChiRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +25,9 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private DiaChiRepository diaChiRepository;
 
 
     @Override
@@ -120,6 +127,21 @@ public class KhachHangServiceImpl implements KhachHangService {
         return khachHangRepository.getTrangThaiDungHoatDong(pageable);
     }
 
+    @Override
+    public List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang) {
+        List<DiaChi> list = new ArrayList<>();
+        for (DiaChi dc: diaChiRepository.findAll()){
+            if (dc.getKhachHang().getId() == idKhachHang){
+                list.add(dc);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public DiaChi getByIdDiaChi(Long idDiaChi) {
+        return diaChiRepository.findById(idDiaChi).orElse(null);
+    }
 
 
 }

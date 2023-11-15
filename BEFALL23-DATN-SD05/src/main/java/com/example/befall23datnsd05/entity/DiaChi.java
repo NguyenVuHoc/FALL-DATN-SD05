@@ -35,6 +35,9 @@ public class DiaChi {
     @Column(name = "ma", unique = true)
     private String ma;
 
+    @Column(name = "ten")
+    private String ten;
+
     @Column(name = "dia_chi")
     private String diaChi;
 

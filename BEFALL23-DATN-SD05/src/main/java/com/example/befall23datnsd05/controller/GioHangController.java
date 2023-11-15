@@ -1,10 +1,13 @@
 package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.GioHangChiTiet;
+import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
+import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,9 @@ public class GioHangController {
 
     @Autowired
     private ChiTietSanPhamService chiTietSanPhamService;
+
+    @Autowired
+    private KhachHangService khachHangService;
 
     @GetMapping
     public String cart(Model model){
@@ -57,10 +63,52 @@ public class GioHangController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(Model model){
+    public String checkout(Model model,
+                           @ModelAttribute("khachHang") KhachHang khachHang
+    ){
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
+        model.addAttribute("diaChi2", diaChi);
+        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
+        model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
+    }
+
+    @PostMapping("/dat-hang")
+    public String datHang(
+            @RequestParam("diaChi") String diaChi,
+            @RequestParam("sdt") String sdt,
+            @RequestParam("ghiChu") String ghiChu,
+            @RequestParam("ten") String ten){
+        banHangCustomerService.datHang(ten, diaChi, sdt, ghiChu);
+        return "redirect:/wingman/cart/thankyou";
+    }
+
+    @GetMapping("/sua-dia-chi/{idDiaChi}")
+    public String suaDiaChi(@PathVariable("idDiaChi") String idDiaChi,
+                            Model model){
+        model.addAttribute("diaChi2", khachHangService.getByIdDiaChi(Long.valueOf(idDiaChi)));
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
+        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
+        model.addAttribute("idKhachHang", Long.valueOf(5));
+        return "customer-template/checkout";
+    }
+
+    @PostMapping("/mua-ngay/{id}")
+    public String muaNgay(@PathVariable("id") Long idChiTietSanPham,
+                          @RequestParam("soLuong") Integer soLuong,
+                          Model model){
+        banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, soLuong);
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
+        model.addAttribute("diaChi2", diaChi);
+        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+        model.addAttribute("idKhachHang", Long.valueOf(5));
+        return "redirect:/wingman/cart/checkout";
     }
 
     @GetMapping("/thankyou")

@@ -1,9 +1,12 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface KhachHangService {
@@ -27,4 +30,8 @@ public interface KhachHangService {
     Page<KhachHang> getTrangThaiHoatDong(Integer pageNo, Integer size);
 
     Page<KhachHang> getTrangThaiDungHoatDong(Integer pageNo, Integer size);
+
+    List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang);
+
+    DiaChi getByIdDiaChi(Long idDiaChi);
 }
