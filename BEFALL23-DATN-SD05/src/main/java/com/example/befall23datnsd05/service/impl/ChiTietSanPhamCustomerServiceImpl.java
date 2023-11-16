@@ -4,7 +4,6 @@ import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamCustomerRepository;
-import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

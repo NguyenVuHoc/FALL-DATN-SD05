@@ -81,11 +81,26 @@ public class ChiTietSanPham {
     private LocalDate ngaySua;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_khuyen_mai", referencedColumnName = "id")
+    @JoinColumn(name = "id_khuyen_mai", referencedColumnName = "id", nullable = true)
     private KhuyenMai khuyenMai;
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
+
+    public BigDecimal tinhGiaSauGiamGia() {
+        if (khuyenMai != null && khuyenMai.getTrangThai() == TrangThai.DANG_HOAT_DONG) {
+            BigDecimal mucGiam = BigDecimal.valueOf(khuyenMai.getMucGiamGia() / 100.0);
+            BigDecimal giaSauGiamGia = giaMacDinh.subtract(giaMacDinh.multiply(mucGiam));
+            return giaSauGiamGia.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : giaSauGiamGia;
+        }
+        return giaMacDinh;
+    }
+
+    public BigDecimal GiaKhuyenMai(){
+        BigDecimal mucGiam = BigDecimal.valueOf(khuyenMai.getMucGiamGia() / 100.0);
+        BigDecimal giaSauGiamGia = giaMacDinh.subtract(giaMacDinh.multiply(mucGiam));
+        return giaSauGiamGia.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : giaSauGiamGia;
+    }
 
 }

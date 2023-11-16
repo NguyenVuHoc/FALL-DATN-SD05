@@ -1,7 +1,5 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.custom.SanPhamCustom;
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
@@ -9,19 +7,19 @@ import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.entity.KichThuoc;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.entity.MauSac;
-import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.repository.*;
+import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
+import com.example.befall23datnsd05.repository.CoGiayRepository;
+import com.example.befall23datnsd05.repository.DeGiayRepository;
+import com.example.befall23datnsd05.repository.KichThuocRepository;
+import com.example.befall23datnsd05.repository.LotGiayRepository;
+import com.example.befall23datnsd05.repository.MauSacRepository;
+import com.example.befall23datnsd05.repository.SanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +52,26 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Override
     public List<ChiTietSanPham> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<ChiTietSanPham> getAllSanPhamKhuyenMai() {
+        return repository.getAllSpKhuyenMai();
+    }
+
+    @Override
+    public List<ChiTietSanPham> getSpCoKhuyenMai(Long idKM) {
+        return repository.getAllSpCoKhuyenMai(idKM);
+    }
+
+    @Override
+    public void updateIdKhuyenMai(Long idKM, Long idCtsp) {
+        repository.updateIdKhuyenMai(idKM, idCtsp);
+    }
+
+    @Override
+    public void deleteIdKhuyenMai(Long idCtsp) {
+        repository.deleteIdKhuyenMai(idCtsp);
     }
 
 

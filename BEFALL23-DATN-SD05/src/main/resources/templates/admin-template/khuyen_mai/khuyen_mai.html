@@ -358,7 +358,7 @@
                                 <td th:text="${khuyenMai.moTa}"></td>
                                 <td th:text="${khuyenMai.trangThai.getDisplayName()}"></td>
                                 <td>
-                                    <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai'}">
+                                    <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/' + ${khuyenMai.id}}">
                                         <img src="/../../img/them.png"
                                              style="width: 25px; padding-right: 5px;">
                                     </a>

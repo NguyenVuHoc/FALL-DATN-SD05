@@ -1,12 +1,8 @@
 package com.example.befall23datnsd05.service;
 
-import com.example.befall23datnsd05.custom.SanPhamCustom;
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
-import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -21,4 +17,13 @@ public interface ChiTietSanPhamService {
     void remove(Long id);
 
     List<ChiTietSanPham> getByTrangThai(TrangThai trangThai);
+
+    //ctsp dùng bên khuyến mại
+    List<ChiTietSanPham> getAllSanPhamKhuyenMai();
+    List<ChiTietSanPham> getSpCoKhuyenMai(Long idKM);
+
+    void updateIdKhuyenMai(Long idKM, Long idCtsp);
+
+    void deleteIdKhuyenMai(Long idCtsp);
+
 }

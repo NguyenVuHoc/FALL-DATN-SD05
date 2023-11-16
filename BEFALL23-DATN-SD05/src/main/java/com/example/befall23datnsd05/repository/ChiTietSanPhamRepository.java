@@ -7,9 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,4 +45,31 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             @Param("trangThai") TrangThai trangThai);
 
     Page<ChiTietSanPham> findBySanPham_TenContainingIgnoreCase(String ten, Pageable pageable);
+
+    //Query ctsp dùng bên khuyến mại
+    @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.id_khuyen_mai is null", nativeQuery = true)
+    List<ChiTietSanPham> getAllSpKhuyenMai();
+
+    @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.id_khuyen_mai = :idKM", nativeQuery = true)
+    List<ChiTietSanPham> getAllSpCoKhuyenMai(Long idKM);
+
+//    @Query(value = "update chi_tiet_san_pham\n" +
+//            "set id_khuyen_mai = :idKM\n" +
+//            "where chi_tiet_san_pham.id = :idCtsp;", nativeQuery = true)
+//    void updateIdKhuyenMai(@Param("idKM") Long idKM, @Param("idCtsp") Long idCtsp);
+
+//    @Query(value = "update chi_tiet_san_pham\n" +
+//            "set id_khuyen_mai = null\n" +
+//            "where chi_tiet_san_pham.id = :idCtsp;", nativeQuery = true)
+//    void deleteIdKhuyenMai(Long idCtsp);
+
+    @Transactional
+    @Modifying
+    @Query("update ChiTietSanPham c set c.khuyenMai.id = :idKM where c.id = :idCtsp")
+    void updateIdKhuyenMai(@Param("idKM") Long idKM, @Param("idCtsp") Long idCtsp);
+
+    @Transactional
+    @Modifying
+    @Query("update ChiTietSanPham c set c.khuyenMai.id = null where c.id = :idCtsp")
+    void deleteIdKhuyenMai(@Param("idCtsp") Long idCtsp);
 }
