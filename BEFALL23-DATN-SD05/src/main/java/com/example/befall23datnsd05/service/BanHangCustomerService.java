@@ -13,4 +13,7 @@ public interface BanHangCustomerService {
     void datHang(String ten,String diaChi, String sdt, String ghiChu);
 
     List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong);
+
+    List<GioHangChiTiet> findAllById(List<String> listIdString);
+
 }

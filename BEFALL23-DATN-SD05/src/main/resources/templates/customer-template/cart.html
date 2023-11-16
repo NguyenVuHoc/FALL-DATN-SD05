@@ -82,7 +82,6 @@
     </div>
 </div>
 <!-- End Hero Section -->
-<form method="post" th:action="@{/wingman/cart/lay-gio-hang}">
 
     <div class="untree_co-section before-footer-section">
         <div class="container">
@@ -113,9 +112,25 @@
                                     <div class="form-check">
                                         <span class="id" hidden th:data-id="${gioHangChiTiet.id}"></span>
                                         <span class="id-cart" hidden th:data-id="${gioHangChiTiet.gioHang.id}"></span>
-                                        <input class="form-check-input" onchange="updatePrice(this)" type="checkbox">
+                                        <input class="form-check-input" name="options[]" id="checkboxID" th:value="${gioHangChiTiet.id}" onchange="updatePrice(this)" type="checkbox">
                                     </div>
                                     <script>
+                                        function updateQuantityInDatabase(productId, quantity) {
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '/wingman/cart/updateQuantity',
+                                                data: { idGioHangChiTiet: productId, soLuong: quantity },
+                                                success: function (response) {
+                                                    // Handle the response, if needed
+                                                    console.log('Update successful');
+                                                },
+                                                error: function (error) {
+                                                    console.error('Error updating quantity:', error.responseText);
+                                                }
+                                            });
+                                        }
+
+
                                         function getTotalMonye() {
                                             var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
                                             let total = 0;
@@ -161,6 +176,7 @@
                                             let checkBox = father.querySelector("input[type='checkbox']");
                                             if (checkBox.checked) {
                                                 updatePrice(checkBox);
+                                                updateQuantityInDatabase(checkBox.value, qnt);
                                             }
 
                                         }
@@ -253,14 +269,28 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button
-                                            id="buyButton"
-                                            class="btn btn-black btn-lg py-3 btn-block"
-                                            onclick="window.location='/wingman/cart/checkout'"
-                                            type="submit"
+                                    <button class="btn btn-black btn-lg py-3 btn-block"
+                                        onclick="checkOut()"
                                     >
                                         Mua hàng
                                     </button>
+                                    <script>
+                                        function checkOut() {
+                                            var checkboxes = document.querySelectorAll("input[name='options[]']");
+                                            // Mảng để lưu trữ giá trị của các checkbox được chọn
+                                            var selectedOptions = [];
+
+                                            checkboxes.forEach(function (checkbox) {
+                                                if (checkbox.checked) {
+                                                    // Nếu checkbox được chọn, thêm giá trị của nó vào mảng
+                                                    selectedOptions.push(encodeURIComponent(checkbox.value));
+                                                }
+                                            });
+
+                                            // Chuyển đến đường dẫn checkout và truyền giá trị mã hóa thông qua tham số
+                                            window.location.href = '/wingman/cart/checkout?options=' + selectedOptions.join(',');
+                                        }
+                                    </script>
                                 </div>
                             </div>
 
@@ -270,7 +300,6 @@
             </div>
         </div>
     </div>
-</form>
 <!-- Start Footer Section -->
 <footer class="footer-section">
     <div class="container relative">
@@ -386,6 +415,8 @@
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
     function toggleCheckboxes(checkbox) {
         // Lấy tất cả các ô checkbox trong tbody
@@ -397,6 +428,7 @@
             updatePrice(item);
         })
     }
+
 </script>
 </body>
 </html>

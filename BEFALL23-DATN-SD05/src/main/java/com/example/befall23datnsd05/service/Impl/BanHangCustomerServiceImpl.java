@@ -130,4 +130,19 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
 
         return updatedItems;
     }
+
+    @Override
+    public List<GioHangChiTiet> findAllById(List<String> listIdString) {
+        List<Long> listIdLong = new ArrayList<>();
+        for (String str : listIdString) {
+            try {
+                Long value = Long.parseLong(str);
+                listIdLong.add(value);
+            } catch (NumberFormatException e) {
+                e.fillInStackTrace();
+                // Xử lý ngoại lệ nếu có giá trị không hợp lệ
+            }
+        }
+        return gioHangChiTietRepository.findAllById(listIdLong);
+    }
 }

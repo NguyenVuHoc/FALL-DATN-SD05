@@ -9,10 +9,13 @@ import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -70,13 +73,15 @@ public class GioHangController {
 
     @GetMapping("/checkout")
     public String checkout(Model model,
-                           @ModelAttribute("khachHang") KhachHang khachHang
-    ){
+                           @ModelAttribute("khachHang") KhachHang khachHang,
+                           @RequestParam String options){
         KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
         DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
         model.addAttribute("diaChi2", diaChi);
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
+        String[] optionArray = options.split(",");
+        List<String> listIdString = Arrays.asList(optionArray);
+        List<GioHangChiTiet> listGioHangChiTiet = banHangCustomerService.findAllById(listIdString);
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
@@ -117,23 +122,17 @@ public class GioHangController {
         return "redirect:/wingman/cart/checkout";
     }
 
-    @PostMapping("/lay-gio-hang")
-    public String layGioHangChoThanhToan(Model model,
-                                         @RequestParam("idGioHangChiTiet") List<Long> idGioHangChiTiet,
-                                         @RequestParam("soLuong") List<Integer> soLuong){
-        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
-        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
-        model.addAttribute("diaChi2", diaChi);
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
-        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
-        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
-        for (int i = 0; i < idGioHangChiTiet.size(); i++) {
-            banHangCustomerService.updateGioHangChiTiet(idGioHangChiTiet.get(i), soLuong.get(i));
+    @PostMapping("/updateQuantity")
+    public ResponseEntity<String> updateQuantity(@RequestParam Long idGioHangChiTiet, @RequestParam Integer soLuong) {
+        try {
+            // Update quantity in the database using your service
+            banHangCustomerService.updateGioHangChiTiet(idGioHangChiTiet, soLuong);
+            return ResponseEntity.ok("Update successful");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating quantity: " + e.getMessage());
         }
-        return "customer-template/checkout";
     }
-
-
 
     @GetMapping("/thankyou")
     public String b(){
