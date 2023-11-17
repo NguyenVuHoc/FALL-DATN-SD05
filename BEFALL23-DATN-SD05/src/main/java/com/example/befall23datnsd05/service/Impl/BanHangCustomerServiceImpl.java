@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.service.BanHangCustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -74,8 +75,9 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         gioHangChiTietRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
-    public void datHang(String ten, String diaChi, String sdt, String ghiChu) {
+    public void datHang(List<GioHangChiTiet> listGioHangChiTiet,String ten, String diaChi, String sdt, String ghiChu) {
         KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
         NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
 
@@ -96,9 +98,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setLoaiHoaDon(LoaiHoaDon.HOA_DON_ONLINE);
         hoaDonRepository.save(hoaDon);
 
-
-        List<GioHangChiTiet> list = gioHangChiTietRepository.listGioHangNull();
-        for (GioHangChiTiet gh: list){
+        for (GioHangChiTiet gh: listGioHangChiTiet){
             gh.setHoaDon(hoaDon);
             gioHangChiTietRepository.save(gh);
 
@@ -107,11 +107,10 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             chiTietSanPhamRepository.save(chiTietSanPham);
             BigDecimal itemCost = chiTietSanPham.getGiaBan().multiply(BigDecimal.valueOf(gh.getSoLuong()));
             totalCost = totalCost.add(itemCost);
-
         }
+
         hoaDon.setTongTien(totalCost);
         hoaDonRepository.save(hoaDon);
-
     }
 
     @Override

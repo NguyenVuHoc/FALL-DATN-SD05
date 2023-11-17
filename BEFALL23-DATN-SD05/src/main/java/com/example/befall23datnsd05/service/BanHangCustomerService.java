@@ -10,7 +10,7 @@ public interface BanHangCustomerService {
 
     void xoaKhoiGioHang(Long id);
 
-    void datHang(String ten,String diaChi, String sdt, String ghiChu);
+    void datHang(List<GioHangChiTiet> listGioHangChiTiet,String ten,String diaChi, String sdt, String ghiChu);
 
     List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong);
 

@@ -34,9 +34,11 @@ public class GioHangController {
     @Autowired
     private KhachHangService khachHangService;
 
+    private List<GioHangChiTiet> listGioHangChiTiet;
+
     @GetMapping
     public String cart(Model model){
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(Long.valueOf(5));
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/cart";
     }
@@ -46,7 +48,7 @@ public class GioHangController {
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                           @RequestParam("soLuong") Integer soLuong){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, soLuong);
+        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
         return "redirect:/wingman/cart";
     }
 
@@ -54,7 +56,7 @@ public class GioHangController {
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, 1);
+        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
         return "redirect:/wingman/cart";
     }
 
@@ -68,7 +70,7 @@ public class GioHangController {
     @GetMapping("/xoa-sp/{id}")
     public String xoaSanPhamCheckOut(@PathVariable("id") Long id){
         banHangCustomerService.xoaKhoiGioHang(id);
-        return "redirect:/wingman/cart/checkout";
+        return "redirect:/wingman/cart/checkout?options";
     }
 
     @GetMapping("/checkout")
@@ -81,7 +83,7 @@ public class GioHangController {
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         String[] optionArray = options.split(",");
         List<String> listIdString = Arrays.asList(optionArray);
-        List<GioHangChiTiet> listGioHangChiTiet = banHangCustomerService.findAllById(listIdString);
+        listGioHangChiTiet = banHangCustomerService.findAllById(listIdString);
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
@@ -93,7 +95,7 @@ public class GioHangController {
             @RequestParam("sdt") String sdt,
             @RequestParam("ghiChu") String ghiChu,
             @RequestParam("ten") String ten){
-        banHangCustomerService.datHang(ten, diaChi, sdt, ghiChu);
+        banHangCustomerService.datHang(listGioHangChiTiet,ten, diaChi, sdt, ghiChu);
         return "redirect:/wingman/cart/thankyou";
     }
 
@@ -103,7 +105,6 @@ public class GioHangController {
         model.addAttribute("diaChi2", khachHangService.getByIdDiaChi(Long.valueOf(idDiaChi)));
         KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll();
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";

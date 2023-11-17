@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GioHangChiTietService {
 
-    List<GioHangChiTiet> getAll();
+    List<GioHangChiTiet> getAll(Long idKhachHang);
 }

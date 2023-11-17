@@ -287,6 +287,11 @@
                                                 }
                                             });
 
+                                            if (selectedOptions.length === 0) {
+                                                alert("Vui lòng chọn ít nhất một mục để tiếp tục.");
+                                                return; // Không chuyển hướng nếu không có checkbox nào được chọn
+                                            }
+
                                             // Chuyển đến đường dẫn checkout và truyền giá trị mã hóa thông qua tham số
                                             window.location.href = '/wingman/cart/checkout?options=' + selectedOptions.join(',');
                                         }
