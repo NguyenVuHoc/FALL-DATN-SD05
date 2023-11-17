@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service;
 
+import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
 import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
@@ -36,7 +37,7 @@ public interface BanHangService {
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(HoaDonRequest hoaDonRequest);
+    HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien);
 
     BigDecimal getTongTien(Long idHoaDon);
 
@@ -63,4 +64,10 @@ public interface BanHangService {
     Boolean checkThanhToan(Long idHoaDon);
 
     HoaDon save(HoaDon hoaDon);
+
+    List<ChiTietSanPhamCustom> getSanPham();
+
+    List<ChiTietSanPham> getSanPhamByMaAndTen(String maSanPham, String tenSanPham);
+
+    List<ChiTietSanPham> getSanPhamByMaAndTenAndMauAndSize(String maSanPham, String tenSanPham, String mauSac, String kichThuoc);
 }

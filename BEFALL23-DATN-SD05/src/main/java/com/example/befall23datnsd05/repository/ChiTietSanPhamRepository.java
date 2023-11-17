@@ -89,4 +89,24 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     Page<ChiTietSanPham> getTrangThaiDungHoatDong(Pageable pageable);
 
     Page<ChiTietSanPham> findBySanPham_TenContainingIgnoreCase(String ten, Pageable pageable);
+
+    @Query(value = "select sp.ma, sp.ten , sum(ctsp.so_luong_ton) as soLuongTon from chi_tiet_san_pham ctsp \n" +
+            "join san_pham sp on ctsp.id_san_pham = sp.id \n" +
+            "group by sp.ma, sp.ten \n" +
+            "HAVING COUNT(*) > 1", nativeQuery = true)
+    List<ChiTietSanPhamCustom> getSanPham();
+
+    @Query(value = "select sp.ma, sp.ten, ms.ten, kt.ten, ctsp.gia_ban, ctsp.so_luong_ton from chi_tiet_san_pham ctsp \n" +
+            "join san_pham sp on ctsp.id_san_pham = sp.id\n" +
+            "join mau_sac ms on ms.id = ctsp.id_mau_sac\n" +
+            "join kich_thuoc kt on kt.id = ctsp.id_kich_thuoc \n" +
+            "where sp.ma like :maSanPham and sp.ten like :tenSanPham", nativeQuery = true)
+    List<ChiTietSanPham> getSanPhamByMaAndTen(@Param("maSanPham") String maSanPham, @Param("tenSanPham") String tenSanPham);
+
+    @Query(value = "select sp.ma, sp.ten, ms.ten, kt.ten, ctsp.gia_ban, ctsp.so_luong_ton from chi_tiet_san_pham ctsp \n" +
+            "join san_pham sp on ctsp.id_san_pham = sp.id\n" +
+            "join mau_sac ms on ms.id = ctsp.id_mau_sac\n" +
+            "join kich_thuoc kt on kt.id = ctsp.id_kich_thuoc \n" +
+            "where sp.ma like :maSanPham and sp.ten like :tenSanPham and ms.ten like :mauSac and kt.ten like :kichThuoc", nativeQuery = true)
+    List<ChiTietSanPham> getSanPhamByMaAndTenAndMauAndSize(@Param("maSanPham") String maSanPham, @Param("tenSanPham") String tenSanPham, @Param("mauSac") String mauSac, @Param("kichThuoc") String kichThuoc);
 }

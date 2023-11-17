@@ -67,6 +67,7 @@
             vertical-align: middle;
         }
 
+
         /* Hide the footer */
         tfoot[hidden] {
             display: none;
@@ -233,7 +234,7 @@
                                                 <td th:text="${hdct.getTenSanPham()}"></td>
                                                 <td th:text="${hdct.getMauSac()}"></td>
                                                 <td th:text="${hdct.getKichThuoc()}"></td>
-                                                <td th:text="${#numbers.formatDecimal(hdct.getGiaBan(), 0, 'COMMA', 0, 'POINT')}"></td>
+                                                <td th:text="${#numbers.formatDecimal(hdct.getGiaBan(), 0, 'POINT', 0, 'COMMA')}"></td>
                                                 <td th:text="${hdct.getSoLuong()}"></td>
                                                 <td>
                                                     <div class="row g-2">
@@ -429,10 +430,7 @@
                 <div class="col-sm-12 col-xl-6" style="width: 30%;">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Thông Tin</h6>
-                        <form th:action="@{/admin/ban-hang/thanh-toan}" method="post"
-                              th:object="${hoaDonCho}"
-                              onsubmit="return checkThanhToan(this);">
-                            <input type="hidden" th:field="*{id}" name="id"/>
+                        <form th:object="${hoaDonCho}">
                             <div class="mb-3">
                                 <label class="form-label">Mã Hóa Đơn</label>
                                 <input type="text" class="form-control" name="ma" th:field="*{ma}" readonly/>
@@ -465,12 +463,104 @@
                                 <input id="thanhToanInput" type="text" class="form-control"
                                        style="color: red"
                                        name="thanhToan"
-                                       th:value="${thanhTien}">
+                                       th:value="${#numbers.formatDecimal(thanhTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"/>
                             </div>
-                            <button type="submit" class="btn btn-primary">Thanh Toán
-                            </button>
                             <!--                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>-->
                         </form>
+                        <button class="btn btn-outline-primary"
+                                th:data-bs-target="'#checkThanhToan' + ${idHoaDonCho}"
+                                data-bs-toggle="modal"
+                                style="width: auto">
+                            Thanh Toán
+                        </button>
+                        <div class="modal fade" th:id="'checkThanhToan' + ${idHoaDonCho}"
+                             data-bs-backdrop="static" data-bs-keyboard="false"
+                             aria-hidden="true"
+                             aria-labelledby="checkThanhToanLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5"
+                                            id="checkThanhToanLabel">Thanh Toán</h1>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center">
+                                            Bạn có muốn thanh toán hay không?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                data-bs-dismiss="modal">Đóng
+                                        </button>
+                                        <button class="btn btn-primary"
+                                                th:data-bs-target="'#thanhToan' + ${idHoaDonCho}"
+                                                data-bs-toggle="modal">
+                                            Thanh Toán
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" th:id="'thanhToan' + ${idHoaDonCho}"
+                             aria-hidden="true"
+                             data-bs-backdrop="static" data-bs-keyboard="false"
+                             aria-labelledby="thanhToanLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5"
+                                            id="thanhToanLabel">Xuất Hóa Đơn</h1>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p style="text-align: center">
+                                            Bạn có muốn xuất hóa đơn hay không?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                data-bs-dismiss="modal">Đóng
+                                        </button>
+                                        <form th:action="@{'/admin/ban-hang/hoa-don/xuat-hoan-don/' + ${idHoaDonCho}}"
+                                              method="post"
+                                              th:object="${hoaDonCho}"
+                                              onsubmit="return checkThanhToan(this);">
+<!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
+                                            <input th:field="*{id}" name="id" hidden/>
+                                            <input type="text" class="form-control"
+                                                   style="color: red"
+                                                   name="thanhTien"
+                                                   hidden
+                                                   th:value="${thanhTien}">
+                                            <button type="submit" class="btn btn-primary">
+                                                Có
+                                            </button>
+                                        </form>
+                                        <form th:action="@{'/admin/ban-hang/thanh-toan/' + ${idHoaDonCho}}"
+                                              method="post"
+                                              th:object="${hoaDonCho}"
+                                              onsubmit="return checkThanhToan(this);">
+                                            <input th:field="*{id}" name="id" hidden/>
+                                            <input type="text" class="form-control"
+                                                   style="color: red"
+                                                   name="thanhTien"
+                                                   hidden
+                                                   th:value="${thanhTien}">
+                                            <button type="submit" class="btn btn-primary">
+                                                Không
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -526,7 +616,7 @@
                             <td th:text="${sanPham.getSanPham().getThuongHieu().getTen()}"></td>
                             <td th:text="${sanPham.getMauSac().getTen()}"></td>
                             <td th:text="${sanPham.getKichThuoc().getTen()}"></td>
-                            <td th:text="${#numbers.formatDecimal(sanPham.getGiaBan(), 0, 'COMMA', 0, 'POINT')} +  ' VND'"></td>
+                            <td th:text="${#numbers.formatDecimal(sanPham.getGiaBan(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                             <td th:text="${sanPham.getSoLuongTon()}"></td>
                             <td>
                                 <button type="button" class="btn btn-primary themSoLuong" data-bs-toggle="modal"

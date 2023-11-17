@@ -8,10 +8,12 @@ import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.export.HoaDonPDF;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -252,9 +254,22 @@ public class BanHangController {
         return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
     }
 
-    @PostMapping("/thanh-toan")
-    public String thanhToanHoaDon(@ModelAttribute("hoaDonCho") HoaDonRequest hoaDonRequest) {
-        banHangService.thanhToanHoaDon(hoaDonRequest);
+    @PostMapping("/thanh-toan/{idHoaDonCho}")
+    public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
+                                  @RequestParam("thanhTien") String thanhTien) {
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+        return "redirect:/admin/ban-hang";
+    }
+
+    @PostMapping ("/hoa-don/xuat-hoan-don/{idHoaDonCho}")
+    public String xuatHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
+                             @RequestParam("thanhTien") String thanhTien) throws Exception {
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
+        //Xuat hoa don
+        List<HoaDonChiTiet> listHDCT = banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon));
+        HoaDonPDF hoaDonPDF = new HoaDonPDF();
+        hoaDonPDF.exportToPDF(listHDCT, hoaDon);
         return "redirect:/admin/ban-hang";
     }
 

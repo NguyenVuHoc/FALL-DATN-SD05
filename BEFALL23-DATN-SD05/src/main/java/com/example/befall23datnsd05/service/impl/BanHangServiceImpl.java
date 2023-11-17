@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.impl;
 
+import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
 import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
@@ -130,12 +131,12 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon thanhToanHoaDon(HoaDonRequest hoaDonRequest) {
+    public HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien) {
         try {
-            HoaDon hoaDon = hoaDonRepository.getReferenceById(Long.valueOf(hoaDonRequest.getId()));
+            HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
             if (hoaDon != null) {
                 hoaDon.setNgayThanhToan(LocalDate.now());
-                hoaDon.setThanhToan(hoaDonRequest.getThanhToan());
+                hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
                 hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
                 hoaDon.setTrangThai(TrangThai.HOAN_THANH);
@@ -278,6 +279,21 @@ public class BanHangServiceImpl implements BanHangService {
     @Override
     public HoaDon save(HoaDon hoaDon) {
         return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public List<ChiTietSanPhamCustom> getSanPham() {
+        return chiTietSanPhamRepository.getSanPham();
+    }
+
+    @Override
+    public List<ChiTietSanPham> getSanPhamByMaAndTen(String maSanPham, String tenSanPham) {
+        return chiTietSanPhamRepository.getSanPhamByMaAndTen(maSanPham, tenSanPham);
+    }
+
+    @Override
+    public List<ChiTietSanPham> getSanPhamByMaAndTenAndMauAndSize(String maSanPham, String tenSanPham, String mauSac, String kichThuoc) {
+        return chiTietSanPhamRepository.getSanPhamByMaAndTenAndMauAndSize(maSanPham, tenSanPham, mauSac, kichThuoc);
     }
 
 }
