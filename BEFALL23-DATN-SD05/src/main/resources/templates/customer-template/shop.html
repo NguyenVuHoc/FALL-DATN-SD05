@@ -81,14 +81,14 @@
                 <div class="col-lg-8 ">
                     <div class="row">
                         <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx1"
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="sortButton1"
                                    autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx1">Giá cao - thấp</label>
+                            <label class="shop-btn-sx btn-outline-success" th:for="sortButton1">Giá cao - thấp</label>
                         </div>
                         <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx2"
+                            <input type="radio" class="btn-check" name="vbtn-radio" id="sortButton2"
                                    autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx2">Giá thấp - cao</label>
+                            <label class="shop-btn-sx btn-outline-success" for="sortButton2">Giá thấp - cao</label>
                         </div>
                         <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
                             <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx3"
@@ -119,7 +119,6 @@
         </div>
         <!-- End sắp xếp tìm kiếm  -->
 
-        <br>
         <!--Lọc sản phẩm-->
         <div>
             <h4 style="color: #0c0e12; font-family: 'Montserrat Medium'">Lọc</h4>
@@ -173,7 +172,8 @@
                     <button class="shop-btn-sdloc btn-outline-success" type="submit">Áp dụng</button>
                 </div>
                 <div class="col-12 col-md-3 col-lg-1 mb-4">
-                    <button class="shop-btn-sdloc btn-outline-success" type="submit">Xóa</button>
+                    <a type="button" class="shop-btn-sdloc btn-outline-success" style="text-align: center"
+                       th:href="@{/wingman/cua-hang}">Xóa</a>
                 </div>
 
             </div>
@@ -183,17 +183,17 @@
             <hr>
         </div>
         <br>
-
+        <!-- Danh sách sản phẩm -->
         <div class="row">
             <!-- Start Column 1 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
                 <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}" style="text-decoration: none">
                         <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail">
+                        <h3 class="product-title"
+                            th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten  +' Size '+ ctsp.kichThuoc.ten +' '+ ctsp.mauSac.ten}"></h3>
+                        <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
                     </a>
-                    <h3 class="product-title"
-                        th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten  +' Size '+ ctsp.kichThuoc.ten +' '+ ctsp.mauSac.ten}"></h3>
-                    <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -201,10 +201,10 @@
                     </a>
                 </div>
             </div>
-            <!-- End Column 1 -->
+            <!--  Danh sách sản phẩm  -->
 
         </div>
-
+        <!-- Start Column 1 -->
         <br>
         <div style="margin-top: 50px; margin-left: 22% ">
             <nav aria-label="Page navigation example">
@@ -226,7 +226,6 @@
             </nav>
         </div>
 
-
         <br>
         <div class="box">
             <hr>
@@ -247,12 +246,13 @@
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspCustom : ${list3Custom}">
                 <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}" style="text-decoration: none">
                         <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail">
+
+                        <h3 class="product-title"
+                            th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()  +' Size '+ ctspCustom.getTenKich_thuoc() +' '+ ctspCustom.getTenMau_sac()}"></h3>
+                        <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     </a>
-                    <h3 class="product-title"
-                        th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()  +' Size '+ ctspCustom.getTenKich_thuoc() +' '+ ctspCustom.getTenMau_sac()}"></h3>
-                    <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -275,12 +275,12 @@
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspLimited : ${list3Limited}">
                 <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}" style="text-decoration: none">
                         <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail">
-                    </a>
                     <h3 class="product-title"
                         th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()  +' Size '+ ctspLimited.getTenKich_thuoc() +' '+ ctspLimited.getTenMau_sac()}"></h3>
                     <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
+                    </a>
                     <a href="cart.html">
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
@@ -419,5 +419,6 @@
     </div>
 </footer>
 <!-- End Footer Section -->
+
 </body>
 </html>
