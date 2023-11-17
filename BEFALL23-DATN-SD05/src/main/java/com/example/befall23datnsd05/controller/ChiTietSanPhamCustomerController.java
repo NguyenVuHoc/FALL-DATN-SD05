@@ -12,12 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequestMapping("/wingman")
 public class ChiTietSanPhamCustomerController {
 
     @Autowired
@@ -29,7 +31,7 @@ public class ChiTietSanPhamCustomerController {
     Integer pageNo = 0;
 
 
-    @GetMapping("/wingman/cua-hang")
+    @GetMapping("/cua-hang")
     public String getAllShopCustomer(Model model) {
         Page<ChiTietSanPham> pageAll = chiTietSanPhamService.pageAllInShop(pageNo, 20);
         model.addAttribute("listCTSP", pageAll.stream().toList());
@@ -41,20 +43,20 @@ public class ChiTietSanPhamCustomerController {
         return "customer-template/shop";
     }
 
-    @GetMapping("/wingman/cua-hang-pre")
+    @GetMapping("/cua-hang-pre")
     private String preCustome() {
         pageNo--;
         pageNo = chiTietSanPhamService.nextPage(pageNo);
         return "redirect:/wingman/cua-hang";
     }
 
-    @GetMapping("/wingman/cua-hang-first")
+    @GetMapping("/cua-hang-first")
     private String firstCustome() {
         pageNo = chiTietSanPhamService.nextPage(0);
         return "redirect:/wingman/cua-hang";
     }
 
-    @GetMapping("/wingman/cua-hang-last")
+    @GetMapping("/cua-hang-last")
     private String lastCustome() {
         Integer sizeList = chiTietSanPhamRepository.findAll().size();
         Integer pageCount = (int) Math.ceil((double) sizeList / 20);
@@ -63,14 +65,14 @@ public class ChiTietSanPhamCustomerController {
         return "redirect:/wingman/cua-hang";
     }
 
-    @GetMapping("/wingman/cua-hang-next")
+    @GetMapping("/cua-hang-next")
     private String nextCustomer() {
         pageNo++;
         pageNo = chiTietSanPhamService.nextPage(pageNo);
         return "redirect:/wingman/cua-hang";
     }
 
-    @GetMapping("/wingman/trang-chu")
+    @GetMapping("/trang-chu")
     public String get3TrangChuCustomer(Model model){
         List<ChiTietSanPhamCustomerCustom> list3new = chiTietSanPhamService.list3New();
         model.addAttribute("list3New", list3new.stream().toList());
@@ -79,12 +81,16 @@ public class ChiTietSanPhamCustomerController {
         return "customer-template/index";
     }
 
-    @GetMapping("/wingman/chi-tiet-san-pham/{id}")
+    @GetMapping("/chi-tiet-san-pham/{id}")
     public String detailCustomerSanPham(@PathVariable("id") Long id, Model model){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
         model.addAttribute("spDetail", chiTietSanPham);
         List<AnhCustomerCustom> listAnhdetail = chiTietSanPhamService.listAnhDetail(id);
         model.addAttribute("listAnhDetail", listAnhdetail.stream().toList());
+        List<ChiTietSanPhamCustomerCustom> listRand = chiTietSanPhamService.list4Random();
+        model.addAttribute("listRandom", listRand.stream().toList());
+        List<ChiTietSanPhamCustomerCustom> listRand2 = chiTietSanPhamService.list4Random();
+        model.addAttribute("listRandom2", listRand2.stream().toList());
         return "customer-template/detail";
     }
 }
