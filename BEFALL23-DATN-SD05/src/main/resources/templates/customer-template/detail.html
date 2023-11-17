@@ -163,28 +163,6 @@
         <div class="row">
             <!--Ảnh sản phẩm-->
             <div class="col-lg-6">
-<!--                <div id="carouselExample" class="carousel slide">-->
-<!--                    <div class="carousel-inner">-->
-<!--                        <div class="carousel-item active">-->
-<!--                            <img th:src="@{'/../images/' + *{sanPham.anhChinh}}" class="d-block w-100" alt="...">-->
-<!--                        </div>-->
-<!--                        <div class="carousel-item" th:each="listAnh : ${listAnhDetail}">-->
-<!--                            <img th:src="@{'/../images/' + ${listAnh.getUrl()}}" class="d-block w-100" alt="...">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"-->
-<!--                            data-bs-slide="prev">-->
-<!--                        <span class="carousel-control-prev-icon" style="background-color: black; border-radius: 9%"-->
-<!--                              aria-hidden="true"></span>-->
-<!--                        <span class="visually-hidden">Previous</span>-->
-<!--                    </button>-->
-<!--                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"-->
-<!--                            data-bs-slide="next">-->
-<!--                        <span class="carousel-control-next-icon" style="background-color: black; border-radius: 9%"-->
-<!--                              aria-hidden="true"></span>-->
-<!--                        <span class="visually-hidden">Next</span>-->
-<!--                    </button>-->
-<!--                </div>-->
                 <div class="product-image">
                     <div class="product-image-main">
                         <img th:src="@{'/../images/' + *{sanPham.anhChinh}}"
@@ -220,7 +198,10 @@
                 <div>
                     <p>
                     <h2 class="gia" th:text="*{giaBan}"></h2></p>
-                    <p>
+                    <p th:if="${spDetail.giaMacDinh != spDetail.giaBan}" style="display: block;">
+                        <del th:text="*{giaMacDinh}"></del>
+                    </p>
+                    <p th:if="${spDetail.giaMacDinh == spDetail.giaBan}" style="display: none;">
                         <del th:text="*{giaMacDinh}"></del>
                     </p>
                 </div>
@@ -382,60 +363,24 @@
 
         <div class="row">
             <h2 style="color: #0c0e12; font-family: 'Montserrat Medium'">Bạn có thể thích </h2>
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/scorpion-mortal-kombat.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
-                    <strong class="product-price">7.399.000₫</strong>
-
+            <!-- Start Column 1 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp4rand : ${listRandom}">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp4rand.getId()}}">
+                        <img th:src="@{'../images/' + ${ctsp4rand.getAnh_chinh()}}"
+                             class="img-fluid product-thumbnail">
+                        <h3 class="product-title"
+                            th:text="${ctsp4rand.getTenSp() +' '+ ctsp4rand.getTenDongSp() +' '+ ctsp4rand.getTenDe_giay() +' '+ ctsp4rand.getTenCo_giay() +' '+ ctsp4rand.getTenLot_giay() +' Size '+ ctsp4rand.getTenKich_thuoc() +' '+ ctsp4rand.getTenMau_sac()}"></h3>
+                        <strong class="product-price" th:text="${ctsp4rand.getGia_ban()}"></strong>
+                    </a>
+                    <a href="cart.html">
                     <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
+								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 1 -->
-
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
-
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
         </div>
 
         <br>
@@ -443,60 +388,65 @@
 
         <div class="row">
             <h2 style="color: #0c0e12; font-family: 'Montserrat Medium'">Mọi người cũng mua</h2>
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/scorpion-mortal-kombat.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
-                    <strong class="product-price">7.399.000₫</strong>
-
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp4rand2 : ${listRandom2}">
+                <div class="product-item">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp4rand2.getId()}}">
+                        <img th:src="@{'../images/' + ${ctsp4rand2.getAnh_chinh()}}"
+                             class="img-fluid product-thumbnail">
+                        <h3 class="product-title"
+                            th:text="${ctsp4rand2.getTenSp() +' '+ ctsp4rand2.getTenDongSp() +' '+ ctsp4rand2.getTenDe_giay() +' '+ ctsp4rand2.getTenCo_giay() +' '+ ctsp4rand2.getTenLot_giay() +' Size '+ ctsp4rand2.getTenKich_thuoc() +' '+ ctsp4rand2.getTenMau_sac()}"></h3>
+                        <strong class="product-price" th:text="${ctsp4rand2.getGia_ban()}"></strong>
+                    </a>
+                    <a href="cart.html">
                     <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
+								<img src="../images/cross.svg" class="img-fluid">
 							</span>
-                </a>
+                    </a>
+                </div>
             </div>
             <!-- End Column 1 -->
 
-            <!-- Start Column 2 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/EVANGELION.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike x EVANGELION</h3>
-                    <strong class="product-price">12.399.000₫</strong>
+<!--            &lt;!&ndash; Start Column 2 &ndash;&gt;-->
+<!--            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">-->
+<!--                <a class="product-item" href="cart.html">-->
+<!--                    <img src="/../images/EVANGELION.png" class="img-fluid product-thumbnail">-->
+<!--                    <h3 class="product-title">Nike x EVANGELION</h3>-->
+<!--                    <strong class="product-price">12.399.000₫</strong>-->
 
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 2 -->
+<!--                    <span class="icon-cross">-->
+<!--								<img src="/../images/cross.svg" class="img-fluid">-->
+<!--							</span>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Column 2 &ndash;&gt;-->
 
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
-                    <strong class="product-price">9.700.000₫</strong>
+<!--            &lt;!&ndash; Start Column 3 &ndash;&gt;-->
+<!--            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">-->
+<!--                <a class="product-item" href="cart.html">-->
+<!--                    <img src="/../images/airMid-x-kimetsu.png" class="img-fluid product-thumbnail">-->
+<!--                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>-->
+<!--                    <strong class="product-price">9.700.000₫</strong>-->
 
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
+<!--                    <span class="icon-cross">-->
+<!--								<img src="/../images/cross.svg" class="img-fluid">-->
+<!--							</span>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Column 3 &ndash;&gt;-->
 
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="cart.html">
-                    <img src="/../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Jordan 13 x one piece</h3>
-                    <strong class="product-price">11.999.000₫</strong>
+<!--            &lt;!&ndash; Start Column 4 &ndash;&gt;-->
+<!--            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">-->
+<!--                <a class="product-item" href="cart.html">-->
+<!--                    <img src="/../images/jordan13-x-onepiece.png" class="img-fluid product-thumbnail">-->
+<!--                    <h3 class="product-title">Jordan 13 x one piece</h3>-->
+<!--                    <strong class="product-price">11.999.000₫</strong>-->
 
-                    <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
-							</span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
+<!--                    <span class="icon-cross">-->
+<!--								<img src="/../images/cross.svg" class="img-fluid">-->
+<!--							</span>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Column 4 &ndash;&gt;-->
         </div>
 
         <br>
@@ -623,26 +573,26 @@
     const sliderImageList = document.getElementsByClassName("image-list");
     console.log(sliderImageList);
 
-    sliderImageList[0].onclick = function(){
+    sliderImageList[0].onclick = function () {
         sliderMainImage.src = sliderImageList[0].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[1].onclick = function(){
+    sliderImageList[1].onclick = function () {
         sliderMainImage.src = sliderImageList[1].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[2].onclick = function(){
+    sliderImageList[2].onclick = function () {
         sliderMainImage.src = sliderImageList[2].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[3].onclick = function(){
+    sliderImageList[3].onclick = function () {
         sliderMainImage.src = sliderImageList[3].src;
         console.log(sliderMainImage.src);
     };
-    sliderImageList[4].onclick = function(){
+    sliderImageList[4].onclick = function () {
         sliderMainImage.src = sliderImageList[4].src;
         console.log(sliderMainImage.src);
     };

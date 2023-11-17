@@ -21,7 +21,7 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
 
     @Override
     public Page<ChiTietSanPham> pageAllInShop(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo,size);
+        Pageable pageable = PageRequest.of(pageNo, size);
         return repository.pageAllInShop(pageable);
     }
 
@@ -61,7 +61,14 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
     }
 
     @Override
-    public List<AnhCustomerCustom> listAnhDetail(Long id) { return repository.listAnhDetail(id); }
+    public List<ChiTietSanPhamCustomerCustom> list4Random() {
+        return repository.list4Random();
+    }
+
+    @Override
+    public List<AnhCustomerCustom> listAnhDetail(Long id) {
+        return repository.listAnhDetail(id);
+    }
 
     @Override
     public ChiTietSanPham getById(Long id) {
