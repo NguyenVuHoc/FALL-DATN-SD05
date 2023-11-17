@@ -230,7 +230,7 @@
                             <th>Kích Thước</th>
                             <th>Mức giảm</th>
                             <th>Giá mặc định</th>
-                            <th>Giá khuyến mại</th>
+                            <th>Giá bán</th>
                             <th>Chức năng</th>
                         </tr>
                         </thead>
@@ -243,7 +243,7 @@
                             <td th:text="${ctspCoKM.kichThuoc.ten}"></td>
                             <td th:text="${ctspCoKM.khuyenMai.mucGiamGia}"></td>
                             <td th:text="${ctspCoKM.giaMacDinh}"></td>
-                            <td th:text="${ctspCoKM.GiaKhuyenMai}"></td>
+                            <td th:text="${ctspCoKM.GiaSauGiamGia}"></td>
                             <td>
                                 <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/xoa/'+ ${khuyenMai.id} +'/'+ ${ctspCoKM.id}}"
                                    onclick="return confirm('Bạn chắc chắn muốn bỏ sản phẩm khỏi khuyến mãi ?')">
@@ -284,7 +284,7 @@
                             <th>Thương Hiệu</th>
                             <th>Màu sắc</th>
                             <th>Kích Thước</th>
-                            <th>Giá bán</th>
+                            <th>Giá mặc định</th>
                             <th>Số lượng</th>
                             <th>Thêm</th>
                         </tr>
@@ -296,7 +296,7 @@
                             <td th:text="${ctsp.sanPham.thuongHieu.ten}"></td>
                             <td th:text="${ctsp.mauSac.ten}"></td>
                             <td th:text="${ctsp.kichThuoc.ten}"></td>
-                            <td th:text="${ctsp.giaBan}"></td>
+                            <td th:text="${ctsp.giaMacDinh}"></td>
                             <td th:text="${ctsp.soLuongTon}"></td>
                             <td>
                                 <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/them/' + ${khuyenMai.id} +'/'+ ${ctsp.id}}">
