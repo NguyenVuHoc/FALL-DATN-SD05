@@ -29,6 +29,11 @@ public class DiaChiServiceImpl implements DiaChiService {
     }
 
     @Override
+    public List<DiaChi> getAllTheoKhachHang(Long id) {
+        return repository.getAllTheoKhachHang(id);
+    }
+
+    @Override
     public DiaChi getById(Long id) {
         Optional<DiaChi> optional = repository.findById(id);
         if (optional.isPresent()){
@@ -55,8 +60,8 @@ public class DiaChiServiceImpl implements DiaChiService {
     }
 
     @Override
-    public DiaChi update(DiaChiRequest diaChi) {
-        DiaChi diaChi1 = repository.getReferenceById(diaChi.getId());
+    public DiaChi update(DiaChiRequest diaChi, Long id) {
+        DiaChi diaChi1 = repository.getReferenceById(id);
         if(diaChi1==null){
             return null;
         }
@@ -65,15 +70,14 @@ public class DiaChiServiceImpl implements DiaChiService {
         diaChi1.setSdt(diaChi.getSdt());
         diaChi1.setNgaySua(LocalDate.now());
         diaChi1.setGhiChu(diaChi.getGhiChu());
-        diaChi1.setTrangThai(diaChi.getTrangThai());
-//        KhachHang khachHang = khachHangRepository.findById(diaChi.getKhachHang()).orElse(null);
-//        diaChi1.setKhachHang(khachHang);
-//        repository.save(diaChi1);
+        repository.save(diaChi1);
         return diaChi1;
     }
+
 
     @Override
     public void remove(Long id) {
         repository.deleteById(id);
     }
+
 }
