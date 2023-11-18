@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
+import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.entity.KichThuoc;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.entity.MauSac;
@@ -19,7 +20,9 @@ import com.example.befall23datnsd05.repository.SanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -55,8 +58,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
-    public List<ChiTietSanPham> getAllSanPhamKhuyenMai() {
-        return repository.getAllSpKhuyenMai();
+    public List<ChiTietSanPham> getAllSanPhamKhuyenMai(Long idKM) {
+        return repository.getAllSpKhuyenMai(idKM);
     }
 
     @Override
@@ -64,6 +67,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         return repository.getAllSpCoKhuyenMai(idKM);
     }
 
+//    Chức năng ctsp với khuyến mại
     @Override
     public void updateIdKhuyenMai(Long idKM, Long idCtsp) {
         repository.updateIdKhuyenMai(idKM, idCtsp);
@@ -74,6 +78,27 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         repository.deleteIdKhuyenMai(idCtsp);
     }
 
+    @Override
+    public void updateGiaBan(Long id) {
+        ChiTietSanPham ctsp = repository.findById(id).orElse(null);
+        if (ctsp != null){
+            ctsp.setGiaBan(ctsp.tinhGiaSauGiamGia());
+            repository.save(ctsp);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void autoUpdateGia() {
+        List<ChiTietSanPham> list = repository.findAll();
+        for (ChiTietSanPham ctsp : list) {
+            BigDecimal giaSauGiamGia = ctsp.tinhGiaSauGiamGia();
+            ctsp.setGiaBan(giaSauGiamGia);
+        }
+        repository.saveAll(list);
+    }
+
+//   Hết chức năng ctsp với khuyến mại
 
     @Override
     public ChiTietSanPham getById(Long id) {

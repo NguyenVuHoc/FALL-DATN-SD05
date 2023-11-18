@@ -19,11 +19,15 @@ public interface ChiTietSanPhamService {
     List<ChiTietSanPham> getByTrangThai(TrangThai trangThai);
 
     //ctsp dùng bên khuyến mại
-    List<ChiTietSanPham> getAllSanPhamKhuyenMai();
+    List<ChiTietSanPham> getAllSanPhamKhuyenMai(Long idKM);
     List<ChiTietSanPham> getSpCoKhuyenMai(Long idKM);
 
     void updateIdKhuyenMai(Long idKM, Long idCtsp);
 
     void deleteIdKhuyenMai(Long idCtsp);
+
+    void updateGiaBan(Long id);
+
+    void autoUpdateGia();
 
 }

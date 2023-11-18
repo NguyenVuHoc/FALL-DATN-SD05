@@ -47,21 +47,12 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     Page<ChiTietSanPham> findBySanPham_TenContainingIgnoreCase(String ten, Pageable pageable);
 
     //Query ctsp dùng bên khuyến mại
-    @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.id_khuyen_mai is null", nativeQuery = true)
-    List<ChiTietSanPham> getAllSpKhuyenMai();
+    @Query(value = "select * from chi_tiet_san_pham \n" +
+            "where chi_tiet_san_pham.trang_thai = 0 and (chi_tiet_san_pham.id_khuyen_mai <> :idKM or chi_tiet_san_pham.id_khuyen_mai is null)", nativeQuery = true)
+    List<ChiTietSanPham> getAllSpKhuyenMai(Long idKM);
 
     @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.id_khuyen_mai = :idKM", nativeQuery = true)
     List<ChiTietSanPham> getAllSpCoKhuyenMai(Long idKM);
-
-//    @Query(value = "update chi_tiet_san_pham\n" +
-//            "set id_khuyen_mai = :idKM\n" +
-//            "where chi_tiet_san_pham.id = :idCtsp;", nativeQuery = true)
-//    void updateIdKhuyenMai(@Param("idKM") Long idKM, @Param("idCtsp") Long idCtsp);
-
-//    @Query(value = "update chi_tiet_san_pham\n" +
-//            "set id_khuyen_mai = null\n" +
-//            "where chi_tiet_san_pham.id = :idCtsp;", nativeQuery = true)
-//    void deleteIdKhuyenMai(Long idCtsp);
 
     @Transactional
     @Modifying
