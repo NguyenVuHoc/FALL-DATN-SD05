@@ -166,6 +166,7 @@ public class HoaDonController {
 
     /**
      * Chấp nhập Trả Hàng
+     * Chấp nhập Trả Hàng+Đổi Hàng
      * @param id
      * @param ghichu
      * @param model
@@ -212,7 +213,8 @@ public class HoaDonController {
     }
 
     /**
-     * Từ chối Trả Hàng
+     * Từ chối Trả Hàng+Đổi Hàng
+>>>>>>> f2418f59d83a165a1d2f5cad4557fe31ec2590a5
      * @param id
      * @param ghichu
      * @param model
@@ -234,9 +236,9 @@ public class HoaDonController {
         ){
             return "redirect:/admin/hoa-don";
         }
-        if(hoaDon.getTrangThai()!=TrangThaiDonHang.XAC_NHAN_TRA_HANG){
-            return "redirect:/admin/hoa-don";
-        }
+//        if(hoaDon.getTrangThai()!=TrangThaiDonHang.XAC_NHAN_TRA_HANG){
+//            return "redirect:/admin/hoa-don";
+//        }
         if (hoaDon != null) {
             for(GioHangChiTiet gioHangChiTiet1:gioHangChiTiet){
                 if(gioHangChiTiet1.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){

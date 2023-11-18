@@ -194,22 +194,28 @@
 
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
-            <h6 class="mb-4" style="font-size: 30px;">Dòng Sản Phẩm</h6>
+        <div class="row g-2">
+            <div style="width: 90%;">
+                <h6 class="mb-4" style="font-size: 40px;">Dòng Sản Phẩm</h6>
+            </div>
+            <div class="create" style="width: 10%;">
+                <button type="submit" class="btn btn-outline-success mb-2">
+                    <a  href="/admin/dong-san-pham/view-add-dong-san-pham" style="color: darkgreen;">Thêm</a>
+                </button>
+            </div>
             <ul class="nav nav-tabs">
                 <button class="nav-link">
-                    <a href="/admin/dong-san-pham">Tất cả</a>
+                    <a href="/admin/khuyen-mai">Tất cả</a>
                 </button>
-                <li class="nav-item" th:each="tt : ${trangThais}">
+                <li class="nav-item" th:each="tt : ${listTrangThai}">
                     <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
                             data-bs-toggle="tab" type="button" onclick="setHiddenValue('${tt}')">
-                        <a th:href="@{/admin/dong-san-pham/trang-thai/{status}(status=${tt})}"
+                        <a th:href="@{/admin/khuyen-mai/trang-thai/{status}(status=${tt})}"
                            th:text="${tt.getDisplayName()}"></a>
                     </button>
                 </li>
             </ul>
         </div>
-
-
         <div class="container-fluid pt-4">
             <div class="bg-light text-center rounded p-4">
                 <div>
