@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface HoaDonChiTietRepository extends JpaRepository<HoaDonChiTiet, Long> {
 
-    @Query(value = "select * from hoa_don_chi_tiet where trang_thai = 3 and id_hoa_don = :idHoaDon", nativeQuery = true)
+    @Query(value = "select * from hoa_don_chi_tiet where id_hoa_don = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> getHoaDonChiTietByIdHoaDon(@Param("idHoaDon") Long idHoaDon);
 
     @Query(value = "select hdct.id, sp.ma, hdct.ten_san_pham, hdct.mau_sac, hdct.kich_thuoc, hdct.gia_ban, hdct.so_luong \n" +

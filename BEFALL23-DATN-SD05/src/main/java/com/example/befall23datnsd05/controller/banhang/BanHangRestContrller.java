@@ -24,13 +24,22 @@ public class BanHangRestContrller {
     HttpServletRequest request;
 
     @RequestMapping(value = "/admin/ban-hang/check-thanh-toan", method = {RequestMethod.GET, RequestMethod.POST})
-    public String checkThanhToan(@RequestParam("id") String idHoaDonCho) {
+    public Integer checkThanhToan(@RequestParam("id") String idHoaDonCho) {
         if (idHoaDonCho.equals("")) {
-            return "HoaDonNull";
+            return 1;
         } else if (banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDonCho)).isEmpty()) {
-            return "hoaDonChiTietNull";
+            return 2;
         } else {
-            return "OK";
+            return 0;
+        }
+    }
+
+    @RequestMapping(value = "/admin/ban-hang/check-huy-don", method = {RequestMethod.GET, RequestMethod.POST})
+    public Integer checkHuyDon(@RequestParam("id") String idHoaDonCho) {
+        if (idHoaDonCho.equals("")) {
+            return 1;
+        } else {
+            return 0;
         }
     }
 

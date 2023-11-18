@@ -465,7 +465,14 @@
                                        name="thanhToan"
                                        th:value="${#numbers.formatDecimal(thanhTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"/>
                             </div>
-                            <!--                            <button type="submit" class="btn btn-danger">Hủy Đơn</button>-->
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    Dùng 1.000.000 Xu
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="flexSwitchCheckChecked"
+                                           onchange="applyDiscount()">
+                                </div>
+                            </div>
                         </form>
                         <button class="btn btn-outline-primary"
                                 th:data-bs-target="'#checkThanhToan' + ${idHoaDonCho}"
@@ -473,7 +480,13 @@
                                 style="width: auto">
                             Thanh Toán
                         </button>
-                        <div class="modal fade" th:id="'checkThanhToan' + ${idHoaDonCho}"
+                        <button class="btn btn-outline-danger"
+                                th:data-bs-target="'#huyDon' + ${idHoaDonCho}"
+                                data-bs-toggle="modal"
+                                style="width: auto">
+                            Hủy Đơn
+                        </button>
+                        <div class="modal fade text-center" th:id="'checkThanhToan' + ${idHoaDonCho}"
                              data-bs-backdrop="static" data-bs-keyboard="false"
                              aria-hidden="true"
                              aria-labelledby="checkThanhToanLabel" tabindex="-1">
@@ -487,9 +500,7 @@
                                                 aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p style="text-align: center">
-                                            Bạn có muốn thanh toán hay không?
-                                        </p>
+                                        Bạn có muốn thanh toán hay không?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
@@ -505,7 +516,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" th:id="'thanhToan' + ${idHoaDonCho}"
+                        <div class="modal fade text-center" th:id="'thanhToan' + ${idHoaDonCho}"
                              aria-hidden="true"
                              data-bs-backdrop="static" data-bs-keyboard="false"
                              aria-labelledby="thanhToanLabel" tabindex="-1">
@@ -519,9 +530,7 @@
                                                 aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p style="text-align: center">
-                                            Bạn có muốn xuất hóa đơn hay không?
-                                        </p>
+                                        Bạn có muốn xuất hóa đơn hay không?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
@@ -532,7 +541,7 @@
                                               method="post"
                                               th:object="${hoaDonCho}"
                                               onsubmit="return checkThanhToan(this);">
-<!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
+                                            <!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
                                             <input th:field="*{id}" name="id" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
@@ -561,9 +570,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade text-center" th:id="'huyDon' + ${idHoaDonCho}"
+                             data-bs-backdrop="static" data-bs-keyboard="false"
+                             aria-hidden="true"
+                             aria-labelledby="huyDonLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5"
+                                            id="huyDonLabel">Hủy Hóa Đơn</h1>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có muốn hủy hóa đơn hay không?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form th:action="@{'/admin/ban-hang/hoa-don/' +${idHoaDonCho}+ '/huy-don'}"
+                                              onsubmit="return checkHuyDon(this);">
+                                            <input hidden th:value="${idHoaDonCho}" name="id"/>
+                                            <button type="submit"
+                                                    class="btn btn-primary"
+                                                    style="width: 100%">
+                                                Có
+                                            </button>
+                                        </form>
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                data-bs-dismiss="modal">
+                                            Không
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <!-- Sales Chart End -->
@@ -901,12 +944,34 @@
         };
 
         $.post(url, params, function (response) {
-            if (response === "OK") {
+            if (response === 0) {
                 form.submit();
-            } else if (response === "HoaDonNull") {
+            } else if (response === 1) {
                 showWarningModal("Vui lòng chọn hóa đơn để thanh toán.");
-            } else if (response === "hoaDonChiTietNull") {
+            } else if (response === 2) {
                 showWarningModal("Hóa đơn chưa có sản phẩm vui lòng thêm sản phẩm!");
+            } else {
+                showErrorModal("Lỗi phản hồi từ server");
+            }
+        }).fail(function () {
+            showErrorModal("Không thể kết nối đến server");
+        });
+        return false;
+    }
+
+    function checkHuyDon(form) {
+        var url = "[[@{/admin/ban-hang/check-huy-don}]]";
+        var idHoaDon = $("input[name='id']").val();
+
+        var params = {
+            id: idHoaDon
+        };
+
+        $.post(url, params, function (response) {
+            if (response === 0) {
+                form.submit();
+            } else if (response === 1) {
+                showWarningModal("Vui lòng chọn hóa đơn để hủy đơn!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1058,6 +1123,31 @@
         $('#san-pham').DataTable();
     })
 </script>
+
+<script>
+    function applyDiscount() {
+        var thanhTienElement = document.getElementById("thanhToanInput");
+        var thanhTienValue = thanhTienElement.value;
+
+        var discountCheckbox = document.getElementById("flexSwitchCheckChecked");
+        var giaTriGiam = new Decimal(1000000); // Giá trị giảm
+
+        // Chuyển đổi giá trị thành tiền thành Decimal
+        var thanhTien = new Decimal(thanhTienValue.replace(/[^0-9.-]+/g, ""));
+
+        if (discountCheckbox.checked) {
+            thanhTien = thanhTien.minus(giaTriGiam); // Trừ giá trị giảm nếu checkbox được chọn
+        }
+
+        // Cập nhật giá trị mới vào ô input
+        thanhTienElement.value = formatCurrency(thanhTien.toString()) + " VND";
+    }
+
+    // Hàm định dạng số tiền thành chuỗi có dấu phẩy ngăn cách hàng nghìn
+    function formatCurrency(amount) {
+        return amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+</script>
 <!--thư viện js tích tìm kiếm end-->
 <!-- JavaScript Libraries -->
 <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
@@ -1073,6 +1163,7 @@
 <!-- Template Javascript -->
 <script src="/../../js/admin/main.js"></script>
 <script src="/js/admin/index_form.js"></script>
+<script src="/js/admin/decimal.js"></script>
 </body>
 
 </html>

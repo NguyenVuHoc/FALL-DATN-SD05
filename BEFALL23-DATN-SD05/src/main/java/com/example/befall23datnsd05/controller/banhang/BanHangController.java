@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.export.HoaDonPDF;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
@@ -194,7 +195,7 @@ public class BanHangController {
                 .khachHang(khachHang)
                 .ngayTao(LocalDate.now())
                 .loaiHoaDon(LoaiHoaDon.HOA_DON_OFFLINE)
-                .trangThai(TrangThai.HOA_DON_CHO)
+                .trangThaiDonHang(TrangThaiDonHang.HOA_DON_CHO)
                 .build();
         banHangService.themHoaDon(hoaDon);
         model.addAttribute("success", "Thêm thành công");
@@ -224,7 +225,7 @@ public class BanHangController {
                 .ngayTao(LocalDate.now())
                 .giaBan(chiTietSanPham.getGiaBan())
                 .soLuong(hoaDonChiTiet.getSoLuong())
-                .trangThai(TrangThai.CHO_XAC_NHAN)
+                .trangThaiDonHang(TrangThaiDonHang.CHO_XAC_NHAN)
                 .build();
         banHangService.taoHoaDonChiTiet(Long.valueOf(idSanPham), Long.valueOf(idHoaDonCho), hoaDonChiTiet);
         banHangService.updateSoLuong(Long.valueOf(idSanPham), hoaDonChiTiet.getSoLuong());
@@ -233,8 +234,8 @@ public class BanHangController {
 
     @GetMapping("/hoa-don/{idHoaDon}/xoa-hoa-don-chi-tiet/{idHoaDonChiTiet}")
     public String xoaHoaDonChitiet(@PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
-        banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
         banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
+        banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
@@ -294,6 +295,12 @@ public class BanHangController {
         model.addAttribute("isActive", isActive);
         model.addAttribute("checkHoaDon", checkHoaDon == true);
         return "admin-template/ban_hang/ban_hang";
+    }
+
+    @GetMapping("/hoa-don/{idHoaDonCho}/huy-don")
+    public String huyDon(@PathVariable("idHoaDonCho") String idHoaDon){
+        banHangService.huyDon(Long.valueOf(idHoaDon));
+        return "redirect:/admin/ban-hang";
     }
 
 }
