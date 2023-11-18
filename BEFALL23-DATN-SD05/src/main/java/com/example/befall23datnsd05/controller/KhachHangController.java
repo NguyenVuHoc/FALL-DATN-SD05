@@ -1,8 +1,6 @@
 package com.example.befall23datnsd05.controller;
 
-
 import com.example.befall23datnsd05.dto.DiaChiRequest;
-
 import com.example.befall23datnsd05.dto.KhachHangRequest;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThai;
@@ -43,7 +41,7 @@ public class KhachHangController {
         model.addAttribute("listKH", khachHangService.getList());
         model.addAttribute("trangThais", list);
         model.addAttribute("diaChi", new DiaChiRequest());
-        model.addAttribute("listDC",diaChiService.getAll());
+        model.addAttribute("listDC", diaChiService.getAll());
         model.addAttribute("index", pageNo + 1);
         return "admin-template/khach_hang/khach_hang";
     }
@@ -52,8 +50,6 @@ public class KhachHangController {
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThai trangThai) {
         model.addAttribute("trangThais", list);
-        model.addAttribute("diaChi", new DiaChiRequest());
-        model.addAttribute("listDC",diaChiService.getAll());
         model.addAttribute("listKH", khachHangService.getByTrangThai(trangThai));
         return "admin-template/khach_hang/khach_hang";
     }
@@ -61,8 +57,9 @@ public class KhachHangController {
     @GetMapping("/view-update/{id}")
     public String viewUpdate(@PathVariable("id") Long id, Model model) {
         KhachHang khachHang = khachHangService.getById(id);
-        model.addAttribute("listDC",diaChiService.getAll().get(0).getDiaChi());
+        model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
         model.addAttribute("khachHang", khachHang);
+        model.addAttribute("diaChi", new DiaChiRequest());
         return "admin-template/khach_hang/sua_khach_hang";
     }
 
@@ -80,7 +77,7 @@ public class KhachHangController {
         if (bindingResult.hasErrors()) {
             return "admin-template/khach_hang/them_khach_hang";
         }
-        if(khachHangService.existsBySdt(sdt)){
+        if (khachHangService.existsBySdt(sdt)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
             return "admin-template/khach_hang/them_khach_hang";
         }
@@ -107,7 +104,7 @@ public class KhachHangController {
             return "admin-template/khach_hang/sua_khach_hang";
         }
 
-        if(khachHangService.existsBySdtAndIdNot(sdt,id)){
+        if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
             return "admin-template/khach_hang/sua_khach_hang";
         }
@@ -117,16 +114,35 @@ public class KhachHangController {
 
     }
 
-
     @PostMapping("/add-dia-chi/{idKhachHang}")
     public String addDiaChi(
             @Valid
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
-            @PathVariable("idKhachHang") String idKhachHang,
-            Model model
-    ){
+            @PathVariable("idKhachHang") String idKhachHang
+    ) {
         diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
         return "redirect:/admin/khach-hang?success";
+    }
+
+    @PostMapping("/update-dia-chi/{id}/{idKH}")
+    public String updateDiaChi(
+            @PathVariable("id") Long id,
+            @PathVariable("idKH") Long idKH,
+            @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
+            Model model
+    ) {
+
+        diaChiService.update(diaChiRequest, id);
+        return "redirect:/admin/khach-hang/view-update/" + idKH;
+    }
+
+    @GetMapping("/delete-dia-chi/{id}/{idKH}")
+    public String deleteDiaChi(@PathVariable("id") Long id,
+                               @PathVariable("idKH") Long idKH
+
+    ) {
+        diaChiService.remove(id);
+        return "redirect:/admin/khach-hang/view-update/" + idKH;
     }
 
 

@@ -82,6 +82,16 @@
             text-align: left;
         }
 
+        /* Tùy chỉnh CSS để chuyển "Show entries" sang bên trái */
+        .dataTables_length {
+            float: left;
+        }
+
+        /* Di chuyển chuỗi "Showing x to y of N entries" sang bên trái */
+        .dataTables_info {
+            float: left;
+        }
+
 
     </style>
     <!--thư viện css tích tìm kiếm-->
@@ -248,7 +258,6 @@
                                 <th>SĐT</th>
                                 <th>Giới tính</th>
                                 <th>Email</th>
-                                <th>Địa chỉ</th>
                                 <!--                                <th>Trạng Thái</th>-->
                                 <th>Thao tác</th>
                             </tr>
@@ -263,7 +272,6 @@
                                     <span th:if="${khachHang.gioiTinh.getGioiTinh() == 1}">Nữ</span>
                                 </td>
                                 <td th:text="${khachHang.email}"></td>
-                                <td th:text="${khachHang.getListDiaChi.get(0).getDiaChi()}"></td>
                                 <td>
                                     <div class="image-row">
                                         <a th:href="@{'/admin/khach-hang/view-update/' + ${khachHang.id}}">
@@ -344,7 +352,6 @@
                                 <th>SĐT</th>
                                 <th>Giới tính</th>
                                 <th>Email</th>
-                                <th>Địa chỉ</th>
                                 <!--                                <th>Trạng Thái</th>-->
                                 <th>Thao tác</th>
                             </tr>
@@ -462,6 +469,7 @@
             sdt: sdt,
             diaChi: diaChi,
             ghiChu: ghiChu
+
         };
 
         $.post(url, params, function (response) {
@@ -483,7 +491,6 @@
         });
         return false;
     }
-
 
 </script>
 <!--Check trong diaChi end-->
