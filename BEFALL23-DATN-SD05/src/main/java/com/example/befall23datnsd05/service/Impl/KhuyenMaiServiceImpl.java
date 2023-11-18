@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +33,10 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
 
     @Override
     public void updateTrangThai() {
-            repository.updateTrangThaiDangHoatDong();
-            repository.updateTrangThaiDungHoatDong1();
-            repository.updateTrangThaiDungHoatDong2();
-            repository.updateTrangThaiSapDienRa();
+        repository.updateTrangThaiDangHoatDong();
+        repository.updateTrangThaiDungHoatDong1();
+        repository.updateTrangThaiDungHoatDong2();
+        repository.updateTrangThaiSapDienRa();
     }
 
     @Override
@@ -46,7 +47,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Override
     public KhuyenMai add(KhuyenMaiRequest khuyenMaiRequest) {
         KhuyenMai km = new KhuyenMai();
-        km.setMa(khuyenMaiRequest.getMa());
+        LocalDateTime time = LocalDateTime.now();
+        String maKM = "KM" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue() + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
+        km.setMa(maKM);
         km.setTen(khuyenMaiRequest.getTen());
         km.setMoTa(khuyenMaiRequest.getMoTa());
         km.setMucGiamGia(khuyenMaiRequest.getMucGiamGia());
@@ -75,9 +78,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Override
     public KhuyenMai getById(Long id) {
         Optional<KhuyenMai> optional = repository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             return null;
         }
     }
@@ -85,7 +88,7 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     @Override
     public void huy(Long id) {
         KhuyenMai khuyenMai = repository.findById(id).orElse(null);
-        if (khuyenMai != null){
+        if (khuyenMai != null) {
             khuyenMai.setNgayKetThuc(LocalDate.now().minusDays(1));
             khuyenMai.setTrangThai(TrangThai.DUNG_HOAT_DONG);
             repository.save(khuyenMai);

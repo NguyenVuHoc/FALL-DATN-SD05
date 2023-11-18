@@ -18,7 +18,6 @@ public class KhuyenMaiRequest {
 
     private Long id;
 
-    @NotBlank(message = "Mã không được để trống")
     private String ma;
 
     @NotBlank(message = "Tên không được để trống")

@@ -110,19 +110,21 @@ public class KhuyenMaiController {
             return "admin-template/khuyen_mai/sua_khuyen_mai";
         }
         service.update(khuyenMaiRequest);
+        ctspService.autoUpdateGia();
         return "redirect:/admin/khuyen-mai";
     }
 
     @GetMapping("/huy/{id}")
     public String huyKhuyenMai(@PathVariable("id") Long id) {
         service.huy(id);
+        ctspService.autoUpdateGia();
         return "redirect:/admin/khuyen-mai";
     }
 
     @GetMapping("/them-san-pham-khuyen-mai/{idKM}")
     public String sanPhamKhuyenMai(Model model,
                                    @PathVariable("idKM") Long idKM){
-        model.addAttribute("ctspKhuyenMai", ctspService.getAllSanPhamKhuyenMai());
+        model.addAttribute("ctspKhuyenMai", ctspService.getAllSanPhamKhuyenMai(idKM));
         model.addAttribute("ctspCoKhuyenMai", ctspService.getSpCoKhuyenMai(idKM));
         model.addAttribute("khuyenMai",service.getById(idKM));
         return "admin-template/khuyen_mai/san_pham_khuyen_mai";
@@ -132,12 +134,14 @@ public class KhuyenMaiController {
     public String updateIdKhuyenMai(@PathVariable("idKM") Long idKM,
                                     @PathVariable("idCtsp") Long idCtsp){
         ctspService.updateIdKhuyenMai(idKM, idCtsp);
+        ctspService.updateGiaBan(idCtsp);
         return "redirect:/admin/khuyen-mai/them-san-pham-khuyen-mai/{idKM}";
     }
 
     @GetMapping("/them-san-pham-khuyen-mai/xoa/{idKM}/{idCtsp}")
     public String deleteIdKhuyenMai(@PathVariable("idCtsp") Long idCtsp){
         ctspService.deleteIdKhuyenMai(idCtsp);
+        ctspService.updateGiaBan(idCtsp);
         return "redirect:/admin/khuyen-mai/them-san-pham-khuyen-mai/{idKM}";
     }
 }

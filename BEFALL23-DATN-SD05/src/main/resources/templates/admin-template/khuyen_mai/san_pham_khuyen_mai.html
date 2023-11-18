@@ -242,8 +242,8 @@
                             <td th:text="${ctspCoKM.mauSac.ten}"></td>
                             <td th:text="${ctspCoKM.kichThuoc.ten}"></td>
                             <td th:text="${ctspCoKM.khuyenMai.mucGiamGia}"></td>
-                            <td th:text="${ctspCoKM.giaMacDinh}"></td>
-                            <td th:text="${ctspCoKM.GiaSauGiamGia}"></td>
+                            <td th:text="${#numbers.formatDecimal(ctspCoKM.giaMacDinh, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                            <td th:text="${#numbers.formatDecimal(ctspCoKM.GiaSauGiamGia, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                             <td>
                                 <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/xoa/'+ ${khuyenMai.id} +'/'+ ${ctspCoKM.id}}"
                                    onclick="return confirm('Bạn chắc chắn muốn bỏ sản phẩm khỏi khuyến mãi ?')">
@@ -296,10 +296,15 @@
                             <td th:text="${ctsp.sanPham.thuongHieu.ten}"></td>
                             <td th:text="${ctsp.mauSac.ten}"></td>
                             <td th:text="${ctsp.kichThuoc.ten}"></td>
-                            <td th:text="${ctsp.giaMacDinh}"></td>
+                            <td th:text="${#numbers.formatDecimal(ctsp.giaMacDinh, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                             <td th:text="${ctsp.soLuongTon}"></td>
                             <td>
-                                <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/them/' + ${khuyenMai.id} +'/'+ ${ctsp.id}}">
+                                <a th:if="${ctsp.khuyenMai != null}"  th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/them/' + ${khuyenMai.id} +'/'+ ${ctsp.id}}"
+                                   onclick="return confirm('Sản phẩm này đã có khuyến mại bạn chắc chắn muốn đổi sản phẩm sang khuyến mãi này ?')">
+                                    <img src="/../../img/them.png"
+                                         style="width: 25px; padding-right: 5px;">
+                                </a>
+                                <a th:unless="${ctsp.khuyenMai != null}" th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/them/' + ${khuyenMai.id} +'/'+ ${ctsp.id}}">
                                     <img src="/../../img/them.png"
                                          style="width: 25px; padding-right: 5px;">
                                 </a>

@@ -136,11 +136,6 @@
                 <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
                     <form th:action="@{/admin/khuyen-mai/add}" method="post" th:object="${khuyenMai}" onsubmit="return validateDate()">
                         <div class="mb-3">
-                            <label for="inputMa" class="form-label">Mã Khuyến Mãi</label>
-                            <input type="text" class="form-control" id="inputMa" th:field="*{ma}" />
-                            <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
-                        </div>
-                        <div class="mb-3">
                             <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
                             <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
                             <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
