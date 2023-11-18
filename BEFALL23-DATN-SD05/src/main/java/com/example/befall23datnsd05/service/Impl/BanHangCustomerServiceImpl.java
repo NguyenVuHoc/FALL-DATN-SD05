@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.service.Impl;
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -64,7 +65,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             gioHangChiTiet.setChiTietSanPham(chiTietSanPham);
             gioHangChiTiet.setDonGia(gioHangChiTiet.getChiTietSanPham().getGiaBan());
             gioHangChiTiet.setNgayTao(LocalDate.now());
-            gioHangChiTiet.setTrangThai(TrangThai.CHO_XAC_NHAN);
+            gioHangChiTiet.setTrangThai(TrangThai.DANG_HOAT_DONG);
             gioHangChiTiet.setGioHang(gioHang);
             gioHangChiTietRepository.save(gioHangChiTiet);
         }
@@ -94,7 +95,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setDiaChi(diaChi);
         hoaDon.setGhiChu(ghiChu);
         hoaDon.setTenKhachHang(ten);
-        hoaDon.setTrangThai(TrangThai.CHO_XAC_NHAN);
+        hoaDon.setTrangThai(TrangThaiDonHang.CHO_XAC_NHAN);
         hoaDon.setLoaiHoaDon(LoaiHoaDon.HOA_DON_ONLINE);
         hoaDonRepository.save(hoaDon);
 

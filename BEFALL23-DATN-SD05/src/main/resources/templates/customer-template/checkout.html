@@ -60,7 +60,7 @@
 
       <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
         <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
-        <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg"></a></li>
+        <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="/../images/cart.svg"></a></li>
       </ul>
     </div>
   </div>
@@ -305,7 +305,7 @@
                     [[${gioHangChiTiet.chiTietSanPham.sanPham.ten}]] <strong class="mx-2">x</strong>
                     [[${gioHangChiTiet.soLuong}]]
                   </td>
-                  <td>[[${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}]]</td>
+                  <td>[[${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}]]</td>
                   <td><a class="btn btn-black btn-sm"
                          th:href="@{'/wingman/cart/xoa-sp/' + ${gioHangChiTiet.id}}">X</a></td>
                 </tr>
@@ -314,7 +314,7 @@
                     <strong>Tổng đơn hàng</strong>
                   </td>
                   <td class="text-black font-weight-bold" >
-                    <strong th:text="${#aggregates.sum(listGioHangChiTiet.![ (chiTietSanPham.giaBan * soLuong) ]) }"></strong>
+                    <strong th:text="${#numbers.formatDecimal(#aggregates.sum(listGioHangChiTiet.![ (chiTietSanPham.giaBan * soLuong) ]), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                   </td>
                 </tr>
                 </tbody>

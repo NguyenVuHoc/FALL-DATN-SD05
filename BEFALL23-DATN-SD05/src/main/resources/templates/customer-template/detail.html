@@ -290,29 +290,30 @@
                 </div>
             </div>
         </form>
-        <div class="col-lg-6" style="margin-left: auto">
-            <form method="post" th:action="@{/wingman/cart/mua-ngay/{id}(id=${id})}" id="buy-now-form">
-                <button class="btn" type="submit" onclick="submitBuyNowForm()" style="width: 102%;">Mua ngay</button>
-            </form>
-        </div>
-        <script>
-            function submitBuyNowForm() {
-                // Lấy số lượng từ form "Thêm vào giỏ hàng"
-                var quantity = document.getElementById('add-to-cart-form').elements['soLuong'].value;
 
-                // Tạo một input ẩn trong form "Mua ngay" để chứa số lượng
-                var hiddenInput = document.createElement("input");
-                hiddenInput.type = "hidden";
-                hiddenInput.name = "soLuong";
-                hiddenInput.value = quantity;
+<!--        <div class="col-lg-6" style="margin-left: auto">-->
+<!--            <form method="post" th:action="@{/wingman/cart/mua-ngay/{id}(id=${id})}" id="buy-now-form">-->
+<!--                <button class="btn" type="submit" onclick="submitBuyNowForm()" style="width: 102%;">Mua ngay</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <script>-->
+<!--            function submitBuyNowForm() {-->
+<!--                // Lấy số lượng từ form "Thêm vào giỏ hàng"-->
+<!--                var quantity = document.getElementById('add-to-cart-form').elements['soLuong'].value;-->
 
-                // Thêm input ẩn vào form "Mua ngay"
-                document.getElementById('buy-now-form').appendChild(hiddenInput);
+<!--                // Tạo một input ẩn trong form "Mua ngay" để chứa số lượng-->
+<!--                var hiddenInput = document.createElement("input");-->
+<!--                hiddenInput.type = "hidden";-->
+<!--                hiddenInput.name = "soLuong";-->
+<!--                hiddenInput.value = quantity;-->
 
-                // Submit form "Mua ngay"
-                document.getElementById('buy-now-form').submit();
-            }
-        </script>
+<!--                // Thêm input ẩn vào form "Mua ngay"-->
+<!--                document.getElementById('buy-now-form').appendChild(hiddenInput);-->
+
+<!--                // Submit form "Mua ngay"-->
+<!--                document.getElementById('buy-now-form').submit();-->
+<!--            }-->
+<!--        </script>-->
 
         <!--Đường kẻ chia trang-->
         <div>
