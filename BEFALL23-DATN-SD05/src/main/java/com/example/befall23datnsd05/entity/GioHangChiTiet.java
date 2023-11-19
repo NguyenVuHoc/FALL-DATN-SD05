@@ -63,4 +63,7 @@ public class GioHangChiTiet {
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
 
+    @Column(name = "ghi_chu")
+    private String ghiChu;
+
 }
