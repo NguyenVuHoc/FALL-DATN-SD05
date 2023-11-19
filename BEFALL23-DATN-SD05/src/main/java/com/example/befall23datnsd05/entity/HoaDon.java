@@ -83,11 +83,10 @@ public class HoaDon {
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
-    private TrangThaiDonHang trangThai;
+    private TrangThaiDonHang trangThaiDonHang;
 
     @Column(name = "loai_hoa_don")
     @Enumerated(ORDINAL)
     private LoaiHoaDon loaiHoaDon;
-
 
 }

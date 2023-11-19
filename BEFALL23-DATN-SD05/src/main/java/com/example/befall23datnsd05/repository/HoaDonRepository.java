@@ -19,7 +19,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, Long> {
             nativeQuery = true)
     HoaDonCustom getHoaDonById(@Param("idHoaDon") Long idHoaDon);
 
-    @Query(value = "select count(hoa_don.trang_thai) from hoa_don where hoa_don.trang_thai = 2", nativeQuery = true)
+    @Query(value = "select count(hoa_don.trang_thai) from hoa_don where hoa_don.trang_thai = 0", nativeQuery = true)
     Integer checkHoaDonCho();
 
 
