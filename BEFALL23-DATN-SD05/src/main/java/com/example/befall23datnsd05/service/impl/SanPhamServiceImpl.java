@@ -10,6 +10,7 @@ import com.example.befall23datnsd05.repository.SanPhamRepository;
 import com.example.befall23datnsd05.repository.ThuongHieuRepository;
 import com.example.befall23datnsd05.request.SanPhamRequest;
 import com.example.befall23datnsd05.service.SanPhamService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,28 +33,24 @@ public class SanPhamServiceImpl implements SanPhamService {
         this.thuongHieuRepository = thuongHieuRepository;
     }
 
+    @Autowired
+    private SanPhamRepository sanPhamRepository;
+
 
     @Override
     public List<SanPham> getList() {
         return repository.findAll();
     }
 
+
     @Override
-    public Page<SanPhamCustom> getPage(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size, Sort.by("ngayTao").descending());
-        return repository.getPageSanPhamCusTom(pageable);
+    public List<SanPhamCustom> getAll() {
+        return repository.getPageSanPhamCusTom();
     }
 
     @Override
-    public Page<SanPhamCustom> getPageByActivity(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getSanPhamByTrangThaiHoatDong(pageable);
-    }
-
-    @Override
-    public Page<SanPhamCustom> getPageByInActivity(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getSanPhamByTrangThaiDungHoatDong(pageable);
+    public List<SanPhamCustom> getByTrangThai(TrangThai trangThai) {
+        return sanPhamRepository.getAllByTrangThai(trangThai);
     }
 
 
@@ -109,22 +106,6 @@ public class SanPhamServiceImpl implements SanPhamService {
             return sanPham.get();
         }
         return null;
-    }
-
-    @Override
-    public Integer tranferPage(Integer pageNo) {
-        Integer sizeList = repository.findAll().size();
-        System.out.println(sizeList);
-        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
-        System.out.println(pageCount);
-        if (pageNo >= pageCount) {
-            pageNo = 0;
-        } else if (pageNo < 0) {
-            pageNo = pageCount - 1;
-        }
-        System.out.println(pageNo);
-        return pageNo;
-
     }
 
     @Override

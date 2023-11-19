@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="/../../images/WingMan-black.png" rel="icon">
+    <link href="/../css/customer/bootstrap.min.css" rel="stylesheet"/>
+
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'>
+
+    <style>
+        /* Đổi màu nền và màu chữ của các nút phân trang */
+        .pagination .page-link {
+            color: #000; /* Màu chữ đen */
+            background-color: #e9ecef; /* Nền xám nhạt */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt */
+            border-radius: 0; /* Loại bỏ góc bo tròn */
+            margin: 0 2px; /* Điều chỉnh khoảng cách giữa các nút */
+            padding: 6px 12px; /* Điều chỉnh độ lớn của nút */
+        }
+
+        /* Đổi màu nền và màu chữ của nút khi được chọn hoặc hover */
+        .pagination .page-item.active .page-link,
+        .pagination .page-link:hover {
+            color: #000; /* Màu chữ đen khi hover hoặc nút được chọn */
+            background-color: #c8cbcf; /* Màu nền xám nhạt khi hover hoặc nút được chọn */
+            border: 1px solid #c8cbcf; /* Viền màu xám nhạt khi hover hoặc nút được chọn */
+        }
+
+        /* Table Styling */
+        #example {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            padding-top: 20px;
+        }
+
+        #example th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        #example td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            color: #6a6a6a;
+        }
+
+        #example tbody tr:hover {
+            background-color: #b3e1ff;
+        }
+
+        #example img {
+            vertical-align: middle;
+        }
+
+        /* Hide the footer */
+        tfoot[hidden] {
+            display: none;
+        }
+
+        /* Tùy chỉnh CSS để chuyển "Show entries" sang bên trái */
+        .dataTables_length {
+            float: left;
+        }
+
+        /* Di chuyển chuỗi "Showing x to y of N entries" sang bên trái */
+        .dataTables_info {
+            float: left;
+        }
+
+        .btn-link.no-border {
+            border: none;
+            box-shadow: none; /* Optional: Remove box shadow if there is any */
+            background-color: transparent; /* Optional: Set the background to transparent */
+            padding: 0; /* Optional: Remove padding to make the icon fit perfectly */
+        }
+
+    </style>    <!-- Google Web Fonts -->
+    <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
+    <link href="/../css/customer/style.css" rel="stylesheet"/>
+    <title>
+        Wingman
+    </title>
+</head>
+
+<body>
+
+<!-- Start Header/Navigation -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
+            <img th:src="@{/images/wingman.png}"
+                 style="height: 50px; width: 50px;">
+            <a class="navbar-brand"
+               th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li><a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a></li>
+                <li>
+                    <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
+                </li>
+                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
+            </ul>
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li>
+                    <div class="dropdown show" style="padding-top: 5px">
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="/../images/user.svg">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">Tài khoản của tôi</a>
+                            <a class="dropdown-item"th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn mua</a>
+                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                </li>
+                <style>
+                    /* Dropdown Button */
+                    /* Ẩn dropdown menu mặc định */
+                    .dropdown-menu {
+                        display: none;
+                        opacity: 0;
+                        position: absolute;
+                        top: 100%; /* Hiển thị menu bên dưới button */
+                        background-color: #fff; /* Màu nền của dropdown */
+                        transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
+                    }
+
+                    /* Hiển thị dropdown menu khi hover vào .dropdown */
+                    .dropdown:hover .dropdown-menu {
+                        display: block;
+                        opacity: 1;
+                    }
+
+                    /* Hiệu ứng transition khi hiển thị dropdown */
+                    .dropdown-menu {
+                        transform: translateY(-10px); /* Di chuyển dropdown lên trên */
+                        transition: transform 0.3s ease, opacity 0.3s ease;
+                    }
+
+                    .dropdown:hover .dropdown-menu {
+                        transform: translateY(0); /* Đặt lại vị trí ban đầu */
+                    }
+
+                    .dropdown-toggle {
+                        cursor: pointer;
+                        padding: 0;
+                        border: none;
+                        background: transparent;
+                        outline: none;
+                        height: 100%; /* Đặt chiều cao của dropdown button là 100% */
+                    }
+
+                    /* Dropdown Menu */
+                    .dropdown-menu {
+                        width: auto;
+                        box-shadow: none;
+                    }
+
+                    /* Dropdown Items */
+                    .dropdown-item {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        text-align: left;
+                    }
+
+                    /* Cart Icon */
+                </style>
+            </ul>
+
+        </div>
+    </div>
+
+</nav>
+
+<div class="untree_co-section product-section before-footer-section">
+    <div class="container">
+        <div class="container-fluid pt-4">
+            <h6 class="mb-4" style="font-size: 30px;">Hóa Đơn</h6>
+            <ul class="nav nav-tabs">
+                <button class="nav-link">
+                    <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Tất cả</a>
+                </button>
+                <li class="nav-item" th:each="tt : ${trangThais}">
+                    <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
+                            data-bs-toggle="tab" type="button">
+                        <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh} +'/'+ ${tt}"
+                           th:text="${tt.getDisplayName()}"></a>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <style>
+            /* Remove underline from <a> tags within buttons in the nav-tabs */
+            .nav-tabs button a {
+                text-decoration: none;
+            }
+
+            /* Optional: Add styling for the buttons */
+            .nav-tabs button {
+                display: inline-block;
+                padding: 10px 15px;
+                margin-right: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f8f8f8;
+                color: #333;
+                cursor: pointer;
+            }
+
+            /* Optional: Style the active state of the buttons */
+            .nav-tabs button.active {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            /* Optional: Add hover effect for buttons */
+            .nav-tabs button:hover {
+                background-color: #ddd;
+            }
+
+        </style>
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>Mã</th>
+                <th>Ngày Tạo</th>
+                <th>Hình Thức Mua Hàng</th>
+                <th>Trạng Thái</th>
+                <th>Tổng Tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="hd : ${hoadons}" >
+                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}" th:text="${hd.ma}"
+                                       style="color: black; text-decoration: none;"></a></td>
+                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                                       th:text="${hd.ngayTao}" style="color: black; text-decoration: none;"></a></td>
+                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                                       th:text="${hd.loaiHoaDon.getDisplayName()}" style="color: black; text-decoration: none;"></a></td>
+                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                                       th:text="${hd.trangThai.getDisplayName()}" style="color: black; text-decoration: none;"></a></td>
+                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                                       th:text="${hd.thanhToan}" style="color: black; text-decoration: none;"></a></td>
+                            </tr>
+            </tbody>
+            <tfoot hidden="hidden">
+            <tr>
+                <th>Mã</th>
+                <th>Ngày Tạo</th>
+                <th>Hình Thức Mua Hàng</th>
+                <th>Trạng Thái</th>
+                <th>Tổng Tiền</th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+
+<!-- Start Footer Section -->
+<footer class="footer-section">
+    <div class="container relative">
+
+        <div class="sofa-img">
+            <img src="/../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;" alt="Image"
+                 class="img-fluid">
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="subscription-form">
+                    <h3 class="d-flex align-items-center"><span class="me-1"><img src="/../images/envelope-outline.svg"
+                                                                                  alt="Image"
+                                                                                  class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
+                    </h3>
+
+                    <form action="#" class="row g-3">
+                        <div class="col-auto">
+                            <input type="text" class="form-control" placeholder="Họ và tên">
+                        </div>
+                        <div class="col-auto">
+                            <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">
+                                <span class="fa fa-paper-plane"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5 mb-5">
+            <div class="col-lg-4">
+                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
+                <p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
+
+                <ul class="list-unstyled custom-social">
+                    <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row links-wrap">
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Dịch vụ</a></li>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#">Trung tâm trợ giúp</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Vận chuyển</a></li>
+                            <li><a href="#">Khu vực</a></li>
+                            <li><a href="#">Kênh bán hàng</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Đội ngũ</a></li>
+                            <li><a href="#">Trả hàng</a></li>
+                            <li><a href="#">Bảo mật</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Chăm sóc khách hàng</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Hoàn tiền</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border-top copyright">
+            <div class="row pt-4">
+                <div class="col-lg-6">
+                    <p class="mb-2 text-center text-lg-start">Chủ sở hữu &copy;
+                        <script>document.write(new Date().getFullYear());</script> &mdash;
+                        Thiết kế tâm huyết của nhóm <a href="">SD-05</a> <a hreff=""></a>
+                        <!-- License information: https://untree.co/license/ -->
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center text-lg-end">
+                    <ul class="list-unstyled d-inline-flex ms-auto">
+                        <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
+                        <li><a href="#">Xây dựng Website bán giày thể thao Wingman</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* Ẩn dropdown menu mặc định */
+    .dropdown-menu {
+        display: none;
+        opacity: 0;
+        position: absolute;
+        top: 100%; /* Hiển thị menu bên dưới button */
+        background-color: #fff; /* Màu nền của dropdown */
+        transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
+    }
+
+    /* Hiển thị dropdown menu khi hover vào .dropdown */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        opacity: 1;
+    }
+
+    /* Hiệu ứng transition khi hiển thị dropdown */
+    .dropdown-menu {
+        transform: translateY(-10px); /* Di chuyển dropdown lên trên */
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        transform: translateY(0); /* Đặt lại vị trí ban đầu */
+    }
+
+
+</style>
+<script>
+    new DataTable('#example');
+</script>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    })
+</script>
+</body>
+</html>

@@ -13,4 +13,8 @@ public interface CoGiayRepository extends JpaRepository<CoGiay, Long> {
 
     boolean existsByMa(String ma);
 
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
+
 }

@@ -23,24 +23,25 @@ public class CoGiayController {
     public String getAll(
             Model model
     ){
-        Page<CoGiay> page = service.phanTrang(pageNo,5);
-        model.addAttribute("listCG",page.stream().toList());
+//        Page<CoGiay> page = service.phanTrang(pageNo,5);
+//        model.addAttribute("listCG",page.stream().toList());
+        model.addAttribute("listCG", service.getAll());
         model.addAttribute("index", pageNo+1);
         return "admin-template/co_giay/co_giay";
     }
-    @GetMapping("/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/co-giay";
-    }
-
-    @GetMapping("/next")
-    private String next() {
-        pageNo++;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/co-giay";
-    }
+//    @GetMapping("/pre")
+//    private String pre() {
+//        pageNo--;
+//        pageNo = service.chuyenPage(pageNo);
+//        return "redirect:/admin/co-giay";
+//    }
+//
+//    @GetMapping("/next")
+//    private String next() {
+//        pageNo++;
+//        pageNo = service.chuyenPage(pageNo);
+//        return "redirect:/admin/co-giay";
+//    }
 
     @GetMapping("/view-add")
     public String viewAdd(
@@ -55,14 +56,31 @@ public class CoGiayController {
     public String add(
             @Valid
             @ModelAttribute("coGiay") CoGiay coGiay,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ){
+        String ma = coGiay.getMa();
+        String ten = coGiay.getTen();
         if(bindingResult.hasErrors()){
             return "admin-template/co_giay/them_co_giay";
-        }else{
-            service.add(coGiay);
-            return "redirect:/admin/co-giay";
         }
+        if (service.existByMa(ma) && service.existsByTen(ten)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/co_giay/them_co_giay";
+        }
+        if (service.existByMa(ma)) {
+            model.addAttribute("errorMa", "Mã  đã tồn tại");
+            return "admin-template/co_giay/them_co_giay";
+        }
+        if (service.existsByTen(ten)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/co_giay/them_co_giay";
+        }
+        model.addAttribute("success", "Thêm thành công");
+        service.add(coGiay);
+        return "redirect:/admin/co-giay?success";
+
     }
 
     @GetMapping("/view-update/{id}")
@@ -79,25 +97,32 @@ public class CoGiayController {
                          BindingResult bindingResult,
                          Model model
     ) {
+        String ten = coGiay.getTen();
+        Long id = coGiay.getId();
         if (bindingResult.hasErrors()) {
             return "admin-template/co_giay/sua_co_giay";
         }
+        if (service.existsByTenAndIdNot(ten, id)) {
+            model.addAttribute("errorTen", "Tên  đã tồn tại");
+            return "admin-template/co_giay/sua_co_giay";
+        }
+        model.addAttribute("success", "Sửa thành công");
         service.update(coGiay);
-        return "redirect:/admin/co-giay";
+        return "redirect:/admin/co-giay?success";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
-        return "redirect:/admin/co-giay";
+        return "redirect:/admin/co-giay?success";
     }
 
-    @GetMapping("/search")
-    public String timTen(@RequestParam("ten") String ten,
-                         Model model){
-        Page<CoGiay> page = service.timTen(ten, pageNo, 5);
-        model.addAttribute("listCG", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/co_giay/co_giay";
-    }
+//    @GetMapping("/search")
+//    public String timTen(@RequestParam("ten") String ten,
+//                         Model model){
+//        Page<CoGiay> page = service.timTen(ten, pageNo, 5);
+//        model.addAttribute("listCG", page.stream().toList());
+//        model.addAttribute("index", pageNo + 1);
+//        return "admin-template/co_giay/co_giay";
+//    }
 }

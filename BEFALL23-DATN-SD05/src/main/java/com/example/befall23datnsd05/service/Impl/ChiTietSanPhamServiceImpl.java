@@ -1,24 +1,26 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
+import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.entity.KichThuoc;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.entity.MauSac;
-import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.repository.*;
+import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
+import com.example.befall23datnsd05.repository.CoGiayRepository;
+import com.example.befall23datnsd05.repository.DeGiayRepository;
+import com.example.befall23datnsd05.repository.KichThuocRepository;
+import com.example.befall23datnsd05.repository.LotGiayRepository;
+import com.example.befall23datnsd05.repository.MauSacRepository;
+import com.example.befall23datnsd05.repository.SanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -55,6 +57,48 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         return repository.findAll();
     }
 
+    @Override
+    public List<ChiTietSanPham> getAllSanPhamKhuyenMai(Long idKM) {
+        return repository.getAllSpKhuyenMai(idKM);
+    }
+
+    @Override
+    public List<ChiTietSanPham> getSpCoKhuyenMai(Long idKM) {
+        return repository.getAllSpCoKhuyenMai(idKM);
+    }
+
+//    Chức năng ctsp với khuyến mại
+    @Override
+    public void updateIdKhuyenMai(Long idKM, Long idCtsp) {
+        repository.updateIdKhuyenMai(idKM, idCtsp);
+    }
+
+    @Override
+    public void deleteIdKhuyenMai(Long idCtsp) {
+        repository.deleteIdKhuyenMai(idCtsp);
+    }
+
+    @Override
+    public void updateGiaBan(Long id) {
+        ChiTietSanPham ctsp = repository.findById(id).orElse(null);
+        if (ctsp != null){
+            ctsp.setGiaBan(ctsp.tinhGiaSauGiamGia());
+            repository.save(ctsp);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void autoUpdateGia() {
+        List<ChiTietSanPham> list = repository.findAll();
+        for (ChiTietSanPham ctsp : list) {
+            BigDecimal giaSauGiamGia = ctsp.tinhGiaSauGiamGia();
+            ctsp.setGiaBan(giaSauGiamGia);
+        }
+        repository.saveAll(list);
+    }
+
+//   Hết chức năng ctsp với khuyến mại
 
     @Override
     public ChiTietSanPham getById(Long id) {
@@ -124,39 +168,9 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
-    public Page<ChiTietSanPham> phanTrang(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo,size, Sort.by(Sort.Order.desc("id")));
-        return repository.findAll(pageable);
+    public List<ChiTietSanPham> getByTrangThai(TrangThai trangThai) {
+        return repository.getAllByTrangThai(trangThai);
     }
 
-    @Override
-    public Integer chuyenPage(Integer pageNo) {
-        Integer sizeList = repository.findAll().size();
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
-        if (pageNo >= pageCount){
-            pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
-        }
-        return pageNo;
-    }
-
-    @Override
-    public Page<ChiTietSanPham> searchTen(String ten, Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.findBySanPham_TenContainingIgnoreCase(ten, pageable);
-    }
-
-    @Override
-    public Page<ChiTietSanPham> getTrangThaiHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getTrangThaiHoatDong(pageable);
-    }
-
-    @Override
-    public Page<ChiTietSanPham> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo, size);
-        return repository.getTrangThaiDungHoatDong(pageable);
-    }
 
 }

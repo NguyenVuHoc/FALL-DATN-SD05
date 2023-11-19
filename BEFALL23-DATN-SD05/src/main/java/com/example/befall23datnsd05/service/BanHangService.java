@@ -1,7 +1,7 @@
 package com.example.befall23datnsd05.service;
 
+import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
-import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
 import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
@@ -30,11 +30,13 @@ public interface BanHangService {
 
     HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham,Long idHoaDon, HoaDonChiTiet hoaDonChiTiet);
 
+    HoaDonChiTiet getOneByIdHDCT(Long idHDCT);
+
     HoaDonChiTiet xoaHoaDonChiTiet(Long idHoaDonChiTiet);
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(HoaDonRequest hoaDonRequest);
+    HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien);
 
     BigDecimal getTongTien(Long idHoaDon);
 
@@ -50,4 +52,25 @@ public interface BanHangService {
 
     HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang);
 
+    HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong);
+
+    HoaDonChiTiet tangSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong);
+
+    HoaDonChiTiet giamSoLuongSanPhamHoaDon(Long idHDCT, Integer soLuong);
+
+    ChiTietSanPham suaSoLuongSanPham(Long idHDCT);
+
+    Boolean checkThanhToan(Long idHoaDon);
+
+    HoaDon save(HoaDon hoaDon);
+
+    List<ChiTietSanPhamCustom> getSanPham();
+
+    List<ChiTietSanPham> getSanPhamByMaAndTen(String maSanPham, String tenSanPham);
+
+    List<ChiTietSanPham> getSanPhamByMaAndTenAndMauAndSize(String maSanPham, String tenSanPham, String mauSac, String kichThuoc);
+
+    Boolean huyDon(Long idHoaDon);
+
+    KhachHang tichDiem(Long idHoaDon);
 }

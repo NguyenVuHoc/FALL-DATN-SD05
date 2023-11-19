@@ -24,23 +24,9 @@ public class KichThuocController {
     public String getAll(
             Model model
     ){
-        Page<KichThuoc> page = service.phanTrang(pageNo,5);
-        model.addAttribute("listKT",page.stream().toList());
+        model.addAttribute("listKT",service.getAll());
         model.addAttribute("index", pageNo+1);
         return "admin-template/kich_thuoc/kich_thuoc";
-    }
-    @GetMapping("/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/kich-thuoc";
-    }
-
-    @GetMapping("/next")
-    private String next() {
-        pageNo++;
-        pageNo = service.chuyenPage(pageNo);
-        return "redirect:/admin/kich-thuoc";
     }
 
     @GetMapping("/view-add")
@@ -91,15 +77,6 @@ public class KichThuocController {
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
         return "redirect:/admin/kich-thuoc";
-    }
-
-    @GetMapping("/search")
-    public String timTen(@RequestParam("ten") String ten,
-                         Model model){
-        Page<KichThuoc> page = service.timTen(ten, pageNo, 5);
-        model.addAttribute("listKT", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/kich_thuoc/kich_thuoc";
     }
 }
 

@@ -14,4 +14,15 @@ public enum GioiTinh {
     public Integer getGioiTinh() {
         return this.gioiTinh;
     }
+
+    public String getDisplayName() {
+        switch (this) {
+            case NAM:
+                return "Nam";
+            case NU:
+                return "Nữ";
+            default:
+                return this.name(); // Returns the default enum name if no corresponding name is found
+        }
+    }
 }

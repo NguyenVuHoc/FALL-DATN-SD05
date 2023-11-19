@@ -2,6 +2,7 @@ package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.dto.NhanVienRequest;
 import com.example.befall23datnsd05.entity.NhanVien;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.service.NhanVienService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("admin/nhan-vien")
+@RequestMapping("/admin/nhan-vien")
 public class NhanVienController {
 
     @Autowired
@@ -24,26 +26,22 @@ public class NhanVienController {
 
     Integer pageNo = 0;
 
-    @GetMapping
+    List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
+
+    @GetMapping()
     public String getAll(Model model) {
-        Page<NhanVien> page = nhanVienService.phanTrang(pageNo, 5);
-        model.addAttribute("list", page.stream().toList());
+        model.addAttribute("listNV", nhanVienService.getList());
+        model.addAttribute("trangThais", list);
         model.addAttribute("index", pageNo + 1);
         return "admin-template/nhan_vien/nhan_vien";
     }
 
-    @GetMapping("/pre")
-    private String pre() {
-        pageNo--;
-        pageNo = nhanVienService.chuyenPage(pageNo);
-        return "redirect:/admin/nhan-vien";
-    }
-
-    @GetMapping("/next")
-    private String next() {
-        pageNo++;
-        pageNo = nhanVienService.chuyenPage(pageNo);
-        return "redirect:/admin/nhan-vien";
+    @GetMapping("/trang-thai/{trangThai}")
+    public String getByTrangThai(Model model,
+                                 @PathVariable("trangThai") TrangThai trangThai) {
+        model.addAttribute("trangThais", list);
+        model.addAttribute("listNV", nhanVienService.getByTrangThai(trangThai));
+        return "admin-template/nhan_vien/nhan_vien";
     }
 
     @GetMapping("/view-update/{id}")
@@ -65,14 +63,13 @@ public class NhanVienController {
                       Model model) {
         String ma = nhanVienRequest.getMa();
         if (bindingResult.hasErrors()){
-            Page<NhanVien> page = nhanVienService.phanTrang(pageNo, 5);
-            model.addAttribute("list", page.stream().toList());
-            model.addAttribute("index", pageNo + 1);
             return "admin-template/nhan_vien/them_nhan_vien";
         }else {
-            if (nhanVienService.exist(ma)){
+            if (nhanVienService.existByMa(ma)){
                 model.addAttribute("error", "Mã đã tồn tại");
+                return "admin-template/nhan_vien/them_nhan_vien";
             }
+            model.addAttribute("success", "Thêm thành công");
             nhanVienService.add(nhanVienRequest);
             return "redirect:/admin/nhan-vien?success";
         }
@@ -86,37 +83,24 @@ public class NhanVienController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("nhanVien") NhanVienRequest nhanVienRequest,
-                         BindingResult bindingResult){
+                         BindingResult bindingResult,
+                         Model model){
         if (bindingResult.hasErrors()){
             return "admin-template/nhan_vien/sua_nhan_vien";
         }else {
+            model.addAttribute("success", "Sửa thành công");
             nhanVienService.update(nhanVienRequest);
             return "redirect:/admin/nhan-vien?success";
         }
     }
 
-    @GetMapping("/search")
-    public String timTen(@RequestParam("ten") String ten,
-                         Model model){
-        Page<NhanVien> page = nhanVienService.timTen(ten, pageNo, 5);
-        model.addAttribute("list", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/nhan_vien/nhan_vien";
-    }
+//    @GetMapping("/search")
+//    public String timTen(@RequestParam("ten") String ten,
+//                         Model model){
+//        Page<NhanVien> page = nhanVienService.timTen(ten, pageNo, 5);
+//        model.addAttribute("listNV", page.stream().toList());
+//        model.addAttribute("index", pageNo + 1);
+//        return "admin-template/nhan_vien/nhan_vien";
+//    }
 
-    @GetMapping("/trang-thai-hoat-dong")
-    public String getTrangThaiHoatDong(Model model){
-        Page<NhanVien> page = nhanVienService.getTrangThaiHoatDong(pageNo, 5);
-        model.addAttribute("list", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/nhan_vien/nhan_vien";
-    }
-
-    @GetMapping("/trang-thai-dung-hoat-dong")
-    public String getTrangThaiDungHoatDong(Model model){
-        Page<NhanVien> page = nhanVienService.getTrangThaiDungHoatDong(pageNo, 5);
-        model.addAttribute("list", page.stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/nhan_vien/nhan_vien";
-    }
 }

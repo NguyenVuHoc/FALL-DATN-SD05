@@ -1,15 +1,18 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.dto.NhanVienRequest;
+import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface NhanVienService {
 
-    Page<NhanVien> phanTrang(Integer pageNo, Integer size);
+    List<NhanVien> getList();
+
+    List<NhanVien> getByTrangThai(TrangThai trangThai);
 
     NhanVien add(NhanVienRequest nhanVienRequest);
 
@@ -19,13 +22,11 @@ public interface NhanVienService {
 
     NhanVien getById(Long id);
 
-    boolean exist(String ma);
-
-    Integer chuyenPage(Integer pageNo);
-
     Page<NhanVien> timTen(String ten,Integer pageNo, Integer size);
 
-    Page<NhanVien> getTrangThaiHoatDong(Integer pageNo, Integer size);
+    boolean existByMa(String ma);
 
-    Page<NhanVien> getTrangThaiDungHoatDong(Integer pageNo, Integer size);
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

@@ -2,8 +2,8 @@ package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.custom.SanPhamCustom;
 import com.example.befall23datnsd05.entity.SanPham;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.SanPhamRequest;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -12,11 +12,9 @@ public interface SanPhamService {
 
     List<SanPham> getList();
 
-    Page<SanPhamCustom> getPage(Integer pageNo, Integer size);
+    List<SanPhamCustom> getAll();
 
-    Page<SanPhamCustom> getPageByActivity(Integer pageNo, Integer size);
-
-    Page<SanPhamCustom> getPageByInActivity(Integer pageNo, Integer size);
+    List<SanPhamCustom> getByTrangThai(TrangThai trangThai);
 
     SanPham save(SanPhamRequest request);
 
@@ -25,8 +23,6 @@ public interface SanPhamService {
     void remove(Long id);
 
     SanPham findById(Long id);
-
-    Integer tranferPage(Integer pageNo);
 
     boolean existByMa(String ma);
 
