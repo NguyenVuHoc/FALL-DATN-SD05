@@ -1,4 +1,4 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
 import com.example.befall23datnsd05.entity.DiaChi;

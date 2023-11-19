@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.entity.DongSanPham;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.DongSanPhamRequest;
 import com.example.befall23datnsd05.service.DongSanPhamService;
 import jakarta.validation.Valid;
@@ -8,6 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/dong-san-pham")
@@ -20,40 +25,25 @@ public class DongSanPhamController {
     }
 
     Integer pageNo = 0;
+    List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
 
     @GetMapping()
     public String getAll(Model model) {
-        model.addAttribute("listDongSp", dongSanPhamService.getPage(pageNo, 5).stream().toList());
+        // lưu ý chỉ dùng list truyền vào
+        //cần truyền list trạng thái thì nó mới truyền được value vào html
+        model.addAttribute("listDongSp", dongSanPhamService.getList());
+        model.addAttribute("trangThais", list);
         model.addAttribute("index", pageNo + 1);
         return "admin-template/dong_san_pham/dong_san_pham";
     }
 
-    @GetMapping("/get-trang-thai-hoat-dong")
-    public String getAllByActive(Model model) {
-        model.addAttribute("listDongSp", dongSanPhamService.getPageByActivity(pageNo, 5).stream().toList());
-        model.addAttribute("index", pageNo + 1);
+    @GetMapping("/trang-thai/{trangThai}")
+    public String getByTrangThai(Model model,
+                                 @PathVariable("trangThai") TrangThai trangThai) {
+        model.addAttribute("trangThais", list);
+
+        model.addAttribute("listDongSp", dongSanPhamService.getByTrangThai(trangThai));
         return "admin-template/dong_san_pham/dong_san_pham";
-    }
-
-    @GetMapping("/get-trang-thai-dung-hoat-dong")
-    public String getAllByInActive(Model model) {
-        model.addAttribute("listDongSp", dongSanPhamService.getPageByInActivity(pageNo, 5).stream().toList());
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/dong_san_pham/dong_san_pham";
-    }
-
-    @GetMapping("/pre")
-    public String pre() {
-        pageNo--;
-        pageNo = dongSanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/dong-san-pham";
-    }
-
-    @GetMapping("/next")
-    public String next() {
-        pageNo++;
-        pageNo = dongSanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/dong-san-pham";
     }
 
     @GetMapping("/view-add-dong-san-pham")
@@ -87,7 +77,7 @@ public class DongSanPhamController {
 
         dongSanPhamService.save(dongSanPham);
         return "redirect:/admin/dong-san-pham?success";
-        
+
     }
 
     @GetMapping("/remove/{id}")

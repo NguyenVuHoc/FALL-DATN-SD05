@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -34,6 +35,9 @@ public class KhuyenMai {
     @Column(name = "ma", unique = true)
     private String ma;
 
+    @Column(name = "ten")
+    private String ten;
+
     @Column(name = "ngay_tao")
     private LocalDate ngayTao;
 
@@ -50,13 +54,18 @@ public class KhuyenMai {
     private Integer mucGiamGia;
 
     @Column(name = "ngay_bat_dau")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayBatDau;
 
     @Column(name = "ngay_ket_thuc")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate ngayKetThuc;
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
+
+    @Column(name = "so_luong_san_pham_ap_dung")
+    private Integer soLuongSanPhamApDung;
 
 }

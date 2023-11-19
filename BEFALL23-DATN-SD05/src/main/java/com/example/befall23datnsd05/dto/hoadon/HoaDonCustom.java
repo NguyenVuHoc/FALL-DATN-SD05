@@ -17,4 +17,10 @@ public interface HoaDonCustom {
 
     BigDecimal getThanhToan();
 
+
+
+
+    Integer getTrangThai();
+
+
 }

@@ -21,6 +21,8 @@ public interface ChiTietSanPhamCustomerService {
 
     List<ChiTietSanPhamCustomerCustom> list3Limited();
 
+    List<ChiTietSanPhamCustomerCustom> list4Random();
+
     List<AnhCustomerCustom> listAnhDetail(Long id);
 
     ChiTietSanPham getById(Long id);

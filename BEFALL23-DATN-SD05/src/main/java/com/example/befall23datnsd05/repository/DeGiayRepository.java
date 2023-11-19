@@ -1,6 +1,5 @@
 package com.example.befall23datnsd05.repository;
 
-import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
