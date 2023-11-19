@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.dto;
 
 
+import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +10,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,8 +38,11 @@ public class KhachHangRequest {
     @Email(message = "Vui lòng nhập Email đúng định dạng")
     private String email;
 
-    @NotBlank(message = "Mật khẩu không được để trống")
+    //    @NotBlank(message = "Mật khẩu không được để trống")
     private String matKhau;
 
     private TrangThai trangThai;
+
+    //    @NotBlank(message = "Địa chỉ không được để trống")
+    private List<String> diaChi;
 }

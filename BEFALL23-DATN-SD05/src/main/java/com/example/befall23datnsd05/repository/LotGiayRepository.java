@@ -8,7 +8,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LotGiayRepository extends JpaRepository<LotGiay, Long> {
+
     Page<LotGiay> findByTenContains(String ten, Pageable pageable);
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }
