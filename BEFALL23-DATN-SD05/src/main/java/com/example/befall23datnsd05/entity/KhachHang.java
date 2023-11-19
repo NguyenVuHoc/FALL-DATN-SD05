@@ -19,6 +19,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import static jakarta.persistence.EnumType.ORDINAL;
 
@@ -67,5 +68,10 @@ public class KhachHang {
 
     @OneToMany(mappedBy = "khachHang", cascade = CascadeType.ALL)
     private List<DiaChi> listDiaChi;
+
+    public String getMainDiaChi(){
+
+        return this.listDiaChi.get(0).getDiaChi();
+    }
 
 }

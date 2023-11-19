@@ -326,11 +326,13 @@ public class BanHangServiceImpl implements BanHangService {
         }
     }
 
-    @Override
+
+//    ?? chưa có method trong KhachHang
+//    @Override
     public KhachHang tichDiem(Long idHoaDon) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         KhachHang khachHang = hoaDon.getKhachHang();
-        khachHang.setTichDiem(hoaDon.getThanhToan());
+//        khachHang.setTichDiem(hoaDon.getThanhToan());
         return khachHang;
     }
 

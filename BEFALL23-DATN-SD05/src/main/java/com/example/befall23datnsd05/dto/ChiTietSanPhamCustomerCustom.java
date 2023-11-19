@@ -20,5 +20,9 @@ public interface ChiTietSanPhamCustomerCustom {
 
     String getAnh_chinh();
 
+    String getTenKich_thuoc();
+
+    String getTenMau_sac();
+
 
 }

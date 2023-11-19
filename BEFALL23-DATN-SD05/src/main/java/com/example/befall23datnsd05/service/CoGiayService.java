@@ -18,7 +18,9 @@ public interface CoGiayService {
     Page<CoGiay> phanTrang(Integer pageNo, Integer size);
     Integer chuyenPage(Integer pageNo);
 
-    boolean exist(String ma);
+    boolean existByMa(String ma);
+    boolean existsByTen(String ten);
+    boolean existsByTenAndIdNot(String ten, Long id);
 
     Page<CoGiay> timTen(String ten, Integer pageNo, Integer size);
 

@@ -11,15 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -79,8 +75,27 @@ public class ChiTietSanPham {
     @Column(name = "ngay_sua")
     private LocalDate ngaySua;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_khuyen_mai", referencedColumnName = "id", nullable = true)
+    private KhuyenMai khuyenMai;
+
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
+
+    public BigDecimal tinhGiaSauGiamGia() {
+        if (khuyenMai != null && khuyenMai.getTrangThai() == TrangThai.DANG_HOAT_DONG) {
+            BigDecimal mucGiam = BigDecimal.valueOf(khuyenMai.getMucGiamGia() / 100.0);
+            BigDecimal giaSauGiamGia = giaMacDinh.subtract(giaMacDinh.multiply(mucGiam));
+            return giaSauGiamGia.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : giaSauGiamGia;
+        } else
+            return giaMacDinh;
+    }
+
+    public BigDecimal GiaSauGiamGia() {
+        BigDecimal mucGiam = BigDecimal.valueOf(khuyenMai.getMucGiamGia() / 100.0);
+        BigDecimal giaSauGiamGia = giaMacDinh.subtract(giaMacDinh.multiply(mucGiam));
+        return giaSauGiamGia.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : giaSauGiamGia;
+    }
 
 }

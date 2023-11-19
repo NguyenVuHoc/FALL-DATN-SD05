@@ -1,7 +1,6 @@
 package com.example.befall23datnsd05.enumeration;
 
 public enum LoaiHoaDon {
-
     HOA_DON_OFFLINE(0),
 
     HOA_DON_ONLINE(1);
@@ -16,4 +15,15 @@ public enum LoaiHoaDon {
         return this.loaiHoaDon;
     }
 
+    public String getDisplayName() {
+        switch (this) {
+            case HOA_DON_ONLINE:
+                return "Mua Hàng Online";
+            case HOA_DON_OFFLINE:
+                return "Mua Hàng Offline";
+
+            default:
+                return this.name(); // Returns the default enum name if no corresponding name is found
+        }
+    }
 }

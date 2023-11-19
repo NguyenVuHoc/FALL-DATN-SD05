@@ -129,15 +129,15 @@
                         <label for="exampleInputEmail1" class="form-label">Mã Nhân Viên</label>
                         <input type="text" class="form-control" id="exampleInputEmail1"
                                aria-describedby="emailHelp" th:field="*{ma}" />
-                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}"></div>
-                        <div th:if="${error}">
+                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" style=" color: red"></div>
+                        <div th:if="${error}" style=" color: red">
                             <p th:text="${error}"></p>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Họ Và Tên</label>
                         <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{ten}" />
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style=" color: red"></div>
                     </div>
                     <!--                        <div class="mb-3">-->
                     <!--                            <label for="exampleInputPassword1" class="form-label">Chức Vụ</label>-->
@@ -149,7 +149,7 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Số Điện Thoại</label>
                         <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{sdt}" />
-                        <div th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
+                        <div th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}" style=" color: red"></div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Giới Tính</label>
@@ -175,12 +175,12 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Email</label>
                         <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{email}" />
-                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style=" color: red"></div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Mật khẩu</label>
                         <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{matKhau}" />
-                        <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></div>
+                        <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}" style=" color: red"></div>
                     </div>
 <!--                    <div class="mb-3">-->
 <!--                        <label for="exampleInputPassword1" class="form-label">Trạng Thái</label>-->

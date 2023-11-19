@@ -1,7 +1,6 @@
 package com.example.befall23datnsd05.enumeration;
 
 public enum TrangThaiDonHang {
-
     HOA_DON_CHO(0),
     CHO_XAC_NHAN(1),
     DANG_CHUAN_BI(2),
@@ -50,5 +49,4 @@ public enum TrangThaiDonHang {
                 return this.name(); // Returns the default enum name if no corresponding name is found
         }
     }
-
 }
