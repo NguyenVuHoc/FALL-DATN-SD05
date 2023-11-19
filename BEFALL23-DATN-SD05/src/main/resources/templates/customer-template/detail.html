@@ -10,14 +10,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta
-            name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            name="viewport"
     />
-    <meta name="author" content="Untree.co"/>
-    <link rel="shortcut icon" href="favicon.png"/>
+    <meta content="Untree.co" name="author"/>
+    <link href="favicon.png" rel="shortcut icon"/>
 
-    <meta name="description" content=""/>
-    <meta name="keywords" content="bootstrap, bootstrap4"/>
+    <meta content="" name="description"/>
+    <meta content="bootstrap, bootstrap4" name="keywords"/>
 
     <!-- Bootstrap CSS -->
     <link href="/../css/customer/bootstrap.min.css" rel="stylesheet"/>
@@ -122,16 +122,16 @@
 <body>
 
 <!-- Start Header/Navigation -->
-<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+<nav arial-label="Furni navigation bar" class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
-            <img th:src="@{/images/wingman.png}"
-                 style="height: 50px; width: 50px;">
+            <img style="height: 50px; width: 50px;"
+                 th:src="@{/images/wingman.png}">
             <a class="navbar-brand"
                th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
-                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarsFurni" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -159,137 +159,161 @@
     <div class="container">
 
         <hr class="box">
+        <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form">
+            <div class="row">
+                <!--Ảnh sản phẩm-->
+                <!--Ảnh sản phẩm-->
+                <div class="col-lg-6">
+                    <div class="product-image">
+                        <div class="product-image-main">
+                            <img th:src="@{'/../images/' + *{sanPham.anhChinh}}"
+                                 alt="" id="product-main-image"/>
+                        </div>
+                        <div class="product-image-slider">
+                            <img th:src="@{'/../images/' + *{sanPham.anhChinh}}"
+                                 alt="" class="image-list"/>
+                            <img th:each="listAnh : ${listAnhDetail}"
+                                 th:src="@{'/../images/' + ${listAnh.getUrl()}}" alt="" class="image-list"/>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="row">
-            <!--Ảnh sản phẩm-->
-            <div class="col-lg-6">
-                <div class="product-image">
-                    <div class="product-image-main">
-                        <img th:src="@{'/../images/' + *{sanPham.anhChinh}}"
-                             alt="" id="product-main-image"/>
+                <!--Thông tin sản phẩm-->
+                <div class="col-lg-6">
+
+                    <h2 style="color: #0c0e12"
+                        th:text="*{sanPham.ten +' '+ sanPham.dongSanPham.ten +' '+ deGiay.ten +' '+ coGiay.ten +' '+ lotGiay.ten}"></h2>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <p th:text="*{sanPham.ma}"></p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>0 lượt bình luận</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p>0 lượt mua</p>
+                        </div>
                     </div>
-                    <div class="product-image-slider">
-                        <img th:src="@{'/../images/' + *{sanPham.anhChinh}}"
-                             alt="" class="image-list"/>
-                        <img th:each="listAnh : ${listAnhDetail}"
-                             th:src="@{'/../images/' + ${listAnh.getUrl()}}" alt="" class="image-list"/>
+
+                    <div>
+                        <p>
+                        <h2 class="gia" th:text="*{giaBan}"></h2></p>
+                        <p>
+                            <del th:text="*{giaMacDinh}"></del>
+                        </p>
                     </div>
+
+                    <div>
+                        <p class="p" style="font-family: 'Montserrat Medium'">Kích cỡ:</p>
+                        <div class="row" style="margin-bottom: 3%">
+                            <div class="col-lg-1">
+                                <input autocomplete="off" checked class="btn-check" id="vbtn-radio1"
+                                       name="size-radio" type="radio">
+                                <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1"
+                                       th:text="*{kichThuoc.ten}"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="p">Màu Sắc:</p>
+                        <div class="row" style="margin-bottom: 3%">
+                            <div class="col-lg-1" style="margin-right: 3%">
+                                <input autocomplete="off" checked class="btn-check" id="vbtn-radio-color1"
+                                       name="color-radio" type="radio">
+                                <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1"
+                                       th:text="*{mauSac.ten}"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 5%">
+                        <div class="col-lg-2">
+                            <p class="p">Số lượng:</p>
+                        </div>
+
+                        <div
+                                class="input-group mb-3 d-flex align-items-center quantity-container"
+                                style="max-width: 120px"
+                        >
+                            <div class="input-group-prepend">
+                                <button
+                                        class="detail-btn-sl btn-outline-black decrease"
+                                        type="button"
+                                >
+                                    &minus;
+                                </button>
+                            </div>
+                            <input
+                                    aria-describedby="button-addon1"
+                                    aria-label="Example text with button addon"
+                                    class="form-control text-center quantity-amount detail-text-ph"
+                                    name="soLuong"
+                                    placeholder=""
+                                    style="border: 1px solid #0c0e12"
+                                    th:value="${param.soLuong != null ? param.soLuong : 1}"
+                                    type="text"
+                            />
+                            <div class="input-group-append">
+                                <button
+                                        class="detail-btn-sl btn-outline-black increase"
+                                        type="button"
+                                >
+                                    &plus;
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-2" style="margin-right: -7%">
+                                    <p>Còn</p>
+                                </div>
+                                <div class="col-lg-2">
+                                    <p th:text="*{soLuongTon}"></p>
+                                </div>
+                                <div class="col-lg-4" style="margin-left: -7%">
+                                    <p>sản phẩm</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <button class="btn" style="margin-bottom: 20px" type="submit"> Thêm vào giỏ hàng</button>
+                    </div>
+
                 </div>
             </div>
+        </form>
 
-            <!--Thông tin sản phẩm-->
-            <div class="col-lg-6">
+<!--        <div class="col-lg-6" style="margin-left: auto">-->
+<!--            <form method="post" th:action="@{/wingman/cart/mua-ngay/{id}(id=${id})}" id="buy-now-form">-->
+<!--                <button class="btn" type="submit" onclick="submitBuyNowForm()" style="width: 102%;">Mua ngay</button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <script>-->
+<!--            function submitBuyNowForm() {-->
+<!--                // Lấy số lượng từ form "Thêm vào giỏ hàng"-->
+<!--                var quantity = document.getElementById('add-to-cart-form').elements['soLuong'].value;-->
 
-                <h2 style="color: #0c0e12"
-                    th:text="*{sanPham.ten +' '+ sanPham.dongSanPham.ten +' '+ deGiay.ten +' '+ coGiay.ten +' '+ lotGiay.ten}"></h2>
+<!--                // Tạo một input ẩn trong form "Mua ngay" để chứa số lượng-->
+<!--                var hiddenInput = document.createElement("input");-->
+<!--                hiddenInput.type = "hidden";-->
+<!--                hiddenInput.name = "soLuong";-->
+<!--                hiddenInput.value = quantity;-->
 
-                <div class="row">
-                    <div class="col-lg-4">
-                        <p th:text="*{sanPham.ma}"></p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p>0 lượt bình luận</p>
-                    </div>
-                    <div class="col-lg-4">
-                        <p>0 lượt mua</p>
-                    </div>
-                </div>
+<!--                // Thêm input ẩn vào form "Mua ngay"-->
+<!--                document.getElementById('buy-now-form').appendChild(hiddenInput);-->
 
-                <div>
-                    <p>
-                    <h2 class="gia" th:text="*{#numbers.formatDecimal(giaBan, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></h2></p>
-                    <p th:if="${spDetail.giaMacDinh != spDetail.giaBan}" style="display: block;">
-                        <del th:text="*{#numbers.formatDecimal(giaMacDinh, 0, 'POINT', 0, 'COMMA')+ ' VND'}" ></del>
-                    </p>
-                    <p th:if="${spDetail.giaMacDinh == spDetail.giaBan}" style="display: none;">
-                        <del th:text="*{#numbers.formatDecimal(giaMacDinh, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></del>
-                    </p>
-                </div>
-
-                <div>
-                    <p style="font-family: 'Montserrat Medium'" class="p">Kích cỡ:</p>
-                    <div class="row" style="margin-bottom: 3%">
-                        <div class="col-lg-1">
-                            <input type="radio" class="btn-check" name="size-radio" id="vbtn-radio1" autocomplete="off"
-                                   checked>
-                            <label class="detail-btn-size btn-outline-secondary" for="vbtn-radio1"
-                                   th:text="*{kichThuoc.ten}"></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <p class="p">Màu Sắc:</p>
-                    <div class="row" style="margin-bottom: 3%">
-                        <div class="col-lg-1" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="color-radio" id="vbtn-radio-color1"
-                                   autocomplete="off" checked>
-                            <label class="detail-btn-color btn-outline-secondary" for="vbtn-radio-color1"
-                                   th:text="*{mauSac.ten}"></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row" style="margin-top: 5%">
-                    <div class="col-lg-2">
-                        <p class="p">Số lượng:</p>
-                    </div>
-
-                    <div
-                            class="input-group mb-3 d-flex align-items-center quantity-container"
-                            style="max-width: 120px"
-                    >
-                        <div class="input-group-prepend">
-                            <button
-                                    class="detail-btn-sl btn-outline-black decrease"
-                                    type="button"
-                            >
-                                &minus;
-                            </button>
-                        </div>
-                        <input
-                                type="text"
-                                class="form-control text-center quantity-amount detail-text-ph"
-                                value="1"
-                                placeholder=""
-                                aria-label="Example text with button addon"
-                                aria-describedby="button-addon1"
-                                style="border: 1px solid #0c0e12"
-                        />
-                        <div class="input-group-append">
-                            <button
-                                    class="detail-btn-sl btn-outline-black increase"
-                                    type="button"
-                            >
-                                &plus;
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-lg-2" style="margin-right: -7%">
-                                <p>Còn</p>
-                            </div>
-                            <div class="col-lg-2">
-                                <p th:text="*{soLuongTon}"></p>
-                            </div>
-                            <div class="col-lg-4" style="margin-left: -7%">
-                                <p>sản phẩm</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                    <button type="button" class="btn" style="margin-bottom: 20px"> Thêm vào giỏ hàng</button>
-                </div>
-
-            </div>
-
-        </div>
+<!--                // Submit form "Mua ngay"-->
+<!--                document.getElementById('buy-now-form').submit();-->
+<!--            }-->
+<!--        </script>-->
 
         <!--Đường kẻ chia trang-->
         <div>
@@ -302,7 +326,7 @@
                 <h2 style="color: #0c0e12">Phản hồi</h2>
                 <br>
                 <div>
-                    <h5><img src="/../images/person-1.jpg" alt="" class="avatar"> khách hàng 1</h5>
+                    <h5><img alt="" class="avatar" src="/../images/person-1.jpg"> khách hàng 1</h5>
                     <div class="row">
                         <div class="col-lg-1" style="width: 150px">
                             <p>2023-03-05 21:45</p>
@@ -316,7 +340,7 @@
                 </div>
                 <hr class="box">
                 <div>
-                    <h5><img src="/../images/person-1.jpg" alt="" class="avatar"> Khách hàng 2</h5>
+                    <h5><img alt="" class="avatar" src="/../images/person-1.jpg"> Khách hàng 2</h5>
                     <div class="row">
                         <div class="col-lg-1" style="width: 150px">
                             <p>2023-03-05 21:45</p>
@@ -340,19 +364,19 @@
         <!--chuyển trang phản hồi-->
         <div class="row" style="margin: auto">
             <div class="col-lg-1">
-                <button type="button" class="detail-btn-ph btn-outline-secondary"> |<<</button>
+                <button class="detail-btn-ph btn-outline-secondary" type="button"> |<<</button>
             </div>
             <div class="col-lg-1">
-                <button type="button" class="detail-btn-ph btn-outline-secondary"> <<</button>
+                <button class="detail-btn-ph btn-outline-secondary" type="button"> <<</button>
             </div>
             <div class="col-lg-1">
-                <p type="text" class="detail-text-ph"> 1 </p>
+                <p class="detail-text-ph" type="text"> 1 </p>
             </div>
             <div class="col-lg-1">
-                <button type="button" class="detail-btn-ph btn-outline-secondary"> >></button>
+                <button class="detail-btn-ph btn-outline-secondary" type="button"> >></button>
             </div>
             <div class="col-lg-1">
-                <button type="button" class="detail-btn-ph btn-outline-secondary"> >>|</button>
+                <button class="detail-btn-ph btn-outline-secondary" type="button"> >>|</button>
             </div>
         </div>
 
@@ -361,24 +385,60 @@
 
         <div class="row">
             <h2 style="color: #0c0e12; font-family: 'Montserrat Medium'">Bạn có thể thích </h2>
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp4rand : ${listRandom}">
-                <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp4rand.getId()}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctsp4rand.getAnh_chinh()}}"
-                             class="img-fluid product-thumbnail">
-                        <h3 class="product-title"
-                            th:text="${ctsp4rand.getTenSp() +' '+ ctsp4rand.getTenDongSp() +' '+ ctsp4rand.getTenDe_giay() +' '+ ctsp4rand.getTenCo_giay() +' '+ ctsp4rand.getTenLot_giay() +' Size '+ ctsp4rand.getTenKich_thuoc() +' '+ ctsp4rand.getTenMau_sac()}"></h3>
-                        <strong class="product-price" th:text="${#numbers.formatDecimal(ctsp4rand.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
-                    </a>
-                    <a href="cart.html">
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/scorpion-mortal-kombat.png">
+                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
+                    <strong class="product-price">7.399.000₫</strong>
+
                     <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
+								<img class="img-fluid" src="/../images/cross.svg">
 							</span>
-                    </a>
-                </div>
+                </a>
             </div>
             <!-- End Column 1 -->
+
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/EVANGELION.png">
+                    <h3 class="product-title">Nike x EVANGELION</h3>
+                    <strong class="product-price">12.399.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 2 -->
+
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/airMid-x-kimetsu.png">
+                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
+                    <strong class="product-price">9.700.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 3 -->
+
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/jordan13-x-onepiece.png">
+                    <h3 class="product-title">Jordan 13 x one piece</h3>
+                    <strong class="product-price">11.999.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 4 -->
         </div>
 
         <br>
@@ -386,24 +446,60 @@
 
         <div class="row">
             <h2 style="color: #0c0e12; font-family: 'Montserrat Medium'">Mọi người cũng mua</h2>
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctsp4rand2 : ${listRandom2}">
-                <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp4rand2.getId()}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctsp4rand2.getAnh_chinh()}}"
-                             class="img-fluid product-thumbnail">
-                        <h3 class="product-title"
-                            th:text="${ctsp4rand2.getTenSp() +' '+ ctsp4rand2.getTenDongSp() +' '+ ctsp4rand2.getTenDe_giay() +' '+ ctsp4rand2.getTenCo_giay() +' '+ ctsp4rand2.getTenLot_giay() +' Size '+ ctsp4rand2.getTenKich_thuoc() +' '+ ctsp4rand2.getTenMau_sac()}"></h3>
-                        <strong class="product-price" th:text="${#numbers.formatDecimal(ctsp4rand2.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
-                    </a>
-                    <a href="cart.html">
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/scorpion-mortal-kombat.png">
+                    <h3 class="product-title">Scorpion mortal kombat JD1</h3>
+                    <strong class="product-price">7.399.000₫</strong>
+
                     <span class="icon-cross">
-								<img src="/../images/cross.svg" class="img-fluid">
+								<img class="img-fluid" src="/../images/cross.svg">
 							</span>
-                    </a>
-                </div>
+                </a>
             </div>
             <!-- End Column 1 -->
 
+            <!-- Start Column 2 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/EVANGELION.png">
+                    <h3 class="product-title">Nike x EVANGELION</h3>
+                    <strong class="product-price">12.399.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 2 -->
+
+            <!-- Start Column 3 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/airMid-x-kimetsu.png">
+                    <h3 class="product-title">Nike ari mid x kimetsu no jaiba</h3>
+                    <strong class="product-price">9.700.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 3 -->
+
+            <!-- Start Column 4 -->
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
+                <a class="product-item" href="cart.html">
+                    <img class="img-fluid product-thumbnail" src="/../images/jordan13-x-onepiece.png">
+                    <h3 class="product-title">Jordan 13 x one piece</h3>
+                    <strong class="product-price">11.999.000₫</strong>
+
+                    <span class="icon-cross">
+								<img class="img-fluid" src="/../images/cross.svg">
+							</span>
+                </a>
+            </div>
+            <!-- End Column 4 -->
         </div>
 
         <br>
@@ -415,25 +511,25 @@
     <div class="container relative">
 
         <div class="sofa-img">
-            <img src="/../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;"
-                 alt="Image"
-                 class="img-fluid">
+            <img alt="Image" class="img-fluid"
+                 src="/../images/WingMan-black.png"
+                 style="height: 200px; width: 200px; margin-top: 150px;">
         </div>
 
         <div class="row">
             <div class="col-lg-8">
                 <div class="subscription-form">
                     <h3 class="d-flex align-items-center"><span class="me-1"><img
-                            src="/../images/envelope-outline.svg" alt="Image"
-                            class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
+                            alt="Image" class="img-fluid"
+                            src="/../images/envelope-outline.svg"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
                     </h3>
 
                     <form action="#" class="row g-3">
                         <div class="col-auto">
-                            <input type="text" class="form-control" placeholder="Họ và tên">
+                            <input class="form-control" placeholder="Họ và tên" type="text">
                         </div>
                         <div class="col-auto">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input class="form-control" placeholder="Email" type="email">
                         </div>
                         <div class="col-auto">
                             <button class="btn btn-primary">
@@ -448,7 +544,7 @@
 
         <div class="row g-5 mb-5">
             <div class="col-lg-4">
-                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
+                <div class="mb-4 footer-logo-wrap"><a class="footer-logo" href="#">Wingman<span>.</span></a></div>
                 <p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
 
                 <ul class="list-unstyled custom-social">
@@ -524,32 +620,32 @@
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     const sliderMainImage = document.getElementById("product-main-image");
     const sliderImageList = document.getElementsByClassName("image-list");
     console.log(sliderImageList);
 
-    sliderImageList[0].onclick = function () {
+    sliderImageList[0].onclick = function(){
         sliderMainImage.src = sliderImageList[0].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[1].onclick = function () {
+    sliderImageList[1].onclick = function(){
         sliderMainImage.src = sliderImageList[1].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[2].onclick = function () {
+    sliderImageList[2].onclick = function(){
         sliderMainImage.src = sliderImageList[2].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[3].onclick = function () {
+    sliderImageList[3].onclick = function(){
         sliderMainImage.src = sliderImageList[3].src;
         console.log(sliderMainImage.src);
     };
-    sliderImageList[4].onclick = function () {
+    sliderImageList[4].onclick = function(){
         sliderMainImage.src = sliderImageList[4].src;
         console.log(sliderMainImage.src);
     };

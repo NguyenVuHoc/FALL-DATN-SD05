@@ -1,8 +1,9 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
-import com.example.befall23datnsd05.enumeration.TrangThai;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +11,7 @@ import java.util.List;
 @Service
 public interface KhachHangService {
 
-    List<KhachHang> getList();
-
-    List<KhachHang> getByTrangThai(TrangThai trangThai);
+    Page<KhachHang> phanTrang(Integer pageNo, Integer size);
 
     KhachHang add(KhachHangRequest khachHangRequest);
 
@@ -22,8 +21,17 @@ public interface KhachHangService {
 
     KhachHang getById(Long id);
 
-    boolean existsBySdt(String sdt);
-    boolean existsBySdtAndIdNot(String sdt,Long id);
+    boolean exist(String ma);
 
+    Integer chuyenPage(Integer pageNo);
+
+    Page<KhachHang> timTen(String ten,Integer pageNo, Integer size);
+
+    Page<KhachHang> getTrangThaiHoatDong(Integer pageNo, Integer size);
+
+    Page<KhachHang> getTrangThaiDungHoatDong(Integer pageNo, Integer size);
+
+    List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang);
+
+    DiaChi getByIdDiaChi(Long idDiaChi);
 }
-

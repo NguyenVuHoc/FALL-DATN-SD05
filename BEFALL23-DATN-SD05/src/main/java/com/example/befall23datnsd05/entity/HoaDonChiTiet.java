@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.entity;
 
+import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import jakarta.persistence.Column;
