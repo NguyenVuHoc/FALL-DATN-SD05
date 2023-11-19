@@ -1,26 +1,28 @@
-package com.example.befall23datnsd05.dto.hoadon;
+package com.example.befall23datnsd05.custom;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface HoaDonCustom {
-
     Long getId();
 
-    String getMaHoaDon();
+    String getMa();
 
     String getSdt();
 
-    String getTenKhachHang();
+    String getTen();
 
     LocalDate getNgayTao();
 
     BigDecimal getThanhToan();
 
+    BigDecimal getTongTien();
 
+    String getDiaChi();
+
+    String getGhiChu();
 
 
     Integer getTrangThai();
-
-
 }

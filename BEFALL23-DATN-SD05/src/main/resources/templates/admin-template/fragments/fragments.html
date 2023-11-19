@@ -1,0 +1,8 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th th:fragment="hoaDon_link(fieldProducts,columnLabel)">
+    <a style="text-decoration: none; color: black"
+       th:href="@{'/admin/hoa-don/page/'+ ${pageNo} + ${trangThai !=null ? '&trangThai=' + trangThai:''} +${startDate !=null ? '&startDate=' + startDate:''}  + ${endDate !=null ? '&endDate=' + endDate:''} + ${keyword !=null ? '&keyword=' + keyword:''}}">
+        [[${columnLabel}]]
+    </a>
+</th>
