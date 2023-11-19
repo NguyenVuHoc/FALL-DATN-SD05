@@ -131,54 +131,60 @@
                                         }
 
 
-                                        function getTotalMonye() {
+                                        function getTotalMoney() {
                                             var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
                                             let total = 0;
                                             checkboxes.forEach(item => {
                                                 if (item.checked) {
                                                     let father = item.parentElement.parentElement.parentElement;
                                                     let price = father.querySelector(".thanhtien").innerText;
-                                                    price = Number(price);
-                                                    total += price;
+                                                    price = Number(price.replace(' VND', '').replace(/,/g, ''));
+                                                    if (!isNaN(price)) {
+                                                        total += price;
+                                                    }
                                                 }
-                                            })
-                                            return total;
+                                            });
+                                            return total.toLocaleString('en-US', { style: 'currency', currency: 'VND' });
                                         }
 
                                         function updatePrice(e) {
                                             let totalE = document.querySelector(".total");
-                                            let price = getTotalMonye();
+                                            let price = getTotalMoney();
                                             totalE.innerHTML = price;
                                         }
 
+
                                         function handlerChange(e) {
-                                            let className = e.getAttribute("class");
+                                            let className = e.classList.contains("cong") ? "cong" : "tru";
                                             let father = e.parentElement.parentElement.parentElement.parentElement;
                                             let priceE = father.querySelector(".thanhtien");
-                                            let price = father.querySelector(".price").innerText;
-                                            price = Number(price);
-                                            console.log(price)
-                                            let qntE = father.querySelector(".quantity-amount");
-                                            let qnt = father.querySelector(".quantity-amount").value;
-                                            if (className == "cong") {
-                                                qnt = Number(qnt) + 1;
-                                            } else {
-                                                qnt = Number(qnt) - 1;
-                                            }
-                                            if (qnt <= 0) {
-                                                qutE.value = 0;
-                                                return;
+                                            let priceText = father.querySelector(".price").innerText;
 
+                                            // Trích xuất giá trị số từ priceText
+                                            let initialPrice = parseFloat(priceText.replace(/[^\d.]/g, '').replace(/\./g, ''));
+
+                                            let qntE = father.querySelector(".quantity-amount");
+                                            let qnt = Number(qntE.value);
+
+                                            if (className == "cong") {
+                                                qnt += 1;
+                                            } else {
+                                                qnt = Math.max(1, qnt - 1);
                                             }
+
                                             qntE.value = qnt;
-                                            console.log(qnt)
-                                            priceE.innerHTML = (price * qnt);
+                                            let totalPrice = initialPrice * qnt;
+
+                                            if (!isNaN(totalPrice)) {
+                                                // Định dạng totalPrice với dấu phẩy và thêm ' VND'
+                                                priceE.innerHTML = totalPrice.toLocaleString('en-US') + ' VND';
+                                            }
+
                                             let checkBox = father.querySelector("input[type='checkbox']");
                                             if (checkBox.checked) {
                                                 updatePrice(checkBox);
-                                                updateQuantityInDatabase(checkBox.value, qnt);
                                             }
-
+                                            updateQuantityInDatabase(checkBox.value, qnt);
                                         }
                                     </script>
                                 </td>
@@ -193,7 +199,7 @@
                                     <h2 class="h5 text-black name"
                                         th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
                                 </td>
-                                <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                                <td class="price" th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                                 <td>
                                     <div
                                             class="input-group mb-3 d-flex align-items-center quantity-container"
@@ -227,7 +233,7 @@
                                     </div>
                                 </td>
                                 <td class="thanhtien"
-                                    th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                                    th:text="${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                                 <td><a class="btn btn-black btn-sm"
                                        th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}">X</a></td>
                             </tr>
