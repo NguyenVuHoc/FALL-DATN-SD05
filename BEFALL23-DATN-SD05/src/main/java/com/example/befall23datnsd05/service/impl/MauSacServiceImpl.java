@@ -61,31 +61,8 @@ public class MauSacServiceImpl implements MauSacService {
     }
 
     @Override
-    public Page<MauSac> phanTrang(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo,size, Sort.by(Sort.Order.desc("id")));
-        return repository.findAll(pageable);
-    }
-
-    @Override
-    public Integer chuyenPage(Integer pageNo) {
-        Integer sizeList = repository.findAll().size();
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
-        if (pageNo >= pageCount){
-            pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
-        }
-        return pageNo;
-    }
-
-    @Override
     public boolean exist(String ma) {
         return repository.existsByMa(ma);
     }
 
-    @Override
-    public Page<MauSac> timTen(String ten, Integer pageNo, Integer size) {
-        Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
-        return repository.findByTenContains(ten,pageable1);
-    }
 }

@@ -3,11 +3,12 @@ package com.example.befall23datnsd05.service.impl;
 import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
-import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
+import com.example.befall23datnsd05.repository.ChiTietSanPhamCustomerRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,18 +17,19 @@ import java.util.List;
 public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomerService {
 
     @Autowired
-    private ChiTietSanPhamRepository repository;
+    private ChiTietSanPhamCustomerRepository repository;
 
     @Override
     public Page<ChiTietSanPham> pageAllInShop(Integer pageNo, Integer size) {
-        return repository.findAll(PageRequest.of(pageNo, size));
+        Pageable pageable = PageRequest.of(pageNo, size);
+        return repository.pageAllInShop(pageable);
     }
 
     @Override
     public Integer nextPage(Integer pageNo) {
         Integer sizeList = repository.findAll().size();
         System.out.println(sizeList);
-        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
+        Integer pageCount = (int) Math.ceil((double) sizeList / 20);
         System.out.println(pageCount);
         if (pageNo >= pageCount) {
             pageNo = 0;
@@ -59,7 +61,14 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
     }
 
     @Override
-    public List<AnhCustomerCustom> listAnhDetail(Long id) { return repository.listAnhDetail(id); }
+    public List<ChiTietSanPhamCustomerCustom> list4Random() {
+        return repository.list4Random();
+    }
+
+    @Override
+    public List<AnhCustomerCustom> listAnhDetail(Long id) {
+        return repository.listAnhDetail(id);
+    }
 
     @Override
     public ChiTietSanPham getById(Long id) {

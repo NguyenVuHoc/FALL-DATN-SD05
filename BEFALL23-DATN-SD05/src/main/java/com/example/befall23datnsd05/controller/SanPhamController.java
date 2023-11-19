@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.UploadFile.FileUploadUtil;
 import com.example.befall23datnsd05.entity.AnhSanPham;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.entity.ThuongHieu;
+import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.SanPhamRequest;
 import com.example.befall23datnsd05.service.AnhSanPhamService;
 import com.example.befall23datnsd05.service.DongSanPhamService;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -33,42 +35,23 @@ public class SanPhamController {
     private final SanPhamService sanPhamService;
     Integer pageNo = 0;
 
+    List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
     @GetMapping()
-    public String hienThi(Model model,
-                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo) {
-
-        model.addAttribute("listSanPham", sanPhamService.getPage(pageNo, 5));
+    public String hienThi(Model model) {
+        model.addAttribute("listSanPham", sanPhamService.getAll());
         model.addAttribute("index", pageNo + 1);
+        model.addAttribute("trangThais", list);
         return "admin-template/san_pham/san_pham";
     }
 
-    @GetMapping("/get-trang-thai-hoat-dong")
-    public String getAllByActive(Model model) {
-        model.addAttribute("listSanPham", sanPhamService.getPageByActivity(pageNo, 5));
-        model.addAttribute("index", pageNo + 1);
+    @GetMapping("/trang-thai/{trangThai}")
+    public String getByTrangThai(Model model,
+                                 @PathVariable("trangThai") TrangThai trangThai) {
+        model.addAttribute("trangThais", list);
+        model.addAttribute("listSanPham", sanPhamService.getByTrangThai(trangThai));
         return "admin-template/san_pham/san_pham";
     }
 
-    @GetMapping("/get-trang-thai-dung-hoat-dong")
-    public String getAllByInActive(Model model) {
-        model.addAttribute("listSanPham", sanPhamService.getPageByInActivity(pageNo, 5));
-        model.addAttribute("index", pageNo + 1);
-        return "admin-template/san_pham/san_pham";
-    }
-
-    @GetMapping("/pre")
-    public String pre() {
-        pageNo--;
-        pageNo = sanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/san-pham";
-    }
-
-    @GetMapping("/next")
-    public String next() {
-        pageNo++;
-        pageNo = sanPhamService.tranferPage(pageNo);
-        return "redirect:/admin/san-pham";
-    }
 
     @GetMapping("/view-add-san-pham")
     public String getViewAdd(@ModelAttribute("sanPham") SanPhamRequest request, Model model) {
