@@ -1,14 +1,9 @@
 package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
-import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
-import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
-import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
-import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
@@ -16,18 +11,13 @@ import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BanHangServiceImpl implements BanHangService {
@@ -64,11 +54,6 @@ public class BanHangServiceImpl implements BanHangService {
             }
         }
         return listHDCT;
-    }
-
-    @Override
-    public HoaDonCustom getHoaDonById(Long idHoaDon) {
-        return hoaDonRepository.getHoaDonById(idHoaDon);
     }
 
     @Override
@@ -127,10 +112,6 @@ public class BanHangServiceImpl implements BanHangService {
         return null;
     }
 
-    @Override
-    public List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon) {
-        return hoaDonChiTietRepository.getOneHDCTByHD(idHoaDon);
-    }
 
     @Override
     public HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien) {
@@ -166,28 +147,6 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public Page<HoaDonChiTiet> getPhanTrang(Long idHoaDon, Integer pageNo, Integer size) {
-        try {
-            Pageable pageable = PageRequest.of(pageNo, size);
-            return hoaDonChiTietRepository.getPhanTrang(pageable, idHoaDon);
-        } catch (NumberFormatException numberFormatException) {
-            return null;
-        }
-    }
-
-    @Override
-    public Integer checkPageHDCT(Long idHoaDon, Integer pageNo) {
-        Integer sizeList = hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon).size();
-        Integer pageCount = (int) Math.ceil((double) sizeList / 5);
-        if (pageNo >= pageCount) {
-            pageNo = 0;
-        } else if (pageNo < 0) {
-            pageNo = pageCount - 1;
-        }
-        return pageNo;
-    }
-
-    @Override
     public ChiTietSanPham updateSoLuong(Long idSanPham, Integer soLuong) {
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.getChiTietSanPhamById(idSanPham).orElse(null);
         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - soLuong);
@@ -206,11 +165,6 @@ public class BanHangServiceImpl implements BanHangService {
             }
         }
         return null;
-    }
-
-    @Override
-    public List<KhachHang> getAllKhachHang() {
-        return khachHangRepository.findAll();
     }
 
     @Override
@@ -271,35 +225,6 @@ public class BanHangServiceImpl implements BanHangService {
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(idSanPham).orElse(null);
         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + hoaDonChiTiet.getSoLuong());
         return chiTietSanPhamRepository.save(chiTietSanPham);
-    }
-
-    @Override
-    public Boolean checkThanhToan(Long idHoaDon) {
-        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).orElse(null);
-        if (hoaDon == null) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public HoaDon save(HoaDon hoaDon) {
-        return hoaDonRepository.save(hoaDon);
-    }
-
-    @Override
-    public List<ChiTietSanPhamCustom> getSanPham() {
-        return chiTietSanPhamRepository.getSanPham();
-    }
-
-    @Override
-    public List<ChiTietSanPham> getSanPhamByMaAndTen(String maSanPham, String tenSanPham) {
-        return chiTietSanPhamRepository.getSanPhamByMaAndTen(maSanPham, tenSanPham);
-    }
-
-    @Override
-    public List<ChiTietSanPham> getSanPhamByMaAndTenAndMauAndSize(String maSanPham, String tenSanPham, String mauSac, String kichThuoc) {
-        return chiTietSanPhamRepository.getSanPhamByMaAndTenAndMauAndSize(maSanPham, tenSanPham, mauSac, kichThuoc);
     }
 
     @Override
