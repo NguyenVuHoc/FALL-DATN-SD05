@@ -73,6 +73,7 @@ public class BanHangController {
                                        @RequestParam(name = "pageNo", defaultValue = "0") Integer page,
                                        Model model) {
         isActive = true;
+        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
 //        Page<HoaDonChiTiet> listHDCTPhanTrang = banHangService.getPhanTrang(Long.valueOf(idHoaDon), page, 5);
         model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
 //        model.addAttribute("index", page + 1);
@@ -87,6 +88,7 @@ public class BanHangController {
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("isActive", isActive);
         model.addAttribute("checkHoaDon", checkHoaDon == true);
+        model.addAttribute("xu", hoaDon.getKhachHang().getTichDiem());
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -258,7 +260,9 @@ public class BanHangController {
     @PostMapping("/thanh-toan/{idHoaDonCho}")
     public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
                                   @RequestParam("thanhTien") String thanhTien) {
+        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+        banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }
 

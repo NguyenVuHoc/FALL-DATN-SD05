@@ -72,5 +72,5 @@ public interface BanHangService {
 
     Boolean huyDon(Long idHoaDon);
 
-    KhachHang tichDiem(Long idHoaDon);
+    KhachHang tichDiem(Long idKhachHang, String thanhTien);
 }
