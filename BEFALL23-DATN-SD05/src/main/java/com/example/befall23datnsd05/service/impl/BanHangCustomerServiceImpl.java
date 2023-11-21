@@ -1,4 +1,4 @@
-package com.example.befall23datnsd05.service.impl;
+package com.example.befall23datnsd05.service.Impl;
 
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
@@ -35,9 +35,6 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
 
     @Autowired
     private HoaDonRepository hoaDonRepository;
-
-    @Autowired
-    private HoaDonChiTietRepository hoaDonChiTietRepository;
 
     @Autowired
     private NhanVienRepository nhanVienRepository;
@@ -85,7 +82,8 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
-        BigDecimal totalCost = BigDecimal.ZERO;
+        BigDecimal tongTien = BigDecimal.ZERO;
+        BigDecimal thanhToan = BigDecimal.ZERO;
         HoaDon hoaDon = new HoaDon();
         hoaDon.setMa(maHD);
         hoaDon.setNgayTao(LocalDate.now());
@@ -107,10 +105,13 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - gh.getSoLuong());
             chiTietSanPhamRepository.save(chiTietSanPham);
             BigDecimal itemCost = chiTietSanPham.getGiaBan().multiply(BigDecimal.valueOf(gh.getSoLuong()));
-            totalCost = totalCost.add(itemCost);
+            tongTien = tongTien.add(itemCost);
+            BigDecimal itemThanhToan = chiTietSanPham.getGiaBan().multiply(BigDecimal.valueOf(gh.getSoLuong()));
+            thanhToan = thanhToan.add(itemThanhToan);
         }
 
-        hoaDon.setTongTien(totalCost);
+        hoaDon.setTongTien(tongTien);
+        hoaDon.setThanhToan(thanhToan);
         hoaDonRepository.save(hoaDon);
     }
 
