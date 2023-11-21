@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Untree.co"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="/../../images/WingMan-black.png" rel="icon">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
+    <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
+    <link href="/../css/customer/style.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" type="text/css" href="./vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/except-home-page.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account-setting.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>
+        Wingman
+    </title>
+</head>
+<!-- Start Header/Navigation -->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/wingman/trang-chu}">
+            <img th:src="@{/images/wingman.png}"
+                 style="height: 50px; width: 50px;">
+            <a class="navbar-brand"
+               th:href="@{/wingman/trang-chu}">Wingman<span>.</span></a></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+                aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsFurni">
+            <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+                <li><a class="nav-link" th:href="@{/wingman/trang-chu}">Trang chủ</a></li>
+                <li>
+                    <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
+                </li>
+                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
+            </ul>
+            <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+                <li>
+                    <div class="dropdown show" style="padding-top: 5px">
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="/../images/user.svg">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${khachHang.id}">Tài khoản của tôi</a>
+                            <a class="dropdown-item"th:href="'/wingman/hoa-don-cua-toi/'+ ${khachHang.id}">Đơn mua</a>
+                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<body>
+<main>
+    <div class="main-content-wrapper container">
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
+        <div th:if="${errorTen}" class="alert alert-danger" id="err">
+            <p th:text="${errorTen}"></p>
+        </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function() {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+            setTimeout(function() {
+                var successAlert = document.getElementById('err');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="left-sidebar">
+
+                    <div class="break-line"></div>
+                    <div class="nav-sidebar">
+                        <a class="account nav-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${khachHang.id}">Thông Tin Của Tôi</a>
+                        <a class="selling-buying-products nav-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${khachHang.id}">Đơn Hàng Mua</a>
+                        <a class="btn btn-primary black-btn sign-out-btn" href="./index.html">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 main-content-wrapper">
+                <div class="main-content">
+                    <div class="nav-tab">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="profile-setting-tab" data-toggle="pill" href="#profile-setting" role="tab" aria-controls="profile-setting" aria-selected="true">Hồ sơ tài khoản</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="address-setting-tab" data-toggle="pill" href="#address-setting" role="tab" aria-controls="address-setting" aria-selected="false">Sổ địa chỉ</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="pills-tabContent">
+                        <!-- profile-setting Section-->
+                        <div class="tab-pane fade show active" id="profile-setting" role="tabpanel" aria-labelledby="profile-setting-tab">
+                            <!-- Item-->
+                                <form th:action="@{/wingman/update}" method="post" th:object="${khachHang}" class="setting-box">
+                                    <input type="hidden" th:field="*{id}">
+                                <div class="full-name item-row col-md-10">
+                                        <div class="text">Mã</div>
+                                        <input class="form-control" th:field="*{ma}" readonly/>
+                                </div>
+                                <div class="full-name item-row col-md-10">
+                                    <div class="text">Họ tên</div>
+                                    <input class="form-control" th:field="*{ten}"/>
+                                </div>
+                                <div class="email item-row col-md-10">
+                                    <div class="text" >Email</div>
+                                    <input class="form-control" readonly th:field="*{email}"/>
+
+                                </div>
+                                <div class="password item-row col-md-10">
+                                    <div class="text">Mật khẩu</div>
+                                    <div class="password-wrapper">
+                                        <input class="form-control" type="password" readonly autocomplete="autocomplete"  th:field="*{matKhau}"/>
+                                        <a class="change-password text-btn" href="" data-toggle="modal" data-target="#changePassword">Đổi mật khẩu</a>
+                                    </div>
+                                </div>
+                                <div class="phone item-row col-md-10">
+                                    <div class="text">Số điện thoại</div>
+                                    <input class="form-control"  th:field="*{sdt}"/>
+                                </div>
+                                <div class="gender item-row col-md-10">
+                                    <div class="text">Giới tính</div>
+                                    <div class="gender-input-wrapper">
+                                        <div class="gender-male-wrapper radio-wrapper">
+                                            <input class="male-btn" id="male" type="radio" name="gender" value="NAM"
+                                                   th:field="*{gioiTinh}" checked="checked"/>
+                                            <label for="male">
+                                                <div class="radio-dot"></div>
+                                                <div>
+                                                    <div class="male">Nam</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="gender-female-wrapper radio-wrapper">
+                                            <input class="male-btn" id="female" type="radio" name="gender" value="NU"
+                                                   th:field="*{gioiTinh}"/>
+                                            <label for="female">
+                                                <div class="radio-dot"></div>
+                                                <div>
+                                                    <div class="female">Nữ</div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="gender-other-wrapper radio-wrapper">
+                                            <input class="male-btn" id="other" type="radio" name="gender"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="update-btn-wrapper item-row col-md-10">
+                                    <button type="submit" class="btn btn-primary black-btn " style="margin: auto">Lưu Thay Đổi</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- address-setting Section-->
+                        <div class="tab-pane fade" id="address-setting" role="tabpanel" aria-labelledby="address-setting-tab">
+                            <!-- Item-->
+                            <div style="max-height: 400px;overflow-y: auto;">
+                            <div class="setting-box" th:each="diaChi : ${listDC}">
+                                <div class="address-item" >
+                                    <div class="header">
+                                        <div class="receive-person" th:text="${diaChi.tenNguoiNhan}"></div>
+                                        <div class="edit-address text-btn" data-bs-toggle="modal"
+                                             th:data-bs-target="'#staticBackdrop' + ${diaChi.id}"  data-target="#addNewShipping">Chỉnh sửa</div>
+                                        <a class="edit-address text-btn" th:href="@{'/wingman/delete-dia-chi/' + ${diaChi.id} + '/'+${khachHang.id}}">Xoá</a>
+                                        <div class="modal fade" th:id="'staticBackdrop' + ${diaChi.id}"
+                                             data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Thay Đổi Địa Chỉ</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form th:action="@{'/wingman/update-dia-chi/' + ${diaChi.id} + '/'+${khachHang.id}}"
+                                                              method="post" th:object="${diaChi}" class="my-form reduced-height"
+                                                              >
+                                                            <label class="form-label" th:field="*{tenNguoiNhan}">Tên</label>
+                                                            <input type="text"  class="form-control mb-3"
+                                                                   th:field="*{tenNguoiNhan}" id="ten"/>
+                                                            <label class="form-label">Ghi chú</label>
+                                                            <input type="text" class="form-control mb-3" name="ghiChu"
+                                                                   th:field="*{ghiChu}"/>
+                                                            <div id="customAlert" class="text-danger"></div>
+                                                            <label class="form-label">Địa chỉ</label>
+                                                            <input type="text" class="form-control mb-3" name="diaChi"
+                                                                   th:field="*{diaChi}"/>
+                                                            <!-- New alert message container -->
+                                                            <div class="modal-footer" style="margin-left: 200px">
+                                                                <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Đóng
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="phone" th:text="${diaChi.sdt}"></div>
+                                    <div class="address" th:text="${diaChi.diaChi}"></div>
+                                </div>
+                                <hr>
+                            </div>
+                            </div>
+                            <div class="btn btn-primary black-btn " data-toggle="modal" data-target="#addNewShipping"> + Thêm mới</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đổi mật khẩu</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="current-password item-row">
+                        <div class="text">Mật khẩu cũ</div>
+                        <div class="password-wrapper">
+                            <input class="form-control" type="password" autocomplete="autocomplete"/>
+                        </div>
+                    </div>
+                    <div class="new-password item-row">
+                        <div class="text">Mật khẩu mới</div>
+                        <div class="password-wrapper">
+                            <input class="form-control" type="password" autocomplete="autocomplete"/>
+                        </div>
+                    </div>
+                    <div class="new-password-confirm item-row">
+                        <div class="text">Nhập lại mật khẩu mới</div>
+                        <div class="password-wrapper">
+                            <input class="form-control" type="password" autocomplete="autocomplete"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" type="button" data-dismiss="modal">Huỷ bỏ</button>
+                    <button class="btn btn-primary black-btn" type="button">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modals-->
+    <div class="modal fade" id="signInSignUp" tabindex="-1" role="dialog" aria-labelledby="signInSignUpLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="signIn-tab" data-toggle="pill" href="#signIn" role="tab" aria-controls="signIn" aria-selected="true">Đăng nhập</a></li>
+                        <li class="nav-item"><a class="nav-link" id="signUp-tab" data-toggle="pill" href="#signUp" role="tab" aria-controls="signUp" aria-selected="false">Đăng ký</a></li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="signIn" role="tabpanel" aria-labelledby="signIn-tab">
+                            <form>
+                                <input class="form-control sign-in-email" placeholder="Email" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <input class="form-control sign-in-password" type="password" placeholder="Mật khẩu" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <div class="forgot-password-wrapper"></div>Quên mật khẩu? Nhấn vào <span class="text-btn">đây</span>
+                                <div class="btn btn-primary black-btn sign-in-btn">Đăng nhập</div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="signUp" role="tabpanel" aria-labelledby="signUp-tab">
+                            <form>
+                                <input class="form-control sign-up-full-name" placeholder="Họ và tên *" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <input class="form-control sign-up-phone" placeholder="Số điện thoại *" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <input class="form-control sign-up-email" placeholder="Email *" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <input class="form-control sign-up-password" type="password" placeholder="Mật khẩu *" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <input class="form-control sign-up-confirm-password" type="password" placeholder="Xác nhận mật khẩu *" autocomplete="autocomplete"/>
+                                <div class="invalid-feedback"> </div>
+                                <div class="privacy-confirm"></div>Khi bạn nhấn Đăng ký, bạn đã đồng ý thực hiện mọi giao dịch mua bán theo <span class="text-btn">điều kiện sử dụng và chính sách của OBO Stadium.</span>
+                                <div class="btn btn-primary black-btn sign-up-btn">Đăng kí</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><a class="back-to-top" href="#"><img src="./image/back-to-top.png" alt=""/></a>
+<!--    New address-->
+    <div class="modal fade" id="addNewShipping" tabindex="-1" role="dialog" aria-labelledby="addNewShippingLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewShippingLabel">Thêm địa chỉ mới</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form class="modal-body" th:action="@{'/wingman/add-dia-chi/'+${khachHang.id}}" th:object="${diaChi}" method="post">
+                    <input class="form-control full-name" placeholder="Họ và tên" data-name="Họ và tên" name="tenNguoiNhan"
+                           th:field="*{tenNguoiNhan}"/>
+                    <div class="invalid-feedback" th:field="${tenNguoiNhan}"> </div>
+                    <br>
+                    <input class="form-control phone" placeholder="Số điện thoại" data-name="Số điện thoại" name="sdt"
+                           th:field="*{sdt}"/>
+                    <br>
+                    <textarea class="form-control address" placeholder="Địa chỉ" data-name="Địa chỉ" th:field="*{diaChi}"></textarea>
+                    <div class="invalid-feedback"> </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="button" data-dismiss="modal">Huỷ bỏ</button>
+                        <button class="btn btn-primary black-btn save" type="submit">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<!-- Start Footer Section -->
+<footer class="footer-section">
+    <div class="container relative">
+
+        <div class="sofa-img">
+            <img src="/../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;" alt="Image"
+                 class="img-fluid">
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="subscription-form">
+                    <h3 class="d-flex align-items-center"><span class="me-1"><img src="/../images/envelope-outline.svg"
+                                                                                  alt="Image"
+                                                                                  class="img-fluid"></span><span>Đăng ký nhận thông tin khuyến mãi</span>
+                    </h3>
+
+                    <form action="#" class="row g-3">
+                        <div class="col-auto">
+                            <input type="text" class="form-control" placeholder="Họ và tên">
+                        </div>
+                        <div class="col-auto">
+                            <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-primary">
+                                <span class="fa fa-paper-plane"></span>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-5 mb-5">
+            <div class="col-lg-4">
+                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Wingman<span>.</span></a></div>
+                <p class="mb-4">Cảm ơn bạn đã tin tưởng ghé qua và lựa chọn Wingman.</p>
+
+                <ul class="list-unstyled custom-social">
+                    <li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+                    <li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row links-wrap">
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Liên hệ</a></li>
+                            <li><a href="#">Dịch vụ</a></li>
+                            <li><a href="#">Thông tin</a></li>
+                            <li><a href="#">Trung tâm trợ giúp</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Vận chuyển</a></li>
+                            <li><a href="#">Khu vực</a></li>
+                            <li><a href="#">Kênh bán hàng</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Hướng dẫn mua hàng</a></li>
+                            <li><a href="#">Đội ngũ</a></li>
+                            <li><a href="#">Trả hàng</a></li>
+                            <li><a href="#">Bảo mật</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-sm-6 col-md-3">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Chăm sóc khách hàng</a></li>
+                            <li><a href="#">Chính sách bảo hành</a></li>
+                            <li><a href="#">Hoàn tiền</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border-top copyright">
+            <div class="row pt-4">
+                <div class="col-lg-6">
+                    <p class="mb-2 text-center text-lg-start">Chủ sở hữu &copy;
+                        <script>document.write(new Date().getFullYear());</script> &mdash;
+                        Thiết kế tâm huyết của nhóm <a href="">SD-05</a> <a hreff=""></a>
+                        <!-- License information: https://untree.co/license/ -->
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center text-lg-end">
+                    <ul class="list-unstyled d-inline-flex ms-auto">
+                        <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
+                        <li><a href="#">Xây dựng Website bán giày thể thao Wingman</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+    new DataTable('#example');
+</script>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script type="text/javascript" src="./vendor/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./vendor/jquery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Main Js-->
+<script type="text/javascript" src="/../js/customer/user/main.js"></script>
+<!-- Card-->
+<script type="text/javascript" src="/../js/customer/user/jquery.card.js"></script>
+<script src="/../js/customer/user/except-home-page.js"></script>
+<script src="/../js/customer/user/address-select.js"></script>
+<script src="/../js/customer/user/account.js"></script>
+<script src="/../js/customer/bootstrap.bundle.min.js"></script>
+<script src="/../js/customer/tiny-slider.js"></script>
+<script src="/../js/customer/custom.js"></script>
+
+<!-- Main Js-->
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    })
+</script>
+</body>
+</html>
