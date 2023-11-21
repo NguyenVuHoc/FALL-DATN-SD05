@@ -26,19 +26,14 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private KhachHangRepository khachHangRepository;
 
-//    @Override
-//    public List<KhachHang> getList() {
-//        return khachHangRepository.getListKhachHang();
-//    }
-//
-//    @Override
-//    public List<KhachHang> getByTrangThai(TrangThai trangThai) {
-//        return khachHangRepository.getAllByTrangThai(trangThai);
-//    }
+    @Override
+    public List<KhachHang> getList() {
+        return khachHangRepository.getListKhachHang();
+    }
 
     @Override
-    public Page<KhachHang> phanTrang(Integer pageNo, Integer size) {
-        return null;
+    public List<KhachHang> getByTrangThai(TrangThai trangThai) {
+        return khachHangRepository.getAllByTrangThai(trangThai);
     }
 
     @Override
@@ -106,39 +101,14 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public boolean exist(String ma) {
-        return false;
+    public boolean existsBySdt(String sdt) {
+        return khachHangRepository.existsBySdt(sdt);
     }
 
     @Override
-    public Integer chuyenPage(Integer pageNo) {
-        return null;
+    public boolean existsBySdtAndIdNot(String sdt, Long id) {
+        return khachHangRepository.existsBySdtAndIdNot(sdt, id);
     }
-
-    @Override
-    public Page<KhachHang> timTen(String ten, Integer pageNo, Integer size) {
-        return null;
-    }
-
-    @Override
-    public Page<KhachHang> getTrangThaiHoatDong(Integer pageNo, Integer size) {
-        return null;
-    }
-
-    @Override
-    public Page<KhachHang> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
-        return null;
-    }
-
-//    @Override
-//    public boolean existsBySdt(String sdt) {
-//        return khachHangRepository.existsBySdt(sdt);
-//    }
-//
-//    @Override
-//    public boolean existsBySdtAndIdNot(String sdt, Long id) {
-//        return khachHangRepository.existsBySdtAndIdNot(sdt, id);
-//    }
 
     @Override
     public List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang) {

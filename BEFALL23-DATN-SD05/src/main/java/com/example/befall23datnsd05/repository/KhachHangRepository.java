@@ -15,10 +15,6 @@ import java.util.Optional;
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
 
-    Optional<KhachHang> findByEmail(String email);
-
-    Page<KhachHang> findByTenContains(String ten, Pageable pageable);
-
     @Query("""
                 SELECT kh FROM KhachHang kh
                 WHERE 
