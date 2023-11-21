@@ -195,7 +195,7 @@ public class BanHangController {
                 .khachHang(khachHang)
                 .ngayTao(LocalDate.now())
                 .loaiHoaDon(LoaiHoaDon.HOA_DON_OFFLINE)
-                .trangThaiDonHang(TrangThaiDonHang.HOA_DON_CHO)
+                .trangThai(TrangThaiDonHang.HOA_DON_CHO)
                 .build();
         banHangService.themHoaDon(hoaDon);
         model.addAttribute("success", "Thêm thành công");

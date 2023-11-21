@@ -5,9 +5,11 @@ import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.repository.DiaChiRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,16 +21,24 @@ import java.util.Optional;
 public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
+    private DiaChiRepository diaChiRepository;
+
+    @Autowired
     private KhachHangRepository khachHangRepository;
 
-    @Override
-    public List<KhachHang> getList() {
-        return khachHangRepository.getListKhachHang();
-    }
+//    @Override
+//    public List<KhachHang> getList() {
+//        return khachHangRepository.getListKhachHang();
+//    }
+//
+//    @Override
+//    public List<KhachHang> getByTrangThai(TrangThai trangThai) {
+//        return khachHangRepository.getAllByTrangThai(trangThai);
+//    }
 
     @Override
-    public List<KhachHang> getByTrangThai(TrangThai trangThai) {
-        return khachHangRepository.getAllByTrangThai(trangThai);
+    public Page<KhachHang> phanTrang(Integer pageNo, Integer size) {
+        return null;
     }
 
     @Override
@@ -96,13 +106,54 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public boolean existsBySdt(String sdt) {
-        return khachHangRepository.existsBySdt(sdt);
+    public boolean exist(String ma) {
+        return false;
     }
 
     @Override
-    public boolean existsBySdtAndIdNot(String sdt, Long id) {
-        return khachHangRepository.existsBySdtAndIdNot(sdt, id);
+    public Integer chuyenPage(Integer pageNo) {
+        return null;
+    }
+
+    @Override
+    public Page<KhachHang> timTen(String ten, Integer pageNo, Integer size) {
+        return null;
+    }
+
+    @Override
+    public Page<KhachHang> getTrangThaiHoatDong(Integer pageNo, Integer size) {
+        return null;
+    }
+
+    @Override
+    public Page<KhachHang> getTrangThaiDungHoatDong(Integer pageNo, Integer size) {
+        return null;
+    }
+
+//    @Override
+//    public boolean existsBySdt(String sdt) {
+//        return khachHangRepository.existsBySdt(sdt);
+//    }
+//
+//    @Override
+//    public boolean existsBySdtAndIdNot(String sdt, Long id) {
+//        return khachHangRepository.existsBySdtAndIdNot(sdt, id);
+//    }
+
+    @Override
+    public List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang) {
+        List<DiaChi> list = new ArrayList<>();
+        for (DiaChi dc: diaChiRepository.findAll()){
+            if (dc.getKhachHang().getId() == idKhachHang){
+                list.add(dc);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public DiaChi getByIdDiaChi(Long idDiaChi) {
+        return diaChiRepository.findById(idDiaChi).orElse(null);
     }
 
 }
