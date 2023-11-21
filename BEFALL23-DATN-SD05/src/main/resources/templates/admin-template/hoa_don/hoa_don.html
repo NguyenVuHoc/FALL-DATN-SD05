@@ -348,7 +348,10 @@
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}">
+                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+                      or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
+
+">
                                             <i class="bi bi-check2" style="font-size: 35px;"></i>
                                         </button>
 
@@ -361,7 +364,9 @@
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO}
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}">
+                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+                          or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
+">
                                             <i class="bi bi-x" style="font-size: 37px;"></i>
                                         </button>
                                     </div>
@@ -375,8 +380,7 @@
                                                       class="my-form reduced-height">
 <!--                                                      onsubmit="return checkTrong(this);"-->
                                                     <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Số
-                                                            Lượng</h1>
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Chuyển Trạng Thái Đơn Hàng</h1>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -405,7 +409,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <h5 class="modal-title" style="text-align: center;margin-top: 10px">
-                                                    Chuyển Trạng Thái</h5>
+                                                    Huỷ Đơn Hàng</h5>
                                                 <div class="modal-header">
                                                     <form th:action="@{/admin/hoa-don/validation/deny}" method="post" onsubmit="return checkTrong(this);"
                                                           class="my-form reduced-height">
