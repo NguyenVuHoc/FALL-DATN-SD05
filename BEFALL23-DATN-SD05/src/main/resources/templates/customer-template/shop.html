@@ -189,11 +189,12 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail" style="width: 200px; height: 180px;">
+                        <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail"
+                             style="width: 200px; height: 180px;">
 
-                    <h3 class="product-title"
-                        th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
-                    <strong class="product-price" th:text="${ctsp.giaBan}"></strong>
+                        <h3 class="product-title"
+                            th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
+                        <strong class="product-price" th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
                     <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp.id})}">
                     <span class="icon-cross">
@@ -249,11 +250,12 @@
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspCustom : ${list3Custom}">
                 <div class="product-item">
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspCustom.getId()}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail" style="width: 200px; height: 180px;">
+                        <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail"
+                             style="width: 200px; height: 180px;">
 
-                    <h3 class="product-title"
-                        th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()}"></h3>
-                    <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
+                        <h3 class="product-title"
+                            th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()}"></h3>
+                        <strong class="product-price" th:text="${ctspCustom.getGia_ban()}"></strong>
                     </a>
                     <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspCustom.getId()})}">
                     <span class="icon-cross">
@@ -277,12 +279,14 @@
             <!-- Start Column 2 -->
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" th:each="ctspLimited : ${list3Limited}">
                 <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail" style="width: 200px; height: 180px;">
+                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctspLimited.getId()}}"
+                       style="text-decoration: none">
+                        <img th:src="@{'../images/' + ${ctspLimited.getAnh_chinh}}" class="img-fluid product-thumbnail"
+                             style="width: 200px; height: 180px;">
 
-                    <h3 class="product-title"
-                        th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()}"></h3>
-                    <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
+                        <h3 class="product-title"
+                            th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()}"></h3>
+                        <strong class="product-price" th:text="${ctspLimited.getGia_ban()}"></strong>
                     </a>
                     <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspLimited.getId()})}">
                     <span class="icon-cross">
