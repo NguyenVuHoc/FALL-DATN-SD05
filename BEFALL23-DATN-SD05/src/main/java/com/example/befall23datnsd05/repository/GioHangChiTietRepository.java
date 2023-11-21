@@ -17,11 +17,14 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
 
 //    List<GioHangChiTiet> findAllByByGioHangAndHoaDonIsNull(Long idGioHang);
 
-//    List<GioHangChiTiet> findAllByGioHangAndHoaDonIsNull();
+    //    List<GioHangChiTiet> findAllByGioHangAndHoaDonIsNull();
+    @Query(value = "select * from gio_hang_chi_tiet where id_hoa_don=?1", nativeQuery = true)
+    List<GioHangChiTiet> findByHoaDon(long id);
+
 
     @Query(value = "select * from gio_hang_chi_tiet " +
-            "where id_hoa_don is null and id_gio_hang = :idGioHang",nativeQuery = true)
-    List<GioHangChiTiet> findAllByGioHang(@Param("idGioHang")Long idGioHang);
+            "where id_hoa_don is null and id_gio_hang = :idGioHang", nativeQuery = true)
+    List<GioHangChiTiet> findAllByGioHang(@Param("idGioHang") Long idGioHang);
 
 
 }

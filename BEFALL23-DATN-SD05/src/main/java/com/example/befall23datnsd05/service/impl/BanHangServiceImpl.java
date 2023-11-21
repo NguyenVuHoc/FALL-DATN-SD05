@@ -48,7 +48,7 @@ public class BanHangServiceImpl implements BanHangService {
     public List<HoaDon> getHoaDonCho() {
         List<HoaDon> listHoaDonCho = new ArrayList<>();
         for (HoaDon hoaDon : hoaDonRepository.findAll()) {
-            if (hoaDon.getTrangThaiDonHang() == TrangThaiDonHang.HOA_DON_CHO) {
+            if (hoaDon.getTrangThai() == TrangThaiDonHang.HOA_DON_CHO) {
                 listHoaDonCho.add(hoaDon);
             }
         }
@@ -141,7 +141,7 @@ public class BanHangServiceImpl implements BanHangService {
                 hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
                 hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
-                hoaDon.setTrangThaiDonHang(TrangThaiDonHang.HOAN_THANH);
+                hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
                 return hoaDonRepository.save(hoaDon);
             }
         } catch (NumberFormatException numberFormatException) {

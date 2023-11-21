@@ -1,13 +1,9 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.entity.MauSac;
 import com.example.befall23datnsd05.repository.MauSacRepository;
 import com.example.befall23datnsd05.service.MauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
