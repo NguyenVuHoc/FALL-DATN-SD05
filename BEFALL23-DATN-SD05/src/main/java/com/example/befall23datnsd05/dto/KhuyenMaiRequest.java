@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.dto;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,7 +27,7 @@ public class KhuyenMaiRequest {
     private String moTa;
 
     @NotNull(message = "Mức giảm giá không được để trống")
-    @Positive(message = "Mức giảm giá phải là số dương")
+    @Positive(message = "Mức giảm giá phải lớn hơn 0")
     @Max(value = 100, message = "Mức giảm giá không được vượt quá 100")
     private Integer mucGiamGia;
 
