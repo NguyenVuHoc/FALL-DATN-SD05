@@ -27,12 +27,6 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
     @Query("select km from KhuyenMai km where km.ngayBatDau >= :start and km.ngayKetThuc <= :end")
     List<KhuyenMai> findKhuyenMaisByNgayBatDauAndNgayKetThuc(@Param("start") LocalDate start,@Param("end") LocalDate end);
 
-    @Query("select km from KhuyenMai km where km.ngayBatDau >= :start")
-    List<KhuyenMai> findKhuyenMaisByNgayBatDau(@Param("start") LocalDate start);
-
-    @Query("select km from KhuyenMai km where km.ngayKetThuc <= :end")
-    List<KhuyenMai> findKhuyenMaisByNgayKetThuc(@Param("end") LocalDate end);
-
     @Transactional
     @Modifying
     @Query(value = "update khuyen_mai km set km.trang_thai = 0\n" +
