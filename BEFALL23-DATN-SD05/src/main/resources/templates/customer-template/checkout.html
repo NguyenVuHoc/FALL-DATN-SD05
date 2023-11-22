@@ -94,7 +94,7 @@
                         class="form-control"
                         name="ten"
                         placeholder="Họ tên"
-                        th:value="${diaChi2.getTen()}"
+                        th:value="${diaChi2.getTenNguoiNhan()}"
                 />
               </div>
             </div>
@@ -158,7 +158,7 @@
                       </thead>
                       <tbody>
                       <tr th:each="dc : ${diaChi}">
-                        <th scope="row" th:text="${dc.ten}"></th>
+                        <th scope="row" th:text="${dc.tenNguoiNhan}"></th>
                         <td th:text="${dc.sdt}"></td>
                         <td th:text="${dc.diaChi}"></td>
                         <td>
