@@ -156,18 +156,21 @@ public class BanHangController {
 
     @PostMapping("/thanh-toan/{idHoaDonCho}")
     public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
-                                  @RequestParam("thanhTien") String thanhTien) {
+                                  @RequestParam("thanhTien") String thanhTien,
+                                  @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien, xuTichDiem);
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }
 
     @PostMapping ("/hoa-don/xuat-hoan-don/{idHoaDonCho}")
     public String xuatHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
-                             @RequestParam("thanhTien") String thanhTien) throws Exception {
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+                             @RequestParam("thanhTien") String thanhTien,
+                             @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) throws Exception {
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien, xuTichDiem);
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
+        banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         //Xuat hoa don
         List<HoaDonChiTiet> listHDCT = banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon));
         HoaDonPDF hoaDonPDF = new HoaDonPDF();

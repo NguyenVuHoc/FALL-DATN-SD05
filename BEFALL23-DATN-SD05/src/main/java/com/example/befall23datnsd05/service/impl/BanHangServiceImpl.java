@@ -58,8 +58,8 @@ public class BanHangServiceImpl implements BanHangService {
     @Override
     public List<HoaDonChiTiet> getHoaDonChiTietByIdHoaDon(Long idHoaDon) {
         List<HoaDonChiTiet> listHDCT = new ArrayList<>();
-        for (HoaDonChiTiet hoaDonChiTiet: hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon)){
-            if (hoaDonChiTiet.getTrangThaiDonHang() == TrangThaiDonHang.CHO_XAC_NHAN){
+        for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon)) {
+            if (hoaDonChiTiet.getTrangThaiDonHang() == TrangThaiDonHang.CHO_XAC_NHAN) {
                 listHDCT.add(hoaDonChiTiet);
             }
         }
@@ -133,21 +133,48 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien) {
-        try {
-            HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-            if (hoaDon != null) {
+    public HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien, Boolean xuTichDiem) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        KhachHang khachHang = khachHangRepository.findById(hoaDon.getKhachHang().getId()).get();
+        if (xuTichDiem == true) {
+            if (hoaDon.getKhachHang().getTichDiem() == null) {
                 hoaDon.setNgayThanhToan(LocalDate.now());
-                hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
                 hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+                hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
                 hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
                 return hoaDonRepository.save(hoaDon);
+            } else if (hoaDon.getKhachHang().getTichDiem().compareTo(new BigDecimal("50000")) < 0) {
+                hoaDon.setNgayThanhToan(LocalDate.now());
+                hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
+                hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+                hoaDon.setXu(hoaDon.getKhachHang().getTichDiem());
+                hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(hoaDon.getKhachHang().getTichDiem()));
+                hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
+                khachHang.setTichDiem(new BigDecimal(0));
+                khachHangRepository.save(khachHang);
+                return hoaDonRepository.save(hoaDon);
             }
-        } catch (NumberFormatException numberFormatException) {
-            return null;
+            hoaDon.setNgayThanhToan(LocalDate.now());
+            hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
+            hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+            hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+            hoaDon.setXu(new BigDecimal("50000"));
+            hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(new BigDecimal("50000")));
+            hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
+            khachHang.setTichDiem(khachHang.getTichDiem().subtract(new BigDecimal("50000")));
+            khachHangRepository.save(khachHang);
+            return hoaDonRepository.save(hoaDon);
         }
-        return null;
+        hoaDon.setNgayThanhToan(LocalDate.now());
+        hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
+        hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+        hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+        hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+        hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
+        return hoaDonRepository.save(hoaDon);
     }
 
     @Override
@@ -257,7 +284,7 @@ public class BanHangServiceImpl implements BanHangService {
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(idSanPham).orElse(null);
         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + soLuong);
         chiTietSanPhamRepository.save(chiTietSanPham);
-        if (hoaDonChiTiet.getSoLuong() <= 0){
+        if (hoaDonChiTiet.getSoLuong() <= 0) {
             hoaDonChiTietRepository.deleteById(idHDCT);
             return null;
         }
@@ -326,45 +353,17 @@ public class BanHangServiceImpl implements BanHangService {
         }
     }
 
-
-//    ?? chưa có method trong KhachHang
     @Override
     public KhachHang tichDiem(Long idKhachHang, String thanhTien) {
-        BigDecimal tongTien = new BigDecimal(thanhTien);
         KhachHang khachHang = khachHangRepository.findById(idKhachHang).get();
-        boolean b = tongTien.compareTo(new BigDecimal("5000000")) >= 0 && tongTien.compareTo(new BigDecimal("9999999")) <= 0;
-        boolean b1 = tongTien.compareTo(new BigDecimal("1000000")) >= 0 && tongTien.compareTo(new BigDecimal("4999999")) <= 0;
-        boolean b2 = tongTien.compareTo(new BigDecimal("500000")) >= 0 && tongTien.compareTo(new BigDecimal("999999")) <= 0;
         if (khachHang.getMa().equals("KH000")) {
             return null;
         } else if (khachHang.getTichDiem() != null) {
-            if (b2) {
-                khachHang.setTichDiem(khachHang.getTichDiem().add(BigDecimal.valueOf(Double.valueOf(thanhTien)).multiply(new BigDecimal("0.01"))));
-                return khachHangRepository.save(khachHang);
-            } else if (b1) {
-                khachHang.setTichDiem(khachHang.getTichDiem().add(BigDecimal.valueOf(Double.valueOf(thanhTien)).multiply(new BigDecimal("0.04"))));
-                return khachHangRepository.save(khachHang);
-            } else if (b) {
-                khachHang.setTichDiem(khachHang.getTichDiem().add(BigDecimal.valueOf(Double.valueOf(thanhTien)).multiply(new BigDecimal("0.08"))));
-                return khachHangRepository.save(khachHang);
-            } else if (tongTien.compareTo(new BigDecimal("10000000")) >= 0) {
-                khachHang.setTichDiem(khachHang.getTichDiem().add(BigDecimal.valueOf(Double.valueOf(thanhTien)).multiply(new BigDecimal("0.12"))));
-                return khachHangRepository.save(khachHang);
-            }
+            khachHang.setTichDiem(khachHang.getTichDiem().add(BigDecimal.valueOf(Double.valueOf(thanhTien)).multiply(new BigDecimal("0.01"))));
+            return khachHangRepository.save(khachHang);
         } else if (khachHang.getTichDiem() == null) {
-            if (b2) {
-                khachHang.setTichDiem(BigDecimal.valueOf(Double.parseDouble(thanhTien)).multiply(new BigDecimal("0.01")));
-                return khachHangRepository.save(khachHang);
-            } else if (b1) {
-                khachHang.setTichDiem(BigDecimal.valueOf(Double.parseDouble(thanhTien)).multiply(new BigDecimal("0.04")));
-                return khachHangRepository.save(khachHang);
-            } else if (b) {
-                khachHang.setTichDiem(BigDecimal.valueOf(Double.parseDouble(thanhTien)).multiply(new BigDecimal("0.08")));
-                return khachHangRepository.save(khachHang);
-            } else if (tongTien.compareTo(new BigDecimal("10000000")) >= 0) {
-                khachHang.setTichDiem(BigDecimal.valueOf(Double.parseDouble(thanhTien)).multiply(new BigDecimal("0.12")));
-                return khachHangRepository.save(khachHang);
-            }
+            khachHang.setTichDiem(BigDecimal.valueOf(Double.parseDouble(thanhTien)).multiply(new BigDecimal("0.01")));
+            return khachHangRepository.save(khachHang);
         }
         return null;
     }
