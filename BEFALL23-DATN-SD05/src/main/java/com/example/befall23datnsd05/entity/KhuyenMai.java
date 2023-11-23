@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -63,7 +64,7 @@ public class KhuyenMai {
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
-    private TrangThai trangThai;
+    private TrangThaiKhuyenMai trangThai;
 
     @Column(name = "so_luong_san_pham_ap_dung")
     private Integer soLuongSanPhamApDung;
