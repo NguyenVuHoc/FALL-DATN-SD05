@@ -89,4 +89,8 @@ public class HoaDon {
     @Enumerated(ORDINAL)
     private LoaiHoaDon loaiHoaDon;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ma_giam_gia", referencedColumnName = "id", nullable = true)
+    private MaGiamGia maGiamGia;
+
 }
