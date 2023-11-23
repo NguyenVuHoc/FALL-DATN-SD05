@@ -29,4 +29,10 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
     @Query(value = "select * from hoa_don where id_khach_hang=5",nativeQuery = true)
     List<HoaDon> getAllByKhachHangFixCung();
 
+    @Query(value = "SELECT SUM(hoa_don.thanh_toan) FROM hoa_don WHERE trang_thai = 5;\n",nativeQuery = true)
+    Long doanhThu();
+
+    @Query(value = "SELECT COUNT(*) from hoa_don where  trang_thai=6",nativeQuery = true)
+    Long soDonHuy();
+
 }

@@ -26,5 +26,8 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
             "where id_hoa_don is null and id_gio_hang = :idGioHang", nativeQuery = true)
     List<GioHangChiTiet> findAllByGioHang(@Param("idGioHang") Long idGioHang);
 
+    @Query(value = "SELECT count(so_luong) from gio_hang_chi_tiet  where trang_thai=6",nativeQuery = true)
+    Long sanPhamHoanTra();
+
 
 }

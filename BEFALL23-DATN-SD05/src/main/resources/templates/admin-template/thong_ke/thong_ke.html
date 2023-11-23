@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8" />
@@ -177,7 +177,7 @@
             <i class="fa fa-chart-line fa-3x text-primary"></i>
             <div class="ms-3">
               <p class="mb-2">Doanh thu</p>
-              <h6 class="mb-0">$1234</h6>
+              <h6 class="mb-0" th:text="${#strings.replace(#numbers.formatDecimal(doanhThu, 0, 'COMMA', 2, 'POINT'), '.00', '')}"></h6>
             </div>
           </div>
         </div>
@@ -186,7 +186,7 @@
             <i class="fa fa-chart-bar fa-3x text-primary"></i>
             <div class="ms-3">
               <p class="mb-2">Số đơn hủy</p>
-              <h6 class="mb-0">$1234</h6>
+              <h6 class="mb-0" th:text="${soDonHuy}"></h6>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@
             <i class="fa fa-chart-area fa-3x text-primary"></i>
             <div class="ms-3">
               <p class="mb-2">Số sản phẩm hoàn trả</p>
-              <h6 class="mb-0">$1234</h6>
+              <h6 class="mb-0" th:text="${hoanTra}"></h6>
             </div>
           </div>
         </div>
