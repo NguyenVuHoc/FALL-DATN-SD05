@@ -29,4 +29,6 @@ public interface KhachHangService {
     List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang);
 
     DiaChi getByIdDiaChi(Long idDiaChi);
+
+    boolean changeUserPassword(Long idKh,String oldPassword, String newPassword);
 }

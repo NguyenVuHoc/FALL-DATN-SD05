@@ -2,6 +2,7 @@ package com.example.befall23datnsd05.controller.User;
 
 import com.example.befall23datnsd05.dto.DiaChiRequest;
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
@@ -24,22 +25,23 @@ public class UserController {
 
     /**
      * Get User By IdKh
+     *
      * @param id
      * @param model
-     * @param diaChiRequest
      * @return
      */
     @GetMapping("/thong-tin-cua-toi/{id}")
-    public String viewUpdate(@PathVariable("id") Long id, Model model,@ModelAttribute("diaChi") DiaChiRequest diaChiRequest ) {
+    public String getAll(@PathVariable("id") Long id, Model model) {
         KhachHang khachHang = khachHangService.getById(id);
-        model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
         model.addAttribute("khachHang", khachHang);
-        model.addAttribute("diaChi", diaChiRequest);
+        model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
+        model.addAttribute("diaChi",new DiaChiRequest());
         return "customer-template/user/profile";
     }
 
     /**
      * Update KhachHang
+     *
      * @param khachHangRequest
      * @param bindingResult
      * @param model
@@ -52,13 +54,16 @@ public class UserController {
     ) {
         Long id = khachHangRequest.getId();
         String sdt = khachHangRequest.getSdt();
+        KhachHang khachHang = khachHangService.getById(id);
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
+            model.addAttribute("khachHang", khachHang);
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
             model.addAttribute("diaChi", new DiaChiRequest());
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
             return "customer-template/user/profile";
         }
         if (bindingResult.hasErrors()) {
+            model.addAttribute("khachHang", khachHang);
             model.addAttribute("errorTen", "Số điện thoại hoặc tên không được để trống");
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
             model.addAttribute("diaChi", new DiaChiRequest());
@@ -71,6 +76,7 @@ public class UserController {
 
     /**
      * Âdd new address
+     *
      * @param diaChiRequest
      * @param idKhachHang
      * @return
@@ -87,6 +93,7 @@ public class UserController {
 
     /**
      * Update adress
+     *
      * @param id
      * @param idKH
      * @param diaChiRequest
@@ -97,15 +104,39 @@ public class UserController {
     public String updateDiaChi(
             @PathVariable("id") Long id,
             @PathVariable("idKH") Long idKH,
-            @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,Model model
+            @ModelAttribute("diaChi") DiaChiRequest diaChiRequest, Model model
     ) {
-
-        diaChiService.update(diaChiRequest, id);
+        KhachHang khachHang = khachHangService.getById(idKH);
+        if(diaChiRequest.getTenNguoiNhan().isEmpty()){
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
+            model.addAttribute("diaChi", new DiaChiRequest());
+            model.addAttribute("khachHang", khachHang);
+            model.addAttribute("errorTen", "Tên người nhận không được để trống!");
+            return "customer-template/user/profile";
+        }
+        if(diaChiRequest.getSdt().isEmpty()){
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
+            model.addAttribute("diaChi", new DiaChiRequest());
+            model.addAttribute("khachHang", khachHang);
+            model.addAttribute("errorTen", "Số điện thoại không được để trống!");
+            return "customer-template/user/profile";
+        }
+        if(diaChiRequest.getDiaChi().isEmpty()){
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
+            model.addAttribute("diaChi", new DiaChiRequest());
+            model.addAttribute("khachHang", khachHang);
+            model.addAttribute("errorTen", "Địa chỉ không được để trống!");
+            return "customer-template/user/profile";
+        }
+        else {
+            diaChiService.update(diaChiRequest, id);
+        }
         return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
     }
 
     /**
      * Delete address By id
+     *
      * @param id
      * @param idKH
      * @return
@@ -119,5 +150,38 @@ public class UserController {
         return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
     }
 
+    /**
+     * Change passwword
+     * @param idKh
+     * @param oldPassword
+     * @param newPassword
+     * @param model
+     * @return
+     */
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("id") Long idKh,
+                                 @RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 Model model) {
+        KhachHang khachHang = khachHangService.getById(idKh);
+        if (khachHang.getMatKhau().isEmpty()) {
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKh));
+            model.addAttribute("diaChi", new DiaChiRequest());
+            model.addAttribute("khachHang", khachHang);
+            model.addAttribute("errorTen", "Mật khẩu không được để trống!");
+            return "customer-template/user/profile";
+        }
+        if (!khachHang.getMatKhau().equals(oldPassword)) {
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKh));
+            model.addAttribute("diaChi", new DiaChiRequest());
+            model.addAttribute("khachHang", khachHang);
+            model.addAttribute("errorTen", "Mật khẩu bạn nhập không trùng khớp!");
+            return "customer-template/user/profile";
+        }
+        else {
 
+        khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
+        return "redirect:/wingman/thong-tin-cua-toi/" + idKh + "?success";
+        }
+    }
 }
