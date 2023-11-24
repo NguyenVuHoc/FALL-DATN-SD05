@@ -124,6 +124,7 @@ public class GioHangController {
 //    }
 
     @PostMapping("/updateQuantity")
+    @ResponseBody
     public ResponseEntity<String> updateQuantity(@RequestParam Long idGioHangChiTiet, @RequestParam Integer soLuong) {
         try {
             // Update quantity in the database using your service

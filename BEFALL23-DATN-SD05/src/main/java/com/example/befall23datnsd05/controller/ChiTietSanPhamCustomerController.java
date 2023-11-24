@@ -91,6 +91,7 @@ public class ChiTietSanPhamCustomerController {
         model.addAttribute("listRandom", listRand.stream().toList());
         List<ChiTietSanPhamCustomerCustom> listRand2 = chiTietSanPhamService.list4Random();
         model.addAttribute("listRandom2", listRand2.stream().toList());
+        model.addAttribute("soLuongTon", chiTietSanPham.getSoLuongTon());
         return "customer-template/detail";
     }
 }

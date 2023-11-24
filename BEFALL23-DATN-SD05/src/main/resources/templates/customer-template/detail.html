@@ -159,7 +159,8 @@
     <div class="container">
 
         <hr class="box">
-        <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form">
+        <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form" onsubmit="return validateQuantity()">
+            <input type="hidden" id="availableQuantity" th:value="${soLuongTon}" />
             <div class="row">
                 <!--Ảnh sản phẩm-->
                 <!--Ảnh sản phẩm-->
@@ -289,31 +290,58 @@
 
                 </div>
             </div>
+
+            <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="quantityModalLabel">Thông báo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="modalBody">
+                            <!-- Nội dung thông báo sẽ được cập nhật từ JavaScript -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function validateQuantity() {
+                    console.log('Validating quantity...');
+
+                    // Lấy giá trị số lượng từ trường ẩn và log
+                    var availableQuantity = parseInt(document.getElementById('availableQuantity').value);
+                    console.log('Available Quantity:', availableQuantity);
+
+                    // Lấy giá trị số lượng từ trường input và log
+                    var quantityInput = document.querySelector('.quantity-amount');
+                    var quantity = parseInt(quantityInput.value);
+                    console.log('Input Quantity:', quantity);
+
+                    if (isNaN(quantity) || quantity < 1) {
+                        updateModal('Số lượng không hợp lệ.');
+                        return false;
+                    }
+
+                    if (quantity > availableQuantity) {
+                        updateModal('Số lượng vượt quá số lượng tồn kho.');
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                function updateModal(message) {
+                    var modalBody = document.getElementById('modalBody');
+                    modalBody.innerHTML = '<p>' + message + '</p>';
+                    var quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+                    quantityModal.show();
+                }
+            </script>
         </form>
-
-<!--        <div class="col-lg-6" style="margin-left: auto">-->
-<!--            <form method="post" th:action="@{/wingman/cart/mua-ngay/{id}(id=${id})}" id="buy-now-form">-->
-<!--                <button class="btn" type="submit" onclick="submitBuyNowForm()" style="width: 102%;">Mua ngay</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--        <script>-->
-<!--            function submitBuyNowForm() {-->
-<!--                // Lấy số lượng từ form "Thêm vào giỏ hàng"-->
-<!--                var quantity = document.getElementById('add-to-cart-form').elements['soLuong'].value;-->
-
-<!--                // Tạo một input ẩn trong form "Mua ngay" để chứa số lượng-->
-<!--                var hiddenInput = document.createElement("input");-->
-<!--                hiddenInput.type = "hidden";-->
-<!--                hiddenInput.name = "soLuong";-->
-<!--                hiddenInput.value = quantity;-->
-
-<!--                // Thêm input ẩn vào form "Mua ngay"-->
-<!--                document.getElementById('buy-now-form').appendChild(hiddenInput);-->
-
-<!--                // Submit form "Mua ngay"-->
-<!--                document.getElementById('buy-now-form').submit();-->
-<!--            }-->
-<!--        </script>-->
 
         <!--Đường kẻ chia trang-->
         <div>
