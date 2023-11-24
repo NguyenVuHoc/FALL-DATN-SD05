@@ -39,9 +39,6 @@ public class DiaChi {
     @Column(name = "ten_nguoi_nhan")
     private String tenNguoiNhan;
 
-    @Column(name = "ten")
-    private String ten;
-
     @Column(name = "dia_chi")
     private String diaChi;
 

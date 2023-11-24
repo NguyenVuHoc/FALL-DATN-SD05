@@ -36,7 +36,7 @@ public interface BanHangService {
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien);
+    HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien, Boolean xuTichDiem);
 
     BigDecimal getTongTien(Long idHoaDon);
 
@@ -72,5 +72,5 @@ public interface BanHangService {
 
     Boolean huyDon(Long idHoaDon);
 
-    KhachHang tichDiem(Long idHoaDon);
+    KhachHang tichDiem(Long idKhachHang, String thanhTien);
 }

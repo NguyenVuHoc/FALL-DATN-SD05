@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -61,6 +62,9 @@ public class KhachHang {
 
     @Column(name = "mat_khau")
     private String matKhau;
+
+    @Column(name = "tich_diem", precision = 19, scale = 2)
+    private BigDecimal tichDiem;
 
     @Column(name = "trang_thai")
     @Enumerated(ORDINAL)
