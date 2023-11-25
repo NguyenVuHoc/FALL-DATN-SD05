@@ -15,6 +15,9 @@ public interface MauSacService {
     MauSac update(MauSac mauSac);
     void remove(Long id);
 
-    boolean exist(String ma);
+    boolean existByMa(String ma);
+    boolean existsByTen(String ten);
+    boolean existsByTenAndIdNot(String ten, Long id);
+
 
 }

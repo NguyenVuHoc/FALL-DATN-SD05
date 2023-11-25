@@ -31,29 +31,35 @@
             background-color: #c8cbcf; /* Màu nền xám nhạt khi hover hoặc nút được chọn */
             border: 1px solid #c8cbcf; /* Viền màu xám nhạt khi hover hoặc nút được chọn */
         }
+
         /* Table Styling */
         #example {
             font-family: Arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
             margin: 20px 0;
+            padding-top: 20px;
         }
 
         #example th {
             background-color: #f2f2f2;
             color: #333;
             font-weight: bold;
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
         }
 
-        #example th,
         #example td {
             padding: 8px;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid #ddd;
+            color: #6a6a6a;
         }
 
         #example tbody tr:hover {
-            background-color: #f5f5f5;
+            background-color: #b3e1ff;
         }
 
         #example img {
@@ -63,6 +69,25 @@
         /* Hide the footer */
         tfoot[hidden] {
             display: none;
+        }
+
+        /* hien thi icon them sửa xóa*/
+        .image-row {
+            display: flex; /* Sử dụng flexbox để xếp ảnh trên cùng một hàng */
+        }
+
+        .modal-body {
+            text-align: left;
+        }
+
+        /* Tùy chỉnh CSS để chuyển "Show entries" sang bên trái */
+        .dataTables_length {
+            float: left;
+        }
+
+        /* Di chuyển chuỗi "Showing x to y of N entries" sang bên trái */
+        .dataTables_info {
+            float: left;
         }
 
 
@@ -192,6 +217,21 @@
             }, 5000); // 5 giây (5000 milliseconds)
         </script>
 
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Dòng sản phẩm đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
         <div class="row g-2">
@@ -243,7 +283,7 @@
                                     <a th:href="@{'/admin/dong-san-pham/view-update/' + ${dongSp.id}}">
                                         <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                     </a>
-                                    <a th:href="@{'/admin/dong-san-pham/remove/' + ${dongSp.id}}">
+                                    <a th:href="@{'/admin/dong-san-pham/delete/' + ${dongSp.id}}">
                                         <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                     </a>
                                 </td>

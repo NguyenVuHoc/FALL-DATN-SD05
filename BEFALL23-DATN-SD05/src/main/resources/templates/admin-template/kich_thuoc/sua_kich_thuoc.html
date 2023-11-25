@@ -134,7 +134,10 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Tên</label>
                             <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{ten}" />
-                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
+                            <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style=" color: red"></div>
+                            <div th:if="${errorTen}" style=" color: red">
+                                <p th:text="${errorTen}"></p>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                             Sửa

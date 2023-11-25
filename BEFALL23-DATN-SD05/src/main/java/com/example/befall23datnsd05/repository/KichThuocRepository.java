@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KichThuocRepository extends JpaRepository<KichThuoc, Long> {
-    Page<KichThuoc> findByTenContains(String ten, Pageable pageable);
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

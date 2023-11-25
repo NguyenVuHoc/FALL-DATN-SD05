@@ -18,7 +18,7 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
     @Query("""
                 SELECT kh FROM KhachHang kh
                 WHERE 
-                   kh.trangThai = :trangThai and kh.ten not in ('Khach le')
+                   kh.trangThai = :trangThai and kh.id not in (1)
             """)
     List<KhachHang> getAllByTrangThai(
             @Param("trangThai") TrangThai trangThai

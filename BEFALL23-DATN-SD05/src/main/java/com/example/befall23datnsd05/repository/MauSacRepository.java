@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
 public interface MauSacRepository extends JpaRepository<MauSac, Long> {
 
     boolean existsByMa(String ma);
+
+    boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

@@ -60,24 +60,6 @@ public class CoGiayServiceImpl implements CoGiayService {
     }
 
     @Override
-    public Page<CoGiay> phanTrang(Integer pageNo, Integer size) {
-        Pageable pageable = PageRequest.of(pageNo,size, Sort.by(Sort.Order.desc("id")));
-        return repository.findAll(pageable);
-    }
-
-    @Override
-    public Integer chuyenPage(Integer pageNo) {
-        Integer sizeList = repository.findAll().size();
-        Integer pageCount = (int) Math.ceil((double) sizeList/5);
-        if (pageNo >= pageCount){
-            pageNo = 0;
-        }else if(pageNo < 0){
-            pageNo = pageCount -1;
-        }
-        return pageNo;
-    }
-
-    @Override
     public boolean existByMa(String ma) {
         return repository.existsByMa(ma);
     }
@@ -90,12 +72,6 @@ public class CoGiayServiceImpl implements CoGiayService {
     @Override
     public boolean existsByTenAndIdNot(String ten, Long id) {
         return repository.existsByTenAndIdNot(ten, id);
-    }
-
-    @Override
-    public Page<CoGiay> timTen(String ten, Integer pageNo, Integer size) {
-        Pageable pageable1 = PageRequest.of(pageNo , size, Sort.by(Sort.Order.desc("id")));
-        return repository.findByTenContains(ten,pageable1);
     }
 
 }
