@@ -83,4 +83,14 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     @Modifying
     @Query("update ChiTietSanPham c set c.khuyenMai.id = null where c.id = :idCtsp")
     void deleteIdKhuyenMai(@Param("idCtsp") Long idCtsp);
+
+    @Query(value = "select sp.ma, sp.ten, ms.ten, kt.ten, ctsp.gia_ban, ctsp.so_luong_ton from chi_tiet_san_pham ctsp \n" +
+            "join san_pham sp on ctsp.id_san_pham = sp.id \n" +
+            "join mau_sac ms on ms.id = ctsp.id_mau_sac \n" +
+            "join de_giay dg on dg.id = ctsp.id_de_giay \n" +
+            "join co_giay cg on cg.id = ctsp.id_co_giay \n" +
+            "join lot_giay lg on lg.id = ctsp.id_lot_giay \n" +
+            "join kich_thuoc kt on kt.id = ctsp.id_kich_thuoc \n" +
+            "where sp.ten like :tenSanPham and ms.ten like :mauSac and dg.ten like :deGiay and cg.ten like :coGiay and lg.ten like :lotGiay  and kt.ten like :kichThuoc", nativeQuery = true)
+    Optional<ChiTietSanPham> findChiTietSanPham(@Param("tenSanPham") String tenSanPham, @Param("mauSac") String mauSac, @Param("deGiay") String deGiay, @Param("coGiay") String coGiay, @Param("lotGiay") String lotGiay,@Param("kichThuoc") String kichThuoc);
 }

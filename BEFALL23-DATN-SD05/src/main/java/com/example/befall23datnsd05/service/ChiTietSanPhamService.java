@@ -30,4 +30,6 @@ public interface ChiTietSanPhamService {
 
     void autoUpdateGia();
 
+    ChiTietSanPham save(ChiTietSanPham chiTietSanPham);
+
 }
