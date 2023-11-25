@@ -12,6 +12,8 @@ public interface MaGiamGiaService {
 
     List<MaGiamGia> getAll();
 
+    List<MaGiamGia> getListHoatDong();
+
     List<MaGiamGia> getByTrangThai(TrangThaiKhuyenMai trangThaiKhuyenMai);
 
     List<MaGiamGia> findMaGiamGia(LocalDate start, LocalDate end, TrangThaiKhuyenMai trangThaiKhuyenMai);

@@ -1,8 +1,6 @@
 package com.example.befall23datnsd05.repository;
 
-import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.entity.MaGiamGia;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +23,10 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
     List<MaGiamGia> getAllByTrangThai(
             @Param("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai
     );
+
+    @Query(value = "select * from ma_giam_gia\n" +
+            "where ma_giam_gia.trang_thai = 0;", nativeQuery = true)
+    List<MaGiamGia> listMaGiamGiaHoatDong();
 
     @Query("select mgg from MaGiamGia mgg where mgg.ngayBatDau >= :start and mgg.ngayKetThuc <= :end")
     List<MaGiamGia> findMaGiamGiasByByNgayBatDauAndNgayKetThuc(@Param("start") LocalDate start, @Param("end") LocalDate end);

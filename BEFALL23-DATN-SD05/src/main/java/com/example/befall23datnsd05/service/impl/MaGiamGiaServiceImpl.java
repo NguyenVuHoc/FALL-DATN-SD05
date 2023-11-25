@@ -26,6 +26,11 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
     }
 
     @Override
+    public List<MaGiamGia> getListHoatDong() {
+        return repository.listMaGiamGiaHoatDong();
+    }
+
+    @Override
     public List<MaGiamGia> getByTrangThai(TrangThaiKhuyenMai trangThaiKhuyenMai) {
         return repository.getAllByTrangThai(trangThaiKhuyenMai);
     }
