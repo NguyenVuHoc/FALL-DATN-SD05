@@ -100,16 +100,13 @@ public class HoaDonController {
      * get HoaDon offline
      * @param model
      * @param idHd
-     * @param trangThai
      * @return
      */
     @GetMapping("/chi-tiet-hoa-don/{id}")
     public String detaiOff(Model model,
-                         @PathVariable("id") Long idHd,
-                         @Param("trangThai") TrangThai trangThai) {
+                         @PathVariable("id") Long idHd) {
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("hdcts", hoaDonChiTietService.getCtspById(idHd));
-        model.addAttribute("trangThai", trangThai);
         return "admin-template/hoa_don/chi_tiet_hoa_don";
     }
 

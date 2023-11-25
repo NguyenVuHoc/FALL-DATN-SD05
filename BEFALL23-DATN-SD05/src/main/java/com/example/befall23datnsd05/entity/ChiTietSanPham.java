@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -84,7 +85,7 @@ public class ChiTietSanPham {
     private TrangThai trangThai;
 
     public BigDecimal tinhGiaSauGiamGia() {
-        if (khuyenMai != null && khuyenMai.getTrangThai() == TrangThai.DANG_HOAT_DONG) {
+        if (khuyenMai != null && khuyenMai.getTrangThai() == TrangThaiKhuyenMai.DANG_HOAT_DONG) {
             BigDecimal mucGiam = BigDecimal.valueOf(khuyenMai.getMucGiamGia() / 100.0);
             BigDecimal giaSauGiamGia = giaMacDinh.subtract(giaMacDinh.multiply(mucGiam));
             return giaSauGiamGia.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : giaSauGiamGia;

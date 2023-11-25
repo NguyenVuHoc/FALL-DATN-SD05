@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>WINGMAN</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="keywords"/>
+    <meta content="" name="description"/>
 
     <!-- Favicon -->
-    <link href="/../../images/WingMan-black.png" rel="icon">
+    <link href="/../../images/WingMan-black.png" rel="icon"/>
 
     <!--thư viện css tích tìm kiếm-->
+
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css'>
     <link rel='stylesheet' href='https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css'>
     <style>
@@ -77,23 +78,23 @@
     <!--thư viện css tích tìm kiếm-->
 
     <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"/>
 
     <!-- Libraries Stylesheet -->
-    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"/>
     <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
+    <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Template Stylesheet -->
-    <link href="/../../css/admin/style.css" rel="stylesheet">
+    <link href="/../../css/admin/style.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -101,12 +102,11 @@
     <!-- Spinner Start -->
     <div id="spinner"
          class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
-
 
     <!-- Sidebar Start -->
     <div class="sidebar pe-4 pb-3">
@@ -130,7 +130,7 @@
                 <a th:href="@{/admin/ban-hang}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
                     Hàng</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                             class="fa fa-laptop me-2"></i>Sản Phẩm</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a th:href="@{/admin/san-pham}" class="dropdown-item">Sản Phẩm</a>
@@ -140,9 +140,9 @@
                         <a th:href="@{/admin/thuong-hieu}" class="dropdown-item">Thương Hiệu</a>
                         <a th:href="@{/admin/mau-sac}" class="dropdown-item">Màu Sắc</a>
                         <a th:href="@{/admin/kich-thuoc}" class="dropdown-item">Kích Thước</a>
-                        <a th:href="@{/admin/de-giay}" class="dropdown-item active">Đế Giày</a>
+                        <a th:href="@{/admin/de-giay}" class="dropdown-item">Đế Giày</a>
                         <a th:href="@{/admin/lot-giay}" class="dropdown-item">Lót Giày</a>
-                        <a th:href="@{/admin/co-giay}" class="dropdown-item ">Cổ Giày</a>
+                        <a th:href="@{/admin/co-giay}" class="dropdown-item">Cổ Giày</a>
                     </div>
                 </div>
                 <a th:href="@{/admin/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
@@ -152,7 +152,7 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link active"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
@@ -160,7 +160,6 @@
         </nav>
     </div>
     <!-- Sidebar End -->
-
 
     <!-- Content Start -->
     <div class="content">
@@ -186,167 +185,188 @@
                 </div>
             </div>
         </nav>
-
         <!-- Navbar End -->
 
-        <div th:if="${param.success}">
-            <div class="alert alert-info" id="success-alert">Success!</div>
-        </div>
+        <div id="errorMessageDate"></div>
 
-        <script th:inline="javascript">
-            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
-            setTimeout(function () {
-                var successAlert = document.getElementById('success-alert');
-                if (successAlert) {
-                    successAlert.style.display = 'none';
-                }
-            }, 5000); // 5 giây (5000 milliseconds)
-        </script>
-
-
-        <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
             <div class="row g-2">
-                <div style="width: 80%;">
-                    <h6 class="mb-4" style="font-size: 40px;">Quản Lý Đế Giày</h6>
+                <div style="width: 80%">
+                    <h6 class="mb-4" style="font-size: 40px;">Quản Lý Mã Giảm Giá</h6>
                 </div>
-
                 <div style="width: 20%;">
                     <button class="btn btn-outline-success">
-                        <a class="them" th:href="@{../admin/de-giay/view-add}" style="color: darkgreen;">Thêm</a>
+                        <a class="them" th:href="@{/admin/ma-giam-gia/view-add}" style="color: darkgreen;">Thêm</a>
                     </button>
                 </div>
+                <ul class="nav nav-tabs">
+                    <button class="nav-link">
+                        <a href="/admin/ma-giam-gia">Tất cả</a>
+                    </button>
+                    <li class="nav-item" th:each="tt : ${listTrangThai}">
+                        <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
+                                data-bs-toggle="tab" type="button" onclick="setHiddenValue('${tt}')">
+                            <a th:href="@{/admin/ma-giam-gia/trang-thai/{status}(status=${tt})}"
+                               th:text="${tt.getDisplayName()}"></a>
+                        </button>
+                    </li>
+                </ul>
             </div>
+            <div class="row g-2">
+                <form th:action="@{/admin/ma-giam-gia/filter}" method="get" onsubmit="return validateDate()">
+                    <div class="container-fluid pt-3">
+                        <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}" />
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <!-- Ngày bắt đầu -->
+                                <label class="sr-only" for="start7">Ngày bắt đầu</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                    </div>
+                                    <input type="date" class="form-control" name="startDate" id="start7" th:value="${startDate}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Ngày kết thúc -->
+                                <label class="sr-only" for="end7">Ngày kết thúc</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Ngày kết thúc</div>
+                                    </div>
+                                    <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
+                                </div>
+                            </div>
+                        </div>
 
-            <!--                <div class="row g-2">-->
-            <!--                    <div style="width: 80%;">-->
-            <!--                        <form class="d-none d-md-flex" th:action="@{/admin/de-giay/search}" method="get">-->
-            <!--                            <input class="form-control border-1"-->
-            <!--                                   style="border: solid rgb(236, 233, 233) 1px ; margin-bottom: 20px; width: 400px;" type="search"-->
-            <!--                                   placeholder="Nhập cổ giày cần tìm" name="ten" th:value="${param.ten}"/>-->
-            <!--                            <button type="submit" class="btn btn-outline-info " style="height: 38px;margin-left: 10px;">-->
-            <!--                                Tìm Kiếm-->
-            <!--                            </button>-->
-            <!--                        </form>-->
-            <!--                    </div>-->
-            <!--                    <div style="width: 20%;">-->
-            <!--                        <button class="btn btn-outline-success">-->
-            <!--                            <a class="them" th:href="@{../admin/de-giay/view-add}" style="color: darkgreen;">Thêm</a>-->
-            <!--                        </button>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="bg-light text-center rounded p-4">-->
-            <!--                    <div>-->
-            <!--                        <div class="bg-light rounded h-100 p-4">-->
-            <!--                            <table class="table table-striped">-->
-            <!--                                <thead>-->
-            <!--                                    <tr>-->
-            <!--                                        <th>ID</th>-->
-            <!--                                        <th>Mã</th>-->
-            <!--                                        <th>Tên</th>-->
-            <!--                                        <th>Chức Năng</th>-->
-            <!--                                    </tr>-->
-            <!--                                </thead>-->
-            <!--                                <tbody>-->
-            <!--                                <tr th:each="deGiay : ${listCG}">-->
-            <!--                                    <th th:text="${deGiay.id}"></th>-->
-            <!--                                    <td th:text="${deGiay.ma}"></td>-->
-            <!--                                    <td th:text="${deGiay.ten}"></td>-->
+                        <div class="row g-2">
+                            <div class="col-md-2">
+                                <!-- Button thứ nhất -->
+                                <button type="submit" class="btn btn-outline-info" style="width: 100%">Lọc</button>
+                            </div>
+                            <div class="col-md-2">
+                                <!-- Button thứ hai -->
+                                <a class="btn btn-outline-info" href="/admin/ma-giam-gia"> Làm mới</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            <!--                                    <td>-->
-            <!--                                        <a th:href="@{'../admin/de-giay/view-update/' + ${deGiay.id}}">-->
-            <!--                                            <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">-->
-            <!--                                        </a>-->
-            <!--                                        <a th:href="@{'../admin/de-giay/delete/' + ${deGiay.id}}">-->
-            <!--                                            <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">-->
-            <!--                                        </a>-->
-            <!--                                    </td>-->
-            <!--                                </tr>-->
-            <!--                                </tbody>-->
-            <!--                            </table>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
+
+        <!-- Table Start -->
+        <div class="container-fluid pt-4">
             <div class="bg-light text-center rounded p-4">
                 <div>
                     <div class="bg-light rounded h-100 p-4">
-                        <table id="example" class="table table-striped" >
+                        <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Mã</th>
-                                <th>Tên</th>
+                                <th>Tên mã giảm giá</th>
+                                <th>Mức giảm</th>
+                                <th>Mức giảm tối đa</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Giá trị áp dụng tối thiểu</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
                                 <th>Chức năng</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="deGiay : ${listDG}">
-                                <td th:text="${deGiay.id}"></td>
-                                <td th:text="${deGiay.ma}"></td>
-                                <td th:text="${deGiay.ten}"></td>
-
+                            <tr th:each="mgg : ${listMaGiam}">
+                                <td th:text="${mgg.id}"></td>
+                                <td th:text="${mgg.ma}"></td>
+                                <td th:text="${mgg.ten}"></td>
+                                <td th:text="${mgg.mucGiamGia + '%'}"></td>
+                                <td th:text="${#numbers.formatDecimal(mgg.mucGiamToiDa, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                <td th:text="${mgg.ngayBatDau}"></td>
+                                <td th:text="${mgg.ngayKetThuc}"></td>
+                                <td th:text="${#numbers.formatDecimal(mgg.giaTriDonHang, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                <td th:text="${mgg.soLuong}"></td>
+                                <td th:text="${mgg.trangThai.getDisplayName()}"></td>
                                 <td>
-                                    <a th:href="@{'../admin/de-giay/view-update/' + ${deGiay.id}}">
-                                        <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
+                                    <a th:href="@{'/admin/ma-giam-gia/view-update/' + ${mgg.id}}">
+                                        <i class="bi bi-pencil" style="font-size: 20px"></i>
                                     </a>
-                                    <a th:href="@{'../admin/de-giay/delete/' + ${deGiay.id}}">
-                                        <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
+                                    <a th:href="@{/admin/ma-giam-gia/huy/{id}(id=${mgg.id})}"
+                                       onclick="return confirm('Bạn có chắc muốn hủy mã giảm giá này?')">
+                                        <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
                                     </a>
                                 </td>
                             </tr>
                             </tbody>
-
-                            <!--                            thêm ffoot sau tbody-->
-                            <!--                            thẻ th phải tương ứng với thead-->
                             <tfoot hidden="hidden">
                             <tr>
                                 <th>Id</th>
                                 <th>Mã</th>
-                                <th>Tên</th>
+                                <th>Tên khuyến mãi</th>
+                                <th>Mức giảm</th>
+                                <th>Mức giảm tối đa</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Giá trị áp dụng tối thiểu</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
                                 <th>Chức năng</th>
                             </tr>
                             </tfoot>
-                            <!--    thêm ffoot sau tbody end-->
-
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Recent Sales End -->
-        <!--        <div style="margin-top: 5%; margin-left: 42%;">-->
-        <!--            <nav aria-label="Page navigation example">-->
-        <!--                <ul class="pagination">-->
-        <!--                    <li class="page-item">-->
-        <!--                        <a class="page-link" th:href="@{/admin/de-giay/pre}" aria-label="Previous">-->
-        <!--                            <span aria-hidden="true">&laquo;</span>-->
-        <!--                        </a>-->
-        <!--                    </li>-->
-        <!--                    <li class="page-item"><a class="page-link" href="#" th:text="${index}"></a></li>-->
-        <!--                    <li class="page-item">-->
-        <!--                        <a class="page-link" th:href="@{/admin/de-giay/next}" aria-label="Next">-->
-        <!--                            <span aria-hidden="true">&raquo;</span>-->
-        <!--                        </a>-->
-        <!--                    </li>-->
-        <!--                </ul>-->
-        <!--            </nav>-->
-        <!--        </div>-->
-        <!-- Footer Start -->
-        <div class="container-fluid pt-4">
-            <div class="bg-light rounded-top p-4">
-                <div class="row">
-                    <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+
+            <!-- Table End -->
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <p style="text-align: center; padding-top: 35px; font-size: 25px;">Giày Thể Thao Wingman</p>
+                    </div>
                 </div>
             </div>
+            <!-- Footer End -->
         </div>
-        <!-- Footer End -->
+        <!-- Content End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-    <!-- Content End -->
-
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
+
+<script th:inline="javascript">
+    function validateDate() {
+        var startDate = document.getElementById('start7').value;
+        var endDate = document.getElementById('end7').value;
+
+        if (startDate === '' || endDate === '') {
+            document.getElementById('errorMessageDate').innerHTML = '<div class="alert alert-danger" role="alert">Vui lòng điền đầy đủ thông tin tìm kiếm</div>';
+
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                document.getElementById('errorMessageDate').innerHTML = '';
+            }, 5000);
+
+            return false; // Ngăn form từ việc submit khi có lỗi
+        } else if (startDate > endDate) {
+            document.getElementById('errorMessageDate').innerHTML = '<div class="alert alert-danger" role="alert">Ngày bắt đầu không thể lớn hơn ngày kết thúc.</div>';
+
+            // Tự động ẩn thông báo sau 5 giây
+            setTimeout(function () {
+                document.getElementById('errorMessageDate').innerHTML = '';
+            }, 5000);
+
+            return false; // Ngăn form từ việc submit khi có lỗi
+        } else {
+            document.getElementById('errorMessageDate').innerHTML = ''; // Xóa thông báo lỗi nếu đã được hiển thị
+            return true; // Cho phép form submit nếu không có lỗi
+        }
+    }
+</script>
 
 <!--thư viện js tích tìm kiếm-->
 <script>
@@ -361,8 +381,9 @@
     })
 </script>
 <!--thư viện js tích tìm kiếm end-->
+
 <!-- JavaScript Libraries -->
-<!--    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/../../lib/chart/chart.min.js"></script>
 <script src="/../../lib/easing/easing.min.js"></script>

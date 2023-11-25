@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static jakarta.persistence.EnumType.ORDINAL;
@@ -26,8 +27,8 @@ import static jakarta.persistence.EnumType.ORDINAL;
 @Getter
 @Setter
 @Entity
-@Table(name = "khuyen_mai")
-public class KhuyenMai {
+@Table(name = "ma_giam_gia")
+public class MaGiamGia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -48,11 +49,17 @@ public class KhuyenMai {
     @Column(name = "mo_ta")
     private String moTa;
 
-    @Column(name = "so_luong_san_pham_da_ban")
-    private Integer soLuongSanPhamDaBan;
-
     @Column(name = "muc_giam_gia")
     private Integer mucGiamGia;
+
+    @Column(name = "muc_giam_toi_da", nullable = true)
+    private BigDecimal mucGiamToiDa;
+
+    @Column(name = "so_luong")
+    private Integer soLuong;
+
+    @Column(name = "gia_tri_don_hang")
+    private BigDecimal giaTriDonHang;
 
     @Column(name = "ngay_bat_dau")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -66,7 +73,5 @@ public class KhuyenMai {
     @Enumerated(ORDINAL)
     private TrangThaiKhuyenMai trangThai;
 
-    @Column(name = "so_luong_san_pham_ap_dung")
-    private Integer soLuongSanPhamApDung;
 
 }
