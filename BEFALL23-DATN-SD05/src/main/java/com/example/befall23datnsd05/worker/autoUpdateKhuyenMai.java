@@ -1,9 +1,8 @@
 package com.example.befall23datnsd05.worker;
 
-import com.example.befall23datnsd05.entity.KhuyenMai;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhuyenMaiService;
+import com.example.befall23datnsd05.service.MaGiamGiaService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,12 +18,16 @@ public class autoUpdateKhuyenMai {
     KhuyenMaiService service;
 
     @Autowired
+    MaGiamGiaService maGiamGiaService;
+
+    @Autowired
     ChiTietSanPhamService ctspService;
 
     @PostConstruct
     @Scheduled(cron = "0 0 0 * * ?")
     public void autoCheckTrangThai(){
         service.updateTrangThai();
+        maGiamGiaService.updateTrangThai();
     }
 
     @PostConstruct

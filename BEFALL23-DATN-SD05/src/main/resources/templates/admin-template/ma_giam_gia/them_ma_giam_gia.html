@@ -83,11 +83,11 @@
                 <a th:href="@{/admin/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
                 <a th:href="@{/admin/khach-hang}" class="nav-item nav-link"><i
                         class="fa fa-user me-2"></i>Khách Hàng</a>
-                <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Nhân
+                <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
-                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link active"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
@@ -95,7 +95,6 @@
         </nav>
     </div>
     <!-- Sidebar End -->
-
 
     <!-- Content Start -->
     <div class="content">
@@ -122,86 +121,58 @@
             </div>
         </nav>
         <!-- Navbar End -->
+
+        <div id="errorMessage"></div>
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
-            <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Nhân Viên</h6>
+            <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Mã Giảm Giá</h6>
             <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
-                <form th:action="@{/admin/nhan-vien/add}" method="post" th:object="${nhanVien}">
+                <form th:action="@{/admin/ma-giam-gia/add}" method="post" th:object="${maGiamGia}" onsubmit="return validateDate()">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Mã Nhân Viên</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" th:field="*{ma}" />
-                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" style=" color: red"></div>
-                        <div th:if="${error}" style=" color: red">
-                            <p th:text="${error}"></p>
-                        </div>
+                        <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
+                        <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Họ Và Tên</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{ten}" />
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style=" color: red"></div>
-                    </div>
-                    <!--                        <div class="mb-3">-->
-                    <!--                            <label for="exampleInputPassword1" class="form-label">Chức Vụ</label>-->
-                    <!--                            <select class="form-select mb-3" aria-label="Default select example">-->
-                    <!--                                <option selected>Nhân Viên</option>-->
-                    <!--                                <option value="1">Quản Lý</option>-->
-                    <!--                            </select>-->
-                    <!--                        </div>-->
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Số Điện Thoại</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{sdt}" />
-                        <div th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}" style=" color: red"></div>
+                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                        <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
+                        <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Giới Tính</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gioiTinh" id="namRadio" value="NAM"
-                                   th:field="*{gioiTinh}"/>
-                            <label class="form-check-label" for="namRadio">Nam</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="gioiTinh" id="nuRadio" value="NU"
-                                   th:field="*{gioiTinh}"/>
-                            <label class="form-check-label" for="nuRadio">Nữ</label>
-                        </div>
-                    </div>
-<!--                    <div class="mb-3">-->
-<!--                        <label for="exampleInputPassword1" class="form-label">Ngày tạo</label>-->
-<!--                        <input type="date" class="form-control" id="exampleInputPassword1" th:field="*{ngayTao}"/>-->
-<!--                    </div>-->
-<!--                    <div class="mb-3">-->
-<!--                        <label for="exampleInputPassword1" class="form-label">Ngày sửa</label>-->
-<!--                        <input type="date" class="form-control" id="exampleInputPassword1" th:field="*{ngaySua}"/>-->
-<!--                    </div>-->
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Email</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{email}" />
-                        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style=" color: red"></div>
+                        <label for="inputMucGiam" class="form-label">Mức Giảm Tối Đa</label>
+                        <input type="number" class="form-control" id="inputMucGiam" th:field="*{mucGiamToiDa}"/>
+                        <div th:if="${#fields.hasErrors('mucGiamToiDa')}" th:errors="*{mucGiamToiDa}"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Mật khẩu</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{matKhau}" />
-                        <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}" style=" color: red"></div>
+                        <label for="inputSoLuong" class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" id="inputSoLuong" th:field="*{soLuong}"/>
+                        <div th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></div>
                     </div>
-<!--                    <div class="mb-3">-->
-<!--                        <label for="exampleInputPassword1" class="form-label">Trạng Thái</label>-->
-<!--                        <div class="form-check form-check-inline">-->
-<!--                            <input class="form-check-input" type="radio" name="trangThai" id="hoatDongRadio"-->
-<!--                                   value="DANG_HOAT_DONG" th:field="*{trangThai}"/>-->
-<!--                            <label class="form-check-label" for="hoatDongRadio">Đang Hoạt Động</label>-->
-<!--                        </div>-->
-<!--                        <div class="form-check form-check-inline">-->
-<!--                            <input class="form-check-input" type="radio" name="trangThai" id="ngungHoatDongRadio"-->
-<!--                                   value="DUNG_HOAT_DONG" th:field="*{trangThai}"/>-->
-<!--                            <label class="form-check-label" for="ngungHoatDongRadio">Dừng Hoạt Động</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="mb-3">
+                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu</label>
+                        <input type="number" class="form-control" id="inputApDung" th:field="*{giaTriDonHang}"/>
+                        <div th:if="${#fields.hasErrors('giaTriDonHang')}" th:errors="*{giaTriDonHang}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="NgayBatDau" class="form-label">Ngày Bắt Đầu</label>
+                        <input type="date" class="form-control" name="dateStart" id="NgayBatDau" th:field="*{ngayBatDau}">
+                        <div th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}" ></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="NgayKetThuc" class="form-label">Ngày Kết Thúc</label>
+                        <input type="date" class="form-control" name="dateEnd" id="NgayKetThuc" th:field="*{ngayKetThuc}">
+                        <div th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Mota" class="form-label">Mô Tả</label>
+                        <input type="text" class="form-control" id="Mota" th:field="*{moTa}"/>
+                        <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}"></div>
+                    </div>
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                         Thêm
                     </button>
                 </form>
-
 
             </div>
             <!-- Recent Sales End -->
@@ -218,10 +189,30 @@
         </div>
         <!-- Content End -->
 
-
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+
+    <script th:inline="javascript">
+        function validateDate() {
+            var ngayBatDau = document.getElementById('NgayBatDau').value;
+            var ngayKetThuc = document.getElementById('NgayKetThuc').value;
+
+            var startDate = new Date(ngayBatDau);
+            var endDate = new Date(ngayKetThuc);
+
+            if (startDate > endDate) {
+                document.getElementById('errorMessage').innerHTML ='<div class="alert alert-danger" role="alert">Ngày kết thúc phải sau hoặc bằng ngày bắt đầu</div>'
+                return false;
+
+                setTimeout(function () {
+                    document.getElementById('errorMessage').innerHTML = '';
+                }, 5000);
+            }
+
+            return true;
+        }
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -234,8 +225,8 @@
     <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 </div>
-    <!-- Template Javascript -->
-    <script src="../../js/admin/main.js"></script>
+<!-- Template Javascript -->
+<script src="../../js/admin/main.js"></script>
 </body>
 
 </html>

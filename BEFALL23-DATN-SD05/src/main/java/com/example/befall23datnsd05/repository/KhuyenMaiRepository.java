@@ -2,6 +2,7 @@ package com.example.befall23datnsd05.repository;
 
 import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,17 +22,11 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
                    km.trangThai = :trangThai
             """)
     List<KhuyenMai> getAllByTrangThai(
-            @Param("trangThai") TrangThai trangThai
+            @Param("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai
     );
 
     @Query("select km from KhuyenMai km where km.ngayBatDau >= :start and km.ngayKetThuc <= :end")
     List<KhuyenMai> findKhuyenMaisByNgayBatDauAndNgayKetThuc(@Param("start") LocalDate start,@Param("end") LocalDate end);
-
-    @Query("select km from KhuyenMai km where km.ngayBatDau >= :start")
-    List<KhuyenMai> findKhuyenMaisByNgayBatDau(@Param("start") LocalDate start);
-
-    @Query("select km from KhuyenMai km where km.ngayKetThuc <= :end")
-    List<KhuyenMai> findKhuyenMaisByNgayKetThuc(@Param("end") LocalDate end);
 
     @Transactional
     @Modifying
@@ -54,7 +49,7 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
     @Transactional
     @Modifying
     @Query(value = "update khuyen_mai\n" +
-            "set trang_thai = 10\n" +
-            "where id > 0 and CURDATE() < ngay_bat_dau and CURDATE() >= ngay_bat_dau - interval 3 day;", nativeQuery = true)
+            "set trang_thai = 2\n" +
+            "where id > 0 and CURDATE() < ngay_bat_dau and CURDATE() >= ngay_bat_dau - interval 3 day and ngay_bat_dau <= ngay_ket_thuc;", nativeQuery = true)
     int updateTrangThaiSapDienRa();
 }
