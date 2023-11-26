@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="../../images/WingMan-black.png" rel="icon">
+    <link href="/../../images/WingMan-black.png" rel="icon">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,22 +128,19 @@
                       enctype="multipart/form-data"
                       th:object="${sanPham}">
                     <input type="hidden" th:field="*{id}"/>
-                    <!--                    <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.getAnhChinh()}"/>-->
                     <div class="mb-3">
                         <div class="mb-3">
                             <label class="form-label">Mã Sản Phẩm</label>
                             <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
-                                   aria-describedby="emailHelp" required readonly/>
+                                   aria-describedby="emailHelp" readonly/>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tên Sản Phẩm</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
-                               aria-describedby="emailHelp" required/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
-                        <div th:if="${errorTen}" class="alert alert-danger">
-                            <p th:text="${errorTen}"></p>
-                        </div>
+                               aria-describedby="emailHelp"/>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red"></div>
+                        <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <div class="mb-3 row g-2">
                         <div style="width: 80%;">
@@ -184,8 +181,8 @@
                     <div class="mb-3">
                         <label class="form-label">Mô Tả</label>
                         <input type="text" class="form-control" id="moTa" name="moTa" th:field="*{moTa}"
-                               aria-describedby="emailHelp" required/>
-                        <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}"></div>
+                               aria-describedby="emailHelp"/>
+                        <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}" style="color: red"></div>
 
                     </div>
                     <!--ADD IMG-->
