@@ -250,7 +250,33 @@
                                 <hr>
                             </div>
                             </div>
-                            <div class="btn btn-primary black-btn " data-toggle="modal" data-target="#addNewShipping"> + Thêm mới</div>
+                            <div class="btn btn-primary black-btn " data-toggle="modal" data-target="#addNewShipping10"> + Thêm mới</div>
+                            <!--    New address-->
+                            <div class="modal fade" id="addNewShipping10" tabindex="-1" role="dialog" aria-labelledby="addNewShippingLabel10" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addNewShippingLabel">Thêm địa chỉ mới</h5>
+                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <form class="modal-body" th:action="@{'/wingman/add-dia-chi/'+${khachHang.id}}" th:object="${diaChi}" method="post">
+                                            <input class="form-control full-name" placeholder="Họ và tên" data-name="Họ và tên" name="tenNguoiNhan"
+                                                   th:field="*{tenNguoiNhan}"/>
+                                            <div class="invalid-feedback" th:field="${tenNguoiNhan}"> </div>
+                                            <br>
+                                            <input class="form-control phone" placeholder="Số điện thoại" data-name="Số điện thoại" name="sdt"
+                                                   th:field="*{sdt}"/>
+                                            <br>
+                                            <textarea class="form-control address" placeholder="Địa chỉ" data-name="Địa chỉ" th:field="*{diaChi}"></textarea>
+                                            <div class="invalid-feedback"> </div>
+                                            <div class="modal-footer">
+                                                <button class="btn" type="button" data-dismiss="modal">Huỷ bỏ</button>
+                                                <button class="btn btn-primary black-btn save" type="submit">Lưu</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -295,32 +321,7 @@
             </div>
         </div>
     </div>
-<!--    New address-->
-    <div class="modal fade" id="addNewShipping" tabindex="-1" role="dialog" aria-labelledby="addNewShippingLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addNewShippingLabel">Thêm địa chỉ mới</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <form class="modal-body" th:action="@{'/wingman/add-dia-chi/'+${khachHang.id}}" th:object="${diaChi}" method="post">
-                    <input class="form-control full-name" placeholder="Họ và tên" data-name="Họ và tên" name="tenNguoiNhan"
-                           th:field="*{tenNguoiNhan}"/>
-                    <div class="invalid-feedback" th:field="${tenNguoiNhan}"> </div>
-                    <br>
-                    <input class="form-control phone" placeholder="Số điện thoại" data-name="Số điện thoại" name="sdt"
-                           th:field="*{sdt}"/>
-                    <br>
-                    <textarea class="form-control address" placeholder="Địa chỉ" data-name="Địa chỉ" th:field="*{diaChi}"></textarea>
-                    <div class="invalid-feedback"> </div>
-                    <div class="modal-footer">
-                        <button class="btn" type="button" data-dismiss="modal">Huỷ bỏ</button>
-                        <button class="btn btn-primary black-btn save" type="submit">Lưu</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
     </div>
 </main>
 
