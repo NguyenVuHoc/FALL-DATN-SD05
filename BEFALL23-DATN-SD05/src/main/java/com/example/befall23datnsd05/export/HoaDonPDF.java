@@ -201,19 +201,30 @@ public class HoaDonPDF {
          table.addCell(cell12);
       }
 
-      // Đơn giá các sản phẩm
-      Paragraph donGia = new Paragraph("Tổng tiền: " + currencyFormat02.format((hoaDon.getThanhToan())), new Font(font));
-      donGia.setAlignment(Element.ALIGN_RIGHT);
-      donGia.setIndentationLeft(50);
-      donGia.setIndentationRight(50);
-      donGia.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
+      // Tổng tiền
+      Paragraph tongTien = new Paragraph("Tổng tiền: " + currencyFormat02.format(hoaDon.getTongTien().doubleValue()), new Font(font));
+      tongTien.setAlignment(Element.ALIGN_RIGHT);
+      tongTien.setIndentationLeft(50);
+      tongTien.setIndentationRight(50);
+      tongTien.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
+
+      // Xu
+      BigDecimal xuTichDiem = new BigDecimal(0);
+      if (hoaDon.getXu() != null){
+         xuTichDiem = hoaDon.getXu();
+      }
+      Paragraph xu = new Paragraph("Xu: " + currencyFormat02.format(xuTichDiem.doubleValue()), new Font(font));
+      xu.setAlignment(Element.ALIGN_RIGHT);
+      xu.setIndentationLeft(50);
+      xu.setIndentationRight(50);
+      xu.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
 
       // Thành tiền
-      Paragraph tongCong = new Paragraph("Thành tiền: " + (currencyFormat02.format(hoaDon.getThanhToan().doubleValue())) , new Font(font));
-      tongCong.setAlignment(Element.ALIGN_RIGHT);
-      tongCong.setIndentationLeft(50);
-      tongCong.setIndentationRight(50);
-      tongCong.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
+      Paragraph thanhTien = new Paragraph("Thành tiền: " + currencyFormat02.format(hoaDon.getThanhToan().doubleValue()), new Font(font));
+      thanhTien.setAlignment(Element.ALIGN_RIGHT);
+      thanhTien.setIndentationLeft(50);
+      thanhTien.setIndentationRight(50);
+      thanhTien.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
 
       // Thêm các phần tử vào tài liệu PDF
       document.add(paragraph1);
@@ -228,9 +239,9 @@ public class HoaDonPDF {
 //      document.add(paragraph8);
       document.add(table1);
       document.add(table);
-      document.add(donGia);
-//      document.add(pvc);
-      document.add(tongCong);
+      document.add(tongTien);
+      document.add(xu);
+      document.add(thanhTien);
 //      document.add(paragraph8);
 //      document.add(paragraph9);
 //      document.add(paragraph10);

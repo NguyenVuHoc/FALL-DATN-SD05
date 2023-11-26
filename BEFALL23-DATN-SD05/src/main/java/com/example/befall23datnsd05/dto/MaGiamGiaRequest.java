@@ -1,9 +1,11 @@
 package com.example.befall23datnsd05.dto;
 
+
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -11,11 +13,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class KhuyenMaiRequest {
+public class MaGiamGiaRequest {
 
     private Long id;
 
@@ -30,6 +33,17 @@ public class KhuyenMaiRequest {
     @Positive(message = "Mức giảm giá phải lớn hơn 0")
     @Max(value = 100, message = "Mức giảm giá không được vượt quá 100")
     private Integer mucGiamGia;
+
+    @Min(value = 1, message = "Mức giảm tối đa thấp nhất là 1")
+    private BigDecimal mucGiamToiDa;
+
+    @NotNull(message = "Số lượng không được để trống")
+    @Positive(message = "Số lượng phải lớn hơn 0")
+    private Integer soLuong;
+
+    @NotNull(message = "Giá trị áp dụng tối thiểu không được để trống")
+    @Min(value = 0, message = "Giá trị áp dụng tối thiểu là 0")
+    private BigDecimal giaTriDonHang;
 
     @NotNull(message = "Ngày bắt đầu không được để trống")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -53,8 +67,11 @@ public class KhuyenMaiRequest {
             return TrangThaiKhuyenMai.DUNG_HOAT_DONG;
         } else if (ngayKetThuc.isBefore(LocalDate.now())) {
             return TrangThaiKhuyenMai.DUNG_HOAT_DONG;
+        } else if(soLuong == 0){
+            return TrangThaiKhuyenMai.DUNG_HOAT_DONG;
         } else {
             return TrangThaiKhuyenMai.DANG_HOAT_DONG;
         }
     }
+
 }

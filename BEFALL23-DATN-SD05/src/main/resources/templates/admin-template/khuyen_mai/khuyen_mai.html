@@ -227,6 +227,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link active"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -342,7 +344,6 @@
                                 <th>Mức giảm</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
-                                <th>Mô tả</th>
                                 <th>Trạng thái</th>
                                 <th>Chức năng</th>
                             </tr>
@@ -355,20 +356,17 @@
                                 <td th:text="${khuyenMai.mucGiamGia + '%'}"></td>
                                 <td th:text="${khuyenMai.ngayBatDau}"></td>
                                 <td th:text="${khuyenMai.ngayKetThuc}"></td>
-                                <td th:text="${khuyenMai.moTa}"></td>
                                 <td th:text="${khuyenMai.trangThai.getDisplayName()}"></td>
                                 <td>
                                     <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/' + ${khuyenMai.id}}">
-                                        <img src="/../../img/them.png"
-                                             style="width: 25px; padding-right: 5px;">
+                                        <i class="bi bi-plus-circle" style="font-size: 20px"></i>
                                     </a>
                                     <a th:href="@{'/admin/khuyen-mai/view-update/' + ${khuyenMai.id}}">
-                                        <img src="/../../img/pen_v2.png"
-                                             style="width: 25px; padding-right: 5px;">
+                                        <i class="bi bi-pencil" style="font-size: 20px"></i>
                                     </a>
                                     <a th:href="@{/admin/khuyen-mai/huy/{id}(id=${khuyenMai.id})}"
                                        onclick="return confirm('Bạn có chắc muốn hủy khuyến mãi này?')">
-                                        <img src="/../../img/stop.png" style="width: 25px; padding-right: 5px;">
+                                        <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -381,7 +379,6 @@
                                 <th>Mức giảm</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
-                                <th>Mô tả</th>
                                 <th>Trạng thái</th>
                                 <th>Chức năng</th>
                             </tr>
