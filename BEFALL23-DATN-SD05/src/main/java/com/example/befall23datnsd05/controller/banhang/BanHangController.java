@@ -14,6 +14,7 @@ import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.service.MaGiamGiaService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,6 +44,9 @@ public class BanHangController {
 
     @Autowired
     private ChiTietSanPhamService chiTietSanPhamService;
+
+    @Autowired
+    private MaGiamGiaService maGiamGiaService;
 
     private Boolean isActive = false;
 
@@ -61,13 +66,16 @@ public class BanHangController {
     public String hienThiHoaDonChiTiet(@PathVariable("idHoaDon") String idHoaDon,
                                        Model model) {
         isActive = true;
+        BigDecimal tongTien = banHangService.getTongTien(Long.valueOf(idHoaDon));
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
-        model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
+        model.addAttribute("tongTien", tongTien);
+        model.addAttribute("thanhTien", banHangService.getThanhTien(Long.valueOf(idHoaDon), tongTien));
         model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
         model.addAttribute("listSanPham", chiTietSanPhamService.getAll());
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
         model.addAttribute("listKhachHang", khachHangService.getList());
+        model.addAttribute("listMaGiamGia", maGiamGiaService.getListHoatDong());
         model.addAttribute("idHoaDonCho", idHoaDon);
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("isActive", isActive);
@@ -102,9 +110,16 @@ public class BanHangController {
     }
 
     @PostMapping("/hoa-don/{idHoaDon}/them-khach-hang/{idKhachHang}")
-    public String updateKhhachHang(@PathVariable("idHoaDon") String idHoaDon,
+    public String updateKhachHang(@PathVariable("idHoaDon") String idHoaDon,
                                    @PathVariable("idKhachHang") String idKhachHang) {
         banHangService.updateKhachHang(Long.valueOf(idHoaDon), Long.valueOf(idKhachHang));
+        return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
+    }
+
+    @PostMapping("/hoa-don/{idHoaDon}/them-ma-giam-gia/{idGiamGia}")
+    public String updateGiamGia(@PathVariable("idHoaDon") String idHoaDon,
+                                   @PathVariable("idGiamGia") String idGiamGia) {
+        banHangService.updateGiamGia(Long.valueOf(idHoaDon), Long.valueOf(idGiamGia));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
@@ -156,19 +171,21 @@ public class BanHangController {
 
     @PostMapping("/thanh-toan/{idHoaDonCho}")
     public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
+                                  @RequestParam("tongTien") String tongTien,
                                   @RequestParam("thanhTien") String thanhTien,
                                   @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien, xuTichDiem);
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }
 
     @PostMapping ("/hoa-don/xuat-hoan-don/{idHoaDonCho}")
     public String xuatHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
+                             @RequestParam("tongTien") String tongTien,
                              @RequestParam("thanhTien") String thanhTien,
                              @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) throws Exception {
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien, xuTichDiem);
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         //Xuat hoa don

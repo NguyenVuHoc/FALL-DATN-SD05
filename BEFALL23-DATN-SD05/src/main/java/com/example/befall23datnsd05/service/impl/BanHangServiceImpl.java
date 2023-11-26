@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
+import com.example.befall23datnsd05.entity.MaGiamGia;
 import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
@@ -15,6 +16,7 @@ import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
+import com.example.befall23datnsd05.repository.MaGiamGiaRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,9 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Autowired
     private KhachHangRepository khachHangRepository;
+
+    @Autowired
+    private MaGiamGiaRepository maGiamGiaRepository;
 
     @Override
     public List<HoaDon> getHoaDonCho() {
@@ -133,7 +138,7 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien, Boolean xuTichDiem) {
+    public HoaDon thanhToanHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         KhachHang khachHang = khachHangRepository.findById(hoaDon.getKhachHang().getId()).get();
         if (xuTichDiem == true) {
@@ -141,7 +146,7 @@ public class BanHangServiceImpl implements BanHangService {
                 hoaDon.setNgayThanhToan(LocalDate.now());
                 hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
-                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
                 hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
                 hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
                 return hoaDonRepository.save(hoaDon);
@@ -149,7 +154,7 @@ public class BanHangServiceImpl implements BanHangService {
                 hoaDon.setNgayThanhToan(LocalDate.now());
                 hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
                 hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
-                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+                hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
                 hoaDon.setXu(hoaDon.getKhachHang().getTichDiem());
                 hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(hoaDon.getKhachHang().getTichDiem()));
                 hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
@@ -160,7 +165,7 @@ public class BanHangServiceImpl implements BanHangService {
             hoaDon.setNgayThanhToan(LocalDate.now());
             hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
             hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
-            hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+            hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
             hoaDon.setXu(new BigDecimal("50000"));
             hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(new BigDecimal("50000")));
             hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
@@ -171,7 +176,7 @@ public class BanHangServiceImpl implements BanHangService {
         hoaDon.setNgayThanhToan(LocalDate.now());
         hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
         hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
-        hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+        hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
         hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
         hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
         return hoaDonRepository.save(hoaDon);
@@ -179,15 +184,29 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Override
     public BigDecimal getTongTien(Long idHoaDon) {
-        BigDecimal thanhTien = BigDecimal.valueOf(0);
+        BigDecimal tongTien = BigDecimal.valueOf(0);
         Boolean check = false;
         int index = 0;
         List<HoaDonChiTiet> listHDCT = hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon);
         while (index < listHDCT.size() && !check) {
             HoaDonChiTiet hoaDonChiTiet = listHDCT.get(index);
-            thanhTien = thanhTien.add(hoaDonChiTiet.getGiaBan().multiply(BigDecimal.valueOf(hoaDonChiTiet.getSoLuong())));
+            tongTien = tongTien.add(hoaDonChiTiet.getGiaBan().multiply(BigDecimal.valueOf(hoaDonChiTiet.getSoLuong())));
             index++;
 
+        }
+        return tongTien;
+    }
+
+    @Override
+    public BigDecimal getThanhTien(Long idHoaDon, BigDecimal tongTien) {
+        BigDecimal thanhTien;
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getMaGiamGia() == null) {
+            thanhTien = tongTien;
+        } else if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) > 0) {
+            thanhTien = tongTien.subtract(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia())));
+        } else {
+            thanhTien = tongTien.subtract(hoaDon.getMaGiamGia().getMucGiamToiDa());
         }
         return thanhTien;
     }
@@ -242,11 +261,34 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Override
     public HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang) {
-        HoaDon hoaDon = hoaDonRepository.getReferenceById(idHoaDon);
-        KhachHang khachHang = khachHangRepository.getReferenceById(idKhachHang);
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        KhachHang khachHang = khachHangRepository.findById(idKhachHang).get();
         if (hoaDon != null) {
             hoaDon.setKhachHang(khachHang);
             hoaDonRepository.save(hoaDon);
+        }
+        return null;
+    }
+
+    @Override
+    public HoaDon updateGiamGia(Long idHoaDon, Long idGiamGia) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        MaGiamGia maGiamGia = maGiamGiaRepository.findById(idGiamGia).get();
+        MaGiamGia maGiamGia2 = hoaDon.getMaGiamGia();
+        if (hoaDon.getMaGiamGia() == null) {
+            hoaDon.setMaGiamGia(maGiamGia);
+            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+            maGiamGiaRepository.save(maGiamGia);
+            hoaDonRepository.save(hoaDon);
+        }else if (hoaDon.getMaGiamGia() != maGiamGia){
+            maGiamGia2.setSoLuong(maGiamGia2.getSoLuong() + 1);
+            maGiamGiaRepository.save(maGiamGia2);
+            hoaDon.setMaGiamGia(maGiamGia);
+            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+            maGiamGiaRepository.save(maGiamGia);
+            hoaDonRepository.save(hoaDon);
+        } else if (hoaDon.getMaGiamGia() == maGiamGia) {
+            return null;
         }
         return null;
     }
