@@ -27,4 +27,6 @@ public interface MaGiamGiaService {
     MaGiamGia update(MaGiamGiaRequest maGiamGiaRequest);
 
     void huy(Long id);
+
+    boolean existsByTen(String ten);
 }

@@ -82,11 +82,17 @@ public class KhuyenMaiController {
     public String them(
             @Valid
             @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
+        String ten = khuyenMaiRequest.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/khuyen_mai/them_khuyen_mai";
         } else {
+            if (service.existsByTen(ten)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/khuyen_mai/them_khuyen_mai";
+            }
             service.add(khuyenMaiRequest);
             return "redirect:/admin/khuyen-mai";
         }
@@ -103,13 +109,21 @@ public class KhuyenMaiController {
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
-                         BindingResult bindingResult ) {
+                         BindingResult bindingResult,
+                         Model model) {
+        String ten = khuyenMaiRequest.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/khuyen_mai/sua_khuyen_mai";
+        } else {
+            if (service.existsByTen(ten)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/khuyen_mai/sua_khuyen_mai";
+            }
+            service.update(khuyenMaiRequest);
+            ctspService.autoUpdateGia();
+            return "redirect:/admin/khuyen-mai";
         }
-        service.update(khuyenMaiRequest);
-        ctspService.autoUpdateGia();
-        return "redirect:/admin/khuyen-mai";
+
     }
 
     @GetMapping("/huy/{id}")

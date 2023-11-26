@@ -109,7 +109,7 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
+                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
                              style="width: 40px; height: 40px;">
                         <span class="d-none d-lg-inline-flex">John Doe</span>
                     </a>
@@ -132,46 +132,46 @@
                     <div class="mb-3">
                         <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
                         <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
-                        <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
-                        <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputMucGiam" class="form-label">Mức Giảm Tối Đa</label>
-                        <input type="number" class="form-control" id="inputMucGiam" th:field="*{mucGiamToiDa}"/>
-                        <div th:if="${#fields.hasErrors('mucGiamToiDa')}" th:errors="*{mucGiamToiDa}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputSoLuong" class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" id="inputSoLuong" th:field="*{soLuong}"/>
-                        <div th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu</label>
-                        <input type="number" class="form-control" id="inputApDung" th:field="*{giaTriDonHang}"/>
-                        <div th:if="${#fields.hasErrors('giaTriDonHang')}" th:errors="*{giaTriDonHang}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="NgayBatDau" class="form-label">Ngày Bắt Đầu</label>
-                        <input type="date" class="form-control" name="dateStart" id="NgayBatDau" th:field="*{ngayBatDau}">
-                        <div th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}" ></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="NgayKetThuc" class="form-label">Ngày Kết Thúc</label>
-                        <input type="date" class="form-control" name="dateEnd" id="NgayKetThuc" th:field="*{ngayKetThuc}">
-                        <div th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Mota" class="form-label">Mô Tả</label>
-                        <input type="text" class="form-control" id="Mota" th:field="*{moTa}"/>
-                        <div th:if="${#fields.hasErrors('moTa')}" th:errors="*{moTa}"></div>
-                    </div>
-                    <button type="submit" class="btn btn-success " style="margin-left: 40%;">
-                        Thêm
-                    </button>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red"></div>
+                        <div th:if="${errorTen}" th:text="${errorTen}" style="color: red">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                            <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
+                            <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputMucGiam" class="form-label">Tiền Giảm Tối Đa</label>
+                            <input type="number" class="form-control" id="inputMucGiam" th:field="*{mucGiamToiDa}"/>
+                            <div th:if="${#fields.hasErrors('mucGiamToiDa')}" th:errors="*{mucGiamToiDa}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputSoLuong" class="form-label">Số lượng</label>
+                            <input type="number" class="form-control" id="inputSoLuong" th:field="*{soLuong}"/>
+                            <div th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu</label>
+                            <input type="number" class="form-control" id="inputApDung" th:field="*{giaTriDonHang}"/>
+                            <div th:if="${#fields.hasErrors('giaTriDonHang')}" th:errors="*{giaTriDonHang}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="NgayBatDau" class="form-label">Ngày Bắt Đầu</label>
+                            <input type="date" class="form-control" name="dateStart" id="NgayBatDau" th:field="*{ngayBatDau}">
+                            <div th:if="${#fields.hasErrors('ngayBatDau')}" th:errors="*{ngayBatDau}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="NgayKetThuc" class="form-label">Ngày Kết Thúc</label>
+                            <input type="date" class="form-control" name="dateEnd" id="NgayKetThuc" th:field="*{ngayKetThuc}">
+                            <div th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}" style="color: red"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Mota" class="form-label">Mô Tả</label>
+                            <input type="text" class="form-control" id="Mota" th:field="*{moTa}"/>
+                        </div>
+                        <button type="submit" class="btn btn-success " style="margin-left: 40%;">
+                            Thêm
+                        </button>
                 </form>
 
             </div>

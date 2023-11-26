@@ -54,4 +54,6 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
     @Query(value = "update ma_giam_gia mgg set mgg.trang_thai = 2\n" +
             "where mgg.id > 0 and CURDATE() < mgg.ngay_bat_dau and CURDATE() >= mgg.ngay_bat_dau - interval 3 day and mgg.ngay_bat_dau <= mgg.ngay_ket_thuc;", nativeQuery = true)
     int updateTrangThaiSapDienRa();
+    
+    boolean existsByTen(String ten);
 }
