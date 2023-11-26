@@ -200,13 +200,15 @@ public class HoaDonController {
                 if(gioHangChiTiet1.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){
                     gioHangChiTiet1.setTrangThai(TrangThai.DA_TRA_HANG);
                     gioHangChiTietService.save(gioHangChiTiet1);
+                    hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG, ghichu);
+
                 }
                 if(gioHangChiTiet1.getTrangThai()==TrangThai.DOI_HANG){
                     gioHangChiTiet1.setTrangThai(TrangThai.DA_DOI_HANG);
                     gioHangChiTietService.save(gioHangChiTiet1);
+                    hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
                 }
             }
-            hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
             return "redirect:/admin/hoa-don?success";
         }
         return null;

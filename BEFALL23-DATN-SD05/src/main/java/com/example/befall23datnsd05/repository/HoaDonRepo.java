@@ -29,10 +29,26 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
     @Query(value = "select * from hoa_don where id_khach_hang=5",nativeQuery = true)
     List<HoaDon> getAllByKhachHangFixCung();
 
-    @Query(value = "SELECT SUM(hoa_don.thanh_toan) FROM hoa_don WHERE trang_thai = 5;\n",nativeQuery = true)
-    Long doanhThu();
+    @Query(value = "SELECT SUM(hoa_don.thanh_toan) FROM hoa_don WHERE trang_thai = 5" +
+            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n",nativeQuery = true)
+    Long doanhThu(LocalDate from, LocalDate to);
 
-    @Query(value = "SELECT COUNT(*) from hoa_don where  trang_thai=6",nativeQuery = true)
-    Long soDonHuy();
+    @Query(value = "SELECT COUNT(*) from hoa_don where  trang_thai=6" +
+            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n",nativeQuery = true)
+    Long soDonHuy(LocalDate from, LocalDate to);
+
+    @Query(value = "SELECT trang_thai, COUNT(trang_thai) FROM hoa_don" +
+            "  where hoa_don.ngay_tao BETWEEN  :from AND  :to\n"+
+            "    group by  hoa_don.trang_thai\n",nativeQuery = true)
+    List<Object[]> thongKeHoaDon(@Param("from")LocalDate from, @Param("to")LocalDate to);
+
+    @Query(value = "SELECT SUM(hoa_don.thanh_toan) AS total_thanh_toan, hoa_don.ngay_thanh_toan\n" +
+            "FROM hoa_don \n" +
+            "WHERE hoa_don.trang_thai IN (5, 8, 9)\n" +
+            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n" +
+            "GROUP BY hoa_don.ngay_thanh_toan\n" +
+            "ORDER BY hoa_don.ngay_thanh_toan ASC;\n", nativeQuery = true)
+    List<Object[]> thongKeDoanhTHu(@Param("from") LocalDate from, @Param("to") LocalDate to);
+
 
 }
