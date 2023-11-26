@@ -36,6 +36,7 @@ public class SanPhamController {
     Integer pageNo = 0;
 
     List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
+
     @GetMapping()
     public String hienThi(Model model) {
         model.addAttribute("listSanPham", sanPhamService.getAll());
@@ -54,7 +55,8 @@ public class SanPhamController {
 
 
     @GetMapping("/view-add-san-pham")
-    public String getViewAdd(@ModelAttribute("sanPham") SanPhamRequest request, Model model) {
+    public String getViewAdd(Model model) {
+        model.addAttribute("sanPham", new SanPhamRequest());
         model.addAttribute("listThuongHieu", thuongHieuService.getList());
         model.addAttribute("listDongSp", dongSanPhamService.getList());
         return "admin-template/san_pham/them_san_pham";
@@ -62,11 +64,18 @@ public class SanPhamController {
 
 
     @PostMapping("/add")
-    public String saveProduct(@Valid @ModelAttribute("sanPham") SanPhamRequest sanPham, RedirectAttributes ra,
+    public String saveProduct(@Valid @ModelAttribute("sanPham") SanPhamRequest sanPham,
+                              BindingResult result,
+                              RedirectAttributes ra,
                               @RequestParam("fileImage") MultipartFile[] multipartFiles,
                               Model model) {
         String ma = sanPham.getMa();
         String ten = sanPham.getTen();
+        if (result.hasErrors()) {
+            model.addAttribute("listThuongHieu", thuongHieuService.getList());
+            model.addAttribute("listDongSp", dongSanPhamService.getList());
+            return "admin-template/san_pham/them_san_pham";
+        }
         if (multipartFiles.length > 4) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
@@ -138,13 +147,18 @@ public class SanPhamController {
     }
 
     @PostMapping("/update")
-    public String updateProduct(@ModelAttribute("sanPham") SanPhamRequest sanPhamRequest, Model model) {
+    public String updateProduct(@Valid @ModelAttribute("sanPham") SanPhamRequest sanPhamRequest,
+                                BindingResult result, Model model) {
         String ten = sanPhamRequest.getTen();
         Long id = sanPhamRequest.getId();
         SanPham existingSanPham = sanPhamService.findById(id);
         List<AnhSanPham> existingImg = existingSanPham.getListAnhSanPham(); // Danh sách ảnh mới
         List<String> newImageUrls = new ArrayList<>();
-
+        if(result.hasErrors()){
+            model.addAttribute("listThuongHieu", thuongHieuService.getList());
+            model.addAttribute("listDongSp", dongSanPhamService.getList());
+            return "admin-template/san_pham/sua_san_pham";
+        }
         if (sanPhamService.existsByTenAndIdNot(ten, id)) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
