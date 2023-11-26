@@ -3,9 +3,11 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.AnhCustomerCustom;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
+import com.example.befall23datnsd05.service.GioHangChiTietService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ public class ChiTietSanPhamCustomerController {
 
     @Autowired
     private ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    private GioHangChiTietService gioHangChiTietService;
 
     Integer pageNo = 0;
 
@@ -92,6 +97,16 @@ public class ChiTietSanPhamCustomerController {
         List<ChiTietSanPhamCustomerCustom> listRand2 = chiTietSanPhamService.list4Random();
         model.addAttribute("listRandom2", listRand2.stream().toList());
         model.addAttribute("soLuongTon", chiTietSanPham.getSoLuongTon());
+        List<GioHangChiTiet> cartItems = gioHangChiTietService.getAll(Long.valueOf(5));
+
+        // Tìm mục trong giỏ hàng dựa trên ID sản phẩm
+        GioHangChiTiet gioHangChiTiet = cartItems.stream()
+                .filter(item -> item.getChiTietSanPham().getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
+        int soLuongTrongGioHang = (gioHangChiTiet != null) ? gioHangChiTiet.getSoLuong() : 0;
+        model.addAttribute("soLuongTrongGioHang", soLuongTrongGioHang);
         return "customer-template/detail";
     }
 }

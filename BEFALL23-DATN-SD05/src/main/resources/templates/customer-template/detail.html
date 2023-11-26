@@ -161,6 +161,7 @@
         <hr class="box">
         <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form" onsubmit="return validateQuantity()">
             <input type="hidden" id="availableQuantity" th:value="${soLuongTon}" />
+            <input type="hidden" id="cartQuantity" th:value="${soLuongTrongGioHang}" >
             <div class="row">
                 <!--Ảnh sản phẩm-->
                 <!--Ảnh sản phẩm-->
@@ -310,24 +311,35 @@
 
             <script>
                 function validateQuantity() {
-                    console.log('Validating quantity...');
+                    console.log('Đang kiểm tra số lượng...');
 
                     // Lấy giá trị số lượng từ trường ẩn và log
                     var availableQuantity = parseInt(document.getElementById('availableQuantity').value);
-                    console.log('Available Quantity:', availableQuantity);
+                    console.log('Số lượng có sẵn:', availableQuantity);
 
                     // Lấy giá trị số lượng từ trường input và log
                     var quantityInput = document.querySelector('.quantity-amount');
                     var quantity = parseInt(quantityInput.value);
                     console.log('Input Quantity:', quantity);
 
+                    // Lấy giá trị số lượng đã có trong giỏ hàng
+                    var cartQuantityInput = document.querySelector('#cartQuantity'); // Thay '#cartQuantity' bằng ID thích hợp của trường số lượng trong giỏ hàng
+                    var cartQuantity = parseInt(cartQuantityInput.value);
+                    console.log('Cart Quantity:', cartQuantity);
+
+                    // Kiểm tra số lượng
                     if (isNaN(quantity) || quantity < 1) {
                         updateModal('Số lượng không hợp lệ.');
                         return false;
                     }
 
                     if (quantity > availableQuantity) {
-                        updateModal('Số lượng vượt quá số lượng tồn kho.');
+                        updateModal('Không thể thêm sản phẩm. Số lượng vượt quá số lượng tồn kho.');
+                        return false;
+                    }
+
+                    if (quantity + cartQuantity > availableQuantity) {
+                        updateModal('Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn.');
                         return false;
                     }
 

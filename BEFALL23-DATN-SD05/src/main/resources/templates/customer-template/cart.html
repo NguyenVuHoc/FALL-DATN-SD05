@@ -118,13 +118,13 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Error</h5>
+                                                    <h5 class="modal-title">Lỗi</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p>Please enter a valid quantity greater than or equal to 1.</p>
+                                                    <p>Vui lòng nhập số lượng hợp lệ lớn hơn hoặc bằng 1</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -148,6 +148,7 @@
                                             });
                                         }
 
+
                                         function updateQuantity(input) {
                                             let quantity = input.value;
 
@@ -165,6 +166,28 @@
                                             updateQuantityInDatabase(productId, quantity);
 
                                             // Update the total price and any other necessary UI changes
+                                            updatePrice();
+                                            updatePriceAfterQuantityUpdate(productId, quantity);
+                                        }
+
+                                        function updatePriceAfterQuantityUpdate(productId, quantity) {
+                                            // Lấy tất cả các phần tử sản phẩm có cùng productId
+                                            let products = document.querySelectorAll(`input[value='${productId}']`);
+
+                                            // Duyệt qua từng phần tử sản phẩm và cập nhật giá trị thành tiền
+                                            products.forEach(product => {
+                                                let father = product.parentElement.parentElement.parentElement;
+                                                let price = father.querySelector(".price").innerText;
+                                                price = Number(price);
+
+                                                let qntE = father.querySelector(".quantity-amount");
+                                                let qnt = Number(qntE.value);
+
+                                                let priceE = father.querySelector(".thanhtien");
+                                                priceE.innerHTML = (price * qnt);
+                                            });
+
+                                            // Cập nhật tổng giá sau khi cập nhật số lượng
                                             updatePrice();
                                         }
 
@@ -225,7 +248,7 @@
                                             }
 
                                             qntE.value = qnt;
-                                            priceE.innerHTML = price * qnt;
+                                            priceE.innerHTML = (price * qnt);
 
                                             let checkBox = father.querySelector("input[type='checkbox']");
                                             checkBox.checked && updatePrice();
@@ -279,6 +302,7 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <span>Số lượng còn lại: [[${gioHangChiTiet.chiTietSanPham.soLuongTon}]]</span>
                                 </td>
                                 <td class="thanhtien"
                                     th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
