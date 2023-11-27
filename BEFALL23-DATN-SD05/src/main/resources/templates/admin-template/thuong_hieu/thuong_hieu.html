@@ -199,6 +199,33 @@
         <div th:if="${param.success}">
             <div class="alert alert-info" id="success-alert">Success!</div>
         </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Thương hiệu đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
+
+
         <!-- Recent Sales Start -->
 
         <div class="container-fluid pt-4">
@@ -254,7 +281,7 @@
                                         <a th:href="@{'/admin/thuong-hieu/view-update/' + ${thuongHieu.id}}">
                                             <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
-                                        <a th:href="@{'/admin/thuong-hieu/remove/' + ${thuongHieu.id}}">
+                                        <a th:href="@{'/admin/thuong-hieu/delete/' + ${thuongHieu.id}}">
                                             <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
                                     </td>

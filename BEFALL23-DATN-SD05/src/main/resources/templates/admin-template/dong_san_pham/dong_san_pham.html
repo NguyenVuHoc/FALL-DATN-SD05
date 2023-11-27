@@ -71,6 +71,15 @@
             display: none;
         }
 
+        /* hien thi icon them sửa xóa*/
+        .image-row {
+            display: flex; /* Sử dụng flexbox để xếp ảnh trên cùng một hàng */
+        }
+
+        .modal-body {
+            text-align: left;
+        }
+
         /* Tùy chỉnh CSS để chuyển "Show entries" sang bên trái */
         .dataTables_length {
             float: left;
@@ -201,7 +210,7 @@
 
         <script th:inline="javascript">
             /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
-            setTimeout(function() {
+            setTimeout(function () {
                 var successAlert = document.getElementById('success-alert');
                 if (successAlert) {
                     successAlert.style.display = 'none';
@@ -209,84 +218,100 @@
             }, 5000); // 5 giây (5000 milliseconds)
         </script>
 
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Dòng sản phẩm đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
-        <div class="row g-2">
-            <div style="width: 90%;">
-                <h6 class="mb-4" style="font-size: 40px;">Dòng Sản Phẩm</h6>
-            </div>
-            <div class="create" style="width: 10%;">
-                <button type="submit" class="btn btn-outline-success mb-2">
-                    <a  href="/admin/dong-san-pham/view-add-dong-san-pham" style="color: darkgreen;">Thêm</a>
-                </button>
-            </div>
-            <ul class="nav nav-tabs">
-                <button class="nav-link">
-                    <a href="/admin/dong-san-pham">Tất cả</a>
-                </button>
-                <li class="nav-item" th:each="tt : ${trangThais}">
-                    <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
-                            data-bs-toggle="tab" type="button" onclick="setHiddenValue('${tt}')">
-                        <a th:href="@{/admin/dong-san-pham/trang-thai/{status}(status=${tt})}"
-                           th:text="${tt.getDisplayName()}"></a>
+            <div class="row g-2">
+                <div style="width: 90%;">
+                    <h6 class="mb-4" style="font-size: 40px;">Dòng Sản Phẩm</h6>
+                </div>
+                <div class="create" style="width: 10%;">
+                    <button type="submit" class="btn btn-outline-success mb-2">
+                        <a href="/admin/dong-san-pham/view-add-dong-san-pham" style="color: darkgreen;">Thêm</a>
                     </button>
-                </li>
-            </ul>
-        </div>
-        <div class="container-fluid pt-4">
-            <div class="bg-light text-center rounded p-4">
-                <div>
-                    <div class="bg-light rounded h-100 p-4">
-                        <table id="example" class="table table-striped" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Mã</th>
-                                <th>Tên</th>
-                                <th>Trạng Thái</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="dongSp : ${listDongSp}">
-                                <td th:text="${dongSp.id}"></td>
-                                <td th:text="${dongSp.ma}"></td>
-                                <td th:text="${dongSp.ten}"></td>
-                                <td>
-                                    <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
-                                    <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
-                                </td>
-                                <td>
-                                    <a th:href="@{'/admin/dong-san-pham/view-update/' + ${dongSp.id}}">
-                                        <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
-                                    </a>
-                                    <a th:href="@{'/admin/dong-san-pham/remove/' + ${dongSp.id}}">
-                                        <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                            <!--    thêm ffoot sau tbody-->
-                            <!--     thẻ th phải tương ứng với thead-->
-                            <tfoot hidden="hidden">
-                            <tr>
-                                <th>Id</th>
-                                <th>Mã</th>
-                                <th>Tên</th>
-                                <th>Trạng Thái</th>
-                                <th>Thao tác</th>
-                            </tr>
-                            </tfoot>
-                            <!--    thêm ffoot sau tbody end-->
-                        </table>
+                </div>
+                <ul class="nav nav-tabs">
+                    <button class="nav-link">
+                        <a href="/admin/dong-san-pham">Tất cả</a>
+                    </button>
+                    <li class="nav-item" th:each="tt : ${trangThais}">
+                        <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
+                                data-bs-toggle="tab" type="button" onclick="setHiddenValue('${tt}')">
+                            <a th:href="@{/admin/dong-san-pham/trang-thai/{status}(status=${tt})}"
+                               th:text="${tt.getDisplayName()}"></a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="container-fluid pt-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div>
+                        <div class="bg-light rounded h-100 p-4">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="dongSp : ${listDongSp}">
+                                    <td th:text="${dongSp.id}"></td>
+                                    <td th:text="${dongSp.ma}"></td>
+                                    <td th:text="${dongSp.ten}"></td>
+                                    <td>
+                                        <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
+                                        <span th:if="${dongSp != null and dongSp.trangThai != null and dongSp.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'/admin/dong-san-pham/view-update/' + ${dongSp.id}}">
+                                            <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                        <a th:href="@{'/admin/dong-san-pham/delete/' + ${dongSp.id}}">
+                                            <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <!--    thêm ffoot sau tbody-->
+                                <!--     thẻ th phải tương ứng với thead-->
+                                <tfoot hidden="hidden">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </tfoot>
+                                <!--    thêm ffoot sau tbody end-->
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Recent Sales End -->
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
-        <!-- Recent Sales End -->
-        <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
+    </div>
 </div>
 <!--thư viện js tích tìm kiếm-->
 <script>

@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.service.LotGiayService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,26 +25,10 @@ public class LotGiayController {
     public String getAll(
             Model model
     ){
-//        Page<LotGiay> page = service.phanTrang(pageNo,5);
-//        model.addAttribute("listLG",page.stream().toList());
         model.addAttribute("listLG", service.getAll());
         model.addAttribute("index", pageNo+1);
         return "admin-template/lot_giay/lot_giay";
     }
-
-//    @GetMapping("/pre")
-//    private String pre() {
-//        pageNo--;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/lot-giay";
-//    }
-//
-//    @GetMapping("/next")
-//    private String next() {
-//        pageNo++;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/lot-giay";
-//    }
 
     @GetMapping("/view-add")
     public String viewAdd(
@@ -114,10 +99,26 @@ public class LotGiayController {
         return "redirect:/admin/lot-giay?success";
     }
 
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") Long id) {
+//        service.remove(id);
+//        return "redirect:/admin/lot-giay?success";
+//    }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        service.remove(id);
-        return "redirect:/admin/lot-giay?success";
+    public String delete(@PathVariable("id") Long id, Model model) {
+        try {
+            service.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/lot-giay?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/lot-giay?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/lot-giay?errorMessage";
+        }
+
     }
 
     @GetMapping("/search")
