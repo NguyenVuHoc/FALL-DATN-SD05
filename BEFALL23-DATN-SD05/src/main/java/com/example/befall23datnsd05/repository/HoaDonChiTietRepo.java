@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface HoaDonChiTietRepo extends JpaRepository<HoaDonChiTiet,Long> {
-    @Query(value = "select * from hoa_don_chi_tiet where trang_thai = 3 and id_hoa_don = :idHoaDon", nativeQuery = true)
+    @Query(value = "select * from hoa_don_chi_tiet where id_hoa_don = :idHoaDon", nativeQuery = true)
     List<HoaDonChiTiet> getHoaDonChiTietByIdHoaDon(@Param("idHoaDon") Long idHoaDon);
 
 //    @Query(value = "UPDATE set ")
