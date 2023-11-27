@@ -103,4 +103,9 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
             repository.save(maGiamGia);
         }
     }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
 }

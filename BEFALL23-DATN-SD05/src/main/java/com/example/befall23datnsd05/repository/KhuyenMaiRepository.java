@@ -52,4 +52,6 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
             "set trang_thai = 2\n" +
             "where id > 0 and CURDATE() < ngay_bat_dau and CURDATE() >= ngay_bat_dau - interval 3 day and ngay_bat_dau <= ngay_ket_thuc;", nativeQuery = true)
     int updateTrangThaiSapDienRa();
+
+    boolean existsByTen(String ten);
 }

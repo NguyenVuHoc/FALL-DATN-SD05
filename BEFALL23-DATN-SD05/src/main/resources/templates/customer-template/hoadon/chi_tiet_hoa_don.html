@@ -244,12 +244,12 @@
                     <p><strong>Địa Chỉ Giao:</strong> <span th:text="${hd.diaChi}"></span></p>
                     <p><strong>Ngày Tạo:</strong> <span><span th:text="${hd.ngayTao}"></span></span></p>
                     <p><strong>Ngày Sửa:</strong><span th:text="${hd.ngaySua}"></span></p>
-                    <p><strong>Số Điện Thoại:</strong><span th:text="${hd.sdt}"></span></p>
+                    <p><strong>Số Điện Thoại:</strong><span th:text="${' ' + hd.sdt}"></span></p>
                 </div>
                 <div>
                     <p><strong>Trạng Thái:</strong> <span th:text="${hd.trangThai.getDisplayName()}"></span></p>
                     <p><strong>Ghi chú:</strong> <span th:text="${hd.ghiChu}"></span></p>
-                    <p><strong>Thanh Toán:</strong><span th:text="${hd.tongTien}"></span></p>
+                    <p><strong>Thanh Toán:</strong><span th:text="${' ' + #numbers.formatDecimal(hd.tongTien, 0, 'POINT', 0, 'COMMA') + ' VND'}"></span></p>
                 </div>
             </div>
         </div>
@@ -263,10 +263,8 @@
                         <th>Sản phẩm</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
-                        <th>Thành tiền</th>
                         <th>Trạng Thái</th>
                         <th>Thao tác</th>
-
                     </tr>
                     </thead>
                     <tbody th:each="gioHangChiTiet : ${gioHangChiTiets}">
@@ -279,9 +277,8 @@
                         </td>
                         <td th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}">
                         </td>
-                        <td th:text="${gioHangChiTiet.chiTietSanPham.giaBan}+' VND'"></td>
+                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                         <td th:text="${gioHangChiTiet.soLuong}" id="currentQuantity"></td>
-                        <td th:text="${gioHangChiTiet.hoaDon.tongTien}+' VND'"></td>
                         <td>
                             <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)
@@ -387,9 +384,9 @@
                         <th>Sản phẩm</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
-                        <th>Thành tiền</th>
                         <th>Trạng Thái</th>
                         <th>Thao tác</th>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
@@ -516,15 +513,16 @@
         $('#example').DataTable();
     })
 </script>
-<script src="/js/admin/index_form.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#example').DataTable();
-    })
-</script>
+
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#example').DataTable();-->
+<!--    })-->
+<!--</script>-->
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
+<script src="/../js/admin/index_form.js"></script>
 <!--confirm xác nhận-->
 <script>
     // Get the error message div
@@ -549,7 +547,6 @@
             return false;
         }
     }
-
 </script>
 
 </body>

@@ -34,7 +34,7 @@ public class MaGiamGiaController {
     List<TrangThaiKhuyenMai> list = new ArrayList<>(Arrays.asList(TrangThaiKhuyenMai.DANG_HOAT_DONG, TrangThaiKhuyenMai.DUNG_HOAT_DONG, TrangThaiKhuyenMai.SAP_DIEN_RA));
 
     @GetMapping()
-    public String getAll(Model model){
+    public String getAll(Model model) {
         model.addAttribute("listMaGiam", service.getAll());
         model.addAttribute("listTrangThai", list);
         return "admin-template/ma_giam_gia/ma_giam_gia";
@@ -42,7 +42,7 @@ public class MaGiamGiaController {
 
     @GetMapping("/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
-                                 @PathVariable("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai){
+                                 @PathVariable("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai) {
         model.addAttribute("listMaGiam", service.getByTrangThai(trangThaiKhuyenMai));
         model.addAttribute("listTrangThai", list);
         return "admin-template/ma_giam_gia/ma_giam_gia";
@@ -70,7 +70,7 @@ public class MaGiamGiaController {
     public String viewAdd(
             @ModelAttribute("maGiamGia") MaGiamGiaRequest maGiamGiaRequest,
             Model model
-    ){
+    ) {
         model.addAttribute("maGiamGia", new MaGiamGia());
         return "admin-template/ma_giam_gia/them_ma_giam_gia";
     }
@@ -79,11 +79,17 @@ public class MaGiamGiaController {
     public String them(
             @Valid
             @ModelAttribute("maGiamGia") MaGiamGiaRequest maGiamGiaRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
+        String ten = maGiamGiaRequest.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/ma_giam_gia/them_ma_giam_gia";
         } else {
+            if (service.existsByTen(ten)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/ma_giam_gia/them_ma_giam_gia";
+            }
             service.add(maGiamGiaRequest);
             return "redirect:/admin/ma-giam-gia";
         }
@@ -93,19 +99,27 @@ public class MaGiamGiaController {
     public String viewUpdate(
             @PathVariable("id") Long id,
             Model model
-    ){
-        model.addAttribute("maGiamGia",service.getById(id));
+    ) {
+        model.addAttribute("maGiamGia", service.getById(id));
         return "admin-template/ma_giam_gia/sua_ma_giam_gia";
     }
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("maGiamGia") MaGiamGiaRequest maGiamGiaRequest,
-                         BindingResult bindingResult ) {
+                         BindingResult bindingResult,
+                         Model model) {
+        String ten = maGiamGiaRequest.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/ma_giam_gia/sua_ma_giam_gia";
+        }else {
+            if (service.existsByTen(ten)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/ma_giam_gia/sua_ma_giam_gia";
+            }
+            service.update(maGiamGiaRequest);
+            return "redirect:/admin/ma-giam-gia";
         }
-        service.update(maGiamGiaRequest);
-        return "redirect:/admin/ma-giam-gia";
+
     }
 
     @GetMapping("/huy/{id}")

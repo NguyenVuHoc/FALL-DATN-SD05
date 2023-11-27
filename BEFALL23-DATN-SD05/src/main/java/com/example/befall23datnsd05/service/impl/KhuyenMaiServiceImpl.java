@@ -93,4 +93,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     public List<KhuyenMai> findKhuyenMai(LocalDate start, LocalDate end, TrangThaiKhuyenMai trangThaiKhuyenMai) {
         return repository.findKhuyenMaisByNgayBatDauAndNgayKetThuc(start, end);
     }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
 }
