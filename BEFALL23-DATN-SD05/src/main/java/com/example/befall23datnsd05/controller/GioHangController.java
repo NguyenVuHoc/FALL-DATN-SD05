@@ -15,8 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/wingman/cart")
@@ -124,6 +127,7 @@ public class GioHangController {
 //    }
 
     @PostMapping("/updateQuantity")
+    @ResponseBody
     public ResponseEntity<String> updateQuantity(@RequestParam Long idGioHangChiTiet, @RequestParam Integer soLuong) {
         try {
             // Update quantity in the database using your service

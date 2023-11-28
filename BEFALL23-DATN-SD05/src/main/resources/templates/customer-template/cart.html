@@ -60,7 +60,7 @@
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
-                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg"></a></li>
+                <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="/../images/cart.svg"></a></li>
             </ul>
         </div>
     </div>
@@ -69,18 +69,7 @@
 <!-- End Header/Navigation -->
 
 <!-- Start Hero Section -->
-<div class="hero">
-    <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-5">
-                <div class="intro-excerpt">
-                    <h1>Giỏ hàng</h1>
-                </div>
-            </div>
-            <div class="col-lg-7"></div>
-        </div>
-    </div>
-</div>
+                    <h1 style="color: black; text-align: center; padding-top: 100px">Giỏ hàng</h1>
 <!-- End Hero Section -->
 
     <div class="untree_co-section before-footer-section">
@@ -94,7 +83,7 @@
                                 <th class="product-thumbnail">
                                     <div class="form-check">
                                         <input class="form-check-input" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" type="checkbox"
-                                               value="">
+                                               value="" >
                                     </div>
                                 </th>
                                 <th class="product-thumbnail">Ảnh</th>
@@ -114,6 +103,24 @@
                                         <span class="id-cart" hidden th:data-id="${gioHangChiTiet.gioHang.id}"></span>
                                         <input class="form-check-input" name="options[]" id="checkboxID" th:value="${gioHangChiTiet.id}" onchange="updatePrice(this)" type="checkbox">
                                     </div>
+                                    <div class="modal" tabindex="-1" role="dialog" id="quantityModal">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Lỗi</h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Vui lòng nhập số lượng hợp lệ lớn hơn hoặc bằng 1</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Dong</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <script>
                                         function updateQuantityInDatabase(productId, quantity) {
                                             $.ajax({
@@ -131,61 +138,112 @@
                                         }
 
 
-                                        function getTotalMoney() {
+                                        function updateQuantity(input) {
+                                            let quantity = input.value;
+
+                                            if (isNaN(quantity) || quantity < 1) {
+                                                // Display the modal
+                                                $('#quantityModal').modal('show');
+                                                // Reset the input value to 1
+                                                input.value = 1;
+                                                return;
+                                            }
+
+                                            let productId = input.parentElement.parentElement.parentElement.querySelector("input[type='checkbox']").value;
+
+                                            // Call the updateQuantityInDatabase function to update the quantity in the database
+                                            updateQuantityInDatabase(productId, quantity);
+
+                                            // Update the total price and any other necessary UI changes
+                                            updatePrice();
+                                            updatePriceAfterQuantityUpdate(productId, quantity);
+                                        }
+
+                                        function updatePriceAfterQuantityUpdate(productId, quantity) {
+                                            // Lấy tất cả các phần tử sản phẩm có cùng productId
+                                            let products = document.querySelectorAll(`input[value='${productId}']`);
+
+                                            // Duyệt qua từng phần tử sản phẩm và cập nhật giá trị thành tiền
+                                            products.forEach(product => {
+                                                let father = product.parentElement.parentElement.parentElement;
+                                                let price = father.querySelector(".price").innerText;
+                                                price = Number(price);
+
+                                                let qntE = father.querySelector(".quantity-amount");
+                                                let qnt = Number(qntE.value);
+
+                                                let priceE = father.querySelector(".thanhtien");
+                                                priceE.innerHTML = (price * qnt);
+                                            });
+
+                                            // Cập nhật tổng giá sau khi cập nhật số lượng
+                                            updatePrice();
+                                        }
+
+                                        function formatCurrency(amount) {
+                                            return new Intl.NumberFormat('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND'
+                                            }).formatToParts(amount).map(part => {
+                                                if (part.type === 'currency') {
+                                                    return ''; // Bỏ qua ký hiệu tiền tệ
+                                                }
+                                                return part.value;
+                                            }).join('');
+                                        }
+
+
+                                        function getTotalMonye() {
                                             var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
                                             let total = 0;
                                             checkboxes.forEach(item => {
                                                 if (item.checked) {
                                                     let father = item.parentElement.parentElement.parentElement;
                                                     let price = father.querySelector(".thanhtien").innerText;
-                                                    price = Number(price.replace(' VND', '').replace(/,/g, ''));
-                                                    if (!isNaN(price)) {
-                                                        total += price;
-                                                    }
+                                                    price = Number(price);
+                                                    total += price;
                                                 }
-                                            });
-                                            return total.toLocaleString('en-US', { style: 'currency', currency: 'VND' });
+                                            })
+                                            return total;
                                         }
 
-                                        function updatePrice(e) {
+                                        function updatePrice() {
                                             let totalE = document.querySelector(".total");
-                                            let price = getTotalMoney();
-                                            totalE.innerHTML = price;
+                                            let price = getTotalMonye();
+                                            totalE.innerHTML = formatCurrency(price) + ' VND'; // Thêm ' VND' đằng sau giá trị
                                         }
-
 
                                         function handlerChange(e) {
-                                            let className = e.classList.contains("cong") ? "cong" : "tru";
+                                            let className = e.getAttribute("class");
                                             let father = e.parentElement.parentElement.parentElement.parentElement;
                                             let priceE = father.querySelector(".thanhtien");
-                                            let priceText = father.querySelector(".price").innerText;
-
-                                            // Trích xuất giá trị số từ priceText
-                                            let initialPrice = parseFloat(priceText.replace(/[^\d.]/g, '').replace(/\./g, ''));
+                                            let price = father.querySelector(".price").innerText;
+                                            price = Number(price);
 
                                             let qntE = father.querySelector(".quantity-amount");
-                                            let qnt = Number(qntE.value);
+                                            let qnt = father.querySelector(".quantity-amount").value;
 
-                                            if (className == "cong") {
-                                                qnt += 1;
+                                            if (className === "cong") {
+                                                qnt = Number(qnt) + 1;
                                             } else {
-                                                qnt = Math.max(1, qnt - 1);
+                                                qnt = Number(qnt) - 1;
+                                            }
+
+                                            // Validate quantity: should be a number greater than or equal to 1
+                                            if (isNaN(qnt) || qnt < 1) {
+                                                // Display the modal
+                                                $('#quantityModal').modal('show');
+                                                return;
                                             }
 
                                             qntE.value = qnt;
-                                            let totalPrice = initialPrice * qnt;
-
-                                            if (!isNaN(totalPrice)) {
-                                                // Định dạng totalPrice với dấu phẩy và thêm ' VND'
-                                                priceE.innerHTML = totalPrice.toLocaleString('en-US') + ' VND';
-                                            }
+                                            priceE.innerHTML = (price * qnt);
 
                                             let checkBox = father.querySelector("input[type='checkbox']");
-                                            if (checkBox.checked) {
-                                                updatePrice(checkBox);
-                                            }
+                                            checkBox.checked && updatePrice();
                                             updateQuantityInDatabase(checkBox.value, qnt);
                                         }
+
                                     </script>
                                 </td>
                                 <td class="product-thumbnail">
@@ -197,9 +255,13 @@
                                 </td>
                                 <td class="product-name">
                                     <h2 class="h5 text-black name"
-                                        th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
+                                        th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.lotGiay.ten}"></h2>
                                 </td>
-                                <td class="price" th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
                                 <td>
                                     <div
                                             class="input-group mb-3 d-flex align-items-center quantity-container"
@@ -221,6 +283,8 @@
                                                 th:value="${gioHangChiTiet.soLuong}"
                                                 type="text"
                                                 name="soLuong"
+                                                onchange="updateQuantity(this)"
+                                                th:data-max-quantity="${gioHangChiTiet.chiTietSanPham.soLuongTon}"
                                         />
                                         <div class="cong" onclick="handlerChange(this)">
                                             <button
@@ -231,9 +295,10 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <span>Số lượng còn lại: [[${gioHangChiTiet.chiTietSanPham.soLuongTon}]]</span>
                                 </td>
                                 <td class="thanhtien"
-                                    th:text="${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                    th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
                                 <td><a class="btn btn-black btn-sm"
                                        th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}">X</a></td>
                             </tr>
@@ -281,8 +346,66 @@
                                     >
                                         Mua hàng
                                     </button>
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Vui lòng chọn ít nhất một mục để tiếp tục.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="quantityExceedErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Lỗi Số Lượng</h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p id="quantityExceedErrorMessage">Số lượng sản phẩm trong giỏ hàng đang vượt quá số lượng tồn kho.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <script>
                                         function checkOut() {
+                                            let items = document.querySelectorAll("tbody input[type='checkbox']");
+                                            let isQuantityValid = true;
+
+                                            items.forEach(item => {
+                                                if (item.checked) {
+                                                    let father = item.parentElement.parentElement.parentElement;
+                                                    let quantity = parseInt(father.querySelector(".quantity-amount").value);
+                                                    let maxQuantity = parseInt(father.querySelector(".quantity-amount").getAttribute('data-max-quantity'));
+
+                                                    if (quantity > maxQuantity) {
+                                                        isQuantityValid = false;
+                                                        return;
+                                                    }
+                                                }
+                                            });
+
+                                            // Nếu số lượng vượt quá số lượng tồn, hiển thị modal lỗi
+                                            if (!isQuantityValid) {
+                                                $('#quantityExceedErrorModal').modal('show');
+                                                return;
+                                            }
+
                                             var checkboxes = document.querySelectorAll("input[name='options[]']");
                                             // Mảng để lưu trữ giá trị của các checkbox được chọn
                                             var selectedOptions = [];
@@ -295,7 +418,8 @@
                                             });
 
                                             if (selectedOptions.length === 0) {
-                                                alert("Vui lòng chọn ít nhất một mục để tiếp tục.");
+                                                // Thay vì sử dụng alert, hiển thị modal Bootstrap
+                                                $('#myModal').modal('show');
                                                 return; // Không chuyển hướng nếu không có checkbox nào được chọn
                                             }
 
@@ -437,10 +561,12 @@
         // Đặt trạng thái của các ô checkbox đằng sau bằng giá trị của ô checkbox đầu tiên
         checkboxes.forEach(item => {
             item.checked = checkbox.checked;
-            updatePrice(item);
-        })
-    }
+            updatePrice();
+        });
 
+        // Sau khi cập nhật tất cả các ô checkbox, hãy cập nhật tổng giá
+
+    }
 </script>
 </body>
 </html>

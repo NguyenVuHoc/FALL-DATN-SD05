@@ -102,7 +102,6 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             gioHangChiTietRepository.save(gh);
 
             ChiTietSanPham chiTietSanPham = gh.getChiTietSanPham();
-            chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() - gh.getSoLuong());
             chiTietSanPhamRepository.save(chiTietSanPham);
             BigDecimal itemCost = chiTietSanPham.getGiaBan().multiply(BigDecimal.valueOf(gh.getSoLuong()));
             tongTien = tongTien.add(itemCost);
