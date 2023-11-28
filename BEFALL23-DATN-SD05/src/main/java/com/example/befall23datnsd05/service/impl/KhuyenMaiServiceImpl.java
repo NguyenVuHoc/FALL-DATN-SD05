@@ -98,4 +98,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     public boolean existsByTen(String ten) {
         return repository.existsByTen(ten);
     }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
+    }
 }
