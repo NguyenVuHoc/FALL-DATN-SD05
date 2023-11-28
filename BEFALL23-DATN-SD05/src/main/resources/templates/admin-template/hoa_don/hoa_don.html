@@ -333,11 +333,11 @@
                                 <td>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE)}"
                                        th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
-                                       th:text="${hd.thanhToan}"
+                                       th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA')}"
                                        style="color: black;"></a>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
                                        th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}"
-                                       th:text="${hd.thanhToan}"
+                                       th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA') }"
                                        style="color: black;"></a>
                                 </td>
                                 <td>

@@ -168,31 +168,34 @@ public class SanPhamController {
 
         List<MultipartFile> multipartFiles = sanPhamRequest.getFileImages();
         if (multipartFiles != null && !multipartFiles.isEmpty()) {
-            List<AnhSanPham> newImages = new ArrayList<>();
-            String uploadDir = "src/main/resources/static/images";
-            anhSanPhamService.deleteByIdSp(id);
+            if( !multipartFiles.get(0).getOriginalFilename().equals("")) {
 
-            for (MultipartFile multipartFile : multipartFiles) {
-                if (!multipartFile.isEmpty()) {
-                    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-                    AnhSanPham anhSanPham = new AnhSanPham();
-                    anhSanPham.setSanPham(existingSanPham);
-                    existingSanPham.setAnhChinh(fileName);
-                    anhSanPham.setUrl(fileName);
-                    anhSanPhamService.save(anhSanPham);
-                    FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-                    newImages.add(anhSanPham);
-                    newImageUrls.add(anhSanPham.getUrl());
-                    String firstImageUrl = newImageUrls.get(0);
-                    sanPhamRequest.setAnhChinh(firstImageUrl);
+                List<AnhSanPham> newImages = new ArrayList<>();
+                String uploadDir = "src/main/resources/static/images";
+                anhSanPhamService.deleteByIdSp(id);
+
+                for (MultipartFile multipartFile : multipartFiles) {
+                    if (!multipartFile.isEmpty()) {
+                        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                        AnhSanPham anhSanPham = new AnhSanPham();
+                        anhSanPham.setSanPham(existingSanPham);
+                        existingSanPham.setAnhChinh(fileName);
+                        anhSanPham.setUrl(fileName);
+                        anhSanPhamService.save(anhSanPham);
+                        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                        newImages.add(anhSanPham);
+                        newImageUrls.add(anhSanPham.getUrl());
+                        String firstImageUrl = newImageUrls.get(0);
+                        sanPhamRequest.setAnhChinh(firstImageUrl);
+                    }
                 }
+                existingImg.addAll(newImages);
             }
-            existingImg.addAll(newImages);
         }
-
-        existingSanPham.setListAnhSanPham(existingImg);
+        sanPhamRequest.setAnhChinh(existingImg.get(0).getUrl());
         sanPhamService.update(sanPhamRequest);
         return "redirect:/admin/san-pham?success";
     }
+
 }
 
