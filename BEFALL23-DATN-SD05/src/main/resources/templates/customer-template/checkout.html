@@ -74,7 +74,7 @@
     <div class="row mb-5">
       <div class="col-md-12">
         <div class="border p-4 rounded" role="alert">
-          Returning customer? <a href="#">Click here</a> to login
+          <a href="#">Nhấn vào đây</a> để đăng nhập
         </div>
       </div>
     </div>
@@ -302,12 +302,14 @@
                 <tbody>
                 <tr th:each="gioHangChiTiet : ${listGioHangChiTiet}">
                   <td>
-                    [[${gioHangChiTiet.chiTietSanPham.sanPham.ten}]] <strong class="mx-2">x</strong>
+                    [[${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
+                    gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
+                    gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
+                    gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
+                    gioHangChiTiet.chiTietSanPham.lotGiay.ten}]] <strong class="mx-2">x</strong>
                     [[${gioHangChiTiet.soLuong}]]
                   </td>
                   <td>[[${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}]]</td>
-                  <td><a class="btn btn-black btn-sm"
-                         th:href="@{'/wingman/cart/xoa-sp/' + ${gioHangChiTiet.id}}">X</a></td>
                 </tr>
                 <tr>
                   <td class="text-black font-weight-bold">

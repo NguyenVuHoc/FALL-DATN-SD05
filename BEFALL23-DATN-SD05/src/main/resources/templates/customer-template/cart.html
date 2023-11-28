@@ -60,7 +60,7 @@
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
-                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg"></a></li>
+                <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="/../images/cart.svg"></a></li>
             </ul>
         </div>
     </div>
@@ -69,18 +69,7 @@
 <!-- End Header/Navigation -->
 
 <!-- Start Hero Section -->
-<div class="hero">
-    <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-5">
-                <div class="intro-excerpt">
-                    <h1>Giỏ hàng</h1>
-                </div>
-            </div>
-            <div class="col-lg-7"></div>
-        </div>
-    </div>
-</div>
+                    <h1 style="color: black; text-align: center; padding-top: 100px">Giỏ hàng</h1>
 <!-- End Hero Section -->
 
     <div class="untree_co-section before-footer-section">
@@ -94,7 +83,7 @@
                                 <th class="product-thumbnail">
                                     <div class="form-check">
                                         <input class="form-check-input" id="selectAllCheckbox" onclick="toggleCheckboxes(this)" type="checkbox"
-                                               value="">
+                                               value="" >
                                     </div>
                                 </th>
                                 <th class="product-thumbnail">Ảnh</th>
@@ -119,7 +108,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Lỗi</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -127,7 +116,7 @@
                                                     <p>Vui lòng nhập số lượng hợp lệ lớn hơn hoặc bằng 1</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Dong</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,7 +255,11 @@
                                 </td>
                                 <td class="product-name">
                                     <h2 class="h5 text-black name"
-                                        th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}"></h2>
+                                        th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
+                                        gioHangChiTiet.chiTietSanPham.lotGiay.ten}"></h2>
                                 </td>
                                 <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
                                 <td>
@@ -358,7 +351,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -366,7 +359,7 @@
                                                     Vui lòng chọn ít nhất một mục để tiếp tục.
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -376,7 +369,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Lỗi Số Lượng</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
@@ -384,7 +377,7 @@
                                                     <p id="quantityExceedErrorMessage">Số lượng sản phẩm trong giỏ hàng đang vượt quá số lượng tồn kho.</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                                                 </div>
                                             </div>
                                         </div>
