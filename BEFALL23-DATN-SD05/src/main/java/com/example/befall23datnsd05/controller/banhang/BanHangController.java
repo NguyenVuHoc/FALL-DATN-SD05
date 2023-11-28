@@ -111,15 +111,22 @@ public class BanHangController {
 
     @PostMapping("/hoa-don/{idHoaDon}/them-khach-hang/{idKhachHang}")
     public String updateKhachHang(@PathVariable("idHoaDon") String idHoaDon,
-                                   @PathVariable("idKhachHang") String idKhachHang) {
+                                  @PathVariable("idKhachHang") String idKhachHang) {
         banHangService.updateKhachHang(Long.valueOf(idHoaDon), Long.valueOf(idKhachHang));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
-    @PostMapping("/hoa-don/{idHoaDon}/them-ma-giam-gia/{idGiamGia}")
-    public String updateGiamGia(@PathVariable("idHoaDon") String idHoaDon,
-                                   @PathVariable("idGiamGia") String idGiamGia) {
-        banHangService.updateGiamGia(Long.valueOf(idHoaDon), Long.valueOf(idGiamGia));
+    @PostMapping("/hoa-don/{idHoaDon}/them-voucher/{idGiamGia}")
+    public String themVoucher(@PathVariable("idHoaDon") String idHoaDon,
+                              @PathVariable("idGiamGia") String idGiamGia,
+                              @RequestParam("tongTien") String tongTien) {
+        banHangService.themGiamGia(Long.valueOf(idHoaDon), Long.valueOf(idGiamGia), BigDecimal.valueOf(Double.valueOf(tongTien)));
+        return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
+    }
+
+    @PostMapping("/hoa-don/{idHoaDon}/huy-voucher")
+    public String huyVoucher(@PathVariable("idHoaDon") String idHoaDon) {
+        banHangService.huyGiamGia(Long.valueOf(idHoaDon));
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
     }
 
@@ -166,6 +173,8 @@ public class BanHangController {
                                      @PathVariable("idHDCT") String idHDCT,
                                      @RequestParam("soLuong") String soLuong) {
         banHangService.giamSoLuongSanPhamHoaDon(Long.valueOf(idHDCT), Integer.valueOf(soLuong));
+        BigDecimal tongTien = banHangService.getTongTien(Long.valueOf(idHoaDonCho));
+        banHangService.checkGiamGia(Long.valueOf(idHoaDonCho), tongTien);
         return "redirect:/admin/ban-hang/hoa-don/" + idHoaDonCho;
     }
 
@@ -176,27 +185,29 @@ public class BanHangController {
                                   @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
+        banHangService.updateGiamGia(Long.valueOf(idHoaDon));
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }
 
-    @PostMapping ("/hoa-don/xuat-hoan-don/{idHoaDonCho}")
+    @PostMapping("/hoa-don/xuat-hoan-don/{idHoaDonCho}")
     public String xuatHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
                              @RequestParam("tongTien") String tongTien,
                              @RequestParam("thanhTien") String thanhTien,
                              @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) throws Exception {
         banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-        banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         //Xuat hoa don
         List<HoaDonChiTiet> listHDCT = banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon));
         HoaDonPDF hoaDonPDF = new HoaDonPDF();
         hoaDonPDF.exportToPDF(listHDCT, hoaDon);
+        banHangService.updateGiamGia(Long.valueOf(idHoaDon));
+        banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }
 
     @GetMapping("/hoa-don/{idHoaDonCho}/huy-don")
-    public String huyDon(@PathVariable("idHoaDonCho") String idHoaDon){
+    public String huyDon(@PathVariable("idHoaDonCho") String idHoaDon) {
         banHangService.huyDon(Long.valueOf(idHoaDon));
         return "redirect:/admin/ban-hang";
     }

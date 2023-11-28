@@ -67,6 +67,72 @@
             vertical-align: middle;
         }
 
+        #kh {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            padding-top: 20px;
+        }
+
+        #kh th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        #kh td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            color: #6a6a6a;
+        }
+
+        #kh tbody tr:hover {
+            background-color: #b3e1ff;
+        }
+
+        #kh img {
+            vertical-align: middle;
+        }
+
+        #vc {
+            font-family: Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            padding-top: 20px;
+        }
+
+        #vc th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            border-bottom: 1px solid black;
+            padding: 8px;
+            text-align: center;
+
+        }
+
+        #vc td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            color: #6a6a6a;
+        }
+
+        #vc tbody tr:hover {
+            background-color: #b3e1ff;
+        }
+
+        #vc img {
+            vertical-align: middle;
+        }
+
 
         /* Hide the footer */
         tfoot[hidden] {
@@ -350,6 +416,11 @@
                                                                                        name="soLuongSanPham"
                                                                                        hidden
                                                                                        th:value="${hdct.getSoLuong()}"/>
+                                                                                <input type="text" class="form-control"
+                                                                                       style="color: red"
+                                                                                       name="tongTien"
+                                                                                       hidden
+                                                                                       th:value="${tongTien}">
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button"
@@ -451,17 +522,24 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="mb-3 row g-2">
-                                <div style="width: 75%;">
+                            <div class="mb-3 g-2">
+                                <div>
                                     <label class="form-label">Voucher</label>
                                     <input type="text" class="form-control" name="voucher" readonly
-                                    th:field="*{maGiamGia.ten}"/>
+                                           th:field="*{maGiamGia.ten}"/>
                                 </div>
-                                <div style="width: 25%;">
-                                    <button id="chonVoucher" type="button" class="btn btn-primary"
+                                <div class="row g-2" style="display: flex">
+                                    <button id="chonVoucher" type="button" class="btn btn-outline-primary"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#voucher" style="margin-top: 30px;">
+                                            data-bs-target="#voucher"
+                                            style="margin-top: 30px;margin-left: 5px;width: 100px;">
                                         Chọn
+                                    </button>
+                                    <button id="huyVoucher" type="button" class="btn btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#huyMaGiamGia"
+                                            style="margin-top: 30px;margin-left: 5px;width: 100px;">
+                                        Hủy
                                     </button>
                                 </div>
                             </div>
@@ -494,60 +572,60 @@
                                 </div>
                             </div>
                             <script>
-                                 function applyDiscount() {
-                                     var thanhTienInput = document.getElementById("thanhTienInput");
-                                     var xuInput = document.getElementById("xuTichDiem");
-                                     var discount = 50000;
+                                function applyDiscount() {
+                                    var thanhTienInput = document.getElementById("thanhTienInput");
+                                    var xuInput = document.getElementById("xuTichDiem");
+                                    var discount = 50000;
 
-                                     // Lấy giá trị thành tiền từ ô thanhTienInput
-                                     var thanhTien = parseFloat(thanhTienInput.value.replace(/[^\d.-]/g, ''));
+                                    // Lấy giá trị thành tiền từ ô thanhTienInput
+                                    var thanhTien = parseFloat(thanhTienInput.value.replace(/[^\d.-]/g, ''));
 
-                                     // Lấy giá trị xu từ ô xuTichDiem
-                                     var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
+                                    // Lấy giá trị xu từ ô xuTichDiem
+                                    var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
 
-                                     // Kiểm tra giá trị hợp lệ
-                                     if (isNaN(thanhTien) || isNaN(xu)) {
-                                         // Xử lý giá trị không hợp lệ ở đây
-                                         return;
-                                     }
+                                    // Kiểm tra giá trị hợp lệ
+                                    if (isNaN(thanhTien) || isNaN(xu)) {
+                                        // Xử lý giá trị không hợp lệ ở đây
+                                        return;
+                                    }
 
-                                     if (xu < discount){
-                                         var discountedValue = xuInput.checked ? (thanhTien - xu) : thanhTien;
-                                         var formattedDiscountedValue = formatCurrency(discountedValue);
-                                         document.getElementById("thanhTien").value = formattedDiscountedValue;
+                                    if (xu < discount) {
+                                        var discountedValue = xuInput.checked ? (thanhTien - xu) : thanhTien;
+                                        var formattedDiscountedValue = formatCurrency(discountedValue);
+                                        document.getElementById("thanhTien").value = formattedDiscountedValue;
 
-                                         var xuTru = xuInput.checked ? 0 : xu;
-                                         xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
-                                     }else {
-                                         // Áp dụng giảm giá
-                                         var discountedValue = xuInput.checked ? (thanhTien - discount) : thanhTien;
+                                        var xuTru = xuInput.checked ? 0 : xu;
+                                        xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
+                                    } else {
+                                        // Áp dụng giảm giá
+                                        var discountedValue = xuInput.checked ? (thanhTien - discount) : thanhTien;
 
-                                         // Cập nhật lại giá trị thành tiền
-                                         var formattedDiscountedValue = formatCurrency(discountedValue);
-                                         document.getElementById("thanhTien").value = formattedDiscountedValue;
+                                        // Cập nhật lại giá trị thành tiền
+                                        var formattedDiscountedValue = formatCurrency(discountedValue);
+                                        document.getElementById("thanhTien").value = formattedDiscountedValue;
 
-                                         var xuTru = xuInput.checked ? (xu - discount) : xu;
-                                         xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
-                                     }
-                                 }
+                                        var xuTru = xuInput.checked ? (xu - discount) : xu;
+                                        xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
+                                    }
+                                }
 
-                                 function formatCurrency(value) {
-                                     // Định dạng giá trị thành tiền tệ
-                                     var formattedValue = value.toLocaleString("vi-VN", {
-                                         style: "currency",
-                                         currency: "VND",
-                                         currencyDisplay: "code" // Sử dụng mã tiền tệ thay vì ký hiệu tiền tệ
-                                     });
+                                function formatCurrency(value) {
+                                    // Định dạng giá trị thành tiền tệ
+                                    var formattedValue = value.toLocaleString("vi-VN", {
+                                        style: "currency",
+                                        currency: "VND",
+                                        currencyDisplay: "code" // Sử dụng mã tiền tệ thay vì ký hiệu tiền tệ
+                                    });
 
-                                     return formattedValue;
-                                 }
+                                    return formattedValue;
+                                }
 
-                                 function syncCheckboxState(checked) {
-                                     var xuTichDiemCheckbox1 = document.getElementById("xuTichDiemCheckbox1");
-                                     var xuTichDiemCheckbox2 = document.getElementById("xuTichDiemCheckbox2");
-                                     xuTichDiemCheckbox1.checked = checked;
-                                     xuTichDiemCheckbox2.checked = checked;
-                                 }
+                                function syncCheckboxState(checked) {
+                                    var xuTichDiemCheckbox1 = document.getElementById("xuTichDiemCheckbox1");
+                                    var xuTichDiemCheckbox2 = document.getElementById("xuTichDiemCheckbox2");
+                                    xuTichDiemCheckbox1.checked = checked;
+                                    xuTichDiemCheckbox2.checked = checked;
+                                }
                             </script>
                         </form>
                         <button class="btn btn-outline-primary"
@@ -637,7 +715,7 @@
                                         <form th:action="@{'/admin/ban-hang/thanh-toan/' + ${idHoaDonCho}}"
                                               method="post"
                                               th:object="${hoaDonCho}"
-                                              >
+                                        >
                                             <input th:field="*{id}" name="id" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
@@ -786,9 +864,9 @@
         </div>
         <!-- Recent Sales End -->
         <div class="modal fade" id="khachHang" tabindex="-1"
-             aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;"
+             aria-labelledby="exampleModalLabel" aria-hidden="true"
              data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg" style="width: 100%;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">Khách Hàng</h1>
@@ -845,8 +923,8 @@
         <div class="modal fade" id="voucher" tabindex="-1"
              aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;"
              data-bs-backdrop="static" data-bs-keyboard="false">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-dialog modal-lg ">
+                <div class="modal-content ">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5">Voucher</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -859,7 +937,8 @@
                                 <tr>
                                     <th>Tên</th>
                                     <th>Giảm giá</th>
-                                    <th>Tối đa</th>
+                                    <th>Giảm tối đa</th>
+                                    <th>Áp dụng</th>
                                     <th>Số lượng</th>
                                     <th>Chọn</th>
                                 </tr>
@@ -869,10 +948,16 @@
                                     <td th:text="${maGiamGia.getTen()}"></td>
                                     <td th:text="${maGiamGia.getMucGiamGia()} + '%'"></td>
                                     <td th:text="${#numbers.formatDecimal(maGiamGia.getMucGiamToiDa(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                    <td th:text="${#numbers.formatDecimal(maGiamGia.getGiaTriDonHang(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                     <td th:text="${maGiamGia.getSoLuong()}"></td>
                                     <td>
-                                        <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/them-ma-giam-gia/' + ${maGiamGia.getId()}}"
+                                        <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/them-voucher/' + ${maGiamGia.getId()}}"
                                               method="post">
+                                            <input type="text" class="form-control"
+                                                   style="color: red"
+                                                   name="tongTien"
+                                                   hidden
+                                                   th:value="${tongTien}">
                                             <button type="submit"
                                                     class="btn btn-outline-primary">
                                                 <img src="/../../img/them.png"
@@ -886,7 +971,8 @@
                                 <tr>
                                     <th>Tên</th>
                                     <th>Giảm giá</th>
-                                    <th>Tối đa</th>
+                                    <th>Giảm tối đa</th>
+                                    <th>Áp dụng</th>
                                     <th>Số lượng</th>
                                     <th>Chọn</th>
                                 </tr>
@@ -902,6 +988,38 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="huyMaGiamGia" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" style="width: 100%;"
+             data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Hủy Voucher</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có muốn hủy Voucher không (Có/Không)?
+                    </div>
+                    <div class="modal-footer">
+                        <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/huy-voucher'}"
+                              method="post">
+                            <button type="submit" class="btn btn-primary"
+                                    style="width: 100px">
+                                Có
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-danger"
+                                data-bs-dismiss="modal"
+                                style="width: 100px">
+                            Không
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Footer Start -->
         <div class="container-fluid pt-4">
@@ -1057,6 +1175,7 @@
     new DataTable('#hoa-don-chi-tiet');
     new DataTable('#kh');
     new DataTable('#san-pham');
+    new DataTable('#vc');
 </script>
 <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
 <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
@@ -1123,6 +1242,26 @@
                 }
             }
         });
+        $('#vc').DataTable({
+            "paging": true, // Bật chức năng phân trang
+            "pageLength": 5, // Hiển thị 5 phần tử trên mỗi trang
+            // // lengthMenu: "",
+            lengthChange: false,
+            // // searching: false,
+            "language": {
+                "zeroRecords": "Không tìm thấy bản ghi nào",
+                "info": "Trang _PAGE_ trên tổng _PAGES_ trang",
+                "infoEmpty": "Không có bản ghi nào",
+                "infoFiltered": "(được lọc từ tổng số _MAX_ bản ghi)",
+                "search": "Tìm kiếm:",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Tiếp",
+                    "previous": "Trước"
+                }
+            }
+        });
     });
 </script>
 <script>
@@ -1130,6 +1269,7 @@
         $('#hoa-don-chi-tiet').DataTable();
         $('#kh').DataTable();
         $('#san-pham').DataTable();
+        $('#vc').DataTable();
     })
 </script>
 

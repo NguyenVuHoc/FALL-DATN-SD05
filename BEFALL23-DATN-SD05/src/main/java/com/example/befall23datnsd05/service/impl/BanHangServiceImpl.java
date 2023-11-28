@@ -2,23 +2,21 @@ package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
 import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
-import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
 import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.MaGiamGia;
-import com.example.befall23datnsd05.entity.SanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.repository.MaGiamGiaRepository;
 import com.example.befall23datnsd05.service.BanHangService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +27,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BanHangServiceImpl implements BanHangService {
@@ -178,6 +175,7 @@ public class BanHangServiceImpl implements BanHangService {
         hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
         hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
         hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
+        hoaDon.setMaGiamGia(null);
         hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
         return hoaDonRepository.save(hoaDon);
     }
@@ -203,7 +201,7 @@ public class BanHangServiceImpl implements BanHangService {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         if (hoaDon.getMaGiamGia() == null) {
             thanhTien = tongTien;
-        } else if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) > 0) {
+        } else if (tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia())).compareTo(hoaDon.getMaGiamGia().getMucGiamToiDa()) < 0) {
             thanhTien = tongTien.subtract(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia())));
         } else {
             thanhTien = tongTien.subtract(hoaDon.getMaGiamGia().getMucGiamToiDa());
@@ -271,24 +269,47 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon updateGiamGia(Long idHoaDon, Long idGiamGia) {
+    public HoaDon themGiamGia(Long idHoaDon, Long idGiamGia, BigDecimal tongTien) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         MaGiamGia maGiamGia = maGiamGiaRepository.findById(idGiamGia).get();
-        MaGiamGia maGiamGia2 = hoaDon.getMaGiamGia();
-        if (hoaDon.getMaGiamGia() == null) {
+        if (tongTien.compareTo(maGiamGia.getGiaTriDonHang()) >= 0) {
             hoaDon.setMaGiamGia(maGiamGia);
-            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
-            maGiamGiaRepository.save(maGiamGia);
+            return hoaDonRepository.save(hoaDon);
+        }
+        return null;
+    }
+
+    @Override
+    public HoaDon huyGiamGia(Long idHoaDon) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getMaGiamGia() != null) {
+            hoaDon.setMaGiamGia(null);
             hoaDonRepository.save(hoaDon);
-        }else if (hoaDon.getMaGiamGia() != maGiamGia){
-            maGiamGia2.setSoLuong(maGiamGia2.getSoLuong() + 1);
-            maGiamGiaRepository.save(maGiamGia2);
-            hoaDon.setMaGiamGia(maGiamGia);
-            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
-            maGiamGiaRepository.save(maGiamGia);
-            hoaDonRepository.save(hoaDon);
-        } else if (hoaDon.getMaGiamGia() == maGiamGia) {
+        }
+        return null;
+    }
+
+    @Override
+    public MaGiamGia updateGiamGia(Long idHoaDon) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        try {
+            if (hoaDon != null) {
+                MaGiamGia maGiamGia = maGiamGiaRepository.findById(hoaDon.getMaGiamGia().getId()).get();
+                maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+                return maGiamGiaRepository.save(maGiamGia);
+            }
+        } catch (NullPointerException nullPointerException) {
             return null;
+        }
+        return null;
+    }
+
+    @Override
+    public HoaDon checkGiamGia(Long idHoaDon, BigDecimal tongTien) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getMaGiamGia().getGiaTriDonHang().compareTo(tongTien) >= 0) {
+            hoaDon.setMaGiamGia(null);
+            hoaDonRepository.save(hoaDon);
         }
         return null;
     }
