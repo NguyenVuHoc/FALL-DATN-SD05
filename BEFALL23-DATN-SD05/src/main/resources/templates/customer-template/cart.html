@@ -69,12 +69,18 @@
 <!-- End Header/Navigation -->
 
 <!-- Start Hero Section -->
-                    <h1 style="color: black; text-align: center; padding-top: 100px">Giỏ hàng</h1>
+                    <h1 style="color: #000000; text-align: center; padding-top: 100px">Giỏ hàng</h1>
 <!-- End Hero Section -->
+
+    <div class="row mb-5" th:if="${#lists.isEmpty(listGioHangChiTiet)}">
+        <div class="col-md-12" style="text-align: center; padding-top: 50px">
+            <img src="//bizweb.dktcdn.net/100/292/624/themes/758446/assets/empty-cart.png?1701093253480" class="img-responsive center-block" alt="Giỏ hàng trống">
+        </div>
+    </div>
 
     <div class="untree_co-section before-footer-section">
         <div class="container">
-            <div class="row mb-5">
+            <div class="row mb-5" th:unless="${#lists.isEmpty(listGioHangChiTiet)}">
                 <div class="col-md-12">
                     <div class="site-blocks-table">
                         <table class="table">
