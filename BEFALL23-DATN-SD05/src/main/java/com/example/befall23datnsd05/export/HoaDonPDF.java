@@ -208,6 +208,21 @@ public class HoaDonPDF {
       tongTien.setIndentationRight(50);
       tongTien.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
 
+      // Giảm giá
+      BigDecimal giamGia = new BigDecimal(0);
+      if (hoaDon.getMaGiamGia() != null){
+         if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) <= 0){
+            giamGia = hoaDon.getMaGiamGia().getMucGiamToiDa();
+         }else {
+            giamGia = hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()));
+         }
+      }
+      Paragraph voucher = new Paragraph("Giảm giá: " + currencyFormat02.format(giamGia.doubleValue()), new Font(font));
+      voucher.setAlignment(Element.ALIGN_RIGHT);
+      voucher.setIndentationLeft(50);
+      voucher.setIndentationRight(50);
+      voucher.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
+
       // Xu
       BigDecimal xuTichDiem = new BigDecimal(0);
       if (hoaDon.getXu() != null){
@@ -240,6 +255,7 @@ public class HoaDonPDF {
       document.add(table1);
       document.add(table);
       document.add(tongTien);
+      document.add(voucher);
       document.add(xu);
       document.add(thanhTien);
 //      document.add(paragraph8);

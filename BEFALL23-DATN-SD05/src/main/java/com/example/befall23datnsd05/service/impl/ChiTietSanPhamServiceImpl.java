@@ -67,7 +67,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         return repository.getAllSpCoKhuyenMai(idKM);
     }
 
-//    Chức năng ctsp với khuyến mại
+    //    Chức năng ctsp với khuyến mại
     @Override
     public void updateIdKhuyenMai(Long idKM, Long idCtsp) {
         repository.updateIdKhuyenMai(idKM, idCtsp);
@@ -81,7 +81,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Override
     public void updateGiaBan(Long id) {
         ChiTietSanPham ctsp = repository.findById(id).orElse(null);
-        if (ctsp != null){
+        if (ctsp != null) {
             ctsp.setGiaBan(ctsp.tinhGiaSauGiamGia());
             repository.save(ctsp);
         }
@@ -98,14 +98,20 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         repository.saveAll(list);
     }
 
+    @Override
+    public ChiTietSanPham save(ChiTietSanPham chiTietSanPham) {
+        repository.save(chiTietSanPham);
+        return chiTietSanPham;
+    }
+
 //   Hết chức năng ctsp với khuyến mại
 
     @Override
     public ChiTietSanPham getById(Long id) {
         Optional<ChiTietSanPham> optional = repository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             return null;
         }
     }
@@ -138,7 +144,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     @Override
     public ChiTietSanPham update(ChiTietSanPhamRequest chiTietSanPham) {
         ChiTietSanPham chiTietSanPham1 = repository.getReferenceById(chiTietSanPham.getId());
-        if(chiTietSanPham1==null){
+        if (chiTietSanPham1 == null) {
             return null;
         }
         SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);

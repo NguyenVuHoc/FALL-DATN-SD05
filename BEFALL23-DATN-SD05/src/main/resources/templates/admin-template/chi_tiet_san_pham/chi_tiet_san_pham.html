@@ -95,7 +95,7 @@
 
     <!-- Libraries Stylesheet -->
     <link href="/../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="/../../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/../../css/admin/bootstrap.min.css" rel="stylesheet">
@@ -105,35 +105,33 @@
 </head>
 
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    <!-- Spinner Start -->
+    <div id="spinner"
+         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
-        <!-- Spinner End -->
+    </div>
+    <!-- Spinner End -->
 
 
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a th:href="@{/admin/ban-hang}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="//../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                        <div
-                                class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
-                        </div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+        <nav class="navbar bg-light navbar-light">
+            <a th:href="@{/admin/ban-hang}" class="navbar-brand mx-4 mb-3">
+                <h3 class="text-primary"><i class="me-2"></i>Wingman </h3>
+            </a>
+            <div class="d-flex align-items-center ms-4 mb-4">
+                <div class="position-relative">
+                    <img class="rounded-circle" src="//../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <div
+                            class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
                 </div>
+                <div class="ms-3">
+                    <h6 class="mb-0">Jhon Doe</h6>
+                    <span>Admin</span>
                 <div class="navbar-nav w-100">
                     <a th:href="@{/admin/ban-hang}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
                         Hàng</a>
@@ -165,52 +163,88 @@
                     <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Thống Kê</a>
                 </div>
-            </nav>
-        </div>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a aa href="../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
-                <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
-                                style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-
-                            <a href="#" class="dropdown-item">Log Out</a>
-                        </div>
+            </div>
+            <div class="navbar-nav w-100">
+                <a th:href="@{/admin/ban-hang}" class="nav-item nav-link"><i class="fa fa-laptop me-2"></i>Bán
+                    Hàng</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
+                            class="fa fa-laptop me-2"></i>Sản Phẩm</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a th:href="@{/admin/san-pham}" class="dropdown-item">Sản Phẩm</a>
+                        <a th:href="@{/admin/chi-tiet-san-pham}" class="dropdown-item active">Chi Tiết Sản
+                            Phẩm</a>
+                        <a th:href="@{/admin/dong-san-pham}" class="dropdown-item">Dòng Sản Phẩm</a>
+                        <a th:href="@{/admin/thuong-hieu}" class="dropdown-item">Thương Hiệu</a>
+                        <a th:href="@{/admin/mau-sac}" class="dropdown-item">Màu Sắc</a>
+                        <a th:href="@{/admin/kich-thuoc}" class="dropdown-item">Kích Thước</a>
+                        <a th:href="@{/admin/de-giay}" class="dropdown-item">Đế Giày</a>
+                        <a th:href="@{/admin/lot-giay}" class="dropdown-item">Lót Giày</a>
+                        <a th:href="@{/admin/co-giay}" class="dropdown-item ">Cổ Giày</a>
                     </div>
                 </div>
-            </nav>
-            <!-- Navb-->
-            <!-- Navbar End -->
-            <div th:if="${param.success}">
-                <div class="alert alert-info" id="success-alert">Success!</div>
+                <a th:href="@{/admin/hoa-don}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Hóa Đơn</a>
+                <a th:href="@{/admin/khach-hang}" class="nav-item nav-link"><i
+                        class="fa fa-user me-2"></i>Khách Hàng</a>
+                <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
+                    Viên</a>
+                <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
-            <!-- Recent Sales Start -->
-            <div class="container-fluid pt-4">
-                <div class="row g-2">
-                    <div style="width: 90%;">
-                        <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
+        </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a aa href="../ban_hang/ban_hang.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                             style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Doe</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+
+                        <a href="#" class="dropdown-item">Log Out</a>
                     </div>
-                    <div class="create" style="width: 10%;">
-                        <button class="btn btn-outline-success" style="margin-right: -200px;">
-                            <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
-                        </button>
-                    </div>
-                    <div/>
+                </div>
+            </div>
+        </nav>
+        <!-- Navb-->
+        <!-- Navbar End -->
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
+        <!-- Recent Sales Start -->
+        <div class="container-fluid pt-4">
+            <div class="row g-2">
+                <div style="width: 90%;">
+                    <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
+                </div>
+                <div class="create" style="width: 10%;">
+                    <button class="btn btn-outline-success" style="margin-right: -200px;">
+                        <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}"
+                           style="color: darkgreen;">Thêm</a>
+                    </button>
+
+                    <form th:action="@{/admin/chi-tiet-san-pham/import-excel}" method="post" enctype="multipart/form-data">
+                       <input type="file" name="file"/>
+                        <input type="submit" value="Upload" />
+                    </form>
+                </div>
+                <div/>
                 <ul class="nav nav-tabs">
                     <button class="nav-link">
                         <a href="/admin/chi-tiet-san-pham">Tất cả</a>
@@ -286,7 +320,7 @@
             <div style="margin-top: 5%; margin-left: 42%;">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <li class="page-item" >
+                        <li class="page-item">
                             <a class="page-link" th:href="@{/admin/chi-tiet-san-pham/pre}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>

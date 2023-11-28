@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.importFile.ImportFileExcelCTSP;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
@@ -21,7 +22,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -155,6 +161,22 @@ public class ChiTietSanPhamController {
     public String delete(@PathVariable("id") Long id) {
         service.remove(id);
         return "redirect:/admin/chi-tiet-san-pham?success";
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/import-excel")
+    public String importExcel(@RequestParam("file") MultipartFile file) throws IOException {
+       if (!file.isEmpty()){
+           String directory = "E:\\DATN\\FALL_DATN\\BEFALL23-DATN-SD05";
+           String fileName = file.getOriginalFilename();
+           file.transferTo(new File(directory + "\\" + fileName));
+           String filePath = directory + "\\" + fileName;
+           ImportFileExcelCTSP importFileExcelCTSP = new ImportFileExcelCTSP();
+           importFileExcelCTSP.ImportFile(filePath);
+
+           return "redirect:/admin/chi-tiet-san-pham?success";
+       }
+
+        return "redirect:/admin/chi-tiet-san-pham";
     }
 
 }

@@ -454,7 +454,8 @@
                             <div class="mb-3 row g-2">
                                 <div style="width: 75%;">
                                     <label class="form-label">Voucher</label>
-                                    <input type="text" class="form-control" name="voucher" readonly/>
+                                    <input type="text" class="form-control" name="voucher" readonly
+                                    th:field="*{maGiamGia.ten}"/>
                                 </div>
                                 <div style="width: 25%;">
                                     <button id="chonVoucher" type="button" class="btn btn-primary"
@@ -620,6 +621,11 @@
                                             <input th:field="*{id}" name="id" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
+                                                   name="tongTien"
+                                                   hidden
+                                                   th:value="${tongTien}">
+                                            <input type="text" class="form-control"
+                                                   style="color: red"
                                                    name="thanhTien"
                                                    hidden
                                                    th:value="${thanhTien}">
@@ -633,6 +639,11 @@
                                               th:object="${hoaDonCho}"
                                               >
                                             <input th:field="*{id}" name="id" hidden/>
+                                            <input type="text" class="form-control"
+                                                   style="color: red"
+                                                   name="tongTien"
+                                                   hidden
+                                                   th:value="${tongTien}">
                                             <input type="text" class="form-control"
                                                    style="color: red"
                                                    name="thanhTien"
@@ -846,19 +857,21 @@
                             <table id="vc" class="table table-striped" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Số Điện Thoại</th>
+                                    <th>Tên</th>
+                                    <th>Giảm giá</th>
+                                    <th>Tối đa</th>
+                                    <th>Số lượng</th>
                                     <th>Chọn</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="khachHang : ${listKhachHang}">
-                                    <td th:text="${khachHang.getTen()}"></td>
-                                    <td th:text="${khachHang.getSdt()}"></td>
+                                <tr th:each="maGiamGia : ${listMaGiamGia}">
+                                    <td th:text="${maGiamGia.getTen()}"></td>
+                                    <td th:text="${maGiamGia.getMucGiamGia()} + '%'"></td>
+                                    <td th:text="${#numbers.formatDecimal(maGiamGia.getMucGiamToiDa(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                    <td th:text="${maGiamGia.getSoLuong()}"></td>
                                     <td>
-                                        <form th:action="@{/admin/ban-hang/hoa-don/{idHoaDon}/them-khach-hang/{idKhachHang}
-                                                                    (idHoaDon=${idHoaDonCho},idKhachHang=${khachHang.getId()})}"
-                                              th:object="${khachHang}"
+                                        <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/them-ma-giam-gia/' + ${maGiamGia.getId()}}"
                                               method="post">
                                             <button type="submit"
                                                     class="btn btn-outline-primary">
@@ -871,8 +884,10 @@
                                 </tbody>
                                 <tfoot hidden="hidden">
                                 <tr>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Số Điện Thoại</th>
+                                    <th>Tên</th>
+                                    <th>Giảm giá</th>
+                                    <th>Tối đa</th>
+                                    <th>Số lượng</th>
                                     <th>Chọn</th>
                                 </tr>
                                 </tfoot>
