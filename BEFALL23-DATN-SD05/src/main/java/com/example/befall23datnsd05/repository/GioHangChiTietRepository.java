@@ -42,6 +42,9 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
             "LIMIT 5")
     List<Object[]> countAllGhct(LocalDate from, LocalDate to);
 
+    @Query(value = "select * from gio_hang_chi_tiet where gio_hang_chi_tiet.id_hoa_don= ?1 and gio_hang_chi_tiet.trang_thai= 2",nativeQuery = true)
+    List<GioHangChiTiet> findAllByHoaDonIdAAndTrangThaiTraHang(Long id);
+
 
 
 }

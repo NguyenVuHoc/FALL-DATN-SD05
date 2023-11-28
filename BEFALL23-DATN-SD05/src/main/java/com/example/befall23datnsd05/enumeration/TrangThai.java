@@ -4,16 +4,15 @@ public enum TrangThai {
 
     DANG_HOAT_DONG(0),
     DUNG_HOAT_DONG(1),
-    XAC_NHAN_HOAN_TRA(8),
-    DA_HOAN_TRA(9),
-    SAP_DIEN_RA(10),
-
     YEU_CAU_TRA_HANG(2),
     DA_TRA_HANG(3),
     TU_CHOI_TRA_HANG(4),
     DOI_HANG(5),
     DA_DOI_HANG(6),
-    TU_CHOI_DOI_HANG(7);
+    TU_CHOI_DOI_HANG(7),
+    XAC_NHAN_HOAN_TRA(8),
+    DA_HOAN_TRA(9),
+    SAP_DIEN_RA(10);
 
     private final Integer trangThai;
 

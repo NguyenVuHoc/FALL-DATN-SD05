@@ -31,4 +31,5 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
 
     boolean existsBySdt(String sdt);
     boolean existsBySdtAndIdNot(String sdt, Long id);
+
 }

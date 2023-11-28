@@ -15,9 +15,6 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
 
     List<HoaDon> getAllByTrangThai(TrangThaiDonHang trangThai);
 
-    @Query(value = "select *from hoa_don where trang_thai = :trangThai  and id_khach_hang= :id",nativeQuery = true)
-    List<HoaDon> getAllByTrangThaiAndKhachHang(@Param("trangThai") Integer trangThai,@Param("id")Long  id);
-
     List<HoaDon> findHoaDonByTrangThaiAndKhachHangId(TrangThaiDonHang trangThai,Long id);
 
     @Query("SELECT hd FROM HoaDon hd WHERE hd.ngayTao >= :start AND hd.ngayTao <= :end")
@@ -25,9 +22,6 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
 
     @Query(value = "select * from hoa_don where id_khach_hang=?1",nativeQuery = true)
     List<HoaDon> getAllByKhachHang(Long idKh);
-
-    @Query(value = "select * from hoa_don where id_khach_hang=5",nativeQuery = true)
-    List<HoaDon> getAllByKhachHangFixCung();
 
     @Query(value = "SELECT SUM(hoa_don.thanh_toan) FROM hoa_don WHERE trang_thai = 5" +
             "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n",nativeQuery = true)
