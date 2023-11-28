@@ -2,7 +2,6 @@ package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.dto.MaGiamGiaRequest;
 import com.example.befall23datnsd05.entity.MaGiamGia;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 
 import java.time.LocalDate;
@@ -29,4 +28,6 @@ public interface MaGiamGiaService {
     void huy(Long id);
 
     boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

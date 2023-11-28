@@ -2,7 +2,6 @@ package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.MaGiamGiaRequest;
 import com.example.befall23datnsd05.entity.MaGiamGia;
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import com.example.befall23datnsd05.repository.MaGiamGiaRepository;
 import com.example.befall23datnsd05.service.MaGiamGiaService;
@@ -107,5 +106,10 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
     @Override
     public boolean existsByTen(String ten) {
         return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
     }
 }

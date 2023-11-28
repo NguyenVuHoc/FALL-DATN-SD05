@@ -109,10 +109,13 @@ public class MaGiamGiaController {
                          BindingResult bindingResult,
                          Model model) {
         String ten = maGiamGiaRequest.getTen();
-        if (bindingResult.hasErrors()) {
+        Long id = maGiamGiaRequest.getId();
+        if (bindingResult.hasFieldErrors("ten") || bindingResult.hasFieldErrors("mucGiamGia")
+                || bindingResult.hasFieldErrors("mucGiamToiDa") || bindingResult.hasFieldErrors("soLuong")
+                || bindingResult.hasFieldErrors("giaTriDonHang") || bindingResult.hasFieldErrors("ngayKetThuc")) {
             return "admin-template/ma_giam_gia/sua_ma_giam_gia";
-        }else {
-            if (service.existsByTen(ten)) {
+        } else {
+            if (service.existsByTenAndIdNot(ten, id)) {
                 model.addAttribute("errorTen", "Tên  đã tồn tại");
                 return "admin-template/ma_giam_gia/sua_ma_giam_gia";
             }

@@ -56,4 +56,6 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
     int updateTrangThaiSapDienRa();
     
     boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

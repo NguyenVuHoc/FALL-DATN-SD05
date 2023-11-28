@@ -27,4 +27,6 @@ public interface KhuyenMaiService {
     List<KhuyenMai> findKhuyenMai(LocalDate start, LocalDate end, TrangThaiKhuyenMai trangThaiKhuyenMai);
 
     boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }
