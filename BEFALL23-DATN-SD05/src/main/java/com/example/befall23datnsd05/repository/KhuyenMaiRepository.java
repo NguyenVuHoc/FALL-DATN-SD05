@@ -54,4 +54,6 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
     int updateTrangThaiSapDienRa();
 
     boolean existsByTen(String ten);
+
+    boolean existsByTenAndIdNot(String ten, Long id);
 }
