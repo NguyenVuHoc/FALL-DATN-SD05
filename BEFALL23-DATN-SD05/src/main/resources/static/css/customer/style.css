@@ -900,3 +900,54 @@ textarea {
 .logo {
   width: 5%;
 }
+   /* Dropdown Button */
+   /* Ẩn dropdown menu mặc định */
+ .dropdown-menu {
+   display: none;
+   opacity: 0;
+   position: absolute;
+   top: 100%; /* Hiển thị menu bên dưới button */
+   background-color: #fff; /* Màu nền của dropdown */
+   transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
+ }
+
+/* Hiển thị dropdown menu khi hover vào .dropdown */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+}
+
+/* Hiệu ứng transition khi hiển thị dropdown */
+.dropdown-menu {
+  transform: translateY(-10px); /* Di chuyển dropdown lên trên */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+  transform: translateY(0); /* Đặt lại vị trí ban đầu */
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  height: 100%; /* Đặt chiều cao của dropdown button là 100% */
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  width: auto;
+  box-shadow: none;
+}
+
+/* Dropdown Items */
+.dropdown-item {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* Cart Icon */
