@@ -249,7 +249,15 @@
                 <div>
                     <p><strong>Trạng Thái:</strong> <span th:text="${hd.trangThai.getDisplayName()}"></span></p>
                     <p><strong>Ghi chú:</strong> <span th:text="${hd.ghiChu}"></span></p>
-                    <p><strong>Thanh Toán:</strong><span th:text="${hd.tongTien}"></span></p>
+                    <p>
+                        <strong>Thanh Toán:</strong>
+                        <span th:if="${hd.thanhToan != null}" th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA')}"></span>
+                        <span th:if="${hd.thanhToan == null}">0 VND</span>
+                    </p>
+                    <p>
+                        <strong>Tổng Tiền Hoá Đơn:</strong>
+                        <span th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -279,9 +287,9 @@
                         </td>
                         <td th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}">
                         </td>
-                        <td th:text="${gioHangChiTiet.chiTietSanPham.giaBan}+' VND'"></td>
+                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                         <td th:text="${gioHangChiTiet.soLuong}" id="currentQuantity"></td>
-                        <td th:text="${gioHangChiTiet.hoaDon.tongTien}+' VND'"></td>
+                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.hoaDon.tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                         <td>
                             <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)

@@ -399,42 +399,44 @@
                                                         <button type="button" class="btn btn-danger"
                                                                 data-bs-dismiss="modal">Đóng
                                                         </button>
-                                                        <button type="submit" class="btn btn-primary">Thêm</button>
+                                                        <button type="submit" class="btn btn-primary">Chuyển Trạng Thái</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--modalhuỷ đơn hàng-->
-                                    <div class="modal fade" th:id="'huyDon' + ${hd.id}" tabindex="-1"
+                                    <div class="modal fade" th:id="'huyDon' + ${hd.id}"
+                                         data-bs-backdrop="static" data-bs-keyboard="false"
+                                         tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
-                                                <h5 class="modal-title" style="text-align: center;margin-top: 10px">
-                                                    Huỷ Đơn Hàng</h5>
-                                                <div class="modal-header">
-                                                    <form th:action="@{/admin/hoa-don/validation/deny}" method="post" onsubmit="return checkTrong(this);"
-                                                          class="my-form reduced-height">
+                                                <form th:action="@{/admin/hoa-don/validation/deny}" method="post"
+                                                      class="my-form reduced-height">
+                                                    <!--                                                      onsubmit="return checkTrong(this);"-->
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Huỷ Đơn Hàng</h1>
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
                                                         <input type="hidden" name="id" th:value="${hd.id}"/>
-                                                        <label class="form-label">Ghi chú cũ</label>
                                                         <input type="text" class="form-control mb-3" name="id"
                                                                th:value="${hd.ghiChu}" readonly/>
                                                         <label class="form-label">Ghi chú</label>
                                                         <input type="text" class="form-control mb-3" name="ghiChu"
                                                                th:value="${ghiChu}"/>
-                                                        <div class="modal-footer" style="margin-left: 200px">
-                                                            <button type="button" class="btn btn-danger"
-                                                                    data-bs-dismiss="modal">Đóng
-                                                            </button>
-                                                            <button type="submit" class="btn btn-primary">Huỷ Đơn
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal">Đóng
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">Huỷ Đơn</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            </form>
                                         </div>
-
                                     </div>
                                 </td>
                             </tr>

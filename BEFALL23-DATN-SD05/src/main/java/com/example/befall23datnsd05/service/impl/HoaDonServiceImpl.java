@@ -73,7 +73,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     public boolean validate(HoaDon hoaDon, TrangThaiDonHang trangThai, String newGhiChu) {
         hoaDon.setTrangThai(trangThai);
         hoaDon.setGhiChu(newGhiChu);
-        if(hoaDon.getTrangThai()==TrangThaiDonHang.DA_GIAO|| hoaDon.getTrangThai()==TrangThaiDonHang.XAC_NHAN_TRA_HANG|| hoaDon.getTrangThai()==TrangThaiDonHang.DOI_HANG){
+        if (hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
             hoaDon.setNgayThanhToan(LocalDate.now());
         }
         hoaDon = repository.save(hoaDon);

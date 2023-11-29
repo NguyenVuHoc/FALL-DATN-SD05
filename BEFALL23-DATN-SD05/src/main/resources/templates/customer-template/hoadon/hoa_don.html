@@ -247,8 +247,12 @@
                         <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
                                th:text="${hd.trangThai.getDisplayName()}"
                                style="color: black; text-decoration: none;"></a></td>
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
-                               th:text="${hd.thanhToan}" style="color: black; text-decoration: none;"></a></td>
+                        <td>
+                            <a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/'+${hd.id}}"
+                               th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
+                               style="color: black; text-decoration: none;"/>
+                        </td>
+
                     </tr>
                     </tbody>
                     <tfoot hidden="hidden">
