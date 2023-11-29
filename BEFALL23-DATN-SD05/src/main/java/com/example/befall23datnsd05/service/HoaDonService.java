@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service;
 
+import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.KhachHang;
@@ -31,7 +32,11 @@ public interface HoaDonService {
 
     HoaDon createHdHoanTra(HoaDon hoaDon,Long idHd);
 
+    boolean removeGioHangChiTietHoanTra(GioHangChiTiet gioHangChiTiet,HoaDon hoaDon);
+
     GioHangChiTiet createGioHangHoanTraByHoaDon(GioHangChiTiet gioHangChiTiet,HoaDon hoaDon);
+
+    ChiTietSanPham refund(GioHangChiTiet gioHangChiTiet);
 
 
 

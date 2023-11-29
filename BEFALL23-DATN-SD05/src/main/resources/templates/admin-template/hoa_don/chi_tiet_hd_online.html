@@ -191,6 +191,14 @@
                                 </td>
                             </tr>
                         </table>
+                        <button class="btn btn-outline-info float-right"
+                                th:if="${(hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)
+                                        or (hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG)
+                                    }"
+                                data-bs-toggle="modal" style="margin-left: 800px"
+                                th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
+                            Xác nhận hoàn trả và hoàn kho
+                        </button>
                             <button class="btn btn-outline-info float-right"
                                     th:if="${(hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)
                                         or (hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG)
@@ -224,6 +232,36 @@
                     </div>
                     <div class="modal-body" style="padding: 20px 40px;"> <!-- Adjusted padding -->
                         <form th:action="@{/admin/hoa-don/validation/accept}" method="post">
+                            <input type="hidden" name="id" th:value="${hoaDon.id}" />
+                            <div class="mb-3">
+                                <label for="oldNote" class="form-label">Ghi chú cũ</label>
+                                <input type="text" class="form-control" id="oldNote" name="id" th:value="${hoaDon.ghiChu}" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label for="newNote" class="form-label">Ghi chú</label>
+                                <input type="text" class="form-control" id="newNote" name="ghiChu" th:value="${ghiChu}" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary">Chuyển Trạng Thái</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" th:id="'ghiChu1' + ${hoaDon.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center mt-3">
+                            Xác Nhận Hoàn Trả
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px 40px;"> <!-- Adjusted padding -->
+                        <form th:action="@{/admin/hoa-don/validation/accept-refund}" method="post">
                             <input type="hidden" name="id" th:value="${hoaDon.id}" />
                             <div class="mb-3">
                                 <label for="oldNote" class="form-label">Ghi chú cũ</label>
