@@ -70,12 +70,6 @@ public class GioHangController {
         return "redirect:/wingman/cart";
     }
 
-    @GetMapping("/xoa-sp/{id}")
-    public String xoaSanPhamCheckOut(@PathVariable("id") Long id){
-        banHangCustomerService.xoaKhoiGioHang(id);
-        return "redirect:/wingman/cart/checkout?options";
-    }
-
     @GetMapping("/checkout")
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang,
@@ -112,19 +106,6 @@ public class GioHangController {
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
     }
-
-//    @PostMapping("/mua-ngay/{id}")
-//    public String muaNgay(@PathVariable("id") Long idChiTietSanPham,
-//                          @RequestParam("soLuong") Integer soLuong,
-//                          Model model){
-//        banHangCustomerService.themVaoGioHang(Long.valueOf(1), idChiTietSanPham, soLuong);
-//        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
-//        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
-//        model.addAttribute("diaChi2", diaChi);
-//        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
-//        model.addAttribute("idKhachHang", Long.valueOf(5));
-//        return "redirect:/wingman/cart/checkout";
-//    }
 
     @PostMapping("/updateQuantity")
     @ResponseBody
