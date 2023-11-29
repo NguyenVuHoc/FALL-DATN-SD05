@@ -99,6 +99,14 @@
     </style>    <!-- Google Web Fonts -->
     <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
     <link href="/../css/customer/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="./vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/except-home-page.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account-setting.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>
         Wingman
     </title>
@@ -139,158 +147,126 @@
                             <img src="/../images/user.svg">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Tài khoản của tôi</a>
-                            <a class="dropdown-item"th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn mua</a>
+                            <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${idKh}">Tài khoản của
+                                tôi</a>
+                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn mua</a>
                             <a class="dropdown-item" href="#">Đăng xuất</a>
                         </div>
                     </div>
                 </li>
                 <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
                 </li>
-                <style>
-                    /* Dropdown Button */
-                    /* Ẩn dropdown menu mặc định */
-                    .dropdown-menu {
-                        display: none;
-                        opacity: 0;
-                        position: absolute;
-                        top: 100%; /* Hiển thị menu bên dưới button */
-                        background-color: #fff; /* Màu nền của dropdown */
-                        transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
-                    }
-
-                    /* Hiển thị dropdown menu khi hover vào .dropdown */
-                    .dropdown:hover .dropdown-menu {
-                        display: block;
-                        opacity: 1;
-                    }
-
-                    /* Hiệu ứng transition khi hiển thị dropdown */
-                    .dropdown-menu {
-                        transform: translateY(-10px); /* Di chuyển dropdown lên trên */
-                        transition: transform 0.3s ease, opacity 0.3s ease;
-                    }
-
-                    .dropdown:hover .dropdown-menu {
-                        transform: translateY(0); /* Đặt lại vị trí ban đầu */
-                    }
-
-                    .dropdown-toggle {
-                        cursor: pointer;
-                        padding: 0;
-                        border: none;
-                        background: transparent;
-                        outline: none;
-                        height: 100%; /* Đặt chiều cao của dropdown button là 100% */
-                    }
-
-                    /* Dropdown Menu */
-                    .dropdown-menu {
-                        width: auto;
-                        box-shadow: none;
-                    }
-
-                    /* Dropdown Items */
-                    .dropdown-item {
-                        display: block;
-                        width: 100%;
-                        box-sizing: border-box;
-                        text-align: left;
-                    }
-
-                    /* Cart Icon */
-                </style>
             </ul>
 
         </div>
     </div>
 
 </nav>
+<main>
+    <div class="main-content-wrapper container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="left-sidebar">
+                    <div class="break-line"></div>
+                    <div class="nav-sidebar">
+                        <a class="selling-buying-products nav-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${idKh}">Thông Tin Của
+                            Tôi</a>
+                        <a class="account nav-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn
+                            Hàng Mua</a>
+                        <a class="btn btn-primary black-btn sign-out-btn" href="./index.html">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 main-content-wrapper">
+                <div class="container-fluid pt-4">
+                    <div class="row">
+                        <ul class="nav nav-tabs">
+                            <button class="nav-link">
+                                <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Tất cả</a>
+                            </button>
+                            <li class="nav-item" th:each="tt : ${trangThais}">
+                                <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')"
+                                        id="nav-home-tab"
+                                        data-bs-toggle="tab" type="button">
+                                    <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh} +'/'+ ${tt}"
+                                       th:text="${tt.getDisplayName()}"></a>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <style>
+                    /* Remove underline from <a> tags within buttons in the nav-tabs */
+                    .nav-tabs button a {
+                        text-decoration: none;
+                    }
 
-<div class="untree_co-section product-section before-footer-section">
-    <div class="container">
-        <div class="container-fluid pt-4">
-            <h6 class="mb-4" style="font-size: 30px;">Hóa Đơn</h6>
-            <ul class="nav nav-tabs">
-                <button class="nav-link">
-                    <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Tất cả</a>
-                </button>
-                <li class="nav-item" th:each="tt : ${trangThais}">
-                    <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')" id="nav-home-tab"
-                            data-bs-toggle="tab" type="button">
-                        <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh} +'/'+ ${tt}"
-                           th:text="${tt.getDisplayName()}"></a>
-                    </button>
-                </li>
-            </ul>
+                    /* Optional: Add styling for the buttons */
+                    .nav-tabs button {
+                        display: inline-block;
+                        padding: 10px 15px;
+                        margin-right: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        background-color: #f8f8f8;
+                        color: #333;
+                        cursor: pointer;
+                    }
+
+                    /* Optional: Style the active state of the buttons */
+                    .nav-tabs button.active {
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+
+                    /* Optional: Add hover effect for buttons */
+                    .nav-tabs button:hover {
+                        background-color: #ddd;
+                    }
+
+                </style>
+                <table id="example" class="table table-striped" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Ngày Tạo</th>
+                        <th>Hình Thức Mua Hàng</th>
+                        <th>Trạng Thái</th>
+                        <th>Tổng Tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="hd : ${hoadons}">
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}" th:text="${hd.ma}"
+                               style="color: black; text-decoration: none;"></a></td>
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                               th:text="${hd.ngayTao}" style="color: black; text-decoration: none;"></a></td>
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                               th:text="${hd.loaiHoaDon.getDisplayName()}"
+                               style="color: black; text-decoration: none;"></a></td>
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                               th:text="${hd.trangThai.getDisplayName()}"
+                               style="color: black; text-decoration: none;"></a></td>
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                               th:text="${hd.thanhToan}" style="color: black; text-decoration: none;"></a></td>
+                    </tr>
+                    </tbody>
+                    <tfoot hidden="hidden">
+                    <tr>
+                        <th>Mã</th>
+                        <th>Ngày Tạo</th>
+                        <th>Hình Thức Mua Hàng</th>
+                        <th>Trạng Thái</th>
+                        <th>Tổng Tiền</th>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
         </div>
-        <style>
-            /* Remove underline from <a> tags within buttons in the nav-tabs */
-            .nav-tabs button a {
-                text-decoration: none;
-            }
-
-            /* Optional: Add styling for the buttons */
-            .nav-tabs button {
-                display: inline-block;
-                padding: 10px 15px;
-                margin-right: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #f8f8f8;
-                color: #333;
-                cursor: pointer;
-            }
-
-            /* Optional: Style the active state of the buttons */
-            .nav-tabs button.active {
-                background-color: #007bff;
-                color: #fff;
-            }
-
-            /* Optional: Add hover effect for buttons */
-            .nav-tabs button:hover {
-                background-color: #ddd;
-            }
-
-        </style>
-        <table id="example" class="table table-striped" style="width:100%">
-            <thead>
-            <tr>
-                <th>Mã</th>
-                <th>Ngày Tạo</th>
-                <th>Hình Thức Mua Hàng</th>
-                <th>Trạng Thái</th>
-                <th>Tổng Tiền</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="hd : ${hoadons}" >
-                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}" th:text="${hd.ma}"
-                                       style="color: black; text-decoration: none;"></a></td>
-                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
-                                       th:text="${hd.ngayTao}" style="color: black; text-decoration: none;"></a></td>
-                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
-                                       th:text="${hd.loaiHoaDon.getDisplayName()}" style="color: black; text-decoration: none;"></a></td>
-                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
-                                       th:text="${hd.trangThai.getDisplayName()}" style="color: black; text-decoration: none;"></a></td>
-                                <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
-                                       th:text="${hd.thanhToan}" style="color: black; text-decoration: none;"></a></td>
-                            </tr>
-            </tbody>
-            <tfoot hidden="hidden">
-            <tr>
-                <th>Mã</th>
-                <th>Ngày Tạo</th>
-                <th>Hình Thức Mua Hàng</th>
-                <th>Trạng Thái</th>
-                <th>Tổng Tiền</th>
-            </tr>
-            </tfoot>
-        </table>
-
     </div>
-</div>
+</main>
+
 
 <!-- Start Footer Section -->
 <footer class="footer-section">
@@ -441,5 +417,14 @@
         $('#example').DataTable();
     })
 </script>
+<script type="text/javascript" src="/../js/customer/user/main.js"></script>
+<!-- Card-->
+<script type="text/javascript" src="/../js/customer/user/jquery.card.js"></script>
+<script src="/../js/customer/user/except-home-page.js"></script>
+<script src="/../js/customer/user/address-select.js"></script>
+<script src="/../js/customer/user/account.js"></script>
+<script src="/../js/customer/bootstrap.bundle.min.js"></script>
+<script src="/../js/customer/tiny-slider.js"></script>
+<script src="/../js/customer/custom.js"></script>
 </body>
 </html>

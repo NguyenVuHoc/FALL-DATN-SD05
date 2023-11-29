@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.service.CoGiayService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,32 +23,17 @@ public class CoGiayController {
     @GetMapping
     public String getAll(
             Model model
-    ){
-//        Page<CoGiay> page = service.phanTrang(pageNo,5);
-//        model.addAttribute("listCG",page.stream().toList());
+    ) {
         model.addAttribute("listCG", service.getAll());
-        model.addAttribute("index", pageNo+1);
+        model.addAttribute("index", pageNo + 1);
         return "admin-template/co_giay/co_giay";
     }
-//    @GetMapping("/pre")
-//    private String pre() {
-//        pageNo--;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/co-giay";
-//    }
-//
-//    @GetMapping("/next")
-//    private String next() {
-//        pageNo++;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/co-giay";
-//    }
 
     @GetMapping("/view-add")
     public String viewAdd(
-            @ModelAttribute("coGiay")CoGiay coGiay,
+            @ModelAttribute("coGiay") CoGiay coGiay,
             Model model
-    ){
+    ) {
         model.addAttribute("coGiay", new CoGiay());
         return "admin-template/co_giay/them_co_giay";
     }
@@ -58,10 +44,10 @@ public class CoGiayController {
             @ModelAttribute("coGiay") CoGiay coGiay,
             BindingResult bindingResult,
             Model model
-    ){
+    ) {
         String ma = coGiay.getMa();
         String ten = coGiay.getTen();
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "admin-template/co_giay/them_co_giay";
         }
         if (service.existByMa(ma) && service.existsByTen(ten)) {
@@ -87,8 +73,8 @@ public class CoGiayController {
     public String viewUpdate(
             @PathVariable("id") Long id,
             Model model
-    ){
-        model.addAttribute("coGiay",service.getById(id));
+    ) {
+        model.addAttribute("coGiay", service.getById(id));
         return "admin-template/co_giay/sua_co_giay";
     }
 
@@ -111,18 +97,24 @@ public class CoGiayController {
         return "redirect:/admin/co-giay?success";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        service.remove(id);
-        return "redirect:/admin/co-giay?success";
-    }
-
-//    @GetMapping("/search")
-//    public String timTen(@RequestParam("ten") String ten,
-//                         Model model){
-//        Page<CoGiay> page = service.timTen(ten, pageNo, 5);
-//        model.addAttribute("listCG", page.stream().toList());
-//        model.addAttribute("index", pageNo + 1);
-//        return "admin-template/co_giay/co_giay";
+    //    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") Long id) {
+//        service.remove(id);
+//        return "redirect:/admin/co-giay?success";
 //    }
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model) {
+        try {
+            service.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/co-giay?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/co-giay?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/co-giay?errorMessage";
+        }
+
+    }
 }

@@ -15,6 +15,7 @@ public interface KichThuocService {
     KichThuoc update(KichThuoc kichThuoc);
     void remove(Long id);
 
-    boolean exist(String ma);
-
+    boolean existByMa(String ma);
+    boolean existsByTen(String ten);
+    boolean existsByTenAndIdNot(String ten, Long id);
 }

@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.request.DongSanPhamRequest;
 import com.example.befall23datnsd05.service.DongSanPhamService;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -80,10 +81,26 @@ public class DongSanPhamController {
 
     }
 
-    @GetMapping("/remove/{id}")
-    public String remove(@PathVariable("id") Long id) {
-        dongSanPhamService.remove(id);
-        return "redirect:/admin/dong-san-pham?success";
+//    @GetMapping("/remove/{id}")
+//    public String remove(@PathVariable("id") Long id) {
+//        dongSanPhamService.remove(id);
+//        return "redirect:/admin/dong-san-pham?success";
+//    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model) {
+        try {
+            dongSanPhamService.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/dong-san-pham?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/dong-san-pham?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/dong-san-pham?errorMessage";
+        }
+
     }
 
     @GetMapping("view-update/{id}")

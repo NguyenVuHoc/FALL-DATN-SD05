@@ -125,7 +125,7 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle" src="//../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
                     <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
@@ -161,6 +161,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -197,6 +199,33 @@
         <div th:if="${param.success}">
             <div class="alert alert-info" id="success-alert">Success!</div>
         </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Thương hiệu đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
+
+
         <!-- Recent Sales Start -->
 
         <div class="container-fluid pt-4">
@@ -252,7 +281,7 @@
                                         <a th:href="@{'/admin/thuong-hieu/view-update/' + ${thuongHieu.id}}">
                                             <img src="/../../img/pen_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
-                                        <a th:href="@{'/admin/thuong-hieu/remove/' + ${thuongHieu.id}}">
+                                        <a th:href="@{'/admin/thuong-hieu/delete/' + ${thuongHieu.id}}">
                                             <img src="/../../img/xoa_v2.png" style="width: 25px; padding-right: 5px;">
                                         </a>
                                     </td>

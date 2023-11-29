@@ -35,4 +35,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
 
     boolean existsByTenAndIdNot(String ten, Long id);
 
+    @Query(value = "select * from san_pham where san_pham.ten like :tenSanPham", nativeQuery = true)
+    Optional<SanPham> findSanPhamByTen(@Param("tenSanPham") String tenSanPham);
+
 }

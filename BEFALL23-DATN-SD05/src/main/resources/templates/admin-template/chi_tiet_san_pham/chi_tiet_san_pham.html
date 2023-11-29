@@ -124,7 +124,7 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="//../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div
                                 class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                         </div>
@@ -160,6 +160,8 @@
                         Viên</a>
                     <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                    <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                            class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                     <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                             class="fa fa-chart-bar me-2"></i>Thống Kê</a>
                 </div>
@@ -236,6 +238,7 @@
                                     <th>Kích thước</th>
                                     <th>Số lượng tồn</th>
                                     <th>Giá bán</th>
+                                    <th>Khuyến mại</th>
                                     <th>Trạng thái</th>
                                     <th>Thao Tác</th>
                                 </tr>
@@ -248,7 +251,8 @@
                                     <td th:text="${chiTietSanPham.mauSac.ten}"></td>
                                     <td th:text="${chiTietSanPham.kichThuoc.ten}"></td>
                                     <td th:text="${chiTietSanPham.soLuongTon}"></td>
-                                    <td th:text="${chiTietSanPham.giaBan}"></td>
+                                    <td th:text="${#numbers.formatDecimal(chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                    <td th:text="${chiTietSanPham.khuyenMai != null ? chiTietSanPham.khuyenMai.ten : 'Không có khuyến mãi'}"></td>
                                     <td>
                                         <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
                                         <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>
@@ -272,6 +276,7 @@
                                     <th>Kích thước</th>
                                     <th>Số lượng tồn</th>
                                     <th>Giá bán</th>
+                                    <th>Khuyến mại</th>
                                     <th>Trạng thái</th>
                                     <th>Chức Năng</th>
                                 </tr>

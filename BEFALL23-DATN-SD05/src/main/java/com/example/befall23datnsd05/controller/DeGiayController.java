@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.service.DeGiayService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,19 +115,26 @@ public class DeGiayController {
         return "redirect:/admin/de-giay?success";
     }
 
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        service.remove(id);
-        return "redirect:/admin/de-giay?success";
-    }
-//
-//    @GetMapping("/search")
-//    public String timTen(@RequestParam("ten") String ten,
-//                         Model model){
-//        Page<DeGiay> page = service.timTen(ten, pageNo, 5);
-//        model.addAttribute("listDG", page.stream().toList());
-//        model.addAttribute("index", pageNo + 1);
-//        return "admin-template/de_giay/de_giay";
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") Long id) {
+//        service.remove(id);
+//        return "redirect:/admin/de-giay?success";
 //    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, Model model) {
+        try {
+            service.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/de-giay?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/de-giay?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/de-giay?errorMessage";
+        }
+
+    }
 }
 

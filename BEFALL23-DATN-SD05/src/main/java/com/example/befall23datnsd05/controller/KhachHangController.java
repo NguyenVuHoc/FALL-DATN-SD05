@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +53,8 @@ public class KhachHangController {
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThai trangThai) {
         model.addAttribute("trangThais", list);
+        model.addAttribute("diaChi", new DiaChiRequest());
+        model.addAttribute("listDC", diaChiService.getAll());
         model.addAttribute("listKH", khachHangService.getByTrangThai(trangThai));
         return "admin-template/khach_hang/khach_hang";
     }
@@ -89,10 +92,26 @@ public class KhachHangController {
 
     }
 
+//    @GetMapping("/delete/{id}")
+//    public String delete(@PathVariable("id") Long id) {
+//        khachHangService.remove(id);
+//        return "redirect:/admin/khach-hang?success";
+//    }
+
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        khachHangService.remove(id);
-        return "redirect:/admin/khach-hang?success";
+    public String delete(@PathVariable("id") Long id, Model model) {
+        try {
+            khachHangService.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/khach-hang?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/khach-hang?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/khach-hang?errorMessage";
+        }
+
     }
 
     @PostMapping("/update")

@@ -36,9 +36,11 @@ public interface BanHangService {
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(Long idHoaDon, String thanhTien);
+    HoaDon thanhToanHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
 
     BigDecimal getTongTien(Long idHoaDon);
+
+    BigDecimal getThanhTien(Long idHoaDon, BigDecimal tongTien);
 
     Page<HoaDonChiTiet> getPhanTrang(Long idHoaDon, Integer pageNo, Integer size);
 
@@ -51,6 +53,8 @@ public interface BanHangService {
     List<KhachHang> getAllKhachHang();
 
     HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang);
+
+    HoaDon updateGiamGia(Long idHoaDon, Long idGiamGia);
 
     HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong);
 
@@ -72,5 +76,5 @@ public interface BanHangService {
 
     Boolean huyDon(Long idHoaDon);
 
-    KhachHang tichDiem(Long idHoaDon);
+    KhachHang tichDiem(Long idKhachHang, String thanhTien);
 }

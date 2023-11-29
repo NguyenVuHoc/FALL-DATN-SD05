@@ -165,6 +165,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -331,11 +333,11 @@
                                 <td>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE)}"
                                        th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
-                                       th:text="${hd.thanhToan}"
+                                       th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA')}"
                                        style="color: black;"></a>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
                                        th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}"
-                                       th:text="${hd.thanhToan}"
+                                       th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA') }"
                                        style="color: black;"></a>
                                 </td>
                                 <td>
@@ -348,7 +350,10 @@
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
                       or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}">
+                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+                      or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
+
+">
                                             <i class="bi bi-check2" style="font-size: 35px;"></i>
                                         </button>
 
@@ -361,7 +366,9 @@
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO}
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
                           or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}">
+                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+                          or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
+">
                                             <i class="bi bi-x" style="font-size: 37px;"></i>
                                         </button>
                                     </div>
@@ -375,8 +382,7 @@
                                                       class="my-form reduced-height">
 <!--                                                      onsubmit="return checkTrong(this);"-->
                                                     <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Số
-                                                            Lượng</h1>
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Chuyển Trạng Thái Đơn Hàng</h1>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -405,7 +411,7 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <h5 class="modal-title" style="text-align: center;margin-top: 10px">
-                                                    Chuyển Trạng Thái</h5>
+                                                    Huỷ Đơn Hàng</h5>
                                                 <div class="modal-header">
                                                     <form th:action="@{/admin/hoa-don/validation/deny}" method="post" onsubmit="return checkTrong(this);"
                                                           class="my-form reduced-height">
@@ -420,8 +426,7 @@
                                                             <button type="button" class="btn btn-danger"
                                                                     data-bs-dismiss="modal">Đóng
                                                             </button>
-                                                            <button type="submit" class="btn btn-primary">Chuyển
-                                                                Trạng Thái
+                                                            <button type="submit" class="btn btn-primary">Huỷ Đơn
                                                             </button>
                                                         </div>
                                                     </form>
@@ -528,26 +533,6 @@
         modal.style.display = 'block';
     });
 
-    function checkTrong(form) {
-        var ghiChu = $("input[name='ghiChu']").val();
-        var url = "/admin/hoa-don/vld/" + ghiChu;
-
-        var params = {
-            ghiChu: ghiChu
-        };
-        $.post(url, params, function (response) {
-            if (response === "OK") {
-                form.submit();
-            } else if (response === "ghiChuNull") {
-                showWarningModal("Ghi chú không được để trống");
-            } else {
-                showErrorModal("Lỗi phản hồi từ server");
-            }
-        }).fail(function () {
-            showErrorModal("Không thể kết nối đến server");
-        });
-        return false;
-    }
 </script>
 <script th:inline="javascript">
     function validateDate() {

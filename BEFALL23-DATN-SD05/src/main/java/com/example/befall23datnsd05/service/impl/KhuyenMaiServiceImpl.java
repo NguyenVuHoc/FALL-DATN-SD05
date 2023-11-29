@@ -3,20 +3,14 @@ package com.example.befall23datnsd05.service.impl;
 import com.example.befall23datnsd05.dto.KhuyenMaiRequest;
 import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import com.example.befall23datnsd05.repository.KhuyenMaiRepository;
 import com.example.befall23datnsd05.service.KhuyenMaiService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +34,8 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     }
 
     @Override
-    public List<KhuyenMai> getByTrangThai(TrangThai trangThai) {
-        return repository.getAllByTrangThai(trangThai);
+    public List<KhuyenMai> getByTrangThai(TrangThaiKhuyenMai trangThaiKhuyenMai) {
+        return repository.getAllByTrangThai(trangThaiKhuyenMai);
     }
 
     @Override
@@ -90,13 +84,23 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
         KhuyenMai khuyenMai = repository.findById(id).orElse(null);
         if (khuyenMai != null) {
             khuyenMai.setNgayKetThuc(LocalDate.now().minusDays(1));
-            khuyenMai.setTrangThai(TrangThai.DUNG_HOAT_DONG);
+            khuyenMai.setTrangThai(TrangThaiKhuyenMai.DUNG_HOAT_DONG);
             repository.save(khuyenMai);
         }
     }
 
     @Override
-    public List<KhuyenMai> findKhuyenMai(LocalDate start, LocalDate end, TrangThai trangThai) {
+    public List<KhuyenMai> findKhuyenMai(LocalDate start, LocalDate end, TrangThaiKhuyenMai trangThaiKhuyenMai) {
         return repository.findKhuyenMaisByNgayBatDauAndNgayKetThuc(start, end);
+    }
+
+    @Override
+    public boolean existsByTen(String ten) {
+        return repository.existsByTen(ten);
+    }
+
+    @Override
+    public boolean existsByTenAndIdNot(String ten, Long id) {
+        return repository.existsByTenAndIdNot(ten, id);
     }
 }

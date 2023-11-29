@@ -86,6 +86,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -107,7 +109,7 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="../../img/user.jpg" alt=""
+                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
                              style="width: 40px; height: 40px;">
                         <span class="d-none d-lg-inline-flex">John Doe</span>
                     </a>
@@ -128,19 +130,15 @@
                         <label class="form-label">Mã Thương Hiệu</label>
                         <input type="text" class="form-control" id="ma" name="ma" th:field="*{ma}"
                                aria-describedby="emailHelp" />
-                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" class="alert alert-danger"></div>
-                        <div th:if="${errorMa}" class="alert alert-danger">
-                            <p th:text="${errorMa}"></p>
-                        </div>
+                        <div th:if="${#fields.hasErrors('ma')}" th:errors="*{ma}" style="color: red"></div>
+                        <div th:if="${errorMa}" th:text="${errorMa}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tên Thương Hiệu</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"
                                aria-describedby="emailHelp"/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" class="alert alert-danger"></div>
-                        <div th:if="${errorTen}" class="alert alert-danger">
-                            <p th:text="${errorTen}"></p>
-                        </div>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red"></div>
+                        <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                         Thêm

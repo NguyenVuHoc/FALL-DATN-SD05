@@ -113,8 +113,8 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang) {
         List<DiaChi> list = new ArrayList<>();
-        for (DiaChi dc: diaChiRepository.findAll()){
-            if (dc.getKhachHang().getId() == idKhachHang){
+        for (DiaChi dc : diaChiRepository.findAll()) {
+            if (dc.getKhachHang().getId() == idKhachHang) {
                 list.add(dc);
             }
         }
@@ -126,4 +126,14 @@ public class KhachHangServiceImpl implements KhachHangService {
         return diaChiRepository.findById(idDiaChi).orElse(null);
     }
 
+    @Override
+    public boolean changeUserPassword(Long idKh, String oldPassword, String newPassword) {
+        KhachHang khachHang = khachHangRepository.findById(idKh).orElse(null);
+//        if (khachHang != null && oldPassword.equals(khachHang.getMatKhau())) {
+            khachHang.setMatKhau(newPassword);
+            khachHangRepository.save(khachHang);
+            return true;
+//        }
+//        return false;
+    }
 }

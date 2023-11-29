@@ -162,6 +162,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -195,6 +197,35 @@
             </div>
         </nav>
         <!-- Navbar End -->
+
+        <div th:if="${param.success}">
+            <div class="alert alert-info" id="success-alert">Success!</div>
+        </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Màu sắc đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
             <div class="row g-2">

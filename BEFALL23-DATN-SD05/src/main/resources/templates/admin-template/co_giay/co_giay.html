@@ -72,6 +72,25 @@
             display: none;
         }
 
+        /* hien thi icon them sửa xóa*/
+        .image-row {
+            display: flex; /* Sử dụng flexbox để xếp ảnh trên cùng một hàng */
+        }
+
+        .modal-body {
+            text-align: left;
+        }
+
+        /* Tùy chỉnh CSS để chuyển "Show entries" sang bên trái */
+        .dataTables_length {
+            float: left;
+        }
+
+        /* Di chuyển chuỗi "Showing x to y of N entries" sang bên trái */
+        .dataTables_info {
+            float: left;
+        }
+
 
     </style>
     <!--thư viện css tích tìm kiếm-->
@@ -152,6 +171,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -200,6 +221,21 @@
                 }
             }, 5000); // 5 giây (5000 milliseconds)
         </script>
+
+        <!--        Thông báo lỗi start-->
+        <div th:if="${param.errorMessage}">
+            <div class="alert alert-danger" id="error-alert"> Cổ giày đang được sử dụng. Không thể xóa!</div>
+        </div>
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var errorAlert = document.getElementById('error-alert');
+                if (errorAlert) {
+                    errorAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
+        <!--        Thông báo lỗi end-->
 
 
         <!-- Recent Sales Start -->

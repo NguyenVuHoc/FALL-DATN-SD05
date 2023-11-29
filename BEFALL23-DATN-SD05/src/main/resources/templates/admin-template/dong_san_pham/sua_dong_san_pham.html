@@ -85,6 +85,8 @@
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
+                        class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Thống Kê</a>
             </div>
@@ -133,9 +135,8 @@
                     <div class="mb-3">
                         <label class="form-label">Tên Dòng Sản Phẩm</label>
                         <input type="text" class="form-control" id="ten" name="ten" th:field="*{ten}"/>
-                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"class="alert alert-danger"></div>
-                        <div th:if="${errorTen}" class="alert alert-danger">
-                            <p th:text="${errorTen}"></p>
+                        <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red"></div>
+                        <div th:if="${errorTen}" th:text="${errorTen}" style="color: red">
                         </div>
                     </div>
                     <div class="mb-3">

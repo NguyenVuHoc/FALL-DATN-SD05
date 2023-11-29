@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.KhuyenMaiRequest;
 import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhuyenMaiService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,29 +34,26 @@ public class KhuyenMaiController {
     @Autowired
     ChiTietSanPhamService ctspService;
 
-    Integer pageNo = 0;
-
-    List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG, TrangThai.SAP_DIEN_RA));
+    List<TrangThaiKhuyenMai> list = new ArrayList<>(Arrays.asList(TrangThaiKhuyenMai.DANG_HOAT_DONG, TrangThaiKhuyenMai.DUNG_HOAT_DONG, TrangThaiKhuyenMai.SAP_DIEN_RA));
 
     @GetMapping("")
-    public String hienThi(Model model){
+    public String hienThi(Model model) {
         model.addAttribute("listKhuyenMai", service.getList());
-        model.addAttribute("index", pageNo + 1);
         model.addAttribute("listTrangThai", list);
         return "admin-template/khuyen_mai/khuyen_mai";
     }
 
     @GetMapping("/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
-                                 @PathVariable("trangThai") TrangThai trangThai) {
+                                 @PathVariable("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai) {
         model.addAttribute("listTrangThai", list);
-        model.addAttribute("listKhuyenMai", service.getByTrangThai(trangThai));
+        model.addAttribute("listKhuyenMai", service.getByTrangThai(trangThaiKhuyenMai));
         return "admin-template/khuyen_mai/khuyen_mai";
     }
 
     @GetMapping("/filter")
     public String filterNgay(Model model,
-                             @Param("trangThai") TrangThai trangThai,
+                             @Param("trangThai") TrangThaiKhuyenMai trangThaiKhuyenMai,
                              @Param("startDate") LocalDate startDate,
                              @Param("endDate") LocalDate endDate) {
         if (startDate.isAfter(endDate)) {
@@ -66,7 +65,7 @@ public class KhuyenMaiController {
         model.addAttribute("listTrangThai", list);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("listKhuyenMai", service.findKhuyenMai(startDate, endDate, trangThai));
+        model.addAttribute("listKhuyenMai", service.findKhuyenMai(startDate, endDate, trangThaiKhuyenMai));
         return "admin-template/khuyen_mai/khuyen_mai";
     }
 
@@ -74,7 +73,7 @@ public class KhuyenMaiController {
     public String viewAdd(
             @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
             Model model
-    ){
+    ) {
         model.addAttribute("khuyenMai", new KhuyenMai());
         return "admin-template/khuyen_mai/them_khuyen_mai";
     }
@@ -84,11 +83,17 @@ public class KhuyenMaiController {
     public String them(
             @Valid
             @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
-            BindingResult bindingResult
+            BindingResult bindingResult,
+            Model model
     ) {
+        String ten = khuyenMaiRequest.getTen();
         if (bindingResult.hasErrors()) {
             return "admin-template/khuyen_mai/them_khuyen_mai";
         } else {
+            if (service.existsByTen(ten)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/khuyen_mai/them_khuyen_mai";
+            }
             service.add(khuyenMaiRequest);
             return "redirect:/admin/khuyen-mai";
         }
@@ -98,20 +103,29 @@ public class KhuyenMaiController {
     public String viewUpdate(
             @PathVariable("id") Long id,
             Model model
-    ){
-        model.addAttribute("khuyenMai",service.getById(id));
+    ) {
+        model.addAttribute("khuyenMai", service.getById(id));
         return "admin-template/khuyen_mai/sua_khuyen_mai";
     }
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("khuyenMai") KhuyenMaiRequest khuyenMaiRequest,
-                         BindingResult bindingResult ) {
-        if (bindingResult.hasErrors()) {
+                         BindingResult bindingResult,
+                         Model model) {
+        String ten = khuyenMaiRequest.getTen();
+        Long id = khuyenMaiRequest.getId();
+        if (bindingResult.hasFieldErrors("ten") || bindingResult.hasFieldErrors("mucGiamGia")
+                || bindingResult.hasFieldErrors("ngayKetThuc")) {
             return "admin-template/khuyen_mai/sua_khuyen_mai";
+        } else {
+            if (service.existsByTenAndIdNot(ten, id)) {
+                model.addAttribute("errorTen", "Tên  đã tồn tại");
+                return "admin-template/khuyen_mai/sua_khuyen_mai";
+            }
+            service.update(khuyenMaiRequest);
+            ctspService.autoUpdateGia();
+            return "redirect:/admin/khuyen-mai";
         }
-        service.update(khuyenMaiRequest);
-        ctspService.autoUpdateGia();
-        return "redirect:/admin/khuyen-mai";
     }
 
     @GetMapping("/huy/{id}")
@@ -123,23 +137,23 @@ public class KhuyenMaiController {
 
     @GetMapping("/them-san-pham-khuyen-mai/{idKM}")
     public String sanPhamKhuyenMai(Model model,
-                                   @PathVariable("idKM") Long idKM){
+                                   @PathVariable("idKM") Long idKM) {
         model.addAttribute("ctspKhuyenMai", ctspService.getAllSanPhamKhuyenMai(idKM));
         model.addAttribute("ctspCoKhuyenMai", ctspService.getSpCoKhuyenMai(idKM));
-        model.addAttribute("khuyenMai",service.getById(idKM));
+        model.addAttribute("khuyenMai", service.getById(idKM));
         return "admin-template/khuyen_mai/san_pham_khuyen_mai";
     }
 
     @GetMapping("/them-san-pham-khuyen-mai/them/{idKM}/{idCtsp}")
     public String updateIdKhuyenMai(@PathVariable("idKM") Long idKM,
-                                    @PathVariable("idCtsp") Long idCtsp){
+                                    @PathVariable("idCtsp") Long idCtsp) {
         ctspService.updateIdKhuyenMai(idKM, idCtsp);
         ctspService.updateGiaBan(idCtsp);
         return "redirect:/admin/khuyen-mai/them-san-pham-khuyen-mai/{idKM}";
     }
 
     @GetMapping("/them-san-pham-khuyen-mai/xoa/{idKM}/{idCtsp}")
-    public String deleteIdKhuyenMai(@PathVariable("idCtsp") Long idCtsp){
+    public String deleteIdKhuyenMai(@PathVariable("idCtsp") Long idCtsp) {
         ctspService.deleteIdKhuyenMai(idCtsp);
         ctspService.updateGiaBan(idCtsp);
         return "redirect:/admin/khuyen-mai/them-san-pham-khuyen-mai/{idKM}";

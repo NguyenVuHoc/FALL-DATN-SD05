@@ -6,7 +6,6 @@ public enum TrangThai {
     DUNG_HOAT_DONG(1),
     XAC_NHAN_HOAN_TRA(8),
     DA_HOAN_TRA(9),
-    SAP_DIEN_RA(10),
 
     YEU_CAU_TRA_HANG(2),
     DA_TRA_HANG(3),
@@ -42,8 +41,6 @@ public enum TrangThai {
                 return "Đã Đổi Hàng";
             case TU_CHOI_DOI_HANG:
                 return "Từ Chối Đổi Hàng";
-            case SAP_DIEN_RA:
-                return "Sắp diễn ra";
             case XAC_NHAN_HOAN_TRA:
                 return "Xác nhận hoàn trả";
             case DA_HOAN_TRA:

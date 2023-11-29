@@ -72,6 +72,9 @@ public class HoaDon {
     @Column(name = "thanh_toan", precision = 19, scale = 2)
     private BigDecimal thanhToan;
 
+    @Column(name = "xu", precision = 19, scale = 2)
+    private BigDecimal xu;
+
     @Column(name = "ten_khach_hang")
     private String tenKhachHang;
 
@@ -88,5 +91,9 @@ public class HoaDon {
     @Column(name = "loai_hoa_don")
     @Enumerated(ORDINAL)
     private LoaiHoaDon loaiHoaDon;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ma_giam_gia", referencedColumnName = "id", nullable = true)
+    private MaGiamGia maGiamGia;
 
 }
