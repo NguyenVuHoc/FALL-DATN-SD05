@@ -43,5 +43,14 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
     List<Object[]> countAllGhct(LocalDate from, LocalDate to);
 
 
+    @Query(value = "SELECT SUM(hoa_don.thanh_toan) AS total_thanh_toan, hoa_don.ngay_thanh_toan\n" +
+            "FROM hoa_don \n" +
+            "WHERE hoa_don.trang_thai IN (5, 8, 9)\n" +
+            "  AND hoa_don.ngay_tao BETWEEN ?1 AND ?2\n" +
+            "GROUP BY hoa_don.ngay_tao\n" +
+            "ORDER BY hoa_don.ngay_tao ASC;\n", nativeQuery = true)
+    List<Object[]> thongKeDoanhTHu(@Param("from") LocalDate from, @Param("to") LocalDate to);
+
+
 
 }
