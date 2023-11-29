@@ -162,28 +162,6 @@
 
                                             // Update the total price and any other necessary UI changes
                                             updatePrice();
-                                            updatePriceAfterQuantityUpdate(productId, quantity);
-                                        }
-
-                                        function updatePriceAfterQuantityUpdate(productId, quantity) {
-                                            // Lấy tất cả các phần tử sản phẩm có cùng productId
-                                            let products = document.querySelectorAll(`input[value='${productId}']`);
-
-                                            // Duyệt qua từng phần tử sản phẩm và cập nhật giá trị thành tiền
-                                            products.forEach(product => {
-                                                let father = product.parentElement.parentElement.parentElement;
-                                                let price = father.querySelector(".price").innerText;
-                                                price = Number(price);
-
-                                                let qntE = father.querySelector(".quantity-amount");
-                                                let qnt = Number(qntE.value);
-
-                                                let priceE = father.querySelector(".thanhtien");
-                                                priceE.innerHTML = (price * qnt);
-                                            });
-
-                                            // Cập nhật tổng giá sau khi cập nhật số lượng
-                                            updatePrice();
                                         }
 
                                         function formatCurrency(amount) {
@@ -198,14 +176,13 @@
                                             }).join('');
                                         }
 
-
-                                        function getTotalMonye() {
+                                        function getTotalMoney() {
                                             var checkboxes = document.querySelectorAll("tbody input[type='checkbox']");
                                             let total = 0;
                                             checkboxes.forEach(item => {
                                                 if (item.checked) {
                                                     let father = item.parentElement.parentElement.parentElement;
-                                                    let price = father.querySelector(".thanhtien").innerText;
+                                                    let price = father.querySelector(".thanhtienValue").value;
                                                     price = Number(price);
                                                     total += price;
                                                 }
@@ -215,15 +192,40 @@
 
                                         function updatePrice() {
                                             let totalE = document.querySelector(".total");
-                                            let price = getTotalMonye();
+                                            let price = getTotalMoney();
                                             totalE.innerHTML = formatCurrency(price) + ' VND'; // Thêm ' VND' đằng sau giá trị
+                                        }
+
+                                        function handleChangeOfInput(input) {
+                                            let father = input.parentElement.parentElement.parentElement.parentElement;
+                                            let priceE = father.querySelector(".thanhtien");
+                                            let price = father.querySelector(".priceValue").value;
+                                            price = Number(price);
+
+                                            let qntE = father.querySelector(".quantity-amount");
+                                            let qnt = father.querySelector(".quantity-amount").value;
+
+                                            if (isNaN(qnt) || qnt < 1) {
+                                                // Display the modal
+                                                $('#quantityModal').modal('show');
+                                                input.value = 1;
+                                                return;
+                                            }
+
+                                            qntE.value = qnt;
+                                            father.querySelector(".thanhtienValue").value = price * qnt;
+                                            priceE.innerText = formatCurrency(price * qnt) + 'VND';
+
+                                            let checkBox = father.querySelector("input[type='checkbox']");
+                                            checkBox.checked && updatePrice();
+                                            updateQuantityInDatabase(checkBox.value, qnt);
                                         }
 
                                         function handlerChange(e) {
                                             let className = e.getAttribute("class");
                                             let father = e.parentElement.parentElement.parentElement.parentElement;
                                             let priceE = father.querySelector(".thanhtien");
-                                            let price = father.querySelector(".price").innerText;
+                                            let price = father.querySelector(".priceValue").value;
                                             price = Number(price);
 
                                             let qntE = father.querySelector(".quantity-amount");
@@ -243,7 +245,8 @@
                                             }
 
                                             qntE.value = qnt;
-                                            priceE.innerHTML = (price * qnt);
+                                            father.querySelector(".thanhtienValue").value = price * qnt;
+                                            priceE.innerText = formatCurrency(price * qnt) + 'VND';
 
                                             let checkBox = father.querySelector("input[type='checkbox']");
                                             checkBox.checked && updatePrice();
@@ -267,7 +270,9 @@
                                         gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
                                         gioHangChiTiet.chiTietSanPham.lotGiay.ten}"></h2>
                                 </td>
-                                <td class="price" th:text="${gioHangChiTiet.chiTietSanPham.giaBan}"></td>
+                                <td class="price" th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}">
+                                </td>
+                                <input type="hidden" class="priceValue" th:value="${gioHangChiTiet.chiTietSanPham.giaBan}">
                                 <td>
                                     <div
                                             class="input-group mb-3 d-flex align-items-center quantity-container"
@@ -289,7 +294,7 @@
                                                 th:value="${gioHangChiTiet.soLuong}"
                                                 type="text"
                                                 name="soLuong"
-                                                onchange="updateQuantity(this)"
+                                                onchange="handleChangeOfInput(this)"
                                                 th:data-max-quantity="${gioHangChiTiet.chiTietSanPham.soLuongTon}"
                                         />
                                         <div class="cong" onclick="handlerChange(this)">
@@ -303,10 +308,10 @@
                                     </div>
                                     <span>Số lượng còn lại: [[${gioHangChiTiet.chiTietSanPham.soLuongTon}]]</span>
                                 </td>
-                                <td class="thanhtien"
-                                    th:text="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}"></td>
-                                <td><a class="btn btn-black btn-sm"
-                                       th:href="@{'/wingman/cart/xoa/' + ${gioHangChiTiet.id}}">X</a></td>
+                                <td class="thanhtien" th:text="${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}">
+                                </td>
+                                <input type="hidden" class="thanhtienValue" th:value="${gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan}">
+                                <td><a class="btn btn-black btn-sm delete-button" th:attr="data-id=${gioHangChiTiet.id}">X</a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -553,6 +558,25 @@
     </div>
 </footer>
 <!-- End Footer Section -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
@@ -569,10 +593,25 @@
             item.checked = checkbox.checked;
             updatePrice();
         });
-
-        // Sau khi cập nhật tất cả các ô checkbox, hãy cập nhật tổng giá
-
     }
+
+    document.querySelectorAll('.delete-button').forEach(function (button) {
+        button.addEventListener('click', function () {
+            let id = this.getAttribute('data-id');
+
+            // Show the confirmation modal
+            $('#deleteConfirmationModal').modal('show');
+
+            // Set up event listener for the delete button in the modal
+            document.getElementById('confirmDelete').addEventListener('click', function () {
+                // Redirect to the delete URL if the user confirms
+                window.location.href = '/wingman/cart/xoa/' + id;
+
+                // Hide the modal after the action is taken
+                $('#deleteConfirmationModal').modal('hide');
+            });
+        });
+    });
 </script>
 </body>
 </html>
