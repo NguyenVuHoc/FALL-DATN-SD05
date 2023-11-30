@@ -715,7 +715,7 @@
                                         <form th:action="@{'/admin/ban-hang/thanh-toan/' + ${idHoaDonCho}}"
                                               method="post"
                                               th:object="${hoaDonCho}"
-                                        >
+                                              onsubmit="return checkThanhToan(this);">
                                             <input th:field="*{id}" name="id" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
@@ -952,12 +952,11 @@
                                     <td th:text="${maGiamGia.getSoLuong()}"></td>
                                     <td>
                                         <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/them-voucher/' + ${maGiamGia.getId()}}"
-                                              method="post">
-                                            <input type="text" class="form-control"
-                                                   style="color: red"
-                                                   name="tongTien"
-                                                   hidden
-                                                   th:value="${tongTien}">
+                                              method="post"
+                                              onsubmit="return checkVoucher(this);">
+                                            <input type="text" hidden name="idMaGiamGia" th:value="${maGiamGia.id}"/>
+                                            <input type="text" name="tongTien" hidden th:value="${tongTien}">
+                                            <input hidden th:value="${idHoaDonCho}" name="id"/>
                                             <button type="submit"
                                                     class="btn btn-outline-primary">
                                                 <img src="/../../img/them.png"
@@ -1167,6 +1166,36 @@
             showErrorModal("Không thể kết nối đến server");
         });
 
+        return false;
+    }
+
+    function checkVoucher(form) {
+        var url = "[[@{/admin/ban-hang/check-them-voucher}]]";
+        var idHoaDon = $("input[name='id']").val();
+        var idMaGiamGia = $("input[name='idMaGiamGia']").val();
+        var tongTien = $("input[name='tongTien']").val();
+
+        var params = {
+            idHoaDon: idHoaDon,
+            idMaGiamGia: idMaGiamGia,
+            tongTien: tongTien
+        };
+
+        $.post(url, params, function (response) {
+            if (response === 0) {
+                form.submit();
+            } else if (response === 1) {
+                showWarningModal("Vui lòng chọn hóa đơn!");
+            } else if (response === 2) {
+                showWarningModal("Khách lẻ không thể thêm Voucher!");
+            } else if (response === 3) {
+                showWarningModal("Không đủ điều kiện áp dụng Voucher!");
+            } else {
+                showErrorModal("Lỗi phản hồi từ server");
+            }
+        }).fail(function () {
+            showErrorModal("Không thể kết nối đến server");
+        });
         return false;
     }
 </script>

@@ -37,7 +37,12 @@ public interface BanHangService {
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
+    HoaDon thanhToanHoaDon(Long idHoaDon);
+    HoaDon checkXuHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
+
+    BigDecimal voucher(Long idHoaDon, BigDecimal tongTien);
+
+    Integer checkVoucher(Long idHoaDon, Long idMaGiamGia, BigDecimal tongTien);
 
     BigDecimal getTongTien(Long idHoaDon);
 

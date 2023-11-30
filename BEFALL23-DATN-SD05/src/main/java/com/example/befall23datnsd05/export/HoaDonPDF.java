@@ -26,7 +26,8 @@ public class HoaDonPDF {
 
     public void exportToPDF(
             List<HoaDonChiTiet> list,
-            HoaDon hoaDon
+            HoaDon hoaDon,
+            BigDecimal giamGia
     ) throws Exception {
 
 //      DiaChi diaChi = new DiaChi();
@@ -206,14 +207,14 @@ public class HoaDonPDF {
         tongTien.setFont(FontFactory.getFont(FontFactory.TIMES_BOLD, 12, Font.BOLD));
 
         // Giảm giá
-        BigDecimal giamGia = new BigDecimal(0);
-        if (hoaDon.getMaGiamGia() != null) {
-            if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) < 0) {
-                giamGia = hoaDon.getMaGiamGia().getMucGiamToiDa();
-            } else {
-                giamGia = hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()));
-            }
-        }
+//        BigDecimal giamGia = new BigDecimal(0);
+//        if (hoaDon.getMaGiamGia() != null) {
+//            if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) < 0) {
+//                giamGia = hoaDon.getMaGiamGia().getMucGiamToiDa();
+//            } else {
+//                giamGia = hoaDon.getTongTien().divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()));
+//            }
+//        }
         Paragraph voucher = new Paragraph("Giảm giá: " + currencyFormat02.format(giamGia.doubleValue()), new Font(font));
         voucher.setAlignment(Element.ALIGN_RIGHT);
         voucher.setIndentationLeft(50);

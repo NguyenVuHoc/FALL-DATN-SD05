@@ -154,10 +154,13 @@ public class BanHangController {
     }
 
     @GetMapping("/hoa-don/{idHoaDon}/xoa-hoa-don-chi-tiet/{idHoaDonChiTiet}")
-    public String xoaHoaDonChitiet(@PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
+    public String xoaHoaDonChitiet(@PathVariable("idHoaDon") String idHoaDon,
+                                   @PathVariable("idHoaDonChiTiet") String idHoaDonChiTiet) {
         banHangService.updateSoLuongTuHDCT(Long.valueOf(idHoaDonChiTiet));
         banHangService.xoaHoaDonChiTiet(Long.valueOf(idHoaDonChiTiet));
-        return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
+        BigDecimal tongTien = banHangService.getTongTien(Long.valueOf(idHoaDon));
+        banHangService.checkGiamGia(Long.valueOf(idHoaDon), tongTien);
+        return "redirect:/admin/ban-hang/hoa-don/" + idHoaDon;
     }
 
     @PostMapping("/hoa-don/{idHoaDonCho}/tang-so-luong/{idHDCT}")
@@ -184,7 +187,8 @@ public class BanHangController {
                                   @RequestParam("thanhTien") String thanhTien,
                                   @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
+        banHangService.checkXuHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon));
         banHangService.updateGiamGia(Long.valueOf(idHoaDon));
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
@@ -195,12 +199,14 @@ public class BanHangController {
                              @RequestParam("tongTien") String tongTien,
                              @RequestParam("thanhTien") String thanhTien,
                              @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) throws Exception {
-        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
+        banHangService.checkXuHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
+        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon));
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         //Xuat hoa don
         List<HoaDonChiTiet> listHDCT = banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon));
+        BigDecimal giamGia = banHangService.voucher(Long.valueOf(idHoaDon), BigDecimal.valueOf(Double.valueOf(tongTien)));
         HoaDonPDF hoaDonPDF = new HoaDonPDF();
-        hoaDonPDF.exportToPDF(listHDCT, hoaDon);
+        hoaDonPDF.exportToPDF(listHDCT, hoaDon, giamGia);
         banHangService.updateGiamGia(Long.valueOf(idHoaDon));
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";

@@ -135,49 +135,110 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon thanhToanHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem) {
+    public HoaDon thanhToanHoaDon(Long idHoaDon) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        hoaDon.setNgayThanhToan(LocalDate.now());
+        hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
+        hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+        hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon checkXuHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         KhachHang khachHang = khachHangRepository.findById(hoaDon.getKhachHang().getId()).get();
         if (xuTichDiem == true) {
             if (hoaDon.getKhachHang().getTichDiem() == null) {
-                hoaDon.setNgayThanhToan(LocalDate.now());
-                hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
-                hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
                 hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
                 hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
-                hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
                 return hoaDonRepository.save(hoaDon);
             } else if (hoaDon.getKhachHang().getTichDiem().compareTo(new BigDecimal("50000")) < 0) {
-                hoaDon.setNgayThanhToan(LocalDate.now());
-                hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
-                hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
+                hoaDon.setXu(khachHang.getTichDiem());
                 hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
-                hoaDon.setXu(hoaDon.getKhachHang().getTichDiem());
                 hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(hoaDon.getKhachHang().getTichDiem()));
-                hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
                 khachHang.setTichDiem(new BigDecimal(0));
                 khachHangRepository.save(khachHang);
                 return hoaDonRepository.save(hoaDon);
             }
-            hoaDon.setNgayThanhToan(LocalDate.now());
-            hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
-            hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
             hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
             hoaDon.setXu(new BigDecimal("50000"));
             hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)).subtract(new BigDecimal("50000")));
-            hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
             khachHang.setTichDiem(khachHang.getTichDiem().subtract(new BigDecimal("50000")));
             khachHangRepository.save(khachHang);
             return hoaDonRepository.save(hoaDon);
         }
-        hoaDon.setNgayThanhToan(LocalDate.now());
-        hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
-        hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
         hoaDon.setTongTien(BigDecimal.valueOf(Double.valueOf(tongTien)));
         hoaDon.setThanhToan(BigDecimal.valueOf(Double.valueOf(thanhTien)));
-        hoaDon.setMaGiamGia(null);
-        hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
         return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon themGiamGia(Long idHoaDon, Long idGiamGia, BigDecimal tongTien) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getKhachHang().getMa().equals("KH000")) {
+            return null;
+        }
+        MaGiamGia maGiamGia = maGiamGiaRepository.findById(idGiamGia).get();
+        if (tongTien.compareTo(maGiamGia.getGiaTriDonHang()) >= 0) {
+            hoaDon.setMaGiamGia(maGiamGia);
+            return hoaDonRepository.save(hoaDon);
+        }
+        return null;
+    }
+
+    @Override
+    public MaGiamGia updateGiamGia(Long idHoaDon) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        try {
+            if (hoaDon != null) {
+                MaGiamGia maGiamGia = maGiamGiaRepository.findById(hoaDon.getMaGiamGia().getId()).get();
+                maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+                return maGiamGiaRepository.save(maGiamGia);
+            }
+        } catch (NullPointerException nullPointerException) {
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public HoaDon huyGiamGia(Long idHoaDon) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getMaGiamGia() != null) {
+            hoaDon.setMaGiamGia(null);
+            hoaDonRepository.save(hoaDon);
+        }
+        return null;
+    }
+
+    @Override
+    public BigDecimal voucher(Long idHoaDon, BigDecimal tongTien) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        if (hoaDon.getMaGiamGia() == null) {
+            return new BigDecimal(0);
+        } else {
+            if (hoaDon.getMaGiamGia().getSoLuong() <= 0) {
+                return new BigDecimal(0);
+            } else {
+                if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) > 0) {
+                    return tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()));
+                }
+                return hoaDon.getMaGiamGia().getMucGiamToiDa();
+            }
+        }
+    }
+
+    @Override
+    public Integer checkVoucher(Long idHoaDon, Long idMaGiamGia, BigDecimal tongTien) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        MaGiamGia maGiamGia = maGiamGiaRepository.findById(idMaGiamGia).get();
+        if (hoaDon.getKhachHang().getMa().equals("KH000")) {
+            return 1;
+        } else if (tongTien.compareTo(maGiamGia.getGiaTriDonHang()) < 0) {
+            return 2;
+        }
+        return 0;
     }
 
     @Override
@@ -269,47 +330,14 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon themGiamGia(Long idHoaDon, Long idGiamGia, BigDecimal tongTien) {
-        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        MaGiamGia maGiamGia = maGiamGiaRepository.findById(idGiamGia).get();
-        if (tongTien.compareTo(maGiamGia.getGiaTriDonHang()) >= 0) {
-            hoaDon.setMaGiamGia(maGiamGia);
-            return hoaDonRepository.save(hoaDon);
-        }
-        return null;
-    }
-
-    @Override
-    public HoaDon huyGiamGia(Long idHoaDon) {
-        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        if (hoaDon.getMaGiamGia() != null) {
-            hoaDon.setMaGiamGia(null);
-            hoaDonRepository.save(hoaDon);
-        }
-        return null;
-    }
-
-    @Override
-    public MaGiamGia updateGiamGia(Long idHoaDon) {
-        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        try {
-            if (hoaDon != null) {
-                MaGiamGia maGiamGia = maGiamGiaRepository.findById(hoaDon.getMaGiamGia().getId()).get();
-                maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
-                return maGiamGiaRepository.save(maGiamGia);
-            }
-        } catch (NullPointerException nullPointerException) {
-            return null;
-        }
-        return null;
-    }
-
-    @Override
     public HoaDon checkGiamGia(Long idHoaDon, BigDecimal tongTien) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        if (hoaDon.getMaGiamGia().getGiaTriDonHang().compareTo(tongTien) >= 0) {
+        if (hoaDon.getMaGiamGia() == null){
+            return null;
+        }
+        if (hoaDon.getMaGiamGia().getGiaTriDonHang().compareTo(tongTien) > 0) {
             hoaDon.setMaGiamGia(null);
-            hoaDonRepository.save(hoaDon);
+            return hoaDonRepository.save(hoaDon);
         }
         return null;
     }
