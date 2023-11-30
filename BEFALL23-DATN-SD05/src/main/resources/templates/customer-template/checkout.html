@@ -1,10 +1,3 @@
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -32,6 +25,63 @@
   <title>
     Wingman
   </title>
+  <style>
+    /* Style for container */
+    .container {
+      margin-top: 15px;
+    }
+
+    /* Style for select elements */
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    /* Style for modal content */
+    .modal-content {
+      border-radius: 10px;
+    }
+
+    /* Style for modal header */
+    .modal-header {
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 10px 10px 0 0;
+    }
+
+    /* Style for modal footer */
+    .modal-footer {
+      border-radius: 0 0 10px 10px;
+    }
+
+    /* Style for close button in modal header */
+    .btn-close {
+      color: #fff;
+    }
+
+    /* Style for the Chọn button */
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      border: 1px solid #007bff;
+      border-radius: 5px;
+    }
+
+    /* Style for the cross icon */
+    .icon-cross {
+      cursor: pointer;
+    }
+
+    /* Optional: Add hover effect for buttons */
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
 <!-- Start Header/Navigation -->
@@ -74,16 +124,18 @@
     <div class="row mb-5">
       <div class="col-md-12">
         <div class="border p-4 rounded" role="alert">
-          <a href="#">Nhấn vào đây</a> để đăng nhập
+          Returning customer? <a href="#">Click here</a> to login
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 mb-5 mb-md-0">
-        <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
-        <div class="p-3 p-lg-5 border bg-white">
-          <form method="post" th:action="@{/wingman/cart/dat-hang}">
+    <form method="post" action="#" th:action="@{/wingman/cart/dat-hang}" th:object="${gioHangWrapper}">
+      <div class="row">
+        <div class="col-md-6 mb-5 mb-md-0">
+          <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
+          <div class="p-3 p-lg-5 border bg-white">
+            <div th:each="option : ${options}" th:text="${option}" th:style="${'display: none;'}"></div>
             <input type="hidden" name="idGioHangChiTiet" id="idGioHangChiTiet">
+            <input type="hidden" th:field="*{listGioHangChiTiet}" />
             <div class="form-group row">
               <div class="col-md-12">
                 <label class="text-black"
@@ -95,10 +147,52 @@
                         name="ten"
                         placeholder="Họ tên"
                         th:value="${diaChi2.getTenNguoiNhan()}"
+                        required
                 />
               </div>
             </div>
-
+            <div class="form-group row mb-3">
+              <div class="col-md-12">
+                <label class="text-black"
+                >Tỉnh/thành phố <span class="text-danger">*</span></label
+                >
+                <input
+                        type="text"
+                        class="form-control"
+                        name="provinceName"
+                        id="provinceName"
+                        readonly
+                />
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <div class="col-md-12">
+                <label class="text-black"
+                >Quận/huyện <span class="text-danger">*</span></label
+                >
+                <input
+                        type="text"
+                        class="form-control"
+                        name="districtName"
+                        id="districtName"
+                        readonly
+                />
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <div class="col-md-12">
+                <label class="text-black"
+                >Xã/phường <span class="text-danger">*</span></label
+                >
+                <input
+                        type="text"
+                        class="form-control"
+                        name="wardName"
+                        id="wardName"
+                        readonly
+                />
+              </div>
+            </div>
 
             <div class="form-group row mb-3">
               <div class="col-md-12">
@@ -114,8 +208,6 @@
                 />
               </div>
             </div>
-
-
             <div class="form-group row mb-5">
               <div class="col-md-12">
                 <label class="text-black"
@@ -131,20 +223,49 @@
               </div>
             </div>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    th:data-bs-target="'#staticBackdrop' + ${idKhachHang}">
+            <div class="form-group row mb-5">
+              <div class="col-md-12">
+                <label class="text-black"
+                >Phí vận chuyển</label
+                >
+                <input
+                        type="number"
+                        class="form-control"
+                        id="shippingFee"
+                        name="shippingFee"
+                        readonly
+                />
+              </div>
+            </div>
+
+            <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    th:data-bs-target="'#staticBackdrop' + ${idKhachHang}"
+            >
               Chọn
             </button>
 
-            <div class="modal fade" th:id="'staticBackdrop' + ${idKhachHang}"
-                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog">
+            <div
+                    class="modal fade"
+                    th:id="'staticBackdrop' + ${idKhachHang}"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabindex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+            >
+              <div class="modal-dialog" style="width: 1200px">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Chọn địa chỉ</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    ></button>
                   </div>
                   <div class="modal-body">
                     <table class="table">
@@ -163,104 +284,37 @@
                         <td th:text="${dc.diaChi}"></td>
                         <td>
                           <a th:href="@{/wingman/cart/sua-dia-chi/{idDiaChi}(idDiaChi = ${dc.getId()})}">
-                                                        <span class="icon-cross" style="background-color: black; border-radius: 50%; height: 30px; width: 30px; display: inline-flex; align-items: center; justify-content: center; overflow: hidden;">
-                                                            <img src="/../images/cross.svg" class="img-fluid" style="max-width: 60%; max-height: 60%; display: block;">
-                                                        </span>
+                            <span class="icon-cross" style="background-color: black; border-radius: 50%; height: 30px; width: 30px; display: inline-flex; align-items: center; justify-content: center; overflow: hidden;">
+                              <img src="/../images/cross.svg" class="img-fluid" style="max-width: 60%; max-height: 60%; display: block;">
+                            </span>
                           </a>
                         </td>
                       </tr>
                       </tbody>
                     </table>
+                    <div class="container">
+                      <select name="" id="province">
+                      </select>
+                      <select name="" id="district">
+                        <option value="">Chọn quận</option>
+                      </select>
+                      <select name="" id="ward">
+                        <option value="">Chọn phường</option>
+                      </select>
+                    </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                    >
+                      Close
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-
-
-            <!-- Button trigger modal -->
-
-
-            <!-- Modal -->
-
-
-            <!--                    <form method="post" th:action="@{/wingman/cart/dat-hang}" th:object="${khachHang}">-->
-            <!--                    <div class="form-group">-->
-            <!--                        <label-->
-            <!--                                for="c_ship_different_address"-->
-            <!--                                class="text-black"-->
-            <!--                                data-bs-toggle="collapse"-->
-            <!--                                href="#ship_different_address"-->
-            <!--                                role="button"-->
-            <!--                                aria-expanded="false"-->
-            <!--                                aria-controls="ship_different_address"-->
-            <!--                        ><input-->
-            <!--                                type="checkbox"-->
-            <!--                                value="1"-->
-            <!--                                id="c_ship_different_address"-->
-            <!--                        />-->
-            <!--                            Ship To A Different Address?</label-->
-            <!--                        >-->
-            <!--                        <div class="collapse" id="ship_different_address">-->
-            <!--                            <div class="py-2">-->
-            <!--                                <div class="form-group row">-->
-
-            <!--                                    <div class="col-md-12">-->
-            <!--                                        <label for="c_fname" class="text-black"-->
-            <!--                                        >Tên <span class="text-danger">*</span></label-->
-            <!--                                        >-->
-            <!--                                        <input-->
-            <!--                                                type="text"-->
-            <!--                                                class="form-control"-->
-            <!--                                                id="c_fname"-->
-            <!--                                                name="hoTen"-->
-            <!--                                                placeholder="Họ tên"-->
-            <!--                                                th:value="${khachHang.ten}"-->
-            <!--                                        />-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-
-
-            <!--                                <div class="form-group row mb-3">-->
-            <!--                                    <div class="col-md-12">-->
-            <!--                                        <label for="c_diff_address" class="text-black"-->
-            <!--                                        >Địa chỉ cụ thể <span class="text-danger">*</span></label-->
-            <!--                                        >-->
-            <!--                                        <input-->
-            <!--                                                type="text"-->
-            <!--                                                class="form-control"-->
-            <!--                                                id="c_diff_address"-->
-            <!--                                                name="diaChi"-->
-            <!--                                                placeholder="Street address"-->
-            <!--                                                th:value="${khachHang.listDiaChi[0].diaChi}"-->
-            <!--                                        />-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-
-
-            <!--                                <div class="form-group row mb-5">-->
-            <!--                                    <div class="col-md-12">-->
-            <!--                                        <label for="c_phone" class="text-black"-->
-            <!--                                        >Số điện thoại <span class="text-danger">*</span></label-->
-            <!--                                        >-->
-            <!--                                        <input-->
-            <!--                                                type="text"-->
-            <!--                                                class="form-control"-->
-            <!--                                                id="c_phone"-->
-            <!--                                                name="sdt"-->
-            <!--                                                placeholder="Phone Number"-->
-            <!--                                                th:value="${khachHang.sdt}"-->
-            <!--                                        />-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-
-
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
 
             <div class="form-group">
               <label for="c_order_notes" class="text-black">Ghi chú</label>
@@ -270,153 +324,198 @@
                       cols="30"
                       rows="5"
                       class="form-control"
-                      placeholder="Write your notes here..."></textarea>
+                      placeholder="Write your notes here..."
+              ></textarea>
             </div>
 
-            <div class="col-md-6" style=" width: 100%; /* Chiều rộng 100% của phần tử cha */
-    padding: 15px; /* Tăng padding để làm cho nút lớn hơn */
-    font-size: 18px; /">
+
+            <div
+                    class="col-md-6"
+                    style="
+                                width: 100%;
+                                /* Chiều rộng 100% của phần tử cha */
+                                padding: 15px;
+                                /* Tăng padding để làm cho nút lớn hơn */
+                                font-size: 18px;
+                            "
+            >
               <div class="row mb-5">
                 <div class="col-md-6">
-                  <a class="btn btn-outline-black btn-sm btn-block" th:href="@{/wingman/cart}" type="button">
+                  <a
+                          class="btn btn-outline-black btn-sm btn-block"
+                          th:href="@{/wingman/cart}"
+                  >
                     Quay lại giỏ hàng
                   </a>
                 </div>
               </div>
-
-
             </div>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-6">
-        <div class="row mb-5">
-          <div class="col-md-12">
-            <h2 class="h3 mb-3 text-black">Đơn hàng </h2>
-            <div class="p-3 p-lg-5 border bg-white">
-              <table class="table site-block-order-table mb-5">
-                <thead>
-                <th>Sản phẩm</th>
-                <th>Giá</th>
-                </thead>
-                <tbody>
-                <tr th:each="gioHangChiTiet : ${listGioHangChiTiet}">
-                  <td>
-                    [[${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
-                    gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
-                    gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
-                    gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
-                    gioHangChiTiet.chiTietSanPham.lotGiay.ten}]] <strong class="mx-2">x</strong>
-                    [[${gioHangChiTiet.soLuong}]]
-                  </td>
-                  <td>[[${#numbers.formatDecimal(gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}]]</td>
-                </tr>
-                <tr>
-                  <td class="text-black font-weight-bold">
-                    <strong>Tổng đơn hàng</strong>
-                  </td>
-                  <td class="text-black font-weight-bold" >
-                    <strong th:text="${#numbers.formatDecimal(#aggregates.sum(listGioHangChiTiet.![ (chiTietSanPham.giaBan * soLuong) ]), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+        <div class="col-md-6">
+          <div class="row mb-5">
+            <div class="col-md-12">
+              <h2 class="h3 mb-3 text-black">Đơn hàng </h2>
+              <div class="p-3 p-lg-5 border bg-white">
+                <table class="table site-block-order-table mb-5">
+                  <thead>
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <!-- Check if gioHangWrapper is null or empty -->
+                  <th:block
+                          th:if="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet())}">
+                    <tr th:each="gioHangChiTiet, iterStat : ${gioHangWrapper.getListGioHangChiTiet()}">
+                      <td>
+                        [[${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
+                        gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
+                        gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
+                        gioHangChiTiet.chiTietSanPham.coGiay.ten +' '+
+                        gioHangChiTiet.chiTietSanPham.lotGiay.ten}]] <strong class="mx-2">x</strong>
+                        [[${gioHangChiTiet.soLuong}]]
+                      </td>
+                      <td>
+                        [[${#numbers.formatDecimal(
+                        gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan,
+                        0,
+                        'POINT',
+                        0,
+                        'COMMA'
+                        ) + ' VND'}]]
+                      </td>
+                    </tr>
+                  </th:block>
+                  <tr>
+                    <td class="text-black font-weight-bold">
+                      <strong>Phí ship</strong>
+                    </td>
+                    <td id="shippingColumn">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-black font-weight-bold">
+                      <strong>Tổng đơn hàng</strong>
+                    </td>
+                    <td class="text-black font-weight-bold">
+                      <strong th:text="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet()) ?
+                                        #numbers.formatDecimal(
+                                            #aggregates.sum(gioHangWrapper.getListGioHangChiTiet().![chiTietSanPham.giaBan * soLuong]),
+                                            0,
+                                            'POINT',
+                                            0,
+                                            'COMMA'
+                                        ) + ' VND' : '0 VND'}" id="totalAmountShow">
 
-              <div class="border p-3 mb-3">
-                <h3 class="h6 mb-0">
-                  <a
-                          class="d-block"
-                          data-bs-toggle="collapse"
-                          href="#collapsebank"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="collapsebank"
-                  >Direct Bank Transfer</a
-                  >
-                </h3>
+                      </strong>
+                      <input type="hidden"
+                             th:value="${#aggregates.sum(gioHangWrapper.getListGioHangChiTiet().![chiTietSanPham.giaBan * soLuong])}"
+                             id="totalAmount"
+                             name="totalAmount">
+                    </td>
+                  </tr>
 
-                <div class="collapse" id="collapsebank">
-                  <div class="py-2">
-                    <p class="mb-0">
-                      Make your payment directly into our bank account.
-                      Please use your Order ID as the payment reference.
-                      Your order won’t be shipped until the funds have
-                      cleared in our account.
-                    </p>
+                  </tbody>
+                </table>
+                <div id="shippingFeeResult"></div>
+                <div class="border p-3 mb-3">
+                  <h3 class="h6 mb-0">
+                    <a
+                            class="d-block"
+                            data-bs-toggle="collapse"
+                            href="#collapsebank"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapsebank"
+                    >
+                      Direct Bank Transfer
+                    </a>
+                  </h3>
+
+                  <div class="collapse" id="collapsebank">
+                    <div class="py-2">
+                      <p class="mb-0">
+                        Make your payment directly into our bank account.
+                        Please use your Order ID as the payment reference.
+                        Your order won’t be shipped until the funds have
+                        cleared in our account.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="border p-3 mb-3">
-                <h3 class="h6 mb-0">
-                  <a
-                          class="d-block"
-                          data-bs-toggle="collapse"
-                          href="#collapsecheque"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="collapsecheque"
-                  >Cheque Payment</a
-                  >
-                </h3>
+                <div class="border p-3 mb-3">
+                  <h3 class="h6 mb-0">
+                    <a
+                            class="d-block"
+                            data-bs-toggle="collapse"
+                            href="#collapsecheque"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapsecheque"
+                    >
+                      Cheque Payment
+                    </a>
+                  </h3>
 
-                <div class="collapse" id="collapsecheque">
-                  <div class="py-2">
-                    <p class="mb-0">
-                      Make your payment directly into our bank account.
-                      Please use your Order ID as the payment reference.
-                      Your order won’t be shipped until the funds have
-                      cleared in our account.
-                    </p>
+                  <div class="collapse" id="collapsecheque">
+                    <div class="py-2">
+                      <p class="mb-0">
+                        Make your payment directly into our bank account.
+                        Please use your Order ID as the payment reference.
+                        Your order won’t be shipped until the funds have
+                        cleared in our account.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="border p-3 mb-5">
-                <h3 class="h6 mb-0">
-                  <a
-                          class="d-block"
-                          data-bs-toggle="collapse"
-                          href="#collapsepaypal"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="collapsepaypal"
-                  >Paypal</a
-                  >
-                </h3>
+                <div class="border p-3 mb-5">
+                  <h3 class="h6 mb-0">
+                    <a
+                            class="d-block"
+                            data-bs-toggle="collapse"
+                            href="#collapsepaypal"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapsepaypal"
+                    >
+                      Paypal
+                    </a>
+                  </h3>
 
-                <div class="collapse" id="collapsepaypal">
-                  <div class="py-2">
-                    <p class="mb-0">
-                      Make your payment directly into our bank account.
-                      Please use your Order ID as the payment reference.
-                      Your order won’t be shipped until the funds have
-                      cleared in our account.
-                    </p>
+                  <div class="collapse" id="collapsepaypal">
+                    <div class="py-2">
+                      <p class="mb-0">
+                        Make your payment directly into our bank account.
+                        Please use your Order ID as the payment reference.
+                        Your order won’t be shipped until the funds have
+                        cleared in our account.
+                      </p>
+                    </div>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <button
+                          class="btn btn-black btn-lg py-3 btn-block"
+                          type="submit"
+                  >
+                    Đặt hàng
+                  </button>
+                </div>
               </div>
-
-
-
-              <div class="form-group">
-                <button
-                        class="btn btn-black btn-lg py-3 btn-block"
-                        onclick="window.location='/wingman/cart/thankyou'"
-                        type="submit"
-                >
-                  Đặt hàng
-                </button>
-              </div>
-              </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- </form> -->
+    </form>
   </div>
 </div>
+
 
 <!-- Start Footer Section -->
 <footer class="footer-section">
@@ -514,6 +613,7 @@
             Thiết kế tâm huyết của nhóm <a href="">SD-05</a> <a hreff=""></a>
             <!-- License information: https://untree.co/license/ -->
           </p>
+
         </div>
 
         <div class="col-lg-6 text-center text-lg-end">
@@ -521,9 +621,11 @@
             <li class="me-4"><a href="#">Dự án tốt nghiệp: </a></li>
             <li><a href="#">Xây dựng Website bán giày thể thao Wingman</a></li>
           </ul>
+
         </div>
 
       </div>
+
     </div>
 
   </div>
@@ -533,5 +635,164 @@
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"
+        integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script th:inline="javascript">
+  var length = /*[[${#lists.size(gioHangWrapper)}]]*/ 0; // Set the length variable
+  /*]]>*/
+</script>
+<script>
+  let existingTotalAmount = parseInt($("#totalAmount").val());
+  document.getElementById('shippingColumn').innerText = '0.000.000 VND';
+  let provinceName = '';
+  let districtName = '';
+  let wardName = '';
+  let fromDistrictId = 1488;
+  let toDistrictId = '';
+  let toWardCode = '';
+
+  function formatNumberWithVND(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VND';
+  }
+
+  const host = "https://online-gateway.ghn.vn/shiip/public-api/master-data/";
+  const token = '5f440054-8c34-11ee-af43-6ead57e9219a';
+
+  let callAPI = (api, params = {}) => {
+    const config = {
+      headers: {
+        'token': token
+      },
+      params: params
+    };
+
+    return axios.get(host + api, config)
+            .then((response) => {
+              return response.data;
+            })
+            .catch((error) => {
+              console.error("Error calling API:", error);
+            });
+  };
+
+  let callAPICalculate = (params = {}) => {
+    const config = {
+      headers: {
+        'token': token,
+        'shop_id': 4724045
+      },
+      params: params
+    };
+
+    return axios.get("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", config)
+            .then((response) => {
+              return response.data;
+            })
+            .catch((error) => {
+              console.error("Error calling API:", error);
+            });
+  };
+
+  let callApiDistrict = (provinceId) => {
+    return callAPI("district", {'province_id': provinceId});
+  };
+
+  let callApiWard = (districtId) => {
+    return callAPI("ward", {'district_id': districtId});
+  };
+
+  let renderDataProvince = () => {
+    callAPI("province")
+            .then((data) => {
+              let row = '<option disabled value="">Chọn tỉnh/thành</option>';
+              data.data.forEach(element => {
+                row += `<option value="${element.ProvinceID}">${element.ProvinceName}</option>`;
+              });
+              document.querySelector("#province").innerHTML = row;
+            })
+            .catch((error) => {
+              console.error("Error rendering province data:", error);
+            });
+  };
+
+
+  let renderDataDistrict = (array) => {
+    let row = '<option disabled value="">Chọn quận/huyện</option>';
+    array.data.forEach(element => {
+      row += `<option value="${element.DistrictID}">${element.DistrictName}</option>`;
+    });
+    document.querySelector("#district").innerHTML = row;
+  };
+
+  let renderDataWard = (array) => {
+    let row = '<option disabled value="">Chọn xã/phường</option>';
+    array.data.forEach(element => {
+      row += `<option value="${element.WardCode}">${element.WardName}</option>`;
+    });
+    document.querySelector("#ward").innerHTML = row;
+  };
+  renderDataProvince();
+
+  $("#province").change(() => {
+    const provinceId = $("#province").val();
+    provinceName = $("#province option:selected").text();
+    console.log(provinceId);
+    if (provinceId) {
+      callApiDistrict(provinceId)
+              .then((data) => renderDataDistrict(data));
+    }
+  });
+
+  $("#district").change(() => {
+    const districtId = $("#district").val();
+    districtName = $("#district option:selected").text();
+    console.log(districtId);
+    if (districtId) {
+      toDistrictId = districtId;
+      callApiWard(districtId)
+              .then((data) => renderDataWard(data));
+    }
+  });
+
+  $("#ward").change(() => {
+    toWardCode = $("#ward").val();
+    console.log(toWardCode);
+    wardName = $("#ward option:selected").text();
+    document.getElementById('provinceName').value = provinceName;
+    document.getElementById('districtName').value = districtName;
+    document.getElementById('wardName').value = wardName;
+
+    callAPICalculate({
+      "service_type_id": 2,
+      "insurance_value": 500000,
+      "coupon": null,
+      "from_district_id": fromDistrictId,
+      "to_district_id": toDistrictId,
+      "to_ward_code": toWardCode,
+      "height": 12,
+      "length": 26,
+      "weight": 500 * length,
+      "width": 27
+    }).then(data => {
+      let shippingFee = data.data.total;
+      console.log(data.data.total);
+      document.getElementById('shippingFee').value = shippingFee;
+
+      let newTotalAmount = existingTotalAmount + shippingFee;
+
+      document.getElementById('totalAmountShow').innerText = newTotalAmount.toLocaleString() + ' VND';
+      document.getElementById('totalAmount').value = newTotalAmount;
+      document.getElementById('shippingColumn').innerText =
+              (shippingFee > 0 ?
+                      formatNumberWithVND(shippingFee) :
+                      '0.000.000 VND');
+    });
+  });
+</script>
+
 </body>
 </html>

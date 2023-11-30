@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.service.BanHangCustomerService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RequestMapping("/wingman/cart")
@@ -37,7 +36,7 @@ public class GioHangController {
     @Autowired
     private KhachHangService khachHangService;
 
-    private List<GioHangChiTiet> listGioHangChiTiet;
+    private GioHangWrapper gioHangWrapper;
 
     @GetMapping
     public String cart(Model model){
@@ -78,21 +77,26 @@ public class GioHangController {
         DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
         model.addAttribute("diaChi2", diaChi);
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+
         String[] optionArray = options.split(",");
         List<String> listIdString = Arrays.asList(optionArray);
-        listGioHangChiTiet = banHangCustomerService.findAllById(listIdString);
-        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
+        gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
+        model.addAttribute("gioHangWrapper", gioHangWrapper);
+        model.addAttribute("options",  options);
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
     }
 
     @PostMapping("/dat-hang")
     public String datHang(
+            @ModelAttribute("gioHangWrapper") GioHangWrapper gioHangWrapper,
             @RequestParam("diaChi") String diaChi,
             @RequestParam("sdt") String sdt,
             @RequestParam("ghiChu") String ghiChu,
-            @RequestParam("ten") String ten){
-        banHangCustomerService.datHang(listGioHangChiTiet,ten, diaChi, sdt, ghiChu);
+            @RequestParam("ten") String ten,
+            @RequestParam(name = "shippingFee") BigDecimal shippingFee,
+            @RequestParam(name = "totalAmount") BigDecimal totalAmount){
+        banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChi, sdt, ghiChu, shippingFee, totalAmount);
         return "redirect:/wingman/cart/thankyou";
     }
 
@@ -102,7 +106,7 @@ public class GioHangController {
         model.addAttribute("diaChi2", khachHangService.getByIdDiaChi(Long.valueOf(idDiaChi)));
         KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
-        model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
+        model.addAttribute("gioHangWrapper", gioHangWrapper);
         model.addAttribute("idKhachHang", Long.valueOf(5));
         return "customer-template/checkout";
     }

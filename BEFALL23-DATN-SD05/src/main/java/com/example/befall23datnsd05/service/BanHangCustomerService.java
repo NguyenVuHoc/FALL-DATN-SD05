@@ -1,7 +1,9 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.entity.GioHangChiTiet;
+import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface BanHangCustomerService {
@@ -12,8 +14,12 @@ public interface BanHangCustomerService {
 
     void datHang(List<GioHangChiTiet> listGioHangChiTiet,String ten,String diaChi, String sdt, String ghiChu);
 
+    void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount);
+
     List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong);
 
     List<GioHangChiTiet> findAllById(List<String> listIdString);
+
+    GioHangWrapper findAllItemsById(List<String> listIdString);
 
 }

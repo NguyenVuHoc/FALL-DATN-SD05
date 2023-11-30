@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
+import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,6 +116,41 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
+    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount) {
+        KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
+        NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
+        System.out.println(khachHang);
+        System.out.println(nhanVien);
+        LocalDateTime time = LocalDateTime.now();
+        String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
+                + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setMa(maHD);
+        hoaDon.setNgayTao(LocalDate.now());
+        hoaDon.setKhachHang(khachHang);
+        hoaDon.setNhanVien(nhanVien);
+        hoaDon.setSdt(sdt);
+        hoaDon.setDiaChi(diaChi);
+        hoaDon.setGhiChu(ghiChu);
+        hoaDon.setTenKhachHang(ten);
+        hoaDon.setTrangThai(TrangThaiDonHang.CHO_XAC_NHAN);
+        hoaDon.setLoaiHoaDon(LoaiHoaDon.HOA_DON_ONLINE);
+        hoaDonRepository.save(hoaDon);
+
+        for (GioHangChiTiet gh: gioHangWrapper.getListGioHangChiTiet()){
+            gh.setHoaDon(hoaDon);
+            gioHangChiTietRepository.save(gh);
+            ChiTietSanPham chiTietSanPham = gh.getChiTietSanPham();
+            chiTietSanPhamRepository.save(chiTietSanPham);
+        }
+        hoaDon.setPhiVanChuyen(shippingFee);
+        hoaDon.setTongTien(totalAmount);
+        hoaDon.setThanhToan(totalAmount);
+        System.out.println(hoaDon);
+        hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
     public List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong) {
         Optional<GioHangChiTiet> optionalGioHangChiTiet = gioHangChiTietRepository.findById(idGioHangChiTiet);
         List<GioHangChiTiet> updatedItems = new ArrayList<>();
@@ -144,5 +180,21 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             }
         }
         return gioHangChiTietRepository.findAllById(listIdLong);
+    }
+
+    @Override
+    public GioHangWrapper findAllItemsById(List<String> listIdString) {
+        List<Long> listIdLong = new ArrayList<>();
+        for (String str : listIdString) {
+            try {
+                Long value = Long.parseLong(str);
+                listIdLong.add(value);
+            } catch (NumberFormatException e) {
+                e.fillInStackTrace();
+            }
+        }
+        GioHangWrapper gioHangWrapper = new GioHangWrapper();
+        gioHangWrapper.setListGioHangChiTiet(gioHangChiTietRepository.findAllById(listIdLong));
+        return gioHangWrapper;
     }
 }
