@@ -112,4 +112,9 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
     public boolean existsByTenAndIdNot(String ten, Long id) {
         return repository.existsByTenAndIdNot(ten, id);
     }
+
+    @Override
+    public List<MaGiamGia> layList(Long tongGiaTri) {
+        return repository.getAllByGiaTriDonHang(tongGiaTri);
+    }
 }

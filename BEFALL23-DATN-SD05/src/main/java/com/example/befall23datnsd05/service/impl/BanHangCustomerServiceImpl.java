@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
+import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,12 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
 
     @Autowired
     private NhanVienRepository nhanVienRepository;
+
+    @Autowired
+    private MaGiamGiaRepository maGiamGiaRepository;
+
+    @Autowired
+    private DiemTichLuyRepository diemTichLuyRepository;
 
 
     @Override
@@ -115,6 +122,80 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
+    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount, Long selectedVoucherId, Integer diemTichLuyApDung, Integer diemTichLuy, String useAll) {
+        KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
+        NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
+        LocalDateTime time = LocalDateTime.now();
+        String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
+                + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setMa(maHD);
+        hoaDon.setNgayTao(LocalDate.now());
+        hoaDon.setKhachHang(khachHang);
+        hoaDon.setNhanVien(nhanVien);
+        hoaDon.setSdt(sdt);
+        hoaDon.setDiaChi(diaChi);
+        hoaDon.setGhiChu(ghiChu);
+        hoaDon.setTenKhachHang(ten);
+        hoaDon.setTrangThai(TrangThaiDonHang.CHO_XAC_NHAN);
+        hoaDon.setLoaiHoaDon(LoaiHoaDon.HOA_DON_ONLINE);
+        hoaDonRepository.save(hoaDon);
+        totalAmount = BigDecimal.valueOf(shippingFee.intValue() + totalAmount.intValue());
+
+        for (GioHangChiTiet gh: gioHangWrapper.getListGioHangChiTiet()){
+            gh.setHoaDon(hoaDon);
+            gioHangChiTietRepository.save(gh);
+            ChiTietSanPham chiTietSanPham = gh.getChiTietSanPham();
+            chiTietSanPhamRepository.save(chiTietSanPham);
+        }
+        hoaDon.setPhiVanChuyen(shippingFee);
+        if(selectedVoucherId == null || selectedVoucherId == 0) {
+            hoaDon.setMaGiamGia(null);
+        }
+        else {
+            MaGiamGia maGiamGia = maGiamGiaRepository.findById(selectedVoucherId).get();
+            System.out.println(maGiamGia);
+            hoaDon.setMaGiamGia(maGiamGia);
+            totalAmount = BigDecimal.valueOf((long) (100 - maGiamGia.getMucGiamGia()) * totalAmount.intValue());
+            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+            hoaDon.setMaGiamGia(maGiamGia);
+            maGiamGiaRepository.save(maGiamGia);
+        }
+
+        Boolean use = Boolean.parseBoolean(useAll);
+
+
+        DiemTichLuy diemTichLuyFind = diemTichLuyRepository.findDiemTichLuyByKhachHangId(5L).get();
+        if(diemTichLuyApDung != 0) {
+            totalAmount =  BigDecimal.valueOf(totalAmount.intValue() - diemTichLuyApDung);
+            diemTichLuy -= diemTichLuyApDung;
+            diemTichLuyFind.setDiem(diemTichLuy + 1);
+        }
+        else {
+            if(diemTichLuy == 50000 || use) {
+                if(totalAmount.intValue() >= 50000) {
+                    totalAmount = BigDecimal.valueOf(totalAmount.intValue() - diemTichLuy);
+                    diemTichLuyFind.setDiem(0);
+                }
+                else {
+                    totalAmount = BigDecimal.valueOf(0);
+                    diemTichLuy -= totalAmount.intValue();
+                    diemTichLuyFind.setDiem(diemTichLuy);
+                }
+            }
+        }
+        diemTichLuyFind.setMoTa("Có " + diemTichLuy + " điểm");
+        diemTichLuyFind.setNgaySua(LocalDate.now());
+        diemTichLuyFind.setSoLuongHoaDon(diemTichLuyFind.getSoLuongHoaDon() + 1);
+        diemTichLuyFind.setTongChiTieu(BigDecimal.valueOf(diemTichLuyFind.getTongChiTieu().intValue() + totalAmount.intValue()));
+        diemTichLuyRepository.save(diemTichLuyFind);
+        hoaDon.setXu(BigDecimal.valueOf(diemTichLuyFind.getDiem()));
+        hoaDon.setTongTien(totalAmount);
+        hoaDon.setThanhToan(totalAmount);
+        hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
     public List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong) {
         Optional<GioHangChiTiet> optionalGioHangChiTiet = gioHangChiTietRepository.findById(idGioHangChiTiet);
         List<GioHangChiTiet> updatedItems = new ArrayList<>();
@@ -144,5 +225,21 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             }
         }
         return gioHangChiTietRepository.findAllById(listIdLong);
+    }
+
+    @Override
+    public GioHangWrapper findAllItemsById(List<String> listIdString) {
+        List<Long> listIdLong = new ArrayList<>();
+        for (String str : listIdString) {
+            try {
+                Long value = Long.parseLong(str);
+                listIdLong.add(value);
+            } catch (NumberFormatException e) {
+                e.fillInStackTrace();
+            }
+        }
+        GioHangWrapper gioHangWrapper = new GioHangWrapper();
+        gioHangWrapper.setListGioHangChiTiet(gioHangChiTietRepository.findAllById(listIdLong));
+        return gioHangWrapper;
     }
 }

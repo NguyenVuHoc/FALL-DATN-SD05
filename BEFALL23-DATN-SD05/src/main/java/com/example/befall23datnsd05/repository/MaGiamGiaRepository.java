@@ -58,4 +58,12 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
     boolean existsByTen(String ten);
 
     boolean existsByTenAndIdNot(String ten, Long id);
+
+    @Query("""
+                SELECT mgg FROM MaGiamGia mgg
+                WHERE\s
+                   :tongGiaTri > mgg.giaTriDonHang and mgg.trangThai = 0 and mgg.soLuong > 0 and mgg.ngayBatDau <= CURRENT_DATE and CURRENT_DATE <= mgg.ngayKetThuc  
+            """)
+    List<MaGiamGia> getAllByGiaTriDonHang(
+            @Param("tongGiaTri") Long tongGiaTri);
 }

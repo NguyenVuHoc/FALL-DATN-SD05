@@ -30,4 +30,6 @@ public interface MaGiamGiaService {
     boolean existsByTen(String ten);
 
     boolean existsByTenAndIdNot(String ten, Long id);
+
+    List<MaGiamGia> layList(Long tongGiaTri);
 }
