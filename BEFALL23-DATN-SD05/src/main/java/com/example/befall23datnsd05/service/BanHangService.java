@@ -7,6 +7,7 @@ import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
+import com.example.befall23datnsd05.entity.MaGiamGia;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
@@ -36,7 +37,12 @@ public interface BanHangService {
 
     List<HoaDonChiTietCustom> getOneHDCTByHD(Long idHoaDon);
 
-    HoaDon thanhToanHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
+    HoaDon thanhToanHoaDon(Long idHoaDon);
+    HoaDon checkXuHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
+
+    BigDecimal voucher(Long idHoaDon, BigDecimal tongTien);
+
+    Integer checkVoucher(Long idHoaDon, Long idMaGiamGia, BigDecimal tongTien);
 
     BigDecimal getTongTien(Long idHoaDon);
 
@@ -54,7 +60,13 @@ public interface BanHangService {
 
     HoaDon updateKhachHang(Long idHoaDon, Long idKhachHang);
 
-    HoaDon updateGiamGia(Long idHoaDon, Long idGiamGia);
+    HoaDon themGiamGia(Long idHoaDon, Long idGiamGia, BigDecimal tongTien);
+
+    HoaDon huyGiamGia(Long idHoaDon);
+
+    MaGiamGia updateGiamGia(Long idHoaDon);
+
+    HoaDon checkGiamGia(Long idHoaDon, BigDecimal tongTien);
 
     HoaDonChiTiet tangSoLuongSanPham(Long idHDCT, Integer soLuong);
 

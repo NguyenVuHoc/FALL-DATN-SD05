@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController
 public class BanHangRestContrller {
 
@@ -45,7 +47,7 @@ public class BanHangRestContrller {
 
     @RequestMapping(value = "/admin/ban-hang/them-san-pham/check-so-luong/{soLuongTon}", method = {RequestMethod.GET, RequestMethod.POST})
     public Integer checkSoLuong(@RequestParam("soLuong") String soLuong,
-                               @PathVariable("soLuongTon") Integer soLuongTon) {
+                                @PathVariable("soLuongTon") Integer soLuongTon) {
         try {
             if (soLuong.equals("")) {
                 return 1;
@@ -63,7 +65,7 @@ public class BanHangRestContrller {
 
     @RequestMapping(value = "/admin/ban-hang/them-san-pham/check-giam-so-luong/{soLuongSanPham}", method = {RequestMethod.GET, RequestMethod.POST})
     public Integer checkGiamSoLuong(@RequestParam("soLuong") String soLuong,
-                                @PathVariable("soLuongSanPham") Integer soLuongSanPham) {
+                                    @PathVariable("soLuongSanPham") Integer soLuongSanPham) {
         try {
             if (soLuong.equals("")) {
                 return 1;
@@ -76,6 +78,20 @@ public class BanHangRestContrller {
             }
         } catch (NumberFormatException numberFormatException) {
             return 4;
+        }
+    }
+
+    @RequestMapping(value = "/admin/ban-hang/check-them-voucher", method = {RequestMethod.GET, RequestMethod.POST})
+    public Integer checkVoucher(@RequestParam("idHoaDon") String idHoaDon,
+                                @RequestParam("idMaGiamGia") String idMaGiamGia,
+                                @RequestParam("tongTien") String tongTien) {
+        Integer checkVoucher = banHangService.checkVoucher(Long.valueOf(idHoaDon), Long.valueOf(idMaGiamGia), BigDecimal.valueOf(Double.valueOf(tongTien)));
+        if (checkVoucher == 1) {
+            return 2;
+        } else if (checkVoucher == 2) {
+            return 3;
+        } else {
+            return 0;
         }
     }
 
