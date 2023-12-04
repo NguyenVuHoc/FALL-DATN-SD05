@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="utf-8" />
     <title>DASHMIN - Bootstrap Admin Template</title>
@@ -8,7 +8,7 @@
     <meta content="" name="description" />
 
     <!-- Favicon -->
-    <link href="../images/wingman.png" rel="icon" />
+    <link th:href="@{/images/WingMan-black.png}" rel="icon" />
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,10 +39,10 @@
     />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/admin/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/admin/bootstrap.min.css}" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
-    <link href="../css/admin/style.css" rel="stylesheet" />
+    <link th:href="@{/css/admin/style.css}" rel="stylesheet" />
   </head>
 
   <body>
@@ -74,7 +74,7 @@
                 class="d-flex align-items-center justify-content-between mb-3"
               >
                   <h3 class="text-primary">
-                    <img src="../images/WingMan-black.png" style="height: 100px; width: 100px;" alt="">
+                    <img th:src="@{/images/WingMan-black.png}" style="height: 100px; width: 100px;" alt="">
                   </h3>
                 
                 <h3>Đăng nhập</h3>
@@ -95,7 +95,7 @@
                   id="floatingPassword"
                   placeholder="Password"
                 />
-                <label for="floatingPassword">Mật khấu</label>
+                <label for="floatingPassword">Mật khẩu</label>
               </div>
               <div
                 class="d-flex align-items-center justify-content-between mb-4"
