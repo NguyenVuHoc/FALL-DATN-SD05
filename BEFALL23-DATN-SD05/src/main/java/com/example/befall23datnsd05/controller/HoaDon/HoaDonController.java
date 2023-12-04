@@ -11,6 +11,7 @@ import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import com.example.befall23datnsd05.service.HoaDonService;
 import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequestMapping("/admin/hoa-don")
 public class HoaDonController {
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
-            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG));
+            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG,TrangThaiDonHang.DOI_HANG));
     private final HoaDonService hoaDonService;
     private final HoaDonChiTietService hoaDonChiTietService;
     private final GioHangChiTietService gioHangChiTietService;
@@ -49,6 +50,7 @@ public class HoaDonController {
     ) {
         model.addAttribute("hoadons", hoaDonService.getAll());
         model.addAttribute("trangThais", list);
+        model.addAttribute("endDate", LocalDate.now());
         return "admin-template/hoa_don/hoa_don";
     }
 
@@ -63,6 +65,7 @@ public class HoaDonController {
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThaiDonHang trangThai) {
         model.addAttribute("trangThais", list);
+        model.addAttribute("endDate", LocalDate.now());
         model.addAttribute("hoadons", hoaDonService.getByTrangThai(trangThai));
         return "admin-template/hoa_don/hoa_don";
     }
@@ -79,15 +82,11 @@ public class HoaDonController {
     @GetMapping("/filter")
     public String filterNgayTao(Model model,
                                 @Param("trangThai") TrangThaiDonHang trangThai,
-                                @Param("startDate") LocalDate startDate,
-                                @Param("endDate") LocalDate endDate) {
-        if (startDate.isAfter(endDate)) {
-            model.addAttribute("trangThais", list);
-            model.addAttribute("startDate", startDate);
-            model.addAttribute("endDate", endDate);
-            return "redirect/amin/hoa-don";
+                                @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        startDate = (startDate != null) ? startDate : LocalDate.of(2000, 1, 1);
+        endDate = (endDate != null) ? endDate : LocalDate.now();
 
-        }
         model.addAttribute("trangThais", list);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
@@ -160,6 +159,7 @@ public class HoaDonController {
             model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
             model.addAttribute("hoadons", hoaDonService.getAll());
             model.addAttribute("trangThais", list);
+            model.addAttribute("endDate", LocalDate.now());
             return "admin-template/hoa_don/hoa_don";
         }
         if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
@@ -318,6 +318,7 @@ public class HoaDonController {
             model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
             model.addAttribute("hoadons", hoaDonService.getAll());
             model.addAttribute("trangThais", list);
+            model.addAttribute("endDate", LocalDate.now());
             return "admin-template/hoa_don/hoa_don";
         }
         HoaDon hoaDon = hoaDonService.findById(id);

@@ -26,12 +26,12 @@ public class UserController {
     /**
      * Get User By IdKh
      *
-     * @param id
      * @param model
      * @return
      */
-    @GetMapping("/thong-tin-cua-toi/{id}")
-    public String getAll(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/thong-tin-cua-toi")
+    public String getAll(Model model) {
+        Long id= 5L;
         KhachHang khachHang = khachHangService.getById(id);
         model.addAttribute("khachHang", khachHang);
         model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
@@ -71,7 +71,7 @@ public class UserController {
         }
         model.addAttribute("success", "Sửa thành công");
         khachHangService.update(khachHangRequest);
-        return "redirect:/wingman/thong-tin-cua-toi/" + id + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
     }
 
     /**
@@ -88,7 +88,7 @@ public class UserController {
             @PathVariable("idKhachHang") String idKhachHang
     ) {
         diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKhachHang + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/"+"?success";
     }
 
     /**
@@ -131,7 +131,7 @@ public class UserController {
         else {
             diaChiService.update(diaChiRequest, id);
         }
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/"+ "?success";
     }
 
     /**
@@ -147,7 +147,7 @@ public class UserController {
 
     ) {
         diaChiService.remove(id);
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
     }
 
     /**
@@ -181,7 +181,7 @@ public class UserController {
         else {
 
         khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKh + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
         }
     }
 }

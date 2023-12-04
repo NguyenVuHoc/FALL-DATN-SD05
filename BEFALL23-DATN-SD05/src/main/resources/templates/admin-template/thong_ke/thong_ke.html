@@ -124,25 +124,28 @@
 
       <form th:action="@{/admin/thong-ke}" method="get" onsubmit="return validateDate()">
         <div class="container-fluid pt-3">
-          <div class="row g-2 align-items-center">
+          <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
+
+          <div class="row g-2">
             <div class="col-md-4">
               <!-- Ngày bắt đầu -->
-              <label class="sr-only" for="startCustom">Ngày bắt đầu</label>
+              <label class="sr-only" for="start7">Ngày bắt đầu</label>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
                   <div class="input-group-text">Ngày bắt đầu</div>
                 </div>
-                <input type="date" class="form-control" name="from" id="startCustom" th:value="${from}">
+                <input type="date" class="form-control" name="startDate" id="start7"
+                       th:value="${startDate}">
               </div>
             </div>
             <div class="col-md-4">
               <!-- Ngày kết thúc -->
-              <label class="sr-only" for="endCustom">Ngày kết thúc</label>
+              <label class="sr-only" for="end7">Ngày kết thúc</label>
               <div class="input-group mb-2">
                 <div class="input-group-prepend">
                   <div class="input-group-text">Ngày kết thúc</div>
                 </div>
-                <input type="date" class="form-control" name="to" id="endCustom" th:value="${to}">
+                <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
               </div>
             </div>
             <div class="col-md-2" style="padding-bottom: 5px">
@@ -151,10 +154,11 @@
             </div>
             <div class="col-md-2" style="padding-bottom: 5px">
               <!-- Button thứ hai -->
-              <a class="btn btn-outline-info" href="/admin/thong-ke"> Làm mới</a>
+              <a class="btn btn-outline-info" href="/admin/hoa-don"> Làm mới</a>
             </div>
           </div>
         </div>
+
       </form>
 
       <br>
@@ -461,32 +465,39 @@ document.getElementById('selectType').addEventListener('change', function() {
 </script>
 <script th:inline="javascript">
   function validateDate() {
-    var startDate = document.getElementById('startCustom').value;
-    var endDate = document.getElementById('endCustom').value;
+    var startDate = document.getElementById('start7').value;
+    var endDate = document.getElementById('end7').value;
     var errorMessageDate = document.getElementById('errorMessageDate');
+    if (!endDate) {
+      // Lấy ngày hiện tại dưới dạng chuỗi YYYY-MM-DD
+      var currentDate = new Date().toISOString().split('T')[0];
+      // Gán giá trị mặc định cho endDateElement
+      endDateElement.value = currentDate;
+    }
+    // Lấy ngày hiện tại
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    var yyyy = today.getFullYear();
+    var currentDate = yyyy + '-' + mm + '-' + dd;
 
-    if (startDate === '' || endDate === '') {
-      errorMessageDate.innerHTML = '<div  class="alert alert-danger" role="alert">Vui lòng điền đầy đủ thông tin tìm kiếm</div>';
-
-      // Tự động ẩn thông báo sau 5 giây
-      setTimeout(function () {
-        errorMessageDate.innerHTML = '';
-      }, 5000);
-
-      return false; // Ngăn form từ việc submit khi có lỗi
-    } else if (startDate > endDate) {
-      errorMessageDate.innerHTML = '<div  class="alert alert-danger" role="alert">Ngày bắt đầu không thể lớn hơn ngày kết thúc.</div>';
-
-      // Tự động ẩn thông báo sau 5 giây
-      setTimeout(function () {
-        errorMessageDate.innerHTML = '';
-      }, 5000);
-
-      return false; // Ngăn form từ việc submit khi có lỗi
+    if (startDate > endDate) {
+      errorMessageDate.innerHTML = '<div class="alert alert-danger" role="alert">Ngày bắt đầu không thể lớn hơn ngày kết thúc.</div>';
+    } else if (startDate > currentDate) {
+      errorMessageDate.innerHTML = '<div class="alert alert-danger" role="alert">Ngày bắt đầu không thể lớn hơn ngày hiện tại.</div>';
+    } else if (endDate > currentDate) {
+      errorMessageDate.innerHTML = '<div class="alert alert-danger" role="alert">Ngày kết thúc không thể lớn hơn ngày hiện tại.</div>';
     } else {
       errorMessageDate.innerHTML = ''; // Xóa thông báo lỗi nếu đã được hiển thị
       return true; // Cho phép form submit nếu không có lỗi
     }
+
+    // Tự động ẩn thông báo sau 5 giây
+    setTimeout(function () {
+      errorMessageDate.innerHTML = '';
+    }, 5000);
+
+    return false; // Ngăn form từ việc submit khi có lỗi
   }
 
   // Function to hide the error message after 5 seconds
@@ -496,7 +507,6 @@ document.getElementById('selectType').addEventListener('change', function() {
       errorMessageDate.innerHTML = '';
     }
   }, 5000); // 5000 milliseconds = 5 seconds
-
 </script>
 
 

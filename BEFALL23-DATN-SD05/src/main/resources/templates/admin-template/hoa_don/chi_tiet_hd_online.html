@@ -183,6 +183,7 @@
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
                                 <th>Đế giày</th>
+                                <th>Ghi chú</th>
                                 <th>Đơn giá</th>
                                 <th></th>
                             </tr>
@@ -194,7 +195,10 @@
                                 <td th:text="${ghcts.chiTietSanPham.mauSac.ten}"></td>
                                 <td th:text="${ghcts.chiTietSanPham.kichThuoc.ten}"></td>
                                 <td th:text="${ghcts.chiTietSanPham.deGiay.ten}"></td>
+                                <td th:text="${ghcts.ghiChu}"></td>
                                 <td th:text="${#numbers.formatDecimal(ghcts.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                <td th:text="${ghcts.ghiChu}"></td>
+
                                 <td
                                         th:if="${(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                                                 or (ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DOI_HANG)
@@ -207,10 +211,10 @@
                         <div class="row justify-content-end">
                             <div class="col-auto">
                                 <button class="btn btn-outline-success"
-                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
+                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG }"
                                         data-bs-toggle="modal"
                                         th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
-                                    <i class="bi bi-arrow-counterclockwise"></i> Hoàn trả và hoàn kho
+                                    <i class="bi bi-arrow-counterclockwise"></i> Xác nhận và hoàn kho
                                 </button>
                             </div>
                             <div class="col-auto">
@@ -218,12 +222,12 @@
                                         th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
                                         data-bs-toggle="modal"
                                         th:data-bs-target="'#ghiChu' + ${hoaDon.id}">
-                                    <i class="bi bi-arrow-return-left"></i> Hoàn trả
+                                    <i class="bi bi-arrow-return-left"></i> Xác nhận
                                 </button>
                             </div>
                             <div class="col-auto">
                                 <button class="btn btn-outline-danger"
-                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}"
+                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
                                         data-bs-toggle="modal"
                                         th:data-bs-target="'#huyDon' + ${hoaDon.id}">
                                     <i class="bi bi-x-circle"></i> Từ chối

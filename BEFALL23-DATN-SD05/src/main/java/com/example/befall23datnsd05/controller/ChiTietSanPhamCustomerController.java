@@ -6,8 +6,7 @@ import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
-import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
-import com.example.befall23datnsd05.service.GioHangChiTietService;
+import com.example.befall23datnsd05.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -33,18 +32,43 @@ public class ChiTietSanPhamCustomerController {
     @Autowired
     private GioHangChiTietService gioHangChiTietService;
 
+    @Autowired
+    private DeGiayService deGiayService;
+    @Autowired
+    private MauSacService  mauSacService;
+    @Autowired
+    private KichThuocService kichThuocService;
+    @Autowired
+    private LotGiayService lotGiayService;
+    @Autowired
+    private CoGiayService coGiayService;
+
+    @Autowired
+            private DongSanPhamService dongSanPhamService;
+    @Autowired
+            private ThuongHieuService thuongHieuService;
     Integer pageNo = 0;
 
 
     @GetMapping("/cua-hang")
     public String getAllShopCustomer(Model model) {
-        Page<ChiTietSanPham> pageAll = chiTietSanPhamService.pageAllInShop(pageNo, 20);
+        Page<ChiTietSanPham> pageAll = chiTietSanPhamService.pageAllInShop(pageNo, 25);
         model.addAttribute("listCTSP", pageAll.stream().toList());
         model.addAttribute("index", pageNo + 1);
         List<ChiTietSanPhamCustomerCustom> list3custom = chiTietSanPhamService.list3Custom();
         model.addAttribute("list3Custom", list3custom.stream().toList());
         List<ChiTietSanPhamCustomerCustom> list3limited = chiTietSanPhamService.list3Limited();
         model.addAttribute("list3Limited", list3limited.stream().toList());
+
+//        truyền vào filter
+        model.addAttribute("pageNo",pageNo);
+        model.addAttribute("dongSps",dongSanPhamService.getList());
+        model.addAttribute("thuongHieus",thuongHieuService.getList());
+        model.addAttribute("deGiays",deGiayService.getAll());
+        model.addAttribute("mauSacs",mauSacService.getAll());
+        model.addAttribute("coGiays",coGiayService.getAll());
+        model.addAttribute("lotGiays",lotGiayService.getAll());
+        model.addAttribute("kichThuocs",kichThuocService.getAll());
         return "customer-template/shop";
     }
 

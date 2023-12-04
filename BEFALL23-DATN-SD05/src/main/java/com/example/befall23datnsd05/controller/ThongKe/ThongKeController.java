@@ -34,10 +34,10 @@ public class ThongKeController {
      */
     @GetMapping()
     public String hienThi(Model model,
-                          @Param("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-                          @Param("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+                          @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+                          @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
 
-        from = (from != null) ? from : LocalDate.of(1900, 1, 1);
+        from = (from != null) ? from : LocalDate.of(2000, 1, 1);
         to = (to != null) ? to : LocalDate.now();
         //thống kê Hoá Đơn
         List<Object[]> listHdct = thongKeService.hoaDonChiTiet(from,to);
@@ -81,6 +81,7 @@ public class ThongKeController {
         model.addAttribute("soDonHuy", thongKeService.soDonHuy( from,  to));
         model.addAttribute("hoanTra", thongKeService.soSanPhamHoanTra( from,  to));
         model.addAttribute("listHd",dataForChart);
+        model.addAttribute("endDate", to);
         return "admin-template/thong_ke/thong_ke";
     }
 
