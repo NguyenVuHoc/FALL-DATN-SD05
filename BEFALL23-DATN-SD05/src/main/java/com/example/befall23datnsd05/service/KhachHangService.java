@@ -31,4 +31,6 @@ public interface KhachHangService {
     DiaChi getByIdDiaChi(Long idDiaChi);
 
     boolean changeUserPassword(Long idKh,String oldPassword, String newPassword);
+
+    Integer layDiemTichLuy(Long id);
 }

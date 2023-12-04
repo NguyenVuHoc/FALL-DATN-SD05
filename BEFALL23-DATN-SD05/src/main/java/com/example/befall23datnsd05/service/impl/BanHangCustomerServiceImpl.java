@@ -40,6 +40,12 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     @Autowired
     private NhanVienRepository nhanVienRepository;
 
+    @Autowired
+    private MaGiamGiaRepository maGiamGiaRepository;
+
+    @Autowired
+    private DiemTichLuyRepository diemTichLuyRepository;
+
 
     @Override
     public void themVaoGioHang(Long khachHangId, Long chiTietSanPhamId, Integer soLuong) {
@@ -116,11 +122,9 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
-    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount) {
+    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount, Long selectedVoucherId, Integer diemTichLuyApDung, Integer diemTichLuy, String useAll) {
         KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
         NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
-        System.out.println(khachHang);
-        System.out.println(nhanVien);
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
@@ -136,6 +140,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setTrangThai(TrangThaiDonHang.CHO_XAC_NHAN);
         hoaDon.setLoaiHoaDon(LoaiHoaDon.HOA_DON_ONLINE);
         hoaDonRepository.save(hoaDon);
+        totalAmount = BigDecimal.valueOf(shippingFee.intValue() + totalAmount.intValue());
 
         for (GioHangChiTiet gh: gioHangWrapper.getListGioHangChiTiet()){
             gh.setHoaDon(hoaDon);
@@ -144,9 +149,49 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             chiTietSanPhamRepository.save(chiTietSanPham);
         }
         hoaDon.setPhiVanChuyen(shippingFee);
+        if(selectedVoucherId == null || selectedVoucherId == 0) {
+            hoaDon.setMaGiamGia(null);
+        }
+        else {
+            MaGiamGia maGiamGia = maGiamGiaRepository.findById(selectedVoucherId).get();
+            System.out.println(maGiamGia);
+            hoaDon.setMaGiamGia(maGiamGia);
+            totalAmount = BigDecimal.valueOf((long) (100 - maGiamGia.getMucGiamGia()) * totalAmount.intValue());
+            maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
+            hoaDon.setMaGiamGia(maGiamGia);
+            maGiamGiaRepository.save(maGiamGia);
+        }
+
+        Boolean use = Boolean.parseBoolean(useAll);
+
+
+        DiemTichLuy diemTichLuyFind = diemTichLuyRepository.findDiemTichLuyByKhachHangId(5L).get();
+        if(diemTichLuyApDung != 0) {
+            totalAmount =  BigDecimal.valueOf(totalAmount.intValue() - diemTichLuyApDung);
+            diemTichLuy -= diemTichLuyApDung;
+            diemTichLuyFind.setDiem(diemTichLuy + 1);
+        }
+        else {
+            if(diemTichLuy == 50000 || use) {
+                if(totalAmount.intValue() >= 50000) {
+                    totalAmount = BigDecimal.valueOf(totalAmount.intValue() - diemTichLuy);
+                    diemTichLuyFind.setDiem(0);
+                }
+                else {
+                    totalAmount = BigDecimal.valueOf(0);
+                    diemTichLuy -= totalAmount.intValue();
+                    diemTichLuyFind.setDiem(diemTichLuy);
+                }
+            }
+        }
+        diemTichLuyFind.setMoTa("Có " + diemTichLuy + " điểm");
+        diemTichLuyFind.setNgaySua(LocalDate.now());
+        diemTichLuyFind.setSoLuongHoaDon(diemTichLuyFind.getSoLuongHoaDon() + 1);
+        diemTichLuyFind.setTongChiTieu(BigDecimal.valueOf(diemTichLuyFind.getTongChiTieu().intValue() + totalAmount.intValue()));
+        diemTichLuyRepository.save(diemTichLuyFind);
+        hoaDon.setXu(BigDecimal.valueOf(diemTichLuyFind.getDiem()));
         hoaDon.setTongTien(totalAmount);
         hoaDon.setThanhToan(totalAmount);
-        System.out.println(hoaDon);
         hoaDonRepository.save(hoaDon);
     }
 
