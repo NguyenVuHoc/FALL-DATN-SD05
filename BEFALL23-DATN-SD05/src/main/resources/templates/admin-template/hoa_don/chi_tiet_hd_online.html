@@ -159,7 +159,18 @@
                             <div>
                                 <p><strong>Trạng Thái:</strong> <span th:text="${hoaDon.trangThai.getDisplayName()}"></span></p>
                                 <p><strong>Ghi chú:</strong> <span th:text="${hoaDon.ghiChu}"></span></p>
-                                <p><strong>Thanh Toán:</strong><span th:text="${hoaDon.tongTien}"></span></p>
+                                <p>
+                                    <strong>Thanh Toán: </strong>
+                                    <span th:if="${hoaDon.thanhToan != null}" th:text="${#numbers.formatDecimal(hoaDon.thanhToan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                                    <span th:if="${hoaDon.thanhToan == null}">Chưa thanh toán</span>
+                                </p>
+                                <p>
+                                    <strong>Tổng Tiền Hoá Đơn:</strong>
+                                    <span th:if="${hoaDon.tongTien != null}" th:text="${#numbers.formatDecimal(hoaDon.tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                                    <span th:if="${hoaDon.tongTien == null}">0 VND</span>
+                                </p>
+
+
                             </div>
                         </div>
 
@@ -183,7 +194,7 @@
                                 <td th:text="${ghcts.chiTietSanPham.mauSac.ten}"></td>
                                 <td th:text="${ghcts.chiTietSanPham.kichThuoc.ten}"></td>
                                 <td th:text="${ghcts.chiTietSanPham.deGiay.ten}"></td>
-                                <td th:text="${ghcts.chiTietSanPham.giaBan}"></td>
+                                <td th:text="${#numbers.formatDecimal(ghcts.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                 <td
                                         th:if="${(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                                                 or (ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DOI_HANG)
@@ -193,28 +204,32 @@
                                 </td>
                             </tr>
                         </table>
-                        <button class="btn btn-outline-info float-right"
-                                th:if="${(hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)
-                                        or (hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG)
-                                    }"
-                                data-bs-toggle="modal" style="margin-left: 800px"
-                                th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
-                            Xác nhận hoàn trả và hoàn kho
-                        </button>
-                            <button class="btn btn-outline-info float-right"
-                                    th:if="${(hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)
-                                        or (hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG)
-                                    }"
-                                    data-bs-toggle="modal" style="margin-left: 800px"
-                                    th:data-bs-target="'#ghiChu' + ${hoaDon.id}">
-                                Xác nhận hoàn trả
-                            </button>
-                            <button class="btn btn-outline-danger"
-                                    th:if="${(hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)}"
-                                    data-bs-toggle="modal" style="margin-left: 800px"
-                                    th:data-bs-target="'#huyDon' + ${hoaDon.id}">
-                                Từ chối
-                            </button>
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-success"
+                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Hoàn trả và hoàn kho
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-outline-info"
+                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#ghiChu' + ${hoaDon.id}">
+                                    <i class="bi bi-arrow-return-left"></i> Hoàn trả
+                                </button>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-outline-danger"
+                                        th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#huyDon' + ${hoaDon.id}">
+                                    <i class="bi bi-x-circle"></i> Từ chối
+                                </button>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

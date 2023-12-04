@@ -157,7 +157,8 @@
                                 <p><strong>Trạng Thái:</strong> <span th:text="${hoaDon.trangThai.getDisplayName()}"></span></p>
                                 <p><strong>Ghi chú:</strong> <span th:text="${hoaDon.ghiChu}"></span></p>
                                 <p><strong>Nhân Viên Bán Hàng:</strong><span th:text="${hoaDon.nhanVien.ten}"></span></p>
-                                <p><strong>Thanh Toán:</strong><span th:text="${hoaDon.thanhToan}"></span></p>
+                                <p><strong>Thanh Toán:</strong><span th:text="${#numbers.formatDecimal(hoaDon.thanhToan, 0, 'POINT', 0, 'COMMA')}"></span></p>
+                                <p><strong>Tổng Tiền Hoá Đơn:</strong><span th:text="${#numbers.formatDecimal(hoaDon.tongTien, 0, 'POINT', 0, 'COMMA')}"></span></p>
                             </div>
                         </div>
                         <!-- Chi tiết sản phẩm -->
@@ -180,7 +181,7 @@
                                     <td th:text="${hdct.kichThuoc}"></td>
                                     <td th:text="${hdct.deGiay}"></td>
                                     <td th:text="${hdct.thuongHieu}"></td>
-                                    <td th:text="${hdct.giaBan}"></td>
+                                    <td th:text="${#numbers.formatDecimal(hdct.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                 </tr>
                             </table>
                     </div>
