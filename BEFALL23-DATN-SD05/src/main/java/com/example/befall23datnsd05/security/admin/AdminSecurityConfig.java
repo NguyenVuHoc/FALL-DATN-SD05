@@ -13,21 +13,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@Order(1)
 @EnableWebSecurity
 public class AdminSecurityConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new CustomNhanVienDetailService();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider providerAdmin(){
+    public DaoAuthenticationProvider providerAdmin() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());
@@ -35,58 +36,40 @@ public class AdminSecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsServiceCustomer(){
-        return new CustomKhachHangDetailService();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoderCustomer(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider providerCustomer(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsServiceCustomer());
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoderCustomer());
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
-    @Order(1)
-    public SecurityFilterChain filterChainAdmin(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChainAdmin(HttpSecurity http) throws Exception {
+        http.authenticationProvider(providerAdmin());
         http.authorizeHttpRequests(
-                rq -> {
-                    rq.requestMatchers("/admin").permitAll()
-                            .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                            .requestMatchers("/admin/**").authenticated();
-                })
+                        rq ->
+                                rq.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                )
                 .formLogin(
-                        f-> f.loginPage("/admin")
+                        f -> f.loginPage("/admin/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
                                 .loginProcessingUrl("/admin/login")
                                 .defaultSuccessUrl("/admin/ban-hang")
                                 .permitAll()
                 )
-                .authenticationProvider(providerAdmin())
         ;
-//        http.authorizeHttpRequests(
-//                        rq ->
-//                                rq.requestMatchers("/wingman", "/wingman/dang-ky").permitAll()
-//                                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-//                                        .requestMatchers("/wingman/**").authenticated()
-//                )
-//                .formLogin(
-//                        f-> f.loginPage("/wingman")
-//                                .usernameParameter("email")
-//                                .loginProcessingUrl("/user/login")
-//                                .defaultSuccessUrl("/wingman/trang-chu")
-//                                .permitAll()
-//                )
-//                .authenticationProvider(providerCustomer())
-//        ;
         return http.build();
+//        http.authenticationProvider(providerAdmin());
+//        http.authorizeRequests().antMatchers("/").permitAll();
+//
+//        http.antMatcher("/admin/**")
+//                .authorizeRequests().anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/admin/login")
+//                .usernameParameter("email")
+//                .loginProcessingUrl("/admin/login")
+//                .defaultSuccessUrl("/admin/home")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .logoutUrl("/admin/logout")
+//                .logoutSuccessUrl("/");
+//
+//        return http.build();
     }
 
 }

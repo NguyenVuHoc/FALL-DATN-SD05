@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class CustomerLoginController {
 
-    @GetMapping("/wingman")
+    @GetMapping("/wingman/login")
     public String getFormLoginTrangChu(){
         return "customer-template/dangnhap";
     }

@@ -22,7 +22,7 @@ public class CustomNhanVienDetailService implements UserDetailsService {
         if (nhanVien == null) {
             throw new UsernameNotFoundException("User not found with email: " + username);
         }
-
+        System.out.println(nhanVien.getEmail());
         return new CustomNhanVienDetail(nhanVien);
     }
 }
