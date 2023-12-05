@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,10 +57,12 @@ public class SanPham {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_thuong_hieu", referencedColumnName = "id")
+    @JsonIgnore
     private ThuongHieu thuongHieu;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_dong_san_pham", referencedColumnName = "id")
+    @JsonIgnore
     private DongSanPham dongSanPham;
 
 
