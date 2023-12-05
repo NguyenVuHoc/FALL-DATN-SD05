@@ -16,7 +16,13 @@ public class CustomNhanVienDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        NhanVien nhanVien = nhanVienRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("Invalid"));
+        NhanVien nhanVien = nhanVienRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + username));
+
+        if (nhanVien == null) {
+            throw new UsernameNotFoundException("User not found with email: " + username);
+        }
+
         return new CustomNhanVienDetail(nhanVien);
     }
 }
