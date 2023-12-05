@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@Order(2)
+@Order(1)
 @EnableWebSecurity
 public class CustomerSecurityConfig {
 
@@ -37,6 +37,20 @@ public class CustomerSecurityConfig {
     @Bean
     public SecurityFilterChain filterChainCustomer(HttpSecurity http) throws Exception{
         http.authenticationProvider(providerCustomer());
+        http.authorizeHttpRequests(
+                        rq ->
+                                rq.requestMatchers("/wingman", "/wingman/dang-ky").permitAll()
+                                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                        .requestMatchers("/wingman**").authenticated()
+                )
+                .formLogin(
+                        f-> f.loginPage("/wingman")
+                                .usernameParameter("email")
+                                .loginProcessingUrl("/user/login")
+                                .defaultSuccessUrl("/wingman/trang-chu")
+                                .permitAll()
+                )
+        ;
         return http.build();
     }
 }

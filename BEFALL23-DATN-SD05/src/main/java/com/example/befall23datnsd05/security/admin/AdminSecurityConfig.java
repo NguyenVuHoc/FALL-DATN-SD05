@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@Order(1)
+@Order(2)
 @EnableWebSecurity
 public class AdminSecurityConfig {
 
@@ -39,7 +39,17 @@ public class AdminSecurityConfig {
         http.authorizeHttpRequests(
                 rq ->
                         rq.requestMatchers("/").permitAll()
-        );
+                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/admin**").authenticated()
+        )
+                .formLogin(
+                        f-> f.loginPage("/")
+                                .usernameParameter("email")
+                                .loginProcessingUrl("/admin/login")
+                                .defaultSuccessUrl("/admin/ban-hang")
+                                .permitAll()
+                )
+        ;
         return http.build();
     }
 }
