@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.service.*;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,18 +46,22 @@ public class GioHangController {
     @PostMapping("/add/{id}")
     public String addCart(@PathVariable("id") Long idChiTietSanPham,
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
-                          @RequestParam("soLuong") Integer soLuong){
+                          @RequestParam("soLuong") Integer soLuong,
+                         Model model){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
-        return "redirect:/wingman/cart";
+        model.addAttribute("success", "Thêm thành công");
+        return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
     }
 
     @GetMapping("/addOne/{id}")
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
-                         @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet){
+                         @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
+                         Model model){
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
-        return "redirect:/wingman/cart";
+        model.addAttribute("success", "Thêm thành công");
+        return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
     }
 
 
@@ -82,7 +87,7 @@ public class GioHangController {
         model.addAttribute("gioHangWrapper", gioHangWrapper);
         model.addAttribute("options",  options);
         model.addAttribute("idKhachHang", Long.valueOf(5));
-        int diemTichLuy = khachHangService.layDiemTichLuy(5L);
+        BigDecimal diemTichLuy = khachHang1.getTichDiem();
         model.addAttribute("diemTichLuy", diemTichLuy);
         System.out.println(diemTichLuy);
         long total = 0;
@@ -104,9 +109,9 @@ public class GioHangController {
             @RequestParam(name = "shippingFee") BigDecimal shippingFee,
             @RequestParam(name = "originAmount") BigDecimal totalAmount,
             @RequestParam(name = "voucherId", required = false, defaultValue = "0") Long selectedVoucherId,
-            @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") Integer diemTichLuyApDung,
-            @RequestParam(name = "useAllPointsHidden", required = false, defaultValue = "false") String useAllPointsHidden,
-            @RequestParam(name = "origin") Integer diemTichLuy) {
+            @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") BigDecimal diemTichLuyApDung,
+            @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
+            @RequestParam(name = "origin") BigDecimal diemTichLuy) {
         banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChi, sdt, ghiChu, shippingFee, totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
         return "redirect:/wingman/cart/thankyou";
     }

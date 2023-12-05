@@ -258,7 +258,7 @@
                         >
                             <div class="modal-dialog" style="width: 1200px">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header"  style="background: #314d43">
                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Chọn địa chỉ</h1>
                                         <button
                                                 aria-label="Close"
@@ -306,12 +306,10 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button
-                                                class="btn btn-secondary"
+                                        <button class="btn btn-outline-danger"
                                                 data-bs-dismiss="modal"
-                                                type="button"
-                                        >
-                                            Close
+                                                type="button">
+                                           Đóng
                                         </button>
                                     </div>
                                 </div>
@@ -364,7 +362,7 @@
                                     <thead>
                                     <tr>
                                         <th>Sản phẩm</th>
-                                        <th>Giá</th>
+                                        <th>Thành tiền</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -394,19 +392,10 @@
                                     </th:block>
                                     <tr>
                                         <td class="text-black font-weight-bold">
-                                            <strong>Phí ship</strong>
-                                        </td>
-                                        <td id="shippingColumn">
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td class="text-black font-weight-bold">
                                             <strong>Voucher</strong>
                                         </td>
                                         <td class="text-black font-weight-bold">
-                                            <input id="voucherName" readonly type="text"/>
+                                            <input id="voucherName" class="form-control" readonly type="text"/>
                                             <input id="voucherId" name="voucherId" readonly type="hidden"/>
                                         </td>
                                         <td>
@@ -429,9 +418,9 @@
                                                     tabindex="-1"
                                                     th:id="'staticBackdrop1' + ${idKhachHang}"
                                             >
-                                                <div class="modal-dialog" style="width: 1200px">
+                                                <div class="modal-dialog modal-lg" style="width: 1200px">
                                                     <div class="modal-content">
-                                                        <div class="modal-header">
+                                                        <div class="modal-header" style="background: #314d43">
                                                             <h1 class="modal-title fs-5" id="staticBackdropLabel2">Chọn
                                                                 Voucher</h1>
                                                             <button
@@ -455,35 +444,31 @@
                                                                 <tbody>
                                                                 <tr th:each="voucher : ${vouchers}">
                                                                     <th th:text="${voucher.ten}"></th>
-                                                                    <td th:text="${voucher.mucGiamGia}"></td>
-                                                                    <td th:text="${voucher.mucGiamToiDa}"></td>
+                                                                    <td th:text="${voucher.mucGiamGia} + '%'"></td>
+                                                                    <td th:text="${#numbers.formatDecimal(voucher.mucGiamToiDa, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                                                     <td th:text="${voucher.soLuong}"></td>
                                                                     <td>
                                                                         <a class="add-voucher" href="#"
                                                                            name="selectedVoucher"
-                                                                           th:data-diem="${voucher.mucGiamGia}"
+                                                                           th:data-muc-giam-gia="${voucher.mucGiamGia}"
+                                                                           th:data-giam-toi-da="${voucher.mucGiamToiDa}"
                                                                            th:data-id="${voucher.id}"
                                                                            th:data-text="${voucher.ten}">
                                                                           <span class="icon-cross"
-                                                                                style="background-color: black; border-radius: 50%; height: 30px; width: 30px; display: inline-flex; align-items: center; justify-content: center; overflow: hidden;">
-                                                                              <img class="img-fluid" src="/../images/cross.svg"
+                                                                                style="border-radius: 50%; height: 42px; width: 42px; display: inline-flex; align-items: center; justify-content: center; overflow: hidden;">
+                                                                              <img class="img-fluid"
+                                                                                   src="/../../img/them.png"
                                                                                    style="max-width: 60%; max-height: 60%; display: block;">
                                                                           </span>
                                                                         </a>
                                                                     </td>
                                                                 </tr>
-
                                                                 </tbody>
                                                             </table>
-
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button
-                                                                    class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal"
-                                                                    id="huy-btn"
-                                                                    type="button"
-                                                            >
+                                                            <button class="btn btn-outline-danger" data-bs-dismiss="modal"
+                                                                    id="huy-btn" type="button">
                                                                 Huỷ
                                                             </button>
                                                         </div>
@@ -495,40 +480,59 @@
 
                                     <tr>
                                         <td class="text-black font-weight-bold">
-                                            <strong>Điểm tích luỹ</strong>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                       id="xuTichDiem" name="xuTichDiem"
+                                                       th:value="${diemTichLuy}"
+                                                       th:default="0"
+                                                       style="margin-top: 7px">
+                                            </div>
                                         </td>
-                                        <td class="text-black font-weight-bold">
-                                            <label>Áp dụng</label>
-                                            <input id="diemTichLuyApDung" name="diemTichLuyApDung" th:default="0"
-                                                   type="number"/>
-                                        </td>
+                                        <!--                                        <td class="text-black font-weight-bold">-->
+                                        <!--                                            <label>Áp dụng</label>-->
+                                        <!--                                            <input id="diemTichLuyApDung" name="diemTichLuyApDung" th:default="0"-->
+                                        <!--                                                   type="number"/>-->
+                                        <!--                                        </td>-->
 
                                         <td class="text-black font-weight-bold">
-                                            <label>Số điểm còn lại</label>
+                                            <!--                                            <label>Số điểm còn lại</label>-->
                                             <input id="diemTichLuy" name="diemTichLuy" readonly
-                                                   th:value="${diemTichLuy}" type="number"/>
+                                                   th:value="${#numbers.formatDecimal(diemTichLuy, 0, 'POINT', 0, 'COMMA')} + ' Xu'"
+                                                   type="text" style="border: none"/>
                                             <input id="origin" name="origin" readonly th:value="${diemTichLuy}"
                                                    type="hidden"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <label>
-                                                <input id="useAllPointsCheckbox" name="useAllPoints" type="checkbox"/>
-
-                                            </label>
+                                        <td class="text-black font-weight-bold">
+                                            <strong>Tổng tiền hàng</strong>
                                         </td>
-                                        <td>
-                                            <label>Dùng hết điểm</label>
-                                        </td>
-                                        <td>
-                                            <input id="useAllPointsHidden" name="useAllPointsHidden" type="hidden"
-                                                   value="false"/>
+                                        <td th:text="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet()) ?
+                                        #numbers.formatDecimal(
+                                            #aggregates.sum(gioHangWrapper.getListGioHangChiTiet().![chiTietSanPham.giaBan * soLuong]),
+                                            0,
+                                            'POINT',
+                                            0,
+                                            'COMMA'
+                                        ) + ' VND' : '0 VND'}">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="text-black font-weight-bold">
-                                            <strong>Tổng đơn hàng</strong>
+                                            <strong>Phí ship</strong>
+                                        </td>
+                                        <td id="shippingColumn">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-black font-weight-bold">
+                                            <strong>Voucher giảm giá</strong>
+                                        </td>
+                                        <td id="voucher">0 VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-black font-weight-bold">
+                                            <strong>Tổng thanh toán</strong>
                                         </td>
                                         <td class="text-black font-weight-bold">
                                             <strong id="totalAmountShow" th:text="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet()) ?
@@ -538,8 +542,8 @@
                                             'POINT',
                                             0,
                                             'COMMA'
-                                        ) + ' VND' : '0 VND'}">
-
+                                        ) + ' VND' : '0 VND'}"
+                                                    style="color: red;font-size: 20px">
                                             </strong>
                                             <input id="totalAmount"
                                                    name="totalAmount"
@@ -551,7 +555,6 @@
                                                    type="hidden">
                                         </td>
                                     </tr>
-
                                     </tbody>
                                 </table>
                                 <div id="shippingFeeResult"></div>
@@ -783,13 +786,13 @@
     $(document).ready(function () {
         let button = document.getElementById('click-btn');
         button.disabled = true;
-        let checkbox = document.getElementById('useAllPointsCheckbox');
-        checkbox.readOnly = true;
-        let apDung = document.getElementById('diemTichLuyApDung');
-        apDung.readOnly = true;
+        // let checkbox = document.getElementById('useAllPointsCheckbox');
+        // checkbox.readOnly = true;
+        // let apDung = document.getElementById('diemTichLuyApDung');
+        // apDung.readOnly = true;
 
 
-        document.getElementById('shippingColumn').innerText = '0.000.000 VND';
+        document.getElementById('shippingColumn').innerText = '0 VND';
         let provinceName = '';
         let districtName = '';
         let wardName = '';
@@ -951,35 +954,12 @@
                 }
             });
         });
-        let origin = document.getElementById('origin').value;
+
         let existingTotalAmount = parseInt($("#totalAmount").val());
-        let originAmount = parseInt($("#originAmount").val());
-        let index = $('#voucherSelect').prop('selectedIndex');
-        let dtlOrigin = 0;
-
-        $('#useAllPointsCheckbox').on('click', function () {
-            let checkbox = $(this);
-            let hiddenInput = $('#useAllPointsHidden');
-            hiddenInput.val(checkbox.is(':checked').toString());
-
-            let diemTichLuyApDungInput = $('#diemTichLuyApDung');
-            diemTichLuyApDungInput.prop('readonly', checkbox.is(':checked'));
-
-            if (checkbox.is(':checked')) {
-                let dtl = parseInt($("#diemTichLuy").val());
-                dtlOrigin = dtl;
-                let newValue = existingTotalAmount - dtl;
-                existingTotalAmount = newValue;
-                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-            } else {
-                let dtl = parseInt($("#diemTichLuy").val());
-                let newValue = existingTotalAmount + dtl;
-                existingTotalAmount = newValue;
-                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-            }
-        });
 
         let originVoucher = 0;
+
+        let duocApDung = 0;
 
         $('.add-voucher').click(function (event) {
             event.preventDefault();
@@ -988,61 +968,79 @@
             document.getElementById('voucherId').value = $(this).attr('data-id');
             console.log($(this).attr('data-id'));
             if (originVoucher !== 0) {
-                let discountValue = $(this).attr('data-diem');
+                let discountValue = $(this).attr('data-muc-giam-gia');
                 let originValue = Math.round(existingTotalAmount * 100 / (100 - originVoucher));
                 let newValue = Math.round(((100 - discountValue) / 100) * originValue);
+                let apDung = Math.round((discountValue / 100) * existingTotalAmount);
                 existingTotalAmount = newValue;
                 document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
                 originVoucher = discountValue;
+                duocApDung = apDung;
             } else {
-                let discountValue = $(this).attr('data-diem');
-                let newValue = Math.round(((100 - discountValue) / 100) * existingTotalAmount);
-                existingTotalAmount = newValue;
-
-                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-                originVoucher = discountValue;
-            }
-        });
-
-        let diemTichLuyOrigin = 0;
-        $('#diemTichLuyApDung').change(function () {
-            let diemTichLuyApDung = 0;
-            if (isNaN(parseInt(parseInt(document.getElementById('diemTichLuyApDung').value)))) {
-                diemTichLuyApDung = 0;
-            } else {
-                diemTichLuyApDung = parseInt(document.getElementById('diemTichLuyApDung').value);
-            }
-            if (diemTichLuyApDung > parseInt(document.getElementById('diemTichLuy').value)) {
-                alert('Lỗi: Giá trị nhập vào vượt quá số điểm tích lũy.');
-                document.getElementById('diemTichLuyApDung').value = 0;
-            } else {
-                document.getElementById('diemTichLuy').value = parseInt(origin) - diemTichLuyApDung;
-                if (diemTichLuyOrigin !== 0) {
-                    let newValue = parseInt(existingTotalAmount) + parseInt(diemTichLuyOrigin) - diemTichLuyApDung;
-                    diemTichLuyOrigin = diemTichLuyApDung;
+                let discountValue = $(this).attr('data-muc-giam-gia');
+                let apDungToiDa = parseFloat($(this).attr('data-giam-toi-da'));
+                console.log(apDungToiDa);
+                let apDung = Math.round((discountValue / 100) * existingTotalAmount);
+                if (apDung > apDungToiDa) {
+                    let newValue = existingTotalAmount - apDungToiDa;
                     existingTotalAmount = newValue;
                     document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
+                    document.getElementById('voucher').innerText = formatNumberWithVND(apDungToiDa);
+                    originVoucher = discountValue;
+                    duocApDung = apDungToiDa;
                 } else {
-                    diemTichLuyOrigin = diemTichLuyApDung;
-                    let newValue = parseInt(existingTotalAmount) - diemTichLuyApDung;
+                    let newValue = Math.round(((100 - discountValue) / 100) * existingTotalAmount);
+                    let apDung = Math.round((discountValue / 100) * existingTotalAmount);
                     existingTotalAmount = newValue;
                     document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
+                    document.getElementById('voucher').innerText = formatNumberWithVND(apDung);
+                    originVoucher = discountValue;
+                    duocApDung = apDung;
                 }
-
             }
         });
+
         $('#huy-btn').click(function (event) {
             event.preventDefault();
             if (originVoucher !== 0) {
-                let originValue = Math.round(existingTotalAmount * 100 / (100 - originVoucher));
-                existingTotalAmount = originValue;
-                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(originValue);
+                let newValue = existingTotalAmount + duocApDung;
+                existingTotalAmount = newValue;
+                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
                 document.getElementById('voucherName').value = '';
+                document.getElementById('voucher').innerText = '0 VND';
                 originVoucher = 0;
             }
         });
+
+        // let diemTichLuyOrigin = 0;
+        $('#xuTichDiem').change(function () {
+            var xuInput = document.getElementById("xuTichDiem");
+            var discount = 50000;
+            var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
+            if (isNaN(xu)) {
+                return;
+            }
+            if (xu < discount) {
+                var discountedValue = xuInput.checked ? (existingTotalAmount - xu) : existingTotalAmount;
+                var formattedDiscountedValue = formatNumberWithVND(discountedValue);
+                document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
+                var xuTru = xuInput.checked ? 0 : xu;
+                document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
+            } else {
+                var discountedValue = xuInput.checked ? (existingTotalAmount - discount) : existingTotalAmount;
+
+                var formattedDiscountedValue = formatNumberWithVND(discountedValue);
+                document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
+                var xuTru = xuInput.checked ? (xu - discount) : xu;
+                document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
+            }
+        });
     });
+
 </script>
 
+<script src="/../../js/admin/main.js"></script>
+<script src="/js/admin/index_form.js"></script>
+<script src="/js/admin/decimal.js"></script>
 </body>
 </html>
