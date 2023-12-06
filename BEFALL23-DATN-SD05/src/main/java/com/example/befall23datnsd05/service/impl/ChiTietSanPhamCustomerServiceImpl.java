@@ -137,65 +137,26 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
             if (tenMauSac != null && !tenMauSac.isEmpty()) {
                 predicates.add(root.get("mauSac").get("ten").in(tenMauSac));
             }
-//            if (minPriceRanges != null && !minPriceRanges.isEmpty()) {
-//                List<Predicate> priceRangePredicates = new ArrayList<>();
-//
-//                for (String priceRange : minPriceRanges) {
-//                    double minPrice = 0.0;
-//                    double maxPrice = Double.MAX_VALUE;
-//
-//                    switch (priceRange) {
-//                        case "0-1":
-//                            maxPrice = 1000000.0;
-//                            break;
-//                        case "1-1.5":
-//                            minPrice = 1000000.0;
-//                            maxPrice = 1500000.0;
-//                            break;
-//                        case "1.5-2":
-//                            minPrice = 1500000.0;
-//                            maxPrice = 2000000.0;
-//                            break;
-//                        case "2-2.5":
-//                            minPrice = 2000000.0;
-//                            maxPrice = 2500000.0;
-//                            break;
-//                        case "2.5-3":
-//                            minPrice = 2500000.0;
-//                            maxPrice = 3000000.0;
-//                            break;
-//                        case "3+":
-//                            minPrice = 3000000.0;
-//                            break;
-//                        default:
-//                            // Xử lý các khoảng giá khác nếu cần
-//                            break;
-//                    }
-//                    // Tạo một Predicate cho mỗi khoảng giá
-//        Predicate pricePredicate = (Predicate) cb.between(root.get("gia"), minPrice, maxPrice);
-//        priceRangePredicates.add(pricePredicate);
-//    }
-//
-//    // Tạo một Predicate gồm logic OR cho tất cả các khoảng giá
-//    Predicate priceRangeOrPredicate = cb.or(priceRangePredicates.toArray(new Predicate[0]));
-//
-//    // Thêm Predicate logic OR vào danh sách các Predicate
-//                predicates.add(priceRangeOrPredicate);
-//}
+            if (minGia != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("giaBan"), minGia));
+            }
+            if (maxGia != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("giaBan"), maxGia));
+            }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
         // Sử dụng ChiTietGiayRepository và PageRequest để lấy kết quả phân trang
         Sort sort = Sort.unsorted();
 
-        if ("0".equals(sortField)) {
+        if ("sapXepTheoGiaBanCaoDenThap".equals(sortField)) {
             sort = Sort.by("giaBan").ascending();
-        } else if ("1".equals(sortField)) {
+        } else if ("sapXepTheoGiaBanThapDenCao".equals(sortField)) {
             sort = Sort.by("giaBan").descending();
         }
-        else if ("2".equals(sortField)) {
+        else if ("sapXepTheoTen".equals(sortField)) {
             sort = Sort.by("sanPham.ten").ascending();
-        } else if ("3".equals(sortField)) {
+        } else if ("sapXepTheoNgayTao".equals(sortField)) {
             sort = Sort.by("ngayTao").descending();
         }
 
