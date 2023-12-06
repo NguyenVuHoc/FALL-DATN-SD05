@@ -38,9 +38,76 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img src="../images/user.svg"></a></li>
-                <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="../images/cart.svg"></a></li>
+                <li>
+                    <div class="dropdown show" style="padding-top: 5px">
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="/../images/user.svg">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="'/wingman/tai-khoan-cua-toi'">Tài khoản của tôi</a>
+                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
+                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                        </div>
+                    </div>
+                </li>
+                <li><a class="nav-link"  th:href="@{/wingman/cart}"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                </li>
+                <style>
+                    /* Dropdown Button */
+                    /* Ẩn dropdown menu mặc định */
+                    .dropdown-menu {
+                        display: none;
+                        opacity: 0;
+                        position: absolute;
+                        top: 100%; /* Hiển thị menu bên dưới button */
+                        background-color: #fff; /* Màu nền của dropdown */
+                        transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
+                    }
+
+                    /* Hiển thị dropdown menu khi hover vào .dropdown */
+                    .dropdown:hover .dropdown-menu {
+                        display: block;
+                        opacity: 1;
+                    }
+
+                    /* Hiệu ứng transition khi hiển thị dropdown */
+                    .dropdown-menu {
+                        transform: translateY(-10px); /* Di chuyển dropdown lên trên */
+                        transition: transform 0.3s ease, opacity 0.3s ease;
+                    }
+
+                    .dropdown:hover .dropdown-menu {
+                        transform: translateY(0); /* Đặt lại vị trí ban đầu */
+                    }
+
+                    .dropdown-toggle {
+                        cursor: pointer;
+                        padding: 0;
+                        border: none;
+                        background: transparent;
+                        outline: none;
+                        height: 100%; /* Đặt chiều cao của dropdown button là 100% */
+                    }
+
+                    /* Dropdown Menu */
+                    .dropdown-menu {
+                        width: auto;
+                        box-shadow: none;
+                    }
+
+                    /* Dropdown Items */
+                    .dropdown-item {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        text-align: left;
+                    }
+
+                    /* Cart Icon */
+                </style>
             </ul>
+
         </div>
     </div>
 
@@ -75,160 +142,142 @@
     <h1 style="color: #0c0e12; text-align: center; font-family: 'Montserrat Medium'">Sản phẩm</h1>
     <div class="container">
         <!-- Sắp xếp tìm kiếm -->
-        <div>
-            <h4 style="color: #0c0e12; font-family: 'Montserrat Medium'">Sắp xếp</h4>
-            <div class="row">
-                <div class="col-lg-8 ">
-                    <div class="row">
-                        <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx1"
-                                   autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx1">Giá cao - thấp</label>
+        <!-- End sắp xếp tìm kiếm  -->
+        <br>
+
+        <div class="productfinder">
+<!--            start filter-->
+            <div class="pf-filter-item">
+                <form class="pf-controls" id="pf-Filters">
+                    <fieldset class="filter-group pf-search">
+                        <h4>Tìm kiếm</h4>
+                        <input type="text" class="live-search-box" id="pf-search-id" placeholder="Tìm kiếm ..."/>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Màu Sắc</h4>
+                        <div class="pf-checkbox" th:each="mauSac : ${mauSacs}">
+                            <input type="checkbox" th:value="${mauSac.ten}" class="segment"/>
+                            <label th:text="${mauSac.ten}"></label>
                         </div>
-                        <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx2"
-                                   autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx2">Giá thấp - cao</label>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Kích Cỡ</h4>
+                        <div class="pf-checkbox" th:each="kichThuoc : ${kichThuocs}">
+                            <input type="checkbox" th:value="${kichThuoc.ten}" class="seating"/>
+                            <label th:text="${kichThuoc.ten}"></label>
                         </div>
-                        <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx3"
-                                   autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx3">Khuyến mãi</label>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Loại Đế</h4>
+                        <div class="pf-checkbox" th:each="deGiay : ${deGiays}">
+                            <input type="checkbox" th:value="${deGiay.ten}" class="power"/>
+                            <label th:text="${deGiay.ten}"></label>
                         </div>
-                        <div class="col-12 col-md-3 col-lg-2 mb-4" style="margin-right: 3%">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx4"
-                                   autocomplete="off">
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx4">Mới nhất</label>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Lót Giày</h4>
+                        <div class="pf-checkbox" th:each="lotGiay : ${lotGiays}">
+                            <input type="checkbox" th:value="${lotGiay.ten}" class="power"/>
+                            <label th:text="${lotGiay.ten}"></label>
                         </div>
-                        <div class="col-12 col-md-3 col-lg-2 mb-4">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio-sx5"
-                                   autocomplete="off" checked>
-                            <label class="shop-btn-sx btn-outline-success" for="vbtn-radio-sx5">Tất cả</label>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Cổ Giày</h4>
+                        <div class="pf-checkbox" th:each="coGiay : ${coGiays}">
+                            <input type="checkbox" th:value="${coGiay.ten}" class="power"/>
+                            <label th:text="${coGiay.ten}"></label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Dòng Sản Phẩm</h4>
+                        <div class="pf-checkbox" th:each="dongSp : ${dongSps}">
+                            <input type="checkbox" th:value="${dongSp.ten}" class="power"/>
+                            <label th:text="${dongSp.ten}"></label>
+                        </div>
+                    </fieldset>
+                    <fieldset class="filter-group pf-checkboxes">
+                        <h4>Khoảng Giá</h4>
+                        <div class="input-container">
+                            <input type="number" th:value="${giaMin}" class="power" placeholder="Nhập khoảng giá..."/>
+                            <input type="number" th:value="${giaMax}" class="power" placeholder="Nhập khoảng giá..."/>
+                        </div>
+                    </fieldset>
+
+                    <style>
+                        .filter-group {
+                            border: 1px solid #ccc;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                        }
+
+                        .filter-group h4 {
+                            margin-top: 0;
+                            font-size: 14px; /* Adjust the font size as needed */
+                        }
+
+                        .input-container {
+                            display: flex;
+                            flex-direction: column;
+                        }
+
+                        .input-container input[type="number"] {
+                            width: 150px; /* Adjust the width as needed */
+                            padding: 5px;
+                            margin: 5px;
+                            border: 1px solid #ddd;
+                            border-radius: 3px;
+                            font-size: 12px; /* Adjust the font size as needed */
+                        }
+
+                        /* Additional styling for the input:focus to highlight when it's active */
+                        .input-container input[type="number"]:focus {
+                            outline: none;
+                            border-color: #3498db;
+                            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+                        }
+                    </style>
+
+                    <button id="pf-Reset">Xóa bộ lọc</button>
+                </form>
+            </div>
+<!--            end filter-->
+<!--            start list Sp-->
+            <div class="pf-wrapper">
+                <div id="pf-Container" class="pf-container live-search-list">
+                    <div class="col-md-4" th:each="ctsp : ${listCTSP}">
+                        <div class="product-item">
+                            <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}" style="text-decoration: none">
+                                <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail"
+                                     style="width: 200px; height: 180px;">
+
+                                <h3 class="product-title"
+                                    th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
+                                <strong class="product-price"
+                                        th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                            </a>
+                            <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp.id})}">
+                <span class="icon-cross">
+                            <img src="../images/cross.svg" class="img-fluid">
+                        </span>
+                            </a>
                         </div>
                     </div>
                 </div>
+            </div>
+<!--            end list Sp-->
+        </div>
 
-                <div class="col-lg-4">
-                    <form class="d-flex" role="search">
-                        <input class=" me-2 shop-input-search" type="search" placeholder="Tìm kiếm" aria-label="Search">
-                        <button class="shop-btn-sx btn-outline-success" type="submit" style="width:70px">Tìm</button>
-                    </form>
-                </div>
+    <br>
 
+        <div class="pagination-container">
+            <div class="pagination">
+                <a href="/wingman/cua-hang-first" class="first">&laquo;&laquo;</a>
+                <a href="/wingman/cua-hang-pre" class="prev">&laquo;</a>
+                <a href="#" class="active" th:text="${pageNo+1}"></a>
+                <a href="/wingman/cua-hang-next" class="next">&raquo;</a>
+                <a href="/wingman/cua-hang-last" class="last">&raquo;&raquo;</a>
             </div>
         </div>
-        <!-- End sắp xếp tìm kiếm  -->
-
-        <br>
-        <!--Lọc sản phẩm-->
-        <div>
-            <h4 style="color: #0c0e12; font-family: 'Montserrat Medium'">Lọc</h4>
-            <div class="row">
-                <div class="col-12 col-md-3 col-lg-1 mb-4" style="margin-right: 6%">
-                    <select class="form-select shop-select-loc" aria-label="Default select example">
-                        <option selected>Thương hiệu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 col-lg-1 mb-4" style="margin-right: 6%">
-                    <select class="form-select shop-select-loc" aria-label="Default select example">
-                        <option selected>Dòng sản phẩm</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 col-lg-1 mb-4" style="margin-right: 6%">
-                    <select class="form-select shop-select-loc" aria-label="Default select example">
-                        <option selected>Lót giày</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 col-lg-1 mb-4" style="margin-right: 6%">
-                    <select class="form-select shop-select-loc" aria-label="Default select example">
-                        <option selected>Cổ giày</option>
-                        <option value="1">Thấp</option>
-                        <option value="2">Trung</option>
-                        <option value="3">Cao</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 col-lg-1 mb-4" style="margin-right: 17%">
-                    <select class="form-select shop-select-loc" aria-label="Default select example">
-                        <option selected>Đế giày</option>
-                        <option value="1">Thấp</option>
-                        <option value="2">Trung</option>
-                        <option value="3">Cao</option>
-                    </select>
-                </div>
-
-                <div class="col-12 col-md-3 col-lg-1 mb-4">
-                    <button class="shop-btn-sdloc btn-outline-success" type="submit">Áp dụng</button>
-                </div>
-                <div class="col-12 col-md-3 col-lg-1 mb-4">
-                    <button class="shop-btn-sdloc btn-outline-success" type="submit">Xóa</button>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="box">
-            <hr>
-        </div>
-        <br>
-
-        <div class="row">
-            <!-- Start Column 1 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5" th:each="ctsp : ${listCTSP}">
-                <div class="product-item">
-                    <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp.id}}" style="text-decoration: none">
-                        <img th:src="@{'../images/' + ${ctsp.sanPham.anhChinh}}" class="img-fluid product-thumbnail"
-                             style="width: 200px; height: 180px;">
-
-                        <h3 class="product-title"
-                            th:text="${ctsp.sanPham.ten +' '+ ctsp.sanPham.dongSanPham.ten +' '+ ctsp.deGiay.ten +' '+ ctsp.coGiay.ten +' '+ ctsp.lotGiay.ten}"></h3>
-                        <strong class="product-price"
-                                th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
-                    </a>
-                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp.id})}">
-                    <span class="icon-cross">
-								<img src="../images/cross.svg" class="img-fluid">
-							</span>
-                    </a>
-                </div>
-            </div>
-            <!-- End Column 1 -->
-
-        </div>
-
-        <br>
-        <div style="margin-top: 50px; margin-left: 22% ">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <a class="btn" href="/wingman/cua-hang-first"> |<< </a>
-                    </li>
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <a class="btn" href="/wingman/cua-hang-pre"> << </a>
-                    </li>
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0"><p class="btn" th:text="${index}"></p></li>
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <a class="btn" href="/wingman/cua-hang-next"> >> </a>
-                    </li>
-                    <li class="col-md-12 col-lg-2 mb-5 mb-lg-0">
-                        <a class="btn" href="/wingman/cua-hang-last"> >>| </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
 
         <br>
         <div class="box">
@@ -295,6 +344,7 @@
                     </a>
                 </div>
             </div>
+            <
             <!-- End Column 2 -->
 
             <!-- Start Column 1 -->
@@ -425,6 +475,225 @@
         </div>
     </div>
 </footer>
+<style>
+    .productfinder {
+        width: 100%;
+        height: 100%;
+        padding: 0 30px;
+        margin-left: 3%;
+        display: table;
+    }
+
+    .productfinder > div {
+        display: table-cell;
+        float: left;
+    }
+
+    .productfinder h4 {
+        font-weight: 700;
+        margin-bottom: .5em;
+    }
+
+    .productfinder label {
+        font-weight: 300;
+    }
+
+    .productfinder input[type="text"] {
+        font-family: 'helvetica';
+        font-size: 14px;
+        border: 1px solid #68b8c4;
+        padding: .5em;
+        border-radius: 2px;
+    }
+
+    .productfinder input[type="text"]:focus {
+        outline: 0 none;
+        border-color: #68b8c4;
+    }
+
+    .productfinder button {
+        display: inline-block;
+        vertical-align: top;
+        padding: .4em .8em;
+        margin: 0;
+        background: #68b8c4;
+        border: 0;
+        color: #333;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .productfinder button:focus {
+        outline: 0 none;
+    }
+
+    .productfinder .pf-controls {
+        padding: 2%;
+    }
+
+    .productfinder .filter-group {
+        display: block;
+        margin: 0 1em 0 0;
+        border: 0;
+        padding: .5em;
+    }
+
+    .productfinder .pf-checkbox {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 8px;
+    }
+
+    .productfinder .pf-checkbox input[type="checkbox"] {
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        margin: 0;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .productfinder .pf-checkbox label {
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        padding-left: 1.5em;
+    }
+
+    .productfinder .pf-checkbox label:before,
+    .productfinder .pf-checkbox label:after {
+        content: '';
+        display: block;
+        position: absolute;
+    }
+
+    .productfinder .pf-checkbox label:before {
+        left: 0;
+        top: 0;
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        background: #ddd;
+        border-radius: 3px;
+    }
+
+    .productfinder .pf-checkbox label:after {
+        content: '';
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        background: #3b5d50;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .productfinder .pf-checkbox input:checked ~ label:after {
+        opacity: 1;
+    }
+
+    .productfinder .pf-checkbox input:focus ~ label:before {
+        background: #eee;
+    }
+
+    .productfinder .pf-container .fail-message {
+        text-align: center;
+        pointer-events: none;
+        vertical-align: middle;
+        font-weight: bold;
+        font-size: large;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+    }
+
+    .productfinder .pf-filter-item {
+        width: 300px;
+    }
+
+    .productfinder .pf-wrapper {
+        width: calc(100% - 300px);
+    }
+
+    .productfinder .pf-container > div:not(.fail-message) {
+        width: calc(25% - 50px);
+        float: left;
+    }
+
+    .productfinder .pf-container {
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+        -ms-flex-line-pack: start !important;
+        align-content: flex-start !important;
+    }
+
+    .productfinder .pf-container .pf-card {
+        text-align: center;
+        border: 1px solid transparent;
+        /*box-shadow: 0 0 15px rgba(1, 65, 137, 0.23);*/
+        padding: 10px;
+        margin: 10px;
+        position: relative;
+        padding-bottom: 35px;
+    }
+
+    .productfinder .pf-container .pf-card .pf-card-header {
+    }
+
+    .productfinder .pf-container .pf-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+
+    }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Add any additional styling for the container if needed */
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Add any specific pagination styles */
+    }
+
+    /* Rest of your pagination styling */
+    .pagination a {
+        color: black;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+    }
+
+    .pagination a.active {
+        background-color: #3b5d50;
+        color: white;
+        border: 1px solid #3b5d50;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
+
+</style>
+
 <!-- End Footer Section -->
 </body>
 </html>

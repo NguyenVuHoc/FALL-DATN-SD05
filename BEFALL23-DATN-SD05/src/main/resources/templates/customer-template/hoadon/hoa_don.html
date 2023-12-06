@@ -147,15 +147,67 @@
                             <img src="/../images/user.svg">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${idKh}">Tài khoản của
-                                tôi</a>
-                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn mua</a>
+                            <a class="dropdown-item" href="'/wingman/tai-khoan-cua-toi'">Tài khoản của tôi</a>
+                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
                             <a class="dropdown-item" href="#">Đăng xuất</a>
                         </div>
                     </div>
                 </li>
-                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                <li><a class="nav-link"  th:href="@{/wingman/cart}"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
                 </li>
+                <style>
+                    /* Dropdown Button */
+                    /* Ẩn dropdown menu mặc định */
+                    .dropdown-menu {
+                        display: none;
+                        opacity: 0;
+                        position: absolute;
+                        top: 100%; /* Hiển thị menu bên dưới button */
+                        background-color: #fff; /* Màu nền của dropdown */
+                        transition: opacity 0.3s ease; /* Hiệu ứng mượt mà cho opacity */
+                    }
+
+                    /* Hiển thị dropdown menu khi hover vào .dropdown */
+                    .dropdown:hover .dropdown-menu {
+                        display: block;
+                        opacity: 1;
+                    }
+
+                    /* Hiệu ứng transition khi hiển thị dropdown */
+                    .dropdown-menu {
+                        transform: translateY(-10px); /* Di chuyển dropdown lên trên */
+                        transition: transform 0.3s ease, opacity 0.3s ease;
+                    }
+
+                    .dropdown:hover .dropdown-menu {
+                        transform: translateY(0); /* Đặt lại vị trí ban đầu */
+                    }
+
+                    .dropdown-toggle {
+                        cursor: pointer;
+                        padding: 0;
+                        border: none;
+                        background: transparent;
+                        outline: none;
+                        height: 100%; /* Đặt chiều cao của dropdown button là 100% */
+                    }
+
+                    /* Dropdown Menu */
+                    .dropdown-menu {
+                        width: auto;
+                        box-shadow: none;
+                    }
+
+                    /* Dropdown Items */
+                    .dropdown-item {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        text-align: left;
+                    }
+
+                    /* Cart Icon */
+                </style>
             </ul>
 
         </div>
@@ -169,9 +221,9 @@
                 <div class="left-sidebar">
                     <div class="break-line"></div>
                     <div class="nav-sidebar">
-                        <a class="selling-buying-products nav-item" th:href="'/wingman/thong-tin-cua-toi/'+ ${idKh}">Thông Tin Của
+                        <a class="selling-buying-products nav-item" th:href="'/wingman/thong-tin-cua-toi'">Thông Tin Của
                             Tôi</a>
-                        <a class="account nav-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn
+                        <a class="account nav-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn
                             Hàng Mua</a>
                         <a class="btn btn-primary black-btn sign-out-btn" href="./index.html">Đăng xuất</a>
                     </div>
@@ -182,13 +234,13 @@
                     <div class="row">
                         <ul class="nav nav-tabs">
                             <button class="nav-link">
-                                <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Tất cả</a>
+                                <a th:href="'/wingman/hoa-don-cua-toi'">Tất cả</a>
                             </button>
                             <li class="nav-item" th:each="tt : ${trangThais}">
                                 <button th:class="'nav-link ' + (${trangThai} == ${tt} ? 'active' : '')"
                                         id="nav-home-tab"
                                         data-bs-toggle="tab" type="button">
-                                    <a th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh} +'/'+ ${tt}"
+                                    <a th:href="'/wingman/hoa-don-cua-toi/'+ ${tt}"
                                        th:text="${tt.getDisplayName()}"></a>
                                 </button>
                             </li>
@@ -237,18 +289,18 @@
                     </thead>
                     <tbody>
                     <tr th:each="hd : ${hoadons}">
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}" th:text="${hd.ma}"
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+ ${hd.id}}" th:text="${hd.ma}"
                                style="color: black; text-decoration: none;"></a></td>
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
                                th:text="${hd.ngayTao}" style="color: black; text-decoration: none;"></a></td>
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
                                th:text="${hd.loaiHoaDon.getDisplayName()}"
                                style="color: black; text-decoration: none;"></a></td>
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/' + ${hd.id}}"
+                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
                                th:text="${hd.trangThai.getDisplayName()}"
                                style="color: black; text-decoration: none;"></a></td>
                         <td>
-                            <a th:href="@{'/wingman/chi-tiet-hoa-don/'+${idKh}+'/'+${hd.id}}"
+                            <a th:href="@{'/wingman/chi-tiet-hoa-don/'+${hd.id}}"
                                th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
                                style="color: black; text-decoration: none;"/>
                         </td>
@@ -275,11 +327,6 @@
 <!-- Start Footer Section -->
 <footer class="footer-section">
     <div class="container relative">
-
-        <div class="sofa-img">
-            <img src="/../images/WingMan-black.png" style="height: 200px; width: 200px; margin-top: 150px;" alt="Image"
-                 class="img-fluid">
-        </div>
 
         <div class="row">
             <div class="col-lg-8">

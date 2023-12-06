@@ -102,6 +102,16 @@
     <title>
         Wingman
     </title>
+    <link href="/../css/customer/tiny-slider.css" rel="stylesheet"/>
+    <link href="/../css/customer/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="./vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/except-home-page.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account.css"/>
+    <link rel="stylesheet" type="text/css" href="/../css/customer/user/account-setting.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -139,13 +149,13 @@
                             <img src="/../images/user.svg">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Tài khoản của tôi</a>
-                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi/'+ ${idKh}">Đơn mua</a>
+                            <a class="dropdown-item" href="'/wingman/tai-khoan-cua-toi'">Tài khoản của tôi</a>
+                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
                             <a class="dropdown-item" href="#">Đăng xuất</a>
                         </div>
                     </div>
                 </li>
-                <li><a class="nav-link" href="cart.html"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                <li><a class="nav-link"  th:href="@{/wingman/cart}"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
                 </li>
                 <style>
                     /* Dropdown Button */
@@ -236,172 +246,267 @@
                 font-weight: bold;
             }
         </style>
-        <div class="invoice-details">
-            <div class="customer-info">
-                <div>
-                    <h5>Thông tin đơn hàng</h5>
-                    <p><strong>Tên Khách Hàng:</strong> <span th:text="${hd.tenKhachHang}"></span></p>
-                    <p><strong>Địa Chỉ Giao:</strong> <span th:text="${hd.diaChi}"></span></p>
-                    <p><strong>Ngày Tạo:</strong> <span><span th:text="${hd.ngayTao}"></span></span></p>
-                    <p><strong>Ngày Sửa:</strong><span th:text="${hd.ngaySua}"></span></p>
-                    <p><strong>Số Điện Thoại:</strong><span th:text="${hd.sdt}"></span></p>
-                </div>
-                <div>
-                    <p><strong>Trạng Thái:</strong> <span th:text="${hd.trangThai.getDisplayName()}"></span></p>
-                    <p><strong>Ghi chú:</strong> <span th:text="${hd.ghiChu}"></span></p>
-                    <p>
-                        <strong>Thanh Toán:</strong>
-                        <span th:if="${hd.thanhToan != null}" th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA')}"></span>
-                        <span th:if="${hd.thanhToan == null}">0 VND</span>
-                    </p>
-                    <p>
-                        <strong>Tổng Tiền Hoá Đơn:</strong>
-                        <span th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row mb-5">
-            <div class="site-blocks-table">
-                <table id="example" class="table table-striped" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Thành tiền</th>
-                        <th>Trạng Thái</th>
-                        <th>Thao tác</th>
 
-                    </tr>
-                    </thead>
-                    <tbody th:each="gioHangChiTiet : ${gioHangChiTiets}">
-                    <tr>
-                        <td>
-                            <img th:src="@{'../images/' + ${gioHangChiTiet.chiTietSanPham.sanPham.anhChinh}}"
-                                 alt="Image"
-                                 class="img-fluid"
-                            />
-                        </td>
-                        <td th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}">
-                        </td>
-                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
-                        <td th:text="${gioHangChiTiet.soLuong}" id="currentQuantity"></td>
-                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.hoaDon.tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
-                        <td>
-                            <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
+        <main>
+            <div class="main-content-wrapper container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="left-sidebar">
+                            <div class="break-line"></div>
+                            <div class="nav-sidebar">
+                                <a class="selling-buying-products nav-item" th:href="'/wingman/thong-tin-cua-toicc'">Thông Tin Của
+                                    Tôi</a>
+                                <a class="account nav-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn
+                                    Hàng Mua</a>
+                                <a class="btn btn-primary black-btn sign-out-btn" href="./index.html">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 main-content-wrapper">
+                        <div class="invoice-details">
+                            <div class="customer-info">
+                                <div>
+                                    <h5>Thông tin đơn hàng</h5>
+                                    <p><strong>Tên Khách Hàng:</strong> <span th:text="${hd.tenKhachHang}"></span></p>
+                                    <p><strong>Địa Chỉ Giao:</strong> <span th:text="${hd.diaChi}"></span></p>
+                                    <p><strong>Ngày Tạo:</strong> <span><span th:text="${hd.ngayTao}"></span></span></p>
+                                    <p><strong>Ngày Sửa:</strong><span th:text="${hd.ngaySua}"></span></p>
+                                    <p><strong>Số Điện Thoại:</strong><span th:text="${hd.sdt}"></span></p>
+                                </div>
+                                <div>
+                                    <p><strong>Trạng Thái:</strong> <span th:text="${hd.trangThai.getDisplayName()}"></span></p>
+                                    <p><strong>Ghi chú:</strong> <span th:text="${hd.ghiChu}"></span></p>
+                                    <strong>Phí Vận Chuyển:</strong>
+                                    <span th:if="${hd.phiVanChuyen != null}" th:text="${#numbers.formatDecimal(hd.phiVanChuyen, 0, 'POINT', 0, 'COMMA')}"></span>
+                                    <span th:if="${hd.phiVanChuyen == null}">0 VND</span>                                    <p>
+                                        <strong>Thanh Toán:</strong>
+                                        <span th:if="${hd.thanhToan != null}" th:text="${#numbers.formatDecimal(hd.phiVanChuyen, 0, 'POINT', 0, 'COMMA')}"></span>
+                                        <span th:if="${hd.thanhToan == null}">0 VND</span>
+                                    </p>
+                                    <p>
+                                        <strong>Tổng Tiền Hoá Đơn:</strong>
+                                        <span th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row mb-5">
+                            <div class="site-blocks-table">
+                                <table id="example" class="table table-striped" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Ảnh</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Thao tác</th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="gioHangChiTiet : ${gioHangChiTiets}">
+                                    <tr>
+                                        <td>
+                                            <img th:src="@{'../images/' + ${gioHangChiTiet.chiTietSanPham.sanPham.anhChinh}}"
+                                                 alt="Image"
+                                                 class="img-fluid"
+                                            />
+                                        </td>
+                                        <td th:text="${gioHangChiTiet.chiTietSanPham.sanPham.ten}">
+                                        </td>
+                                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                        <td th:text="${gioHangChiTiet.soLuong}" id="currentQuantity"></td>
+                                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan * gioHangChiTiet.soLuong, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                        <td>
+                                            <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).TU_CHOI_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DOI_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_DOI_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).TU_CHOI_DOI_HANG)
                          }"
-                                 th:text="${gioHangChiTiet.trangThai.getDisplayName()}"></div>
-                        </td>
-                        <td>
-                            <button class="btn btn-outline-info"
-                                    data-bs-toggle="modal"
-                                    th:data-bs-target="'#staticBackdrop' + ${gioHangChiTiet.id}"
-                                    th:if="${(hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO)
+                                                 th:text="${gioHangChiTiet.trangThai.getDisplayName()}"></div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-outline-info"
+                                                    data-bs-toggle="modal"
+                                                    th:data-bs-target="'#staticBackdrop' + ${gioHangChiTiet.id}"
+                                                    th:if="${(hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO)
                 or (hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG)}"
-                                    th:disabled="${gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG}">
-                                Trả Hàng
-                            </button>
-                            <button class="btn btn-outline-info"
-                                    data-bs-toggle="modal"
-                                    th:data-bs-target="'#staticBackdrop1' + ${gioHangChiTiet.id}"
-                                    th:if="${(hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO)
+                                                    th:disabled="${gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG}">
+                                                Trả Hàng
+                                            </button>
+                                            <button class="btn btn-outline-info"
+                                                    data-bs-toggle="modal"
+                                                    th:data-bs-target="'#staticBackdrop1' + ${gioHangChiTiet.id}"
+                                                    th:if="${(hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO)
                                         or (hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG)
                                     }">
-                                Đổi Hàng
-                            </button>
-                            <!--                            modal-->
-                            <div class="modal fade" th:id="'staticBackdrop' + ${gioHangChiTiet.id}"
-                                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Hoàn Trả</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:action="@{'/wingman/put/' + ${gioHangChiTiet.id} + '/' + ${hd.id}}"
-                                                  method="post" th:object="${newGhct}" class="my-form reduced-height"
-                                                  onsubmit="return confirmSubmit()">
-                                                <label class="form-label">Số Lượng</label>
-                                                <input type="number" min="1" class="form-control mb-3"
-                                                       th:field="*{soLuong}" id="soLuong"/>
-                                                <div id="quantityError" class="text-danger"></div>
-                                                <label class="form-label">Lý do hoàn trả</label>
-                                                <input type="text" class="form-control mb-3" name="ghiChu"
-                                                       th:field="*{ghiChu}"/>
-                                                <div id="customAlert" class="text-danger"></div>
-                                                <!-- New alert message container -->
-                                                <div class="modal-footer" style="margin-left: 200px">
+                                                Đổi Hàng
+                                            </button>
+                                            <!--                            modal-->
+                                            <div class="modal fade" th:id="'staticBackdrop' + ${gioHangChiTiet.id}"
+                                                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Hoàn Trả</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form th:action="@{'/wingman/put/' + ${gioHangChiTiet.id} + '/' + ${hd.id}}"
+                                                                  method="post" th:object="${newGhct}" class="my-form reduced-height"
+                                                                  onsubmit="return confirmSubmit()">
+                                                                <label class="form-label">Số Lượng</label>
+                                                                <input type="number" min="1" class="form-control mb-3"
+                                                                       th:field="*{soLuong}" id="soLuong"/>
+                                                                <div id="quantityError" class="text-danger"></div>
+                                                                <label class="form-label">Lý do hoàn trả</label>
+                                                                <input type="text" class="form-control mb-3" name="ghiChu"
+                                                                       th:field="*{ghiChu}"/>
+                                                                <div id="customAlert" class="text-danger"></div>
+                                                                <!-- New alert message container -->
+                                                                <div class="modal-footer" style="margin-left: 200px">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Đóng
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal fade" th:id="'staticBackdrop1' + ${gioHangChiTiet.id}"
+                                                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Đổi Hàng</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <!-- Inside the modal-body -->
+                                                        <div class="modal-body">
+                                                            <form th:action="@{'/wingman/return/' + ${gioHangChiTiet.id} + '/' + ${hd.id}}"
+                                                                  method="post" onsubmit="return confirmSubmit1()"
+                                                                  th:object="${newGhct}" class="my-form reduced-height">
+                                                                <label class="form-label">Ghi chú cho đơn hàng</label>
+                                                                <input type="text" class="form-control mb-3" name="ghiChu"
+                                                                       th:field="*{ghiChu}"/>
+                                                                <div id="customAlert" class="text-danger"></div>
+                                                                <!-- New alert message container -->
+                                                                <div class="modal-footer" style="margin-left: 200px">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Đóng
+                                                                    </button>
+                                                                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot hidden="hidden">
+                                    <tr>
+                                        <th>Ảnh</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Thao tác</th>
+                                    </tfoot>
+                                </table>
+                                <button class="btn btn-outline-info cancel-button" style="color: red;border: red;margin-left: 700px;margin-top: 50px"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#staticBackdrop3'"
+                                        th:if="${(hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).CHO_XAC_NHAN)
+        or (hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DANG_CHUAN_BI)
+    }">
+                                    Huỷ Đơn Hàng
+                                </button>
+                                <div class="modal fade" th:id="'staticBackdrop3'"
+                                     data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Huỷ Đơn Hàng</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <!-- Inside the modal-body -->
+                                            <form th:action="@{/wingman/validation/deny}" method="post"
+                                                  class="my-form reduced-height">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="id" th:value="${hd.id}"/>
+                                                    <input type="text" class="form-control mb-3" name="id"
+                                                           th:value="${hd.ghiChu}" readonly/>
+                                                    <label class="form-label">Ghi chú</label>
+                                                    <input type="text" class="form-control mb-3" name="ghiChu"
+                                                           th:value="${ghiChu}"/>
+                                                </div>
+                                                <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger"
                                                             data-bs-dismiss="modal">Đóng
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal fade" th:id="'staticBackdrop1' + ${gioHangChiTiet.id}"
-                                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Đổi Hàng</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <!-- Inside the modal-body -->
-                                        <div class="modal-body">
-                                            <form th:action="@{'/wingman/return/' + ${gioHangChiTiet.id} + '/' + ${hd.id}}"
-                                                  method="post" onsubmit="return confirmSubmit1()"
-                                                  th:object="${newGhct}" class="my-form reduced-height">
-                                                <label class="form-label">Ghi chú cho đơn hàng</label>
-                                                <input type="text" class="form-control mb-3" name="ghiChu"
-                                                       th:field="*{ghiChu}"/>
-                                                <div id="customAlert" class="text-danger"></div>
-                                                <!-- New alert message container -->
-                                                <div class="modal-footer" style="margin-left: 200px">
-                                                    <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">Đóng
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary">Xác Nhận</button>
+                                                    <button type="submit" class="btn btn-primary">Huỷ Đơn</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    <tfoot hidden="hidden">
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
-                        <th>Thành tiền</th>
-                        <th>Trạng Thái</th>
-                        <th>Thao tác</th>
-                    </tfoot>
-                </table>
+                        </div>
+                        <style>
+                            /* Remove underline from <a> tags within buttons in the nav-tabs */
+                            .nav-tabs button a {
+                                text-decoration: none;
+                            }
+
+                            /* Optional: Add styling for the buttons */
+                            .nav-tabs button {
+                                display: inline-block;
+                                padding: 10px 15px;
+                                margin-right: 10px;
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                background-color: #f8f8f8;
+                                color: #333;
+                                cursor: pointer;
+                            }
+
+                            /* Optional: Style the active state of the buttons */
+                            .nav-tabs button.active {
+                                background-color: #007bff;
+                                color: #fff;
+                            }
+
+                            /* Optional: Add hover effect for buttons */
+                            .nav-tabs button:hover {
+                                background-color: #ddd;
+                            }
+
+                        </style>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </main>
+
     </div>
 </div>
 <!-- Start Footer Section -->
