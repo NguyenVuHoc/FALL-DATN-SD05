@@ -2,6 +2,8 @@ package com.example.befall23datnsd05.entity;
 
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -39,26 +41,37 @@ public class ChiTietSanPham {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_san_pham", referencedColumnName = "id")
+    @JsonIgnore
     private SanPham sanPham;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_de_giay", referencedColumnName = "id")
+    @JsonManagedReference
+
     private DeGiay deGiay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_mau_sac", referencedColumnName = "id")
+    @JsonManagedReference
+
     private MauSac mauSac;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_kich_thuoc", referencedColumnName = "id")
+    @JsonManagedReference
+
     private KichThuoc kichThuoc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_lot_giay", referencedColumnName = "id")
+    @JsonManagedReference
+
     private LotGiay lotGiay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_co_giay", referencedColumnName = "id")
+    @JsonManagedReference
+
     private CoGiay coGiay;
 
     @Column(name = "so_luong_ton")
