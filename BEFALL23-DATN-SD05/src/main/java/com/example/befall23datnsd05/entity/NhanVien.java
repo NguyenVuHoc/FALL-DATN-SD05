@@ -68,6 +68,4 @@ public class NhanVien {
     @Enumerated(ORDINAL)
     private TrangThai trangThai;
 
-
-
 }

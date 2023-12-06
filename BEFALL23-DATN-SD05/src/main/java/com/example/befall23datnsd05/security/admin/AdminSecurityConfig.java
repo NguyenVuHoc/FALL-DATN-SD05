@@ -6,6 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
-@Order(1)
 @EnableWebSecurity
 public class AdminSecurityConfig {
 
@@ -40,47 +40,31 @@ public class AdminSecurityConfig {
         return new CustomAccessDeniedHandler();
     }
 
+
+
     @Bean
     public SecurityFilterChain filterChainAdmin(HttpSecurity http) throws Exception {
-        http.authenticationProvider(providerAdmin());
-        http.authorizeHttpRequests(
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
                         rq ->
-                                rq.requestMatchers("/admin/login").permitAll()
-                                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                rq.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                        .requestMatchers("/**").permitAll()
                 )
                 .formLogin(
-                        f -> f.loginPage("/admin/login")
+                        f -> f.loginPage("/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/admin/login")
-                                .defaultSuccessUrl("/admin/ban-hang")
-                                .permitAll()
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/default")
                 )
                 .logout(
-                        lo-> lo.logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login")
+                        lo-> lo.logoutUrl("/logout").logoutSuccessUrl("/login")
                 )
+                .authenticationProvider(providerAdmin())
                 .exceptionHandling(
                     ex -> ex.accessDeniedHandler(accessDeniedHandler())
                 )
         ;
-//        http.authenticationProvider(providerAdmin());
-//
-//        http.authorizeRequests().requestMatchers("/").permitAll();
-//
-//        http.antMatcher("/admin/**")
-//                .authorizeRequests().anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/admin/login")
-//                .usernameParameter("email")
-//                .loginProcessingUrl("/admin/login")
-//                .defaultSuccessUrl("/admin/ban-hang")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .logoutUrl("/admin/logout")
-//                .logoutSuccessUrl("/admin/login");
-
         return http.build();
     }
 

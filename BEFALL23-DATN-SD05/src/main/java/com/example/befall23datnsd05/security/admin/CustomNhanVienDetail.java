@@ -1,10 +1,14 @@
 package com.example.befall23datnsd05.security.admin;
 
+import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class CustomNhanVienDetail implements UserDetails {
 
@@ -15,7 +19,7 @@ public class CustomNhanVienDetail implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @Override
