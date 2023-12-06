@@ -1,6 +1,5 @@
 package com.example.befall23datnsd05.security.admin;
 
-import com.example.befall23datnsd05.security.customer.CustomKhachHangDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -8,9 +7,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @Order(1)
@@ -24,7 +24,7 @@ public class AdminSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -36,11 +36,17 @@ public class AdminSecurityConfig {
     }
 
     @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
     public SecurityFilterChain filterChainAdmin(HttpSecurity http) throws Exception {
         http.authenticationProvider(providerAdmin());
         http.authorizeHttpRequests(
                         rq ->
-                                rq.requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                rq.requestMatchers("/admin/login").permitAll()
+                                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 )
                 .formLogin(
                         f -> f.loginPage("/admin/login")
@@ -50,10 +56,16 @@ public class AdminSecurityConfig {
                                 .defaultSuccessUrl("/admin/ban-hang")
                                 .permitAll()
                 )
+                .logout(
+                        lo-> lo.logoutUrl("/admin/logout").logoutSuccessUrl("/admin/login")
+                )
+                .exceptionHandling(
+                    ex -> ex.accessDeniedHandler(accessDeniedHandler())
+                )
         ;
-        return http.build();
 //        http.authenticationProvider(providerAdmin());
-//        http.authorizeRequests().antMatchers("/").permitAll();
+//
+//        http.authorizeRequests().requestMatchers("/").permitAll();
 //
 //        http.antMatcher("/admin/**")
 //                .authorizeRequests().anyRequest().authenticated()
@@ -62,14 +74,14 @@ public class AdminSecurityConfig {
 //                .loginPage("/admin/login")
 //                .usernameParameter("email")
 //                .loginProcessingUrl("/admin/login")
-//                .defaultSuccessUrl("/admin/home")
+//                .defaultSuccessUrl("/admin/ban-hang")
 //                .permitAll()
 //                .and()
 //                .logout()
 //                .logoutUrl("/admin/logout")
-//                .logoutSuccessUrl("/");
-//
-//        return http.build();
+//                .logoutSuccessUrl("/admin/login");
+
+        return http.build();
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.befall23datnsd05.security.admin;
+package com.example.befall23datnsd05.security.customer;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,9 +8,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
-public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+public class CustomerAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendRedirect("/admin/login?error");
+        response.sendRedirect("/wingman/login?error");
     }
 }
