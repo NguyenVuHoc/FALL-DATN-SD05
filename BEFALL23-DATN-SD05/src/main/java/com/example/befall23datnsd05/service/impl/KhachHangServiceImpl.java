@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.dto.RegisterRequest;
 import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -136,4 +139,27 @@ public class KhachHangServiceImpl implements KhachHangService {
 //        }
 //        return false;
     }
+
+    @Override
+    public KhachHang registration(RegisterRequest khachHang) {
+        KhachHang khachHang1 = new KhachHang();
+        khachHang1.setTen(khachHang.getTen());
+        khachHang1.setSdt(khachHang.getSdt());
+        khachHang1.setEmail(khachHang.getEmail());
+        khachHang1.setMatKhau(khachHang.getMatKhau());
+        khachHang1.setGioiTinh(GioiTinh.NAM);
+        khachHang1.setNgaySua(LocalDate.now());
+        khachHang1.setNgayTao(LocalDate.now());
+        khachHang1.setTrangThai(TrangThai.DANG_HOAT_DONG);
+        khachHang1.setTichDiem(BigDecimal.valueOf(0));
+        return khachHangRepository.save(khachHang1);
+    }
+//    private String autoGenCode(){
+//        String ma = "KH";
+//        khachHangRepository.findAll().stream().
+//            return ;
+//    }
+//    private boolean validation(RegisterRequest request){
+//
+//    }
 }
