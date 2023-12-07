@@ -9,6 +9,7 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.DiaChiRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.KhachHangService;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class KhachHangServiceImpl implements KhachHangService {
@@ -143,6 +145,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public KhachHang registration(RegisterRequest khachHang) {
         KhachHang khachHang1 = new KhachHang();
+        khachHang1.setMa(autoGenCode());
         khachHang1.setTen(khachHang.getTen());
         khachHang1.setSdt(khachHang.getSdt());
         khachHang1.setEmail(khachHang.getEmail());
@@ -154,12 +157,24 @@ public class KhachHangServiceImpl implements KhachHangService {
         khachHang1.setTichDiem(BigDecimal.valueOf(0));
         return khachHangRepository.save(khachHang1);
     }
-//    private String autoGenCode(){
-//        String ma = "KH";
-//        khachHangRepository.findAll().stream().
-//            return ;
-//    }
-//    private boolean validation(RegisterRequest request){
-//
-//    }
+    private String autoGenCode(){
+        String randomPart = UUID.randomUUID().toString().substring(0, 8);
+        return "KH" + randomPart;
+    }
+    private List<String> validation(RegisterRequest request){
+        List<String> list = new ArrayList<>();
+        if (StringUtils.isNotBlank(request.getTen())){
+            list.add("Vui lòng điền đầy đủ họ tên");
+        }
+        if (StringUtils.isNotBlank(request.getSdt())){
+            list.add("Vui lòng điền đầy đủ số điện thoại");
+        }
+        if (StringUtils.isNotBlank(request.getEmail())){
+            list.add("Vui lòng điền đầy đủ email");
+        }
+        if (StringUtils.isNotBlank(request.getMatKhau())){
+            list.add("Vui lòng điền mật khẩu");
+        }
+        return list;
+    }
 }
