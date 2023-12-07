@@ -140,7 +140,9 @@
                 </div>
             </div>
         </div>
-        <form action="#" method="post" th:action="@{/wingman/cart/dat-hang}" th:object="${gioHangWrapper}">
+        <form action="#" method="post" th:action="@{/wingman/cart/dat-hang}"
+              th:object="${gioHangWrapper}"
+              onsubmit="return validateQuantity()">
             <div class="row">
                 <div class="col-md-6 mb-5 mb-md-0">
                     <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
@@ -786,6 +788,23 @@
 </footer>
 <!-- End Footer Section -->
 
+<div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: #3b5d50">
+                <h5 class="modal-title" id="quantityModalLabel">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Nội dung thông báo sẽ được cập nhật từ JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/../js/customer/bootstrap.bundle.min.js"></script>
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
@@ -798,6 +817,26 @@
 <script th:inline="javascript">
     var length = /*[[${#lists.size(gioHangWrapper)}]]*/ 0; // Set the length variable
     /*]]>*/
+</script>
+
+<script>
+    function validateQuantity() {
+        var ship = parseInt(document.getElementById('shippingFee').value);
+
+        if (isNaN(ship) || ship < 1) {
+            updateModal('Vui lòng chọn địa chỉ!');
+            return false;
+        }
+
+        return true;
+    }
+
+    function updateModal(message) {
+        var modalBody = document.getElementById('modalBody');
+        modalBody.innerHTML = '<p>' + message + '</p>';
+        var quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+        quantityModal.show();
+    }
 </script>
 <script>
     $(document).ready(function () {
