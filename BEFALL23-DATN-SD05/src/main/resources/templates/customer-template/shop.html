@@ -394,7 +394,7 @@
                     <i class="fas fa-angle-left"></i> <!-- Icon left arrow -->
                 </button>
                 <button type="submit" class="page-item" name="page" th:value="${totalPages - 1}" th:text="${page + 1}"></button>
-                <button type="submit" class="page-item" th:disabled="${page >= totalPages - 1}" th:value="${page + 1}">
+                <button type="submit" class="page-item" name="page" th:disabled="${page >= totalPages - 1}" th:value="${page + 1}">
                     <i class="fas fa-angle-right"></i> <!-- Icon right arrow -->
                 </button>
                 <button type="submit" class="page-item" th:disabled="${page >= totalPages - 1}" name="page" th:value="${totalPages - 1}">
