@@ -110,12 +110,15 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
             Double maxGia,
             int page,
             int pageSize,
-            String sortField
+            String sortField,
+            String tenSanPham
     ) {
         Specification<ChiTietSanPham> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             Join<ChiTietSanPham, SanPham> sanPhamJoin = root.join("sanPham", JoinType.INNER);
-
+            if (tenSanPham != null && !tenSanPham.isEmpty()) {
+                predicates.add(cb.like(sanPhamJoin.get("ten"), "%" + tenSanPham + "%"));
+            }
             if (tenThuongHieu != null && !tenThuongHieu.isEmpty()) {
                 predicates.add(sanPhamJoin.get("thuongHieu").get("ten").in(tenThuongHieu));
             }
@@ -150,9 +153,9 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
         Sort sort = Sort.unsorted();
 
         if ("sapXepTheoGiaBanCaoDenThap".equals(sortField)) {
-            sort = Sort.by("giaBan").ascending();
-        } else if ("sapXepTheoGiaBanThapDenCao".equals(sortField)) {
             sort = Sort.by("giaBan").descending();
+        } else if ("sapXepTheoGiaBanThapDenCao".equals(sortField)) {
+            sort = Sort.by("giaBan").ascending();
         }
         else if ("sapXepTheoTen".equals(sortField)) {
             sort = Sort.by("sanPham.ten").ascending();

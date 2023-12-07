@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 public class ChiTietSanPhamDTO {
     private Long id;
+    private String anhChinh;
     private String tenSanPham;
     private String tenThuongHieu;
     private String tenDongSanPham;

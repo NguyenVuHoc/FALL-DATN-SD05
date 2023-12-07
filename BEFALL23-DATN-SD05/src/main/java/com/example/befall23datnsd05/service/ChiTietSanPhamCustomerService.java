@@ -31,6 +31,8 @@ public interface ChiTietSanPhamCustomerService {
     ChiTietSanPham getById(Long id);
 
     public ChiTietSanPhamDTO convertToDTO(ChiTietSanPham chiTietSanPham);
+
     public List<ChiTietSanPhamDTO> convertToDTOList(List<ChiTietSanPham> chiTietSanPhamList);
-    Page<ChiTietSanPhamDTO> findAllByCondition(List<String> tenThuongHieu, List<String> tenDongSanPham, List<String> tenKichThuoc, List<String> tenLotGiay, List<String> tenCoGiay, List<String> tenDeGiay, List<String> tenMauSac, Double minGia, Double maxGia, int page, int pageSize, String sortField);
+
+    Page<ChiTietSanPhamDTO> findAllByCondition(List<String> tenThuongHieu, List<String> tenDongSanPham, List<String> tenKichThuoc, List<String> tenLotGiay, List<String> tenCoGiay, List<String> tenDeGiay, List<String> tenMauSac, Double minGia, Double maxGia, int page, int pageSize, String sortField, String tenSanPham);
 }

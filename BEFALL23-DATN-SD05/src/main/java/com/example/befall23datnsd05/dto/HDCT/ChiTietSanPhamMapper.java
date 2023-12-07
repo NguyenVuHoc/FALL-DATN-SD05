@@ -11,6 +11,7 @@ public class ChiTietSanPhamMapper {
     public static ChiTietSanPhamDTO toDTO(ChiTietSanPham entity) {
         ChiTietSanPhamDTO dto = new ChiTietSanPhamDTO();
         dto.setId(entity.getId());
+        dto.setAnhChinh(entity.getSanPham().getAnhChinh());
         dto.setTenSanPham(entity.getSanPham().getTen());
         dto.setTenDongSanPham(entity.getSanPham().getDongSanPham().getTen());
         dto.setTenThuongHieu(entity.getSanPham().getThuongHieu().getTen());
