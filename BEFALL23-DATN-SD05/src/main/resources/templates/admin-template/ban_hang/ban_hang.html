@@ -515,7 +515,8 @@
                                            th:field="*{khachHang.ten}"/>
                                 </div>
                                 <div style="width: 25%;">
-                                    <button id="selectButton" type="button" class="btn btn-primary"
+                                    <button id="selectButton" type="button"
+                                            th:class="'btn btn-primary' + ((${checkBtn} == '0') ? 'disabled' : '')"
                                             data-bs-toggle="modal"
                                             data-bs-target="#khachHang" style="margin-top: 30px;">
                                         Chọn
@@ -525,7 +526,7 @@
                             <div class="mb-3 g-2">
                                 <div>
                                     <label class="form-label">Voucher</label>
-                                    <input type="text" class="form-control" name="voucher" readonly
+                                    <input type="text" class="form-control" name="voucher" readonly id="voucherInput"
                                            th:field="*{maGiamGia.ten}"/>
                                 </div>
                                 <div class="row g-2" style="display: flex">
@@ -543,6 +544,29 @@
                                     </button>
                                 </div>
                             </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var voucherInput = document.getElementById("voucherInput");
+                                    var chonVoucherBtn = document.getElementById("chonVoucher");
+                                    var huyVoucherBtn = document.getElementById("huyVoucher");
+
+                                    // Function to disable button based on input
+                                    function disableButton() {
+                                        if (voucherInput.value === "") {
+                                            huyVoucherBtn.disabled = true;
+                                        } else {
+                                            chonVoucherBtn.disabled = false;
+                                            huyVoucherBtn.disabled = false;
+                                        }
+                                    }
+
+                                    // Initial check when the page loads
+                                    disableButton();
+
+                                    // Check whenever input value changes
+                                    voucherInput.addEventListener("input", disableButton);
+                                });
+                            </script>
                             <div class="mb-3">
                                 <label class="form-label">Ngày Tạo</label>
                                 <input type="date" class="form-control" name="ngayTao" th:value="*{ngayTao}" readonly/>

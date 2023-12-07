@@ -222,13 +222,34 @@
 </nav>
 <!-- End Header/Navigation -->
 
+<!-- Kiểm tra xem có thông báo thành công không -->
+
+<!-- Modal -->
+<div id="successModal" class="modal" th:if="${param.success}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông Báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>  Thêm sản phẩm vào giỏ hàng thành công!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="dongModal" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="untree_co-section product-section before-footer-section" style="margin-top: -100px" th:object="${spDetail}">
     <div class="container">
 
         <hr class="box">
-        <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form" onsubmit="return validateQuantity()">
-            <input type="hidden" id="availableQuantity" th:value="${soLuongTon}" />
-            <input type="hidden" id="cartQuantity" th:value="${soLuongTrongGioHang}" >
+        <form method="post" th:action="@{/wingman/cart/add/{id}(id=${id})}" id="add-to-cart-form"
+              onsubmit="return validateQuantity()">
+            <input type="hidden" id="availableQuantity" th:value="${soLuongTon}"/>
+            <input type="hidden" id="cartQuantity" th:value="${soLuongTrongGioHang}">
             <div class="row">
                 <!--Ảnh sản phẩm-->
                 <!--Ảnh sản phẩm-->
@@ -267,9 +288,10 @@
 
                     <div>
                         <p>
-                        <h2 class="gia" th:text="*{#numbers.formatDecimal(giaBan, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></h2></p>
+                        <h2 class="gia"
+                            th:text="*{#numbers.formatDecimal(giaBan, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></h2></p>
                         <p th:if="${spDetail.giaMacDinh != spDetail.giaBan}" style="display: block;">
-                            <del th:text="*{#numbers.formatDecimal(giaMacDinh, 0, 'POINT', 0, 'COMMA')+ ' VND'}" ></del>
+                            <del th:text="*{#numbers.formatDecimal(giaMacDinh, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></del>
                         </p>
                         <p th:if="${spDetail.giaMacDinh == spDetail.giaBan}" style="display: none;">
                             <del th:text="*{#numbers.formatDecimal(giaMacDinh, 0, 'POINT', 0, 'COMMA')+ ' VND'}"></del>
@@ -362,7 +384,8 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+            <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -503,7 +526,8 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title"
                             th:text="${ctsp4rand.getTenSp() +' '+ ctsp4rand.getTenDongSp() +' '+ ctsp4rand.getTenDe_giay() +' '+ ctsp4rand.getTenCo_giay() +' '+ ctsp4rand.getTenLot_giay() +' Size '+ ctsp4rand.getTenKich_thuoc() +' '+ ctsp4rand.getTenMau_sac()}"></h3>
-                        <strong class="product-price" th:text="${#numbers.formatDecimal(ctsp4rand.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                        <strong class="product-price"
+                                th:text="${#numbers.formatDecimal(ctsp4rand.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
                     <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp4rand.getId()})}">
                     <span class="icon-cross">
@@ -528,7 +552,8 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title"
                             th:text="${ctsp4rand2.getTenSp() +' '+ ctsp4rand2.getTenDongSp() +' '+ ctsp4rand2.getTenDe_giay() +' '+ ctsp4rand2.getTenCo_giay() +' '+ ctsp4rand2.getTenLot_giay() +' Size '+ ctsp4rand2.getTenKich_thuoc() +' '+ ctsp4rand2.getTenMau_sac()}"></h3>
-                        <strong class="product-price" th:text="${#numbers.formatDecimal(ctsp4rand2.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                        <strong class="product-price"
+                                th:text="${#numbers.formatDecimal(ctsp4rand2.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
                     <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp4rand2.getId()})}">
                     <span class="icon-cross">
@@ -659,31 +684,32 @@
 <script src="/../js/customer/tiny-slider.js"></script>
 <script src="/../js/customer/custom.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/js/admin/index_form.js"></script>
 <script>
     const sliderMainImage = document.getElementById("product-main-image");
     const sliderImageList = document.getElementsByClassName("image-list");
     console.log(sliderImageList);
 
-    sliderImageList[0].onclick = function(){
+    sliderImageList[0].onclick = function () {
         sliderMainImage.src = sliderImageList[0].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[1].onclick = function(){
+    sliderImageList[1].onclick = function () {
         sliderMainImage.src = sliderImageList[1].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[2].onclick = function(){
+    sliderImageList[2].onclick = function () {
         sliderMainImage.src = sliderImageList[2].src;
         console.log(sliderMainImage.src);
     };
 
-    sliderImageList[3].onclick = function(){
+    sliderImageList[3].onclick = function () {
         sliderMainImage.src = sliderImageList[3].src;
         console.log(sliderMainImage.src);
     };
-    sliderImageList[4].onclick = function(){
+    sliderImageList[4].onclick = function () {
         sliderMainImage.src = sliderImageList[4].src;
         console.log(sliderMainImage.src);
     };

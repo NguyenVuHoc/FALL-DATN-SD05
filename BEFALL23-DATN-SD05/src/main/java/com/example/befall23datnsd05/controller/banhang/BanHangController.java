@@ -59,6 +59,7 @@ public class BanHangController {
         model.addAttribute("hoaDonCho", new HoaDon());
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("checkHoaDon", checkHoaDon);
+        model.addAttribute("checkBtn", true);
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -80,6 +81,7 @@ public class BanHangController {
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("isActive", isActive);
         model.addAttribute("checkHoaDon", checkHoaDon == true);
+        model.addAttribute("checkBtn", false);
         model.addAttribute("xu", hoaDon.getKhachHang().getTichDiem());
         return "admin-template/ban_hang/ban_hang";
     }
