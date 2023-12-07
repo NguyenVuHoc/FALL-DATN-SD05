@@ -15,7 +15,7 @@
 
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form th:action="@{/dang-ky}" method="post" th:object="khachHang">
+            <form th:action="@{/dang-ky}" method="post" th:object="${khachHang}">
                 <h1>Tạo Tài Khoản</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -24,10 +24,14 @@
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>Sử dụng email và mật khẩu để đăng ký</span>
-                <input type="text" placeholder="Họ tên">
-                <input type="text" placeholder="Số điện thoại">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
+                <input type="text" placeholder="Họ tên" th:field="*{ten}">
+                <span th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}"></span>
+                <input type="text" placeholder="Số điện thoại" th:field="*{sdt}">
+                <span th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></span>
+                <input type="email" placeholder="Email" th:field="*{email}">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                <input type="password" placeholder="Password" th:field="*{matKhau}">
+                <span th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></span>
                 <button>Đăng ký</button>
             </form>
         </div>
