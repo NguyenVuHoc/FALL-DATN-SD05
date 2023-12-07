@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.dto.RegisterRequest;
 import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThai;
@@ -33,4 +34,5 @@ public interface KhachHangService {
     boolean changeUserPassword(Long idKh,String oldPassword, String newPassword);
 
     Integer layDiemTichLuy(Long id);
+    KhachHang registration(RegisterRequest khachHang);
 }
