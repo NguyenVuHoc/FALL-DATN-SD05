@@ -6,10 +6,8 @@ import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.request.GioHangChiTietRequest;
-import com.example.befall23datnsd05.service.ChiTietSanPhamService;
-import com.example.befall23datnsd05.service.GioHangChiTietService;
-import com.example.befall23datnsd05.service.HoaDonChiTietService;
-import com.example.befall23datnsd05.service.HoaDonService;
+import com.example.befall23datnsd05.service.*;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -29,12 +27,14 @@ public class HoaDonUserController {
     private final HoaDonChiTietService hoaDonChiTietService;
     private final GioHangChiTietService gioHangChiTietService;
     private final ChiTietSanPhamService chiTietSanPhamService;
-
-    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService) {
+    private final KhachHangService khachHangService;
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService, KhachHangService khachHangService) {
         this.hoaDonService = hoaDonService;
         this.hoaDonChiTietService = hoaDonChiTietService;
         this.gioHangChiTietService = gioHangChiTietService;
         this.chiTietSanPhamService = chiTietSanPhamService;
+        this.khachHangService = khachHangService;
     }
 
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
@@ -48,7 +48,11 @@ public class HoaDonUserController {
      */
     @GetMapping("/hoa-don-cua-toi")
     public String getAll(Model model ){
-        Long id=5L;
+
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         model.addAttribute("hoadons", hoaDonService.getAllByKhachHang(id));
         model.addAttribute("trangThais", list);
         return "customer-template/hoadon/hoa_don";
@@ -64,7 +68,10 @@ public class HoaDonUserController {
     @GetMapping("hoa-don-cua-toi/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThaiDonHang trangThai) {
-        Long id= 5L;
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         model.addAttribute("trangThais", list);
         model.addAttribute("hoadons", hoaDonService.getByTrangThaiAndKhachHang(trangThai, id));
         return "customer-template/hoadon/hoa_don";
@@ -81,6 +88,10 @@ public class HoaDonUserController {
     public String detail(Model model,
                          @PathVariable("idHd") Long idHd
     ) {
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         model.addAttribute("newGhct", new GioHangChiTietRequest());
         model.addAttribute("hd", hoaDonService.findById(idHd));
         model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(idHd));
@@ -102,7 +113,10 @@ public class HoaDonUserController {
                           @PathVariable("idHd") Long idHd) {
         GioHangChiTiet gioHangChiTiet = gioHangChiTietService.getOne(idGhct).get();
         HoaDon hoaDon = hoaDonService.findById(idHd);
-
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
 
         if (gioHangChiTietRequest.getSoLuong() == null) {
             model.addAttribute("idKh", gioHangChiTiet.getHoaDon().getKhachHang().getId().toString());
@@ -176,6 +190,10 @@ public class HoaDonUserController {
                           @PathVariable("id") Long idGhct,
                           Model model,
                           @PathVariable("idHd") Long idHd) {
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         GioHangChiTiet gioHangChiTiet = gioHangChiTietService.getOne(idGhct).get();
         HoaDon hoaDon = hoaDonService.findById(idHd);
         if (gioHangChiTietRequest.getGhiChu().isEmpty()) {
@@ -202,7 +220,10 @@ public class HoaDonUserController {
                                  @RequestParam("ghiChu") String ghichu,
                                  Model model
     ) {
-
+        Long idKh=principalKhachHang.getCurrentUserId();
+        if(idKh==null){
+            return "redirect:/login";
+        }
         if (ghichu.isEmpty()) {
             model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
             model.addAttribute("hoadons", hoaDonService.getAll());

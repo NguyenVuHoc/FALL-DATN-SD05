@@ -22,6 +22,9 @@ public class CustomKhachHangDetail implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
+    public Long getKhachHangId() {
+        return khachHang.getId();
+    }
     @Override
     public String getPassword() {
         return khachHang.getMatKhau();

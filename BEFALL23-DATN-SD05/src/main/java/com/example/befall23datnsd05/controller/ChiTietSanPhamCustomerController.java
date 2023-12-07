@@ -8,6 +8,7 @@ import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.*;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class ChiTietSanPhamCustomerController {
     @Autowired
     private DeGiayService deGiayService;
     @Autowired
-    private MauSacService  mauSacService;
+    private MauSacService mauSacService;
     @Autowired
     private KichThuocService kichThuocService;
     @Autowired
@@ -50,6 +51,7 @@ public class ChiTietSanPhamCustomerController {
     @Autowired
     private ThuongHieuService thuongHieuService;
     Integer pageNo = 0;
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
 
     @GetMapping("/cua-hang")
     public String getAllShopCustomer(Model model, @RequestParam(name = "tenThuongHieu", defaultValue = "", required = false) List<String> tenThuongHieu,
@@ -65,12 +67,16 @@ public class ChiTietSanPhamCustomerController {
                                      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                      @RequestParam(name = "tenSanPham", defaultValue = "") String tenSanPham,
                                      @RequestParam(name = "sortField", defaultValue = "0", required = false) String sortField) {
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
+            return "redirect:/login";
+        }
         if (maxGia == null) {
             maxGia = 1000000000000.0;
         }
-        Page<ChiTietSanPhamDTO> chiTietSanPhamPage=  chiTietSanPhamService.findAllByCondition(tenThuongHieu, tenDongSanPham, tenKichThuoc, tenLotGiay, tenCoGiay, tenDeGiay, tenMauSac, minGia, maxGia,page,pageSize,sortField,tenSanPham);
-        int totalPages= chiTietSanPhamPage.getTotalPages();
-        long totalCount= chiTietSanPhamPage.getTotalElements();
+        Page<ChiTietSanPhamDTO> chiTietSanPhamPage = chiTietSanPhamService.findAllByCondition(tenThuongHieu, tenDongSanPham, tenKichThuoc, tenLotGiay, tenCoGiay, tenDeGiay, tenMauSac, minGia, maxGia, page, pageSize, sortField, tenSanPham);
+        int totalPages = chiTietSanPhamPage.getTotalPages();
+        long totalCount = chiTietSanPhamPage.getTotalElements();
 
         if (minGia > maxGia) {
             model.addAttribute("listThuongHieu", tenThuongHieu);
@@ -94,14 +100,14 @@ public class ChiTietSanPhamCustomerController {
             model.addAttribute("kichThuocs", kichThuocService.getAll());
             model.addAttribute("err", "mời bạn nhập đúng khoảng giá!");
             model.addAttribute("index", pageNo + 1);
-            model.addAttribute("listCTSP", chiTietSanPhamService.findAllByCondition(null, null, null, null, null, null, null, null, null, page, pageSize, sortField,tenSanPham).stream().toList());
+            model.addAttribute("listCTSP", chiTietSanPhamService.findAllByCondition(null, null, null, null, null, null, null, null, null, page, pageSize, sortField, tenSanPham).stream().toList());
             List<ChiTietSanPhamCustomerCustom> list3custom = chiTietSanPhamService.list3Custom();
             model.addAttribute("list3Custom", list3custom.stream().toList());
             List<ChiTietSanPhamCustomerCustom> list3limited = chiTietSanPhamService.list3Limited();
             model.addAttribute("list3Limited", list3limited.stream().toList());
             model.addAttribute("page", page);
-            model.addAttribute("totalPages",totalPages);
-            model.addAttribute("totalCount",totalCount);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("totalCount", totalCount);
             return "customer-template/shop";
         }
 
@@ -120,7 +126,7 @@ public class ChiTietSanPhamCustomerController {
         model.addAttribute("page", page);
         model.addAttribute("pageSize", pageSize);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("totalCount",totalCount);
+        model.addAttribute("totalCount", totalCount);
 
         model.addAttribute("index", pageNo + 1);
         model.addAttribute("listCTSP", chiTietSanPhamPage.getContent());
@@ -147,6 +153,10 @@ public class ChiTietSanPhamCustomerController {
 
     @GetMapping("/trang-chu")
     public String get3TrangChuCustomer(Model model) {
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         List<ChiTietSanPhamCustomerCustom> list3new = chiTietSanPhamService.list3New();
         model.addAttribute("list3New", list3new.stream().toList());
         List<ChiTietSanPhamCustomerCustom> list3prominent = chiTietSanPhamService.list3Prominent();
@@ -156,6 +166,10 @@ public class ChiTietSanPhamCustomerController {
 
     @GetMapping("/chi-tiet-san-pham/{id}")
     public String detailCustomerSanPham(@PathVariable("id") Long id, Model model) {
+        Long idKh=principalKhachHang.getCurrentUserId();
+        if(idKh==null){
+            return "redirect:/login";
+        }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
         model.addAttribute("spDetail", chiTietSanPham);
         List<AnhCustomerCustom> listAnhdetail = chiTietSanPhamService.listAnhDetail(id);

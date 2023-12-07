@@ -2,6 +2,7 @@ package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.service.*;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,16 @@ public class GioHangController {
     private MaGiamGiaService maGiamGiaService;
 
     private GioHangWrapper gioHangWrapper;
+    
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
 
     @GetMapping
     public String cart(Model model){
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(Long.valueOf(5));
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(id);
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/cart";
     }
@@ -46,16 +53,24 @@ public class GioHangController {
     public String addCart(@PathVariable("id") Long idChiTietSanPham,
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                           @RequestParam("soLuong") Integer soLuong){
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
+        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, soLuong);
         return "redirect:/wingman/cart";
     }
 
     @GetMapping("/addOne/{id}")
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet){
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
+        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, 1);
         return "redirect:/wingman/cart";
     }
 
@@ -70,8 +85,12 @@ public class GioHangController {
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang,
                            @RequestParam String options){
-        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
-        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
+        KhachHang khachHang1 = khachHangService.getById(id);
+        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(id).get(0);
 
         model.addAttribute("diaChi2", diaChi);
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
@@ -81,8 +100,8 @@ public class GioHangController {
         gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
         model.addAttribute("gioHangWrapper", gioHangWrapper);
         model.addAttribute("options",  options);
-        model.addAttribute("idKhachHang", Long.valueOf(5));
-        int diemTichLuy = khachHangService.layDiemTichLuy(5L);
+        model.addAttribute("idKhachHang", id);
+        int diemTichLuy = khachHangService.layDiemTichLuy(id);
         model.addAttribute("diemTichLuy", diemTichLuy);
         System.out.println(diemTichLuy);
         long total = 0;
@@ -107,6 +126,10 @@ public class GioHangController {
             @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") Integer diemTichLuyApDung,
             @RequestParam(name = "useAllPointsHidden", required = false, defaultValue = "false") String useAllPointsHidden,
             @RequestParam(name = "origin") Integer diemTichLuy) {
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChi, sdt, ghiChu, shippingFee, totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
         return "redirect:/wingman/cart/thankyou";
     }
@@ -114,12 +137,16 @@ public class GioHangController {
     @GetMapping("/sua-dia-chi/{idDiaChi}")
     public String suaDiaChi(@PathVariable("idDiaChi") String idDiaChi,
                             Model model){
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         model.addAttribute("diaChi2", khachHangService.getByIdDiaChi(Long.valueOf(idDiaChi)));
-        KhachHang khachHang1 = khachHangService.getById(5L);
+        KhachHang khachHang1 = khachHangService.getById(id);
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         model.addAttribute("gioHangWrapper", gioHangWrapper);
-        model.addAttribute("idKhachHang", 5L);
-        model.addAttribute("diemTichLuy", khachHangService.layDiemTichLuy(5L));
+        model.addAttribute("idKhachHang", id);
+        model.addAttribute("diemTichLuy", khachHangService.layDiemTichLuy(id));
         long total = 0;
         for(GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
             total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
@@ -132,6 +159,7 @@ public class GioHangController {
     @PostMapping("/updateQuantity")
     @ResponseBody
     public ResponseEntity<String> updateQuantity(@RequestParam Long idGioHangChiTiet, @RequestParam Integer soLuong) {
+
         try {
             // Update quantity in the database using your service
             banHangCustomerService.updateGioHangChiTiet(idGioHangChiTiet, soLuong);
@@ -144,6 +172,10 @@ public class GioHangController {
 
     @GetMapping("/thankyou")
     public String b(){
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         return "customer-template/thankyou";
     }
 }
