@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,8 @@ public class AdminController {
     @Autowired
     private KhachHangService khachHangService;
     @GetMapping("/login")
-    public String getFormLoginAdmin() {
+    public String getFormLoginAdmin(Model model) {
+        model.addAttribute("khachHang", new RegisterRequest());
         return "admin-template/login";
     }
 
@@ -28,7 +30,7 @@ public class AdminController {
             @ModelAttribute("khachHang") RegisterRequest khachHang
             ){
         khachHangService.registration(khachHang);
-        return "";
+        return "redirect:/login";
     }
     @GetMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
