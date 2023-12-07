@@ -5,12 +5,18 @@ import com.example.befall23datnsd05.dto.ChiTietSanPhamCustomerCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietSanPham, Long> {
+
+    Page<ChiTietSanPham> findAll(Specification<ChiTietSanPham> spec, Pageable pageable);
+
     @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0", nativeQuery = true)
     Page<ChiTietSanPham> pageAllInShop(Pageable pageable);
 
