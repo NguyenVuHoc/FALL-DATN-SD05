@@ -122,7 +122,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
-    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuyApDung, BigDecimal diemTichLuy, String useAll) {
+    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuyApDung, BigDecimal diemTichLuy, String useAll) {
         KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
         NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
         LocalDateTime time = LocalDateTime.now();
@@ -178,7 +178,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             }
         }
         hoaDon.setXu(BigDecimal.valueOf(0));
-        hoaDon.setTongTien(totalAmount);
+        hoaDon.setTongTien(tongTien);
         hoaDon.setThanhToan(totalAmount);
         hoaDonRepository.save(hoaDon);
     }

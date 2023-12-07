@@ -103,16 +103,21 @@ public class GioHangController {
     public String datHang(
             @ModelAttribute("gioHangWrapper") GioHangWrapper gioHangWrapper,
             @RequestParam("diaChi") String diaChi,
+            @RequestParam("wardName") String xa,
+            @RequestParam("districtName") String huyen,
+            @RequestParam("provinceName") String thanhPho,
             @RequestParam("sdt") String sdt,
             @RequestParam("ghiChu") String ghiChu,
             @RequestParam("ten") String ten,
             @RequestParam(name = "shippingFee") BigDecimal shippingFee,
+            @RequestParam("tongTienHang") String tongTien,
             @RequestParam(name = "originAmount") BigDecimal totalAmount,
             @RequestParam(name = "voucherId", required = false, defaultValue = "0") Long selectedVoucherId,
             @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") BigDecimal diemTichLuyApDung,
             @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
             @RequestParam(name = "origin") BigDecimal diemTichLuy) {
-        banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChi, sdt, ghiChu, shippingFee, totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
+        String diaChiCuThe = diaChi + "," + xa + "," +huyen + "," +thanhPho;
+        banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
         return "redirect:/wingman/cart/thankyou";
     }
 

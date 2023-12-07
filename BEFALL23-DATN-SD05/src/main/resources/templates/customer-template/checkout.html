@@ -81,6 +81,18 @@
             background-color: #0056b3;
             border-color: #0056b3;
         }
+
+        .col-10 {
+            width: 80%; /* Chiếm 80% chiều rộng của hàng */
+            background-color: lightblue;
+            /* Các thuộc tính và giá trị CSS khác */
+        }
+
+        .col-2 {
+            width: 20%; /* Chiếm 20% chiều rộng của hàng */
+            background-color: lightgray;
+            /* Các thuộc tính và giá trị CSS khác */
+        }
     </style>
 </head>
 <body>
@@ -258,7 +270,7 @@
                         >
                             <div class="modal-dialog" style="width: 1200px">
                                 <div class="modal-content">
-                                    <div class="modal-header"  style="background: #314d43">
+                                    <div class="modal-header" style="background: #314d43">
                                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Chọn địa chỉ</h1>
                                         <button
                                                 aria-label="Close"
@@ -309,7 +321,7 @@
                                         <button class="btn btn-outline-danger"
                                                 data-bs-dismiss="modal"
                                                 type="button">
-                                           Đóng
+                                            Đóng
                                         </button>
                                     </div>
                                 </div>
@@ -361,8 +373,8 @@
                                 <table class="table site-block-order-table mb-5">
                                     <thead>
                                     <tr>
-                                        <th>Sản phẩm</th>
-                                        <th>Thành tiền</th>
+                                        <th class="col-10">Sản phẩm</th>
+                                        <th class="col-2">Thành tiền</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -370,7 +382,7 @@
                                     <th:block
                                             th:if="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet())}">
                                         <tr th:each="gioHangChiTiet, iterStat : ${gioHangWrapper.getListGioHangChiTiet()}">
-                                            <td>
+                                            <td class="col-10">
                                                 [[${gioHangChiTiet.chiTietSanPham.sanPham.ten +' '+
                                                 gioHangChiTiet.chiTietSanPham.sanPham.dongSanPham.ten +' '+
                                                 gioHangChiTiet.chiTietSanPham.deGiay.ten +' '+
@@ -379,7 +391,7 @@
                                                     class="mx-2">x</strong>
                                                 [[${gioHangChiTiet.soLuong}]]
                                             </td>
-                                            <td>
+                                            <td class="col-2">
                                                 [[${#numbers.formatDecimal(
                                                 gioHangChiTiet.soLuong * gioHangChiTiet.chiTietSanPham.giaBan,
                                                 0,
@@ -393,8 +405,6 @@
                                     <tr>
                                         <td class="text-black font-weight-bold">
                                             <strong>Voucher</strong>
-                                        </td>
-                                        <td class="text-black font-weight-bold">
                                             <input id="voucherName" class="form-control" readonly type="text"/>
                                             <input id="voucherId" name="voucherId" readonly type="hidden"/>
                                         </td>
@@ -405,6 +415,7 @@
                                                     id="click-btn"
                                                     th:data-bs-target="'#staticBackdrop1' + ${idKhachHang}"
                                                     type="button"
+                                                    style="margin-top: 15%"
                                             >
                                                 Chọn
                                             </button>
@@ -467,7 +478,8 @@
                                                             </table>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button class="btn btn-outline-danger" data-bs-dismiss="modal"
+                                                            <button class="btn btn-outline-danger"
+                                                                    data-bs-dismiss="modal"
                                                                     id="huy-btn" type="button">
                                                                 Huỷ
                                                             </button>
@@ -507,14 +519,19 @@
                                         <td class="text-black font-weight-bold">
                                             <strong>Tổng tiền hàng</strong>
                                         </td>
-                                        <td th:text="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet()) ?
+                                        <td>
+                                            <strong th:text="${gioHangWrapper.getListGioHangChiTiet() != null and not #lists.isEmpty(gioHangWrapper.getListGioHangChiTiet()) ?
                                         #numbers.formatDecimal(
                                             #aggregates.sum(gioHangWrapper.getListGioHangChiTiet().![chiTietSanPham.giaBan * soLuong]),
                                             0,
                                             'POINT',
                                             0,
                                             'COMMA'
-                                        ) + ' VND' : '0 VND'}">
+                                        ) + ' VND' : '0 VND'}"></strong>
+                                            <input id="tongTienHang"
+                                                   name="tongTienHang"
+                                                   th:value="${#aggregates.sum(gioHangWrapper.getListGioHangChiTiet().![chiTietSanPham.giaBan * soLuong])}"
+                                                   hidden/>
                                         </td>
                                     </tr>
                                     <tr>
