@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
+import com.example.befall23datnsd05.export.HoaDonPDF;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
@@ -152,7 +153,7 @@ public class HoaDonController {
     @PostMapping("/validation")
     public String validation(@Param("id") Long id,
                              @RequestParam("ghiChu") String ghichu, Model model
-    ) {
+    ) throws Exception {
         int i = 0;
         HoaDon hoaDon = hoaDonService.findById(id);
         if (ghichu.isEmpty()) {
@@ -165,6 +166,7 @@ public class HoaDonController {
         if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
             return "redirect:/admin/hoa-don";
         }
+
         if (hoaDon != null) {
             for (TrangThaiDonHang trangThai : list) {
                 if (trangThai.equals(hoaDon.getTrangThai())) {
@@ -180,9 +182,15 @@ public class HoaDonController {
                     chiTietSanPham.setSoLuongTon(soLuongTru);
                     chiTietSanPhamService.save(chiTietSanPham);
                 }
+                HoaDonPDF hoaDonPDF= new HoaDonPDF();
+                hoaDonPDF.exportToHdPDF(gioHangChiTietService.findGioHangChiTietById(id),hoaDon);
+            }
+            if( hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI){
+                HoaDonPDF hoaDonPDF= new HoaDonPDF();
+                hoaDonPDF.exportToHdPDF(gioHangChiTietService.findGioHangChiTietById(id),hoaDon);
             }
             hoaDonService.validate(hoaDon, list.get(i + 1), ghichu);
-            return "redirect:/admin/hoa-don?success";
+            return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
         }
         return null;
     }

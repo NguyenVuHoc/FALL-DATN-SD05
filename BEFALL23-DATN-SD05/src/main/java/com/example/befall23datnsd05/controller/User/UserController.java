@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ public class UserController {
         this.khachHangService = khachHangService;
         this.diaChiService = diaChiService;
     }
-
+private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
     /**
      * Get User By IdKh
      *
@@ -31,7 +32,10 @@ public class UserController {
      */
     @GetMapping("/thong-tin-cua-toi")
     public String getAll(Model model) {
-        Long id= 5L;
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         KhachHang khachHang = khachHangService.getById(id);
         model.addAttribute("khachHang", khachHang);
         model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
@@ -52,7 +56,10 @@ public class UserController {
                          BindingResult bindingResult,
                          Model model
     ) {
-        Long id = khachHangRequest.getId();
+        Long id=principalKhachHang.getCurrentUserId();
+        if(id==null){
+            return "redirect:/login";
+        }
         String sdt = khachHangRequest.getSdt();
         KhachHang khachHang = khachHangService.getById(id);
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
@@ -71,7 +78,7 @@ public class UserController {
         }
         model.addAttribute("success", "Sửa thành công");
         khachHangService.update(khachHangRequest);
-        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
     }
 
     /**
@@ -88,7 +95,7 @@ public class UserController {
             @PathVariable("idKhachHang") String idKhachHang
     ) {
         diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
-        return "redirect:/wingman/thong-tin-cua-toi/"+"?success";
+        return "redirect:/wingman/thong-tin-cua-toi"+"?success";
     }
 
     /**
@@ -106,6 +113,7 @@ public class UserController {
             @PathVariable("idKH") Long idKH,
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest, Model model
     ) {
+
         KhachHang khachHang = khachHangService.getById(idKH);
         if(diaChiRequest.getTenNguoiNhan().isEmpty()){
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
@@ -147,22 +155,25 @@ public class UserController {
 
     ) {
         diaChiService.remove(id);
-        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
     }
 
     /**
      * Change passwword
-     * @param idKh
      * @param oldPassword
      * @param newPassword
      * @param model
      * @return
      */
     @PostMapping("/change-password")
-    public String changePassword(@RequestParam("id") Long idKh,
+    public String changePassword(
                                  @RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("newPassword") String newPassword,
                                  Model model) {
+        Long idKh=principalKhachHang.getCurrentUserId();
+        if(idKh==null){
+            return "redirect:/login";
+        }
         KhachHang khachHang = khachHangService.getById(idKh);
         if (khachHang.getMatKhau().isEmpty()) {
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKh));
@@ -181,7 +192,7 @@ public class UserController {
         else {
 
         khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
-        return "redirect:/wingman/thong-tin-cua-toi/" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
         }
     }
 }

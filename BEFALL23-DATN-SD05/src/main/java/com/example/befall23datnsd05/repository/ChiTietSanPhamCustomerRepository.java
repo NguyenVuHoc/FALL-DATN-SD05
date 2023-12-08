@@ -15,6 +15,7 @@ import java.util.List;
 @Repository
 public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietSanPham, Long> {
 
+    @Query("select ctsp from ChiTietSanPham  ctsp where ctsp.trangThai=0 and ctsp.soLuongTon>0")
     Page<ChiTietSanPham> findAll(Specification<ChiTietSanPham> spec, Pageable pageable);
 
     @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0", nativeQuery = true)
@@ -30,7 +31,7 @@ public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietS
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id\n" +
             "join kich_thuoc on chi_tiet_san_pham.id_kich_thuoc = kich_thuoc.id\n" +
             "join mau_sac on chi_tiet_san_pham.id_mau_sac = mau_sac.id\n" +
-            "where chi_tiet_san_pham.trang_thai = 0 limit 3;", nativeQuery = true)
+            "where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.so_luong_ton>0  limit 3;", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3New();
 
     @Query(value = "select san_pham.ten as tenSp, san_pham.anh_chinh, chi_tiet_san_pham.id, chi_tiet_san_pham.gia_ban, de_giay.ten as tenDe_giay,\n" +
@@ -43,7 +44,7 @@ public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietS
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id\n" +
             "join kich_thuoc on chi_tiet_san_pham.id_kich_thuoc = kich_thuoc.id\n" +
             "join mau_sac on chi_tiet_san_pham.id_mau_sac = mau_sac.id\n" +
-            "where san_pham.id_thuong_hieu like 6 and chi_tiet_san_pham.trang_thai = 0 limit 3 ", nativeQuery = true)
+            "where san_pham.id_thuong_hieu like 6 and chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.so_luong_ton>0 limit 3 ", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Prominent();
 
     @Query(value = "select san_pham.ten as tenSp, san_pham.anh_chinh, chi_tiet_san_pham.id, chi_tiet_san_pham.gia_ban, de_giay.ten as tenDe_giay,\n" +
@@ -56,7 +57,7 @@ public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietS
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id\n" +
             "join kich_thuoc on chi_tiet_san_pham.id_kich_thuoc = kich_thuoc.id\n" +
             "join mau_sac on chi_tiet_san_pham.id_mau_sac = mau_sac.id\n" +
-            "where dong_san_pham.ten = 'Giày custom' and chi_tiet_san_pham.trang_thai = 0 limit 3", nativeQuery = true)
+            "where dong_san_pham.ten = 'Giày custom' and chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.so_luong_ton>0 limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Custom();
 
     @Query(value = "select san_pham.ten as tenSp, san_pham.anh_chinh, chi_tiet_san_pham.id, chi_tiet_san_pham.gia_ban, de_giay.ten as tenDe_giay,\n" +
@@ -69,7 +70,7 @@ public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietS
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id\n" +
             "join kich_thuoc on chi_tiet_san_pham.id_kich_thuoc = kich_thuoc.id\n" +
             "join mau_sac on chi_tiet_san_pham.id_mau_sac = mau_sac.id\n" +
-            "where dong_san_pham.ten = 'Giày limited' and chi_tiet_san_pham.trang_thai = 0 limit 3", nativeQuery = true)
+            "where dong_san_pham.ten = 'Giày limited' and chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.so_luong_ton>0 limit 3", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list3Limited();
 
     @Query(value = "select san_pham.ten as tenSp, san_pham.anh_chinh, chi_tiet_san_pham.id, chi_tiet_san_pham.gia_ban, de_giay.ten as tenDe_giay,\n" +
@@ -82,7 +83,7 @@ public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietS
             "join dong_san_pham on san_pham.id_dong_san_pham = dong_san_pham.id\n" +
             "join kich_thuoc on chi_tiet_san_pham.id_kich_thuoc = kich_thuoc.id\n" +
             "join mau_sac on chi_tiet_san_pham.id_mau_sac = mau_sac.id\n" +
-            "where chi_tiet_san_pham.trang_thai = 0 order by rand() limit 4 ;", nativeQuery = true)
+            "where chi_tiet_san_pham.trang_thai = 0 and chi_tiet_san_pham.so_luong_ton>0 order by rand() limit 4 ;", nativeQuery = true)
     List<ChiTietSanPhamCustomerCustom> list4Random();
 
     @Query(value = "select anh.url, chi_tiet_san_pham.id from chi_tiet_san_pham\n" +
