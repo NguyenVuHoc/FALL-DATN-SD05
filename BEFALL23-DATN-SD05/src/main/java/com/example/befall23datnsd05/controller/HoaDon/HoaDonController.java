@@ -226,7 +226,9 @@ public class HoaDonController {
             HoaDon hoaDonNew = null;
             if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG) {
                for (GioHangChiTiet gioHangChiTiet: gioHangChiTiets){
-                   checkHoaDonHoanTra.add(gioHangChiTiet);
+                   if(gioHangChiTiet.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){
+                       checkHoaDonHoanTra.add(gioHangChiTiet);
+                   }
                }
                if(checkHoaDonHoanTra.size()==gioHangChiTiets.size()){
                    hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG,"đơn hàng hoàn trả");
@@ -370,7 +372,9 @@ public class HoaDonController {
             if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG) {
 
                 for (GioHangChiTiet gioHangChiTiet: gioHangChiTiets){
-                    checkHoaDonHoanTra.add(gioHangChiTiet);
+                    if(gioHangChiTiet.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){
+                        checkHoaDonHoanTra.add(gioHangChiTiet);
+                    }
                 }
                 if(checkHoaDonHoanTra.size()==gioHangChiTiets.size()){
                     hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG,"đơn hàng hoàn trả");
