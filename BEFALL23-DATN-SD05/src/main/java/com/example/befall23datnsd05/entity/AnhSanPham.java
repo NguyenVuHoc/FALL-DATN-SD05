@@ -29,9 +29,6 @@ public class AnhSanPham {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ten")
-    private String ten;
-
     @Column(name = "url")
     private String url;
 
