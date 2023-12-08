@@ -13,7 +13,7 @@ public interface DiaChiService {
 
     DiaChi getById(Long id);
 
-    DiaChi add(DiaChiRequest diaChiRequest, Long idKhachHang);
+    DiaChi add(DiaChiRequest diaChiRequest, Long idKhachHang, String thanhPho, String quanHuyen, String phuongXa);
 
     DiaChi update(DiaChiRequest diaChiRequest, Long id);
 

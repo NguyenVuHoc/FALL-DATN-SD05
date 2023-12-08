@@ -1024,14 +1024,27 @@
             document.getElementById('voucherId').value = $(this).attr('data-id');
             console.log($(this).attr('data-id'));
             if (originVoucher !== 0) {
+                let value1 = existingTotalAmount + duocApDung;
+                existingTotalAmount = value1;
                 let discountValue = $(this).attr('data-muc-giam-gia');
-                let originValue = Math.round(existingTotalAmount * 100 / (100 - originVoucher));
-                let newValue = Math.round(((100 - discountValue) / 100) * originValue);
+                let apDungToiDa = parseFloat($(this).attr('data-giam-toi-da'));
                 let apDung = Math.round((discountValue / 100) * existingTotalAmount);
-                existingTotalAmount = newValue;
-                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-                originVoucher = discountValue;
-                duocApDung = apDung;
+                if (apDung > apDungToiDa) {
+                    let newValue = existingTotalAmount - apDungToiDa;
+                    existingTotalAmount = newValue;
+                    document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
+                    document.getElementById('voucher').innerText = formatNumberWithVND(apDungToiDa);
+                    originVoucher = discountValue;
+                    duocApDung = apDungToiDa;
+                } else {
+                    let newValue = Math.round(((100 - discountValue) / 100) * existingTotalAmount);
+                    let apDung = Math.round((discountValue / 100) * existingTotalAmount);
+                    existingTotalAmount = newValue;
+                    document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
+                    document.getElementById('voucher').innerText = formatNumberWithVND(apDung);
+                    originVoucher = discountValue;
+                    duocApDung = apDung;
+                }
             } else {
                 let discountValue = $(this).attr('data-muc-giam-gia');
                 let apDungToiDa = parseFloat($(this).attr('data-giam-toi-da'));

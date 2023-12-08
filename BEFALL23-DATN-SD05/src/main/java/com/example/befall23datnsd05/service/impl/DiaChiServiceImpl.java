@@ -44,9 +44,12 @@ public class DiaChiServiceImpl implements DiaChiService {
     }
 
     @Override
-    public DiaChi add(DiaChiRequest diaChi, Long idKhachHang) {
+    public DiaChi add(DiaChiRequest diaChi, Long idKhachHang, String thanhPho, String quanHuyen, String phuongXa) {
         DiaChi diaChi1 = new DiaChi();
         diaChi1.setTenNguoiNhan(diaChi.getTenNguoiNhan());
+        diaChi1.setThanhPho(thanhPho);
+        diaChi1.setQuanHuyen(quanHuyen);
+        diaChi1.setPhuongXa(phuongXa);
         diaChi1.setDiaChi(diaChi.getDiaChi());
         diaChi1.setSdt(diaChi.getSdt());
         diaChi1.setNgayTao(LocalDate.now());
@@ -55,8 +58,7 @@ public class DiaChiServiceImpl implements DiaChiService {
         diaChi1.setTrangThai(TrangThai.DANG_HOAT_DONG);
         KhachHang khachHang = khachHangRepository.findById(idKhachHang).orElse(null);
         diaChi1.setKhachHang(khachHang);
-        repository.save(diaChi1);
-        return diaChi1;
+        return repository.save(diaChi1);
     }
 
     @Override
@@ -70,8 +72,7 @@ public class DiaChiServiceImpl implements DiaChiService {
         diaChi1.setSdt(diaChi.getSdt());
         diaChi1.setNgaySua(LocalDate.now());
         diaChi1.setGhiChu(diaChi.getGhiChu());
-        repository.save(diaChi1);
-        return diaChi1;
+        return repository.save(diaChi1);
     }
 
 

@@ -87,7 +87,7 @@ public class UserController {
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
             @PathVariable("idKhachHang") String idKhachHang
     ) {
-        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
+//        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
         return "redirect:/wingman/thong-tin-cua-toi/" + idKhachHang + "?success";
     }
 
