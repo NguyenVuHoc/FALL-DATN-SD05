@@ -24,14 +24,14 @@ public class autoUpdateKhuyenMai {
     ChiTietSanPhamService ctspService;
 
     @PostConstruct
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(fixedRate = 300000)
     public void autoCheckTrangThai(){
         service.updateTrangThai();
         maGiamGiaService.updateTrangThai();
     }
 
     @PostConstruct
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(fixedRate = 300000)
     public void autoCheckGiaBan(){
         ctspService.autoUpdateGia();
     }
