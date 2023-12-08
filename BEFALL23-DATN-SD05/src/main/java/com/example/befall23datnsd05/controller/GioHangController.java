@@ -154,7 +154,7 @@ public class GioHangController {
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         model.addAttribute("gioHangWrapper", gioHangWrapper);
         model.addAttribute("idKhachHang", id);
-        model.addAttribute("diemTichLuy", khachHangService.layDiemTichLuy(id));
+        model.addAttribute("diemTichLuy", khachHang1.getTichDiem());
         long total = 0;
         for(GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
             total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
