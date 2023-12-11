@@ -262,6 +262,7 @@
             </div>
 
         </form>
+
         <div class="container-fluid pt-4">
             <div class="bg-light text-center rounded p-4">
                 <div>
@@ -269,9 +270,8 @@
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>STT</th>
                                 <th>Mã</th>
-                                <th>Tên Khách Hàng</th>
                                 <th>Hình Thức Mua Hàng</th>
                                 <th>Trạng Thái</th>
                                 <th>Thanh Toán</th>
@@ -279,14 +279,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="hd : ${hoadons}">
-
+                            <tr th:each="hd,state : ${hoadons}">
                                 <td>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE)}"
-                                       th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}" th:text="${hd.id}"
+                                       th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}" th:text="${state.index+1}"
                                        style="color: black;"></a>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
-                                       th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}" th:text="${hd.id}"
+                                       th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}" th:text="${state.index+1}"
                                        style="color: black;"></a>
                                 </td>
                                 <td>
@@ -295,16 +294,6 @@
                                        style="color: black;"></a>
                                     <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
                                        th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}" th:text="${hd.ma}"
-                                       style="color: black;"></a>
-                                </td>
-                                <td>
-                                    <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE)}"
-                                       th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
-                                       th:text="${hd.tenKhachHang}"
-                                       style="color: black;"></a>
-                                    <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
-                                       th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}"
-                                       th:text="${hd.tenKhachHang}"
                                        style="color: black;"></a>
                                 </td>
                                 <td>
@@ -339,36 +328,37 @@
                                 </td>
                                 <td>
                                     <div style="display: flex; align-items: center;">
-                                        <button class="btn-link no-border"
+                                        <button class="btn btn-outline-success"
                                                 data-bs-toggle="modal"
                                                 th:data-bs-target="'#ghiChu' + ${hd.id}"
                                                 th:disabled="${hd.trangThai ==
-                                                T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).HOAN_THANH}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                      or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
-                      or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
-
-">
-                                            <i class="bi bi-check2" style="font-size: 35px;"></i>
+            T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).HOAN_THANH}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+            or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}"
+                                                style="margin-right: 10px;">
+                                            Xác nhận
                                         </button>
 
-                                        <button class="btn-link no-border"
+                                        <button class="btn btn-outline-danger"
                                                 data-bs-toggle="modal"
                                                 th:data-bs-target="'#huyDon' + ${hd.id}"
                                                 th:disabled="${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).HOAN_THANH}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DANG_GIAO}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
-                          or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
-                          or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}
-">
-                                            <i class="bi bi-x" style="font-size: 37px;"></i>
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_TRA_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DANG_GIAO}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DANG_CHUAN_BI}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_GIAO}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}
+            or ${hd.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DA_HUY}
+            or ${hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE}"
+                                                style="margin-left: 3px;">
+                                            Huỷ Đơn
                                         </button>
                                     </div>
+
                                     <div class="modal fade" th:id="'ghiChu' + ${hd.id}"
                                          data-bs-backdrop="static" data-bs-keyboard="false"
                                          tabindex="-1"
@@ -421,7 +411,7 @@
                                                         <input type="hidden" name="id" th:value="${hd.id}"/>
                                                         <input type="text" class="form-control mb-3" name="id"
                                                                th:value="${hd.ghiChu}" readonly/>
-                                                        <label class="form-label">Ghi chú</label>
+                                                        <label class="form-label">Lý Do Huỷ Đơn Hàng</label>
                                                         <input type="text" class="form-control mb-3" name="ghiChu"
                                                                th:value="${ghiChu}"/>
                                                     </div>
@@ -440,10 +430,9 @@
                             </tbody>
                             <tfoot hidden="hidden">
                             <tr>
-                                <th>Id</th>
+                                <th>STT</th>
                                 <th>Mã</th>
-                                <th>Tên Khách Hàng</th>
-                                <th>Ngày Tạo</th>
+                                    <th>Ngày Tạo</th>
                                 <th>Trạng Thái</th>
                                 <th>Thanh Toán</th>
                                 <th>Action</th>
@@ -454,6 +443,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Chart End -->
         <!-- Footer Start -->
         <div class="container-fluid pt-4">

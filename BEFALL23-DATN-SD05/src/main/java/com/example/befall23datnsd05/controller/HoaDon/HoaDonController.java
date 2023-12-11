@@ -6,13 +6,14 @@ import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.export.HoaDonPDF;
+import com.example.befall23datnsd05.importFile.importFileExcelHd;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
-import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import com.example.befall23datnsd05.service.HoaDonService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,17 +28,19 @@ import java.util.List;
 @RequestMapping("/admin/hoa-don")
 public class HoaDonController {
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
-            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG,TrangThaiDonHang.DOI_HANG));
+            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG));
     private final HoaDonService hoaDonService;
     private final HoaDonChiTietService hoaDonChiTietService;
     private final GioHangChiTietService gioHangChiTietService;
     private final ChiTietSanPhamRepository chiTietSanPhamService;
+    private final importFileExcelHd importFileExcelHd;
 
-    public HoaDonController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamRepository chiTietSanPhamService1) {
+    public HoaDonController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamRepository chiTietSanPhamService1, com.example.befall23datnsd05.importFile.importFileExcelHd importFileExcelHd) {
         this.hoaDonService = hoaDonService;
         this.hoaDonChiTietService = hoaDonChiTietService;
         this.gioHangChiTietService = gioHangChiTietService;
         this.chiTietSanPhamService = chiTietSanPhamService1;
+        this.importFileExcelHd = importFileExcelHd;
     }
 
     /**
@@ -91,7 +94,7 @@ public class HoaDonController {
         model.addAttribute("trangThais", list);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("hoadons", hoaDonService.findHoaDonsByNgayTao(startDate, endDate, trangThai));
+        model.addAttribute("hoadons", hoaDonService.findHoaDonsByNgayTao(startDate, endDate));
         return "admin-template/hoa_don/hoa_don";
     }
 
@@ -196,74 +199,7 @@ public class HoaDonController {
     }
 
     /**
-     * Chấp nhập Trả Hàng
-     * Chấp nhập Trả Hàng+Đổi Hàng
-     *
-     * @param id
-     * @param ghichu
-     * @param model
-     * @return
-     */
-    @PostMapping("/validation/accept")
-    public String validationHoanTra(@Param("id") Long id,
-                                    @RequestParam("ghiChu") String ghichu,
-                                    Model model
-    ) {
-        List<GioHangChiTiet> checkHoaDonHoanTra= new ArrayList<>();
-        HoaDon hoaDon = hoaDonService.findById(id);
-        List<GioHangChiTiet> gioHangChiTiets = gioHangChiTietService.findGioHangChiTietById(id);
-        if (ghichu.isEmpty()) {
-            model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
-            model.addAttribute("hoaDon", hoaDonService.findById(id));
-            model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(id));
-            return "admin-template/hoa_don/chi_tiet_hd_online";
-        }
-        if (hoaDon.getTrangThai() == TrangThaiDonHang.CHO_XAC_NHAN || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.HOAN_THANH || hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY
-        ) {
-            return "redirect:/admin/hoa-don";
-        }
-        if (hoaDon != null) {
-            HoaDon hoaDonNew = null;
-            if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG) {
-               for (GioHangChiTiet gioHangChiTiet: gioHangChiTiets){
-                   if(gioHangChiTiet.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){
-                       checkHoaDonHoanTra.add(gioHangChiTiet);
-                   }
-               }
-               if(checkHoaDonHoanTra.size()==gioHangChiTiets.size()){
-                   hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG,"đơn hàng hoàn trả");
-                   return "redirect:/admin/hoa-don?success";
-               }
-                hoaDonNew = hoaDonService.createHdHoanTra(hoaDon, id);
-                hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG, ghichu);
-            } else {
-                hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
-            }
-            BigDecimal tongTienHoanHang = BigDecimal.ZERO;
-            for (GioHangChiTiet gioHangChiTiet1 : gioHangChiTiets) {
-                if (gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
-                    for (GioHangChiTiet gioHangChiTiet : gioHangChiTiets) {
-                        hoaDonService.removeGioHangChiTietHoanTra(gioHangChiTiet, hoaDon);
-                        tongTienHoanHang = gioHangChiTiet.getDonGia().
-                                multiply(BigDecimal.valueOf(gioHangChiTiet.getSoLuong()));
-                    }
-                    hoaDon.setThanhToan(hoaDon.getThanhToan().subtract(tongTienHoanHang));
-                    hoaDon.setNgayThanhToan(LocalDate.now());
-                    hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
-                    hoaDonService.save(hoaDon);
-                    hoaDonService.createGioHangHoanTraByHoaDon(gioHangChiTiet1, hoaDonNew);
-                }
 
-
-                if (gioHangChiTiet1.getTrangThai() == TrangThai.DOI_HANG) {
-                    gioHangChiTiet1.setTrangThai(TrangThai.DA_DOI_HANG);
-                    gioHangChiTietService.save(gioHangChiTiet1);
-                }
-            }
-            return "redirect:/admin/hoa-don?success";
-        }
-        return null;
-    }
 
     /**
      * Từ chối Trả Hàng+Đổi Hàng
@@ -305,7 +241,7 @@ public class HoaDonController {
                 }
             }
             hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
-            return "redirect:/admin/hoa-don?success";
+            return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
         }
         return null;
     }
@@ -343,7 +279,7 @@ public class HoaDonController {
                 }
             }
             hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_HUY, ghichu);
-            return "redirect:/admin/hoa-don?success";
+            return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
         }
         return null;
     }
@@ -368,44 +304,46 @@ public class HoaDonController {
             return "redirect:/admin/hoa-don";
         }
         if (hoaDon != null) {
-            HoaDon hoaDonNew = null;
             if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG) {
-
                 for (GioHangChiTiet gioHangChiTiet: gioHangChiTiets){
                     if(gioHangChiTiet.getTrangThai()==TrangThai.YEU_CAU_TRA_HANG){
                         checkHoaDonHoanTra.add(gioHangChiTiet);
                     }
                 }
                 if(checkHoaDonHoanTra.size()==gioHangChiTiets.size()){
-                    hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG,"đơn hàng hoàn trả");
+                    hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH,"đơn hàng hoàn trả");
                     return "redirect:/admin/hoa-don?success";
                 }
-                hoaDonNew = hoaDonService.createHdHoanTra(hoaDon, id);
-                hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_TRA_HANG, ghichu);
+                hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
             }
 
             for (GioHangChiTiet gioHangChiTiet1 : gioHangChiTiets) {
-                if (gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
-                    for (GioHangChiTiet gioHangChiTiet : gioHangChiTiets) {
-                        hoaDonService.removeGioHangChiTietHoanTra(gioHangChiTiet, hoaDon);
-                        ChiTietSanPham chiTietSanPham = chiTietSanPhamService.findById(gioHangChiTiet.getChiTietSanPham().getId()).get();
-                        if (chiTietSanPham.getId() != null && gioHangChiTiet.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
-                            chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + gioHangChiTiet.getSoLuong());
-                            chiTietSanPhamService.save(chiTietSanPham);
-                        }
-                        tongTienHoanHang = gioHangChiTiet.getDonGia().
-                                multiply(BigDecimal.valueOf(gioHangChiTiet.getSoLuong()));
+//                for (GioHangChiTiet gioHangChiTiet : gioHangChiTiets) {
+//                        hoaDonService.removeGioHangChiTietHoanTra(gioHangChiTiet, hoaDon);
+                    ChiTietSanPham chiTietSanPham = chiTietSanPhamService.findById(gioHangChiTiet1.getChiTietSanPham().getId()).get();
+                    if (chiTietSanPham.getId() != null && gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
+                        gioHangChiTiet1.setTrangThai(TrangThai.DA_HOAN_TRA);
+                        gioHangChiTiet1.setGhiChu("sản phẩm hoàn trả");
+                        chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + gioHangChiTiet1.getSoLuong());
+                        chiTietSanPhamService.save(chiTietSanPham);
+                        BigDecimal giaTriSanPham = gioHangChiTiet1.getChiTietSanPham().getGiaBan()
+                                .multiply(BigDecimal.valueOf(gioHangChiTiet1.getSoLuong()));
+                        tongTienHoanHang = tongTienHoanHang.add(giaTriSanPham);
                     }
-                    hoaDon.setThanhToan(hoaDon.getThanhToan().subtract(tongTienHoanHang));
-                    hoaDon.setNgayThanhToan(LocalDate.now());
-                    hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
-                    hoaDonService.save(hoaDon);
-                    hoaDonService.createGioHangHoanTraByHoaDon(gioHangChiTiet1, hoaDonNew);
-                }
+//                 if (gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
+//
+////                    hoaDonService.createGioHangHoanTraByHoaDon(gioHangChiTiet1, hoaDonNew);
+//                }
             }
-            return "redirect:/admin/hoa-don?success";
+            hoaDon.setThanhToan(hoaDon.getThanhToan().subtract(tongTienHoanHang));
+            hoaDon.setNgayThanhToan(LocalDate.now());
+            hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
+            hoaDonService.save(hoaDon);
+            return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
         }
         return null;
     }
+
+
 
 }

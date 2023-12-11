@@ -146,6 +146,8 @@ public class ChiTietSanPhamCustomerServiceImpl implements ChiTietSanPhamCustomer
             if (maxGia != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("giaBan"), maxGia));
             }
+            predicates.add(cb.greaterThan(root.get("soLuongTon"), 0));
+            predicates.add(cb.equal(root.get("trangThai"), 0));
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 

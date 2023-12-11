@@ -179,7 +179,7 @@ public class ChiTietSanPhamCustomerController {
         List<ChiTietSanPhamCustomerCustom> listRand2 = chiTietSanPhamService.list4Random();
         model.addAttribute("listRandom2", listRand2.stream().toList());
         model.addAttribute("soLuongTon", chiTietSanPham.getSoLuongTon());
-        List<GioHangChiTiet> cartItems = gioHangChiTietService.getAll(Long.valueOf(5));
+        List<GioHangChiTiet> cartItems = gioHangChiTietService.getAll(idKh);
 
         // Tìm mục trong giỏ hàng dựa trên ID sản phẩm
         GioHangChiTiet gioHangChiTiet = cartItems.stream()

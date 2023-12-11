@@ -11,13 +11,16 @@ import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.request.HoaDonRequest;
 import com.example.befall23datnsd05.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class HoaDonServiceImpl implements HoaDonService {
@@ -31,23 +34,32 @@ public class HoaDonServiceImpl implements HoaDonService {
 
     @Override
     public List<HoaDon> getAll() {
-        return repository.findAll();
+        List<HoaDon> sortedList = repository.findAll().stream()
+                .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
+                .collect(Collectors.toList());
+        return sortedList;
     }
 
     @Override
     public List<HoaDon> getAllByKhachHang(Long id) {
-        return repository.getAllByKhachHang(id);
+        return repository.getAllByKhachHang(id).stream()
+                .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<HoaDon> getByTrangThai(TrangThaiDonHang trangThai) {
-        return repository.getAllByTrangThai(trangThai);
+        return repository.getAllByTrangThai(trangThai).stream()
+                .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<HoaDon> getByTrangThaiAndKhachHang(TrangThaiDonHang trangThai, Long id) {
-//        return repository.getAllByTrangThaiAndKhachHang(trangThai.getTrangThai(), id);
-        return repository.findHoaDonByTrangThaiAndKhachHangId(trangThai, id);
+        List<HoaDon> sortedList = repository.findHoaDonByTrangThaiAndKhachHangId(trangThai, id).stream()
+                .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
+                .collect(Collectors.toList());
+        return sortedList;
     }
 
     @Override
@@ -65,8 +77,10 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
-    public List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end, TrangThaiDonHang trangThai) {
-        return repository.findHoaDonsByNgayTao(start, end);
+    public List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end) {
+        return repository.findHoaDonsByNgayTao(start, end).stream()
+                .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
+                .collect(Collectors.toList());
     }
 
     @Override

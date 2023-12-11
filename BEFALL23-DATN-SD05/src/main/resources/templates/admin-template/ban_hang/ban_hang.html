@@ -831,8 +831,10 @@
                             <td>
                                 <button type="button" class="btn btn-primary themSoLuong" data-bs-toggle="modal"
                                         th:data-bs-target="'#themSoLuong' + ${sanPham.id}"
-                                        th:data-so-luong-ton="${sanPham.soLuongTon}">
-                                    <img src="/../../img/them.png" style="width: 20px;">
+                                        th:data-so-luong-ton="${sanPham.soLuongTon}"
+                                        th:disabled="${sanPham.soLuongTon == 0}">
+
+                                <img src="/../../img/them.png" style="width: 20px;">
                                 </button>
                                 <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}"
                                      data-bs-backdrop="static" data-bs-keyboard="false"

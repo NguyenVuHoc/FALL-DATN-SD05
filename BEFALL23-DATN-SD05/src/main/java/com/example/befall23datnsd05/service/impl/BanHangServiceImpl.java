@@ -139,6 +139,7 @@ public class BanHangServiceImpl implements BanHangService {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         hoaDon.setNgayThanhToan(LocalDate.now());
         hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
+        hoaDon.setPhiVanChuyen(BigDecimal.ZERO);
         hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
         hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
         return hoaDonRepository.save(hoaDon);

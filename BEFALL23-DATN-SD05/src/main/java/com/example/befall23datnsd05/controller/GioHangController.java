@@ -59,7 +59,7 @@ public class GioHangController {
         if(id==null){
             return "redirect:/login";
         }
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
+        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, soLuong);
         model.addAttribute("success", "Thêm thành công");
         return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
     }
@@ -72,7 +72,7 @@ public class GioHangController {
         if(id==null){
             return "redirect:/login";
         }
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
+        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, 1);
         model.addAttribute("success", "Thêm thành công");
         return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
     }
