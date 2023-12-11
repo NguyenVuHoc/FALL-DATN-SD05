@@ -4,6 +4,7 @@ import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.importFile.FileExcelCTSP;
+import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.CoGiayService;
 import com.example.befall23datnsd05.service.DeGiayService;
@@ -17,12 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +50,30 @@ public class ChiTietSanPhamController {
 
     @Autowired
     private CoGiayService coGiayService;
+
+    @Autowired
+    SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    MauSacRepository mauSacRepository;
+
+    @Autowired
+    KichThuocRepository kichThuocRepository;
+
+    @Autowired
+    DeGiayRepository deGiayRepository;
+
+    @Autowired
+    ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    LotGiayRepository lotGiayRepository;
+
+    @Autowired
+    CoGiayRepository coGiayRepository;
+
+    @Autowired
+    ChiTietSanPhamService chiTietSanPhamService;
 
     @Autowired
     FileExcelCTSP importFileExcelCTSP;
@@ -162,15 +186,37 @@ public class ChiTietSanPhamController {
     }
 
     @PostMapping("/admin/chi-tiet-san-pham/import-excel")
-    public ResponseEntity<?> importExcel(@ModelAttribute("file") MultipartFile file) throws Exception {
-        try {
-            System.out.println(file.getName());
-            importFileExcelCTSP.ImportFile(file);
-            return ResponseEntity.ok(new Exception("success"));
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body(e);
+    public String importExcel(
+            @RequestParam("file") MultipartFile file,
+            RedirectAttributes attributes
+
+    ) throws IOException {
+        if (!file.isEmpty()) {
+            String directory = "D:\\FALL-DATN-SD05";
+            String fileName = file.getOriginalFilename();
+            String filePath = directory + "\\" + fileName;
+            FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
+            try {
+                importFileExcelCTSP.ImportFile(filePath, sanPhamRepository,  mauSacRepository,
+                        kichThuocRepository,deGiayRepository,
+                        chiTietSanPhamRepository,  chiTietSanPhamService,
+                        lotGiayRepository,  coGiayRepository);
+                if (importFileExcelCTSP.checkLoi() > 0) {
+                    attributes.addFlashAttribute("checkThongBao", "thanhCong");
+                    attributes.addFlashAttribute("thongBaoLoiImport", "Đã thêm sản phẩm thành công nhưng có một số sản phẩm lỗi, mời bạn check lại trên file excel");
+                    return "redirect:/admin/chi-tiet-san-pham";
+                }
+            } catch (Exception e) {
+                attributes.addFlashAttribute("checkThongBao", "thaiBai");
+                attributes.addFlashAttribute("thongBaoLoiImport", "Sai định dạng file");
+                return "redirect:/admin/chi-tiet-san-pham";
+            }
+            attributes.addFlashAttribute("checkThongBao", "thanhCong");
+            return "redirect:/admin/chi-tiet-san-pham";
         }
+        attributes.addFlashAttribute("thongBaoLoiImport", "Bạn chưa chọn file excel nào");
+        attributes.addFlashAttribute("checkThongBao", "thaiBai");
+        return "redirect:/admin/chi-tiet-san-pham";
     }
 
     @GetMapping("/admin/chi-tiet-san-pham/export-excel")

@@ -209,12 +209,19 @@
                     <button class="btn btn-outline-success" style="margin-right: -200px;">
                         <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
                     </button>
-
-                    <button class="btn-import btn btn-outline-success">
-                        Import
-                        <input hidden type="file" id="excel-file">
-                    </button>
                 </div>
+                <form th:action="@{/admin/chi-tiet-san-pham/import-excel}"
+                      style="border: 1px solid #c3c3c3;border-radius: 20px;margin-top: 2%"
+                      enctype="multipart/form-data"
+                      method="post" class="row">
+                    <div class="col-md-12" style="margin-top: 3%">
+                        <input type="file" class="form-control" name="file">
+                    </div>
+                    <div class="col-md-12" style="margin-top: 3%;margin-bottom: 3%">
+                        <div class="check-loi" th:text="${thongBaoLoiImport}"></div>
+                        <button type="submit" style="float: right" class="btn btn-success">Nhập Excel</button>
+                    </div>
+                </form>
                 <div>
                     <button class="btn-import btn btn-outline-success">
                         <a href="/admin/chi-tiet-san-pham/export-excel" download>
