@@ -131,7 +131,6 @@
         </nav>
         <!-- Navbar End -->
 
-        <div id="errorMessage"></div>
 
         <!-- Chart Start -->
         <div class="container-fluid pt-4">
@@ -151,6 +150,7 @@
                         <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
                         <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"
                              style="color: red"></div>
+                        <div id="errorMucGiam"></div>
                     </div>
                     <div class="mb-3">
                         <label for="NgayBatDau" class="form-label">Ngày Bắt Đầu</label>
@@ -165,6 +165,7 @@
                                th:field="*{ngayKetThuc}">
                         <div th:if="${#fields.hasErrors('ngayKetThuc')}" th:errors="*{ngayKetThuc}"
                              style="color: red"></div>
+                        <div id="errorMessage"></div>
                     </div>
                     <div class="mb-3">
                         <label for="Mota" class="form-label">Mô Tả</label>
@@ -199,19 +200,19 @@
     function validateDate() {
         var ngayBatDau = document.getElementById('NgayBatDau').value;
         var ngayKetThuc = document.getElementById('NgayKetThuc').value;
+        var mucGiamGiaValue = parseInt(document.getElementById('inputMuc').value);
 
         var startDate = new Date(ngayBatDau);
         var endDate = new Date(ngayKetThuc);
 
         if (startDate > endDate) {
-            document.getElementById('errorMessage').innerHTML = '<div class="alert alert-danger" role="alert">Ngày kết thúc phải sau hoặc bằng ngày bắt đầu</div>'
+            document.getElementById('errorMessage').innerHTML = '<div style="color: red">Ngày kết thúc phải sau hoặc bằng ngày bắt đầu</div>'
             return false;
-
-            setTimeout(function () {
-                document.getElementById('errorMessage').innerHTML = '';
-            }, 5000);
         }
-
+        if (mucGiamGiaValue > 2147483647) {
+            document.getElementById('errorMucGiam').innerHTML = '<div style="color: red">Mức giảm giá không được vượt quá 100</div>';
+            return false;
+        }
         return true;
     }
 </script>
