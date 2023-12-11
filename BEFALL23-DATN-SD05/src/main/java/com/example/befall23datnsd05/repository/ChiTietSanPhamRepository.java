@@ -44,6 +44,9 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     List<ChiTietSanPham> getAllByTrangThai(
             @Param("trangThai") TrangThai trangThai);
 
+    @Query(value = "select * from chi_tiet_san_pham where trang_thai = 0", nativeQuery = true)
+    List<ChiTietSanPham> fillAllDangHoatDong();
+
     Page<ChiTietSanPham> findBySanPham_TenContainingIgnoreCase(String ten, Pageable pageable);
 
     @Query(value = "select sp.ma, sp.ten , sum(ctsp.so_luong_ton) as soLuongTon from chi_tiet_san_pham ctsp \n" +
@@ -84,13 +87,14 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     @Query("update ChiTietSanPham c set c.khuyenMai.id = null where c.id = :idCtsp")
     void deleteIdKhuyenMai(@Param("idCtsp") Long idCtsp);
 
-    @Query(value = "select sp.ma, sp.ten, ms.ten, kt.ten, ctsp.gia_ban, ctsp.so_luong_ton from chi_tiet_san_pham ctsp \n" +
-            "join san_pham sp on ctsp.id_san_pham = sp.id \n" +
-            "join mau_sac ms on ms.id = ctsp.id_mau_sac \n" +
-            "join de_giay dg on dg.id = ctsp.id_de_giay \n" +
-            "join co_giay cg on cg.id = ctsp.id_co_giay \n" +
-            "join lot_giay lg on lg.id = ctsp.id_lot_giay \n" +
-            "join kich_thuoc kt on kt.id = ctsp.id_kich_thuoc \n" +
-            "where sp.ten like :tenSanPham and ms.ten like :mauSac and dg.ten like :deGiay and cg.ten like :coGiay and lg.ten like :lotGiay  and kt.ten like :kichThuoc", nativeQuery = true)
-    Optional<ChiTietSanPham> findChiTietSanPham(@Param("tenSanPham") String tenSanPham, @Param("mauSac") String mauSac, @Param("deGiay") String deGiay, @Param("coGiay") String coGiay, @Param("lotGiay") String lotGiay,@Param("kichThuoc") String kichThuoc);
+    @Query(value = "select ctsp from ChiTietSanPham ctsp \n" +
+            " where ctsp.sanPham.ten like :tenSanPham \n" +
+            " and   ctsp.mauSac.ten like :mauSac " +
+            " and   ctsp.deGiay.ten like :deGiay \n" +
+            " and   ctsp.coGiay.ten like  :coGiay \n" +
+            " and   ctsp.lotGiay.ten like  :lotGiay \n" +
+            " and   ctsp.kichThuoc.ten like :kichThuoc \n")
+    Optional<ChiTietSanPham> findChiTietSanPham(@Param("tenSanPham") String tenSanPham, @Param("mauSac") String mauSac,
+                                                @Param("deGiay") String deGiay, @Param("coGiay") String coGiay,
+                                                @Param("lotGiay") String lotGiay,@Param("kichThuoc") String kichThuoc);
 }

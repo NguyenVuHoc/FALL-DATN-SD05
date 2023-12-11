@@ -3,9 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.importFile.ImportFileExcelCTSP;
-import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
-import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
+import com.example.befall23datnsd05.importFile.FileExcelCTSP;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.CoGiayService;
 import com.example.befall23datnsd05.service.DeGiayService;
@@ -15,6 +13,7 @@ import com.example.befall23datnsd05.service.MauSacService;
 import com.example.befall23datnsd05.service.SanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,12 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +50,9 @@ public class ChiTietSanPhamController {
 
     @Autowired
     private CoGiayService coGiayService;
+
+    @Autowired
+    FileExcelCTSP importFileExcelCTSP;
 
     Integer pageNo = 0;
 
@@ -164,19 +162,25 @@ public class ChiTietSanPhamController {
     }
 
     @PostMapping("/admin/chi-tiet-san-pham/import-excel")
-    public String importExcel(@RequestParam("file") MultipartFile file) throws IOException {
-       if (!file.isEmpty()){
-           String directory = "E:\\DATN\\FALL_DATN\\BEFALL23-DATN-SD05";
-           String fileName = file.getOriginalFilename();
-           file.transferTo(new File(directory + "\\" + fileName));
-           String filePath = directory + "\\" + fileName;
-           ImportFileExcelCTSP importFileExcelCTSP = new ImportFileExcelCTSP();
-           importFileExcelCTSP.ImportFile(filePath);
+    public ResponseEntity<?> importExcel(@ModelAttribute("file") MultipartFile file) throws Exception {
+        try {
+            System.out.println(file.getName());
+            importFileExcelCTSP.ImportFile(file);
+            return ResponseEntity.ok(new Exception("success"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(e);
+        }
+    }
 
-           return "redirect:/admin/chi-tiet-san-pham?success";
-       }
+    @GetMapping("/admin/chi-tiet-san-pham/export-excel")
+    public ResponseEntity<?> exportExcel(){
+        return importFileExcelCTSP.createExcel();
+    }
 
-        return "redirect:/admin/chi-tiet-san-pham";
+    @GetMapping("/admin/chi-tiet-san-pham/export-excel-mau")
+    public ResponseEntity<?> exportExcelMau(){
+        return importFileExcelCTSP.createExcelTemplate();
     }
 
 }

@@ -104,6 +104,11 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         return chiTietSanPham;
     }
 
+    @Override
+    public List<ChiTietSanPham> fillAllDangHoatDong() {
+        return repository.fillAllDangHoatDong();
+    }
+
 //   Hết chức năng ctsp với khuyến mại
 
     @Override

@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.service;
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.enumeration.TrangThai;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface ChiTietSanPhamService {
     void autoUpdateGia();
 
     ChiTietSanPham save(ChiTietSanPham chiTietSanPham);
+
+    List<ChiTietSanPham> fillAllDangHoatDong();
 
 }
