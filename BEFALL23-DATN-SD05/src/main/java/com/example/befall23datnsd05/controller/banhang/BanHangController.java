@@ -54,12 +54,16 @@ public class BanHangController {
 
     @GetMapping()
     public String hienThiBanHang(Model model) {
+        BigDecimal tongTien = new BigDecimal(Double.valueOf(0));
+        BigDecimal xu = new BigDecimal(Double.valueOf(0));
         model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
         model.addAttribute("hoaDon", new HoaDon());
         model.addAttribute("hoaDonCho", new HoaDon());
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("checkHoaDon", checkHoaDon);
         model.addAttribute("checkBtn", true);
+        model.addAttribute("thanhTien", tongTien);
+        model.addAttribute("xu", xu);
         return "admin-template/ban_hang/ban_hang";
     }
 

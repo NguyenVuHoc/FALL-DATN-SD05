@@ -202,22 +202,29 @@
                             <h5 class="card-title" style="font-size:x-large ; text-align: center">Địa chỉ</h5>
                             <div style="max-height: 400px; overflow-y: scroll; height: auto">
 
-                                <div th:each="diaChi, status  : ${listDC}" class="cardDiaChi">
+                                <div th:each="diaChi, status  : ${listDC}" class="diaChiRow">
                                     <h6 style="margin-top: auto" class="card-subtitle mb-2 text-muted"
-                                        th:text="${diaChi.tenNguoiNhan}"></h6>
+                                        th:text="${diaChi.tenNguoiNhan}" id="nguoiNhan"></h6>
                                     <a class="card-subtitle mb-2 text-muted" th:text="${diaChi.sdt}"></a>
-                                   <div style="display: flex">
-                                       <p class="card-text" th:text="${diaChi.diaChi} + ','"></p>
-                                       <p th:id="${diaChi.thanhPho}" class="thanhPhoColumn"></p>
-                                       <p th:id="${diaChi.quanHuyen}" class="quanHuyenColumn"></p>
-                                       <p th:id="${diaChi.phuongXa}" class="phuongXaColumn "></p>
-                                   </div>
+                                    <div style="display: flex;flex-wrap: wrap;">
+                                        <p class="card-text" th:text="${diaChi.diaChi}"></p>
+                                        <p th:id="${diaChi.phuongXa}" class="phuongXaColumn "></p>
+                                        <p th:id="${diaChi.quanHuyen}" class="quanHuyenColumn"></p>
+                                        <p th:id="${diaChi.thanhPho}" class="thanhPhoColumn"></p>
+                                    </div>
 
 
                                     <!--                                        modal sửa địa chỉ start-->
                                     <a th:data-bs-toggle="modal"
-                                       th:data-bs-target="'#suaDiaChi' + ${diaChi.id}">
-                                        <img style="width: 25px; padding-right: 5px;" class="card-link">Sửa</a>
+                                       th:id="${diaChi.id}"
+                                       th:data-bs-target="'#suaDiaChi' + ${diaChi.id}"
+                                       th:data-ten-nguoi-nhan="${diaChi.tenNguoiNhan}"
+                                       th:data-sdt="${diaChi.sdt}"
+                                       th:data-dia-chi-cu-the="${diaChi.diaChi}"
+                                       th:data-ghi-chu="${diaChi.ghiChu}"
+                                       class="item" style="color: #666666;padding-right: 2%">
+                                        Sửa
+                                    </a>
                                     <a th:href="@{'/admin/khach-hang/delete-dia-chi/' + ${diaChi.id} +'/'+${diaChi.khachHang.id}} "
                                        class="card-link">Xóa</a>
                                     <form th:action="@{'/admin/khach-hang/update-dia-chi/'+${diaChi.id}+'/'+${diaChi.khachHang.id}} "
@@ -236,21 +243,21 @@
                                                     <div class="modal-body">
                                                         <input type="hidden" th:field="*{id}">
                                                         <div class="mb-3">
-                                                            <label for="recipient-name1" class="col-form-label">Tên
+                                                            <label class="col-form-label">Tên
                                                                 người nhận:</label>
                                                             <input type="text" class="form-control"
-                                                                   id="recipient-name1" name="tenNguoiNhan"
+                                                                   id="tenNguoiNhan" name="tenNguoiNhan"
                                                                    th:field="*{tenNguoiNhan}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name2" class="col-form-label">Số
+                                                            <label class="col-form-label">Số
                                                                 điện thoại:</label>
                                                             <input type="text" class="form-control"
-                                                                   id="recipient-name2" name="sdt"
+                                                                   id="sdt" name="sdt"
                                                                    th:field="*{sdt}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                                            <label class="col-form-label">Chọn
                                                                 Tỉnh/Thành Phố:</label>
                                                             <select th:id="${'citySelect'+status.index}"
                                                                     name="thanhPho" class="form-select"
@@ -259,7 +266,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                                            <label class="col-form-label">Chọn
                                                                 Huyện/Quận:</label>
                                                             <select th:id="${'districtSelect'+status.index}"
                                                                     name="quanHuyen" class="form-select"
@@ -268,7 +275,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                                            <label class="col-form-label">Chọn
                                                                 Xã/Phường:</label>
                                                             <select th:id="${'wardSelect'+status.index}"
                                                                     name="phuongXa" class="form-select"
@@ -277,18 +284,18 @@
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name3" class="col-form-label">
+                                                            <label class="col-form-label">
                                                                 Địa chỉ cụ thể:
                                                             </label>
                                                             <input type="text" class="form-control"
-                                                                   id="recipient-name3" name="diaChi"
+                                                                   id="diaChi" name="diaChi"
                                                                    th:field="*{diaChi}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="recipient-name4" class="col-form-label">Ghi
+                                                            <label class="col-form-label">Ghi
                                                                 chú:</label>
                                                             <input type="text" class="form-control"
-                                                                   id="recipient-name4" name="ghiChu"
+                                                                   id="ghiChu" name="ghiChu"
                                                                    th:field="*{ghiChu}">
                                                         </div>
                                                     </div>
@@ -313,6 +320,7 @@
                                             var selectedCityValue = /*[[ ${diaChi.thanhPho} ]]*/ '';
                                             var selectedDistrictValue = /*[[ ${diaChi.quanHuyen} ]]*/ '';
                                             var selectedWardValue = /*[[ ${diaChi.phuongXa} ]]*/ '';
+
                                             fetch('https://online-gateway.ghn.vn/shiip/public-api/master-data/province', {
                                                 method: 'GET',
                                                 headers: {
@@ -438,11 +446,49 @@
                                                     select.appendChild(option);
                                                 });
                                             }
+
                                         });
 
                                     </script>
                                     <!--    api detail địa chỉ end-->
 
+<!--                                    detail địa chỉ-->
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            // Lấy danh sách các thẻ <a> có class là "item"
+                                            var items = document.querySelectorAll('.item');
+
+                                            // Lặp qua từng thẻ <a> và thêm sự kiện click
+                                            items.forEach(function (item) {
+                                                item.addEventListener('click', function (event) {
+                                                    // Ngăn chặn hành vi mặc định của thẻ <a>
+                                                    event.preventDefault();
+
+                                                    var modalId = 'suaDiaChi' + $(this).attr('id');
+                                                    console.log(modalId);
+                                                    var modal = document.getElementById(modalId);
+
+                                                    // Lấy giá trị của thuộc tính th:data-ten-nguoi-nhan, th:data-sdt, th:data-dia-chi-cu-the, th:data-ghi-chu từ đối tượng được click
+                                                    var tenNguoiNhanValue = $(this).attr('data-ten-nguoi-nhan');
+                                                    console.log(tenNguoiNhanValue);
+                                                    var sdtValue = $(this).attr('data-sdt');
+                                                    var diaChiValue = $(this).attr('data-dia-chi-cu-the');
+                                                    var ghiChuValue = $(this).attr('data-ghi-chu');
+
+                                                    // Gán giá trị vào các ô input tương ứng
+                                                    $('#tenNguoiNhan', modal).val(tenNguoiNhanValue);
+                                                    $('#sdt', modal).val(sdtValue);
+                                                    $('#diaChi', modal).val(diaChiValue);
+                                                    $('#ghiChu', modal).val(ghiChuValue);
+
+                                                    $(modal).modal('show');
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    <!-- detail địa chỉ end-->
+
+                                    <!-- detail api địa chỉ lên bảng-->
                                     <script th:inline="javascript">
 
                                         document.addEventListener('DOMContentLoaded', function () {
@@ -469,7 +515,7 @@
                                                         // Đặt tên thành phố vào thẻ có class là thanhPhoColumn trong dòng hiện tại
                                                         var thanhPhoColumn = row.querySelector('.thanhPhoColumn');
                                                         if (thanhPhoColumn && thanhPho) {
-                                                            thanhPhoColumn.innerText = thanhPho.ProvinceName;
+                                                            thanhPhoColumn.innerText = ' , ' + thanhPho.ProvinceName;
                                                         }
                                                     });
                                                 })
@@ -500,7 +546,7 @@
                                                         // Đặt tên thành phố vào thẻ có class là quanHuyenColumn trong dòng hiện tại
                                                         var quanHuyenColumn = row.querySelector('.quanHuyenColumn');
                                                         if (quanHuyenColumn && quanHuyen) {
-                                                            quanHuyenColumn.innerText = quanHuyen.DistrictName;
+                                                            quanHuyenColumn.innerText = ' , ' + quanHuyen.DistrictName;
                                                         }
                                                     });
                                                 })
@@ -536,7 +582,7 @@
                                                             // Đặt tên thành phố vào thẻ có class là phuongXaColumn trong dòng hiện tại
                                                             var phuongXaColumn = row.querySelector('.phuongXaColumn');
                                                             if (phuongXaColumn && phuongXa) {
-                                                                phuongXaColumn.innerText = phuongXa.WardName;
+                                                                phuongXaColumn.innerText = ' , ' + phuongXa.WardName;
                                                             }
 
                                                         });
@@ -578,32 +624,32 @@
                                             Thêm Địa Chỉ</h5>
                                     </div>
                                     <div class="modal-body">
-<!--                                        <input type="hidden" th:field="*{id}">-->
+                                        <!--                                        <input type="hidden" th:field="*{id}">-->
                                         <div class="mb-3">
-                                            <label for="recipient-name1" class="col-form-label">Tên
+                                            <label class="col-form-label">Tên
                                                 người nhận:</label>
                                             <input type="text" class="form-control"
                                                    name="tenNguoiNhan"
                                                    th:field="*{tenNguoiNhan}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name2" class="col-form-label">Số
+                                            <label class="col-form-label">Số
                                                 điện thoại:</label>
                                             <input type="text" class="form-control"
                                                    name="sdt"
                                                    th:field="*{sdt}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                            <label class="col-form-label">Chọn
                                                 Tỉnh/Thành Phố:</label>
                                             <select id="citySelectAdd"
                                                     name="thanhPhoID" class="form-select"
-                                                    aria-label="Default select example"p>
+                                                    aria-label="Default select example" p>
                                                 <option value="">Chọn Tỉnh/Thành Phố</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                            <label class="col-form-label">Chọn
                                                 Huyện/Quận:</label>
                                             <select id="districtSelectAdd"
                                                     name="quanHuyenID" class="form-select"
@@ -612,7 +658,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name2" class="col-form-label">Chọn
+                                            <label class="col-form-label">Chọn
                                                 Xã/Phường:</label>
                                             <select id="wardSelectAdd"
                                                     name="phuongXaID" class="form-select"
@@ -621,7 +667,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name3" class="col-form-label">
+                                            <label class="col-form-label">
                                                 Địa chỉ cụ thể:
                                             </label>
                                             <input type="text" class="form-control"
@@ -629,7 +675,7 @@
                                                    th:field="*{diaChi}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="recipient-name4" class="col-form-label">Ghi
+                                            <label class="col-form-label">Ghi
                                                 chú:</label>
                                             <input type="text" class="form-control"
                                                    name="ghiChu"
