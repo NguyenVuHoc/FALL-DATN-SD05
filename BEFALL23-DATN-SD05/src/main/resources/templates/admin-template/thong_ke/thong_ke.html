@@ -202,7 +202,9 @@
     <!-- Navbar End -->
     <div class="container-fluid pt-4 px-4">
       <div id="errorMessageDate"></div>
-
+      <div class="alert alert-info" role="alert" id="successAlert" style="display: none;">
+       Success!
+      </div>
       <form th:action="@{/admin/thong-ke}" method="get" onsubmit="return validateDate()">
         <div class="container-fluid pt-3">
           <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
@@ -250,6 +252,7 @@
           <button type="submit" class="btn btn-success">Xuất Sản Phẩm Hoàn Trả</button>
         </form>
       </div>
+
 
 
       <br>
@@ -518,12 +521,12 @@
                 </td>
                 <td>
                   <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_OFFLINE)}"
-                     th:href="@{'/admin/thong-ke/chi-tiet-hoa-don/' + ${hd.id}}"
-                     th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA')+ ' VND'}"
+                     th:href="@{'/admin/hoa-don/chi-tiet-hoa-don/' + ${hd.id}}"
+                     th:text="${#numbers.formatDecimal(hd.thanhToan ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
                      style="color: black;"></a>
                   <a th:if="${(hd.loaiHoaDon == T(com.example.befall23datnsd05.enumeration.LoaiHoaDon).HOA_DON_ONLINE)}"
-                     th:href="@{'/admin/thong-ke/chi-tiet-gio-hang/' + ${hd.id}}"
-                     th:text="${#numbers.formatDecimal(hd.thanhToan, 0, 'POINT', 0, 'COMMA') + ' VND'}"
+                     th:href="@{'/admin/hoa-don/chi-tiet-gio-hang/' + ${hd.id}}"
+                     th:text="${#numbers.formatDecimal(hd.thanhToan ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
                      style="color: black;"></a>
                 </td>
               </tr>
@@ -816,6 +819,42 @@ document.getElementById('selectType').addEventListener('change', function() {
 <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
 <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
 <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(event) {
+      var form = $(this);
+
+      $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        success: function(response) {
+          // Hiển thị thông báo thành công
+          $('#successAlert').show();
+
+          // Ẩn thông báo sau 5 giây
+          setTimeout(function() {
+            $('#successAlert').hide();
+          }, 5000);
+        },
+        error: function(error) {
+          // Xử lý lỗi nếu cần
+        }
+      });
+    });
+
+    // Bắt sự kiện click của nút submit
+    $('form button[type="submit"]').click(function(event) {
+      event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+      var form = $(this).closest('form'); // Lấy form gần nhất của nút submit
+
+      // Submit form
+      form.submit();
+    });
+  });
+</script>
+
 
 
 

@@ -9,8 +9,8 @@
     <!-- Favicon -->
     <link th:href="@{/images/WingMan-black.png}" rel="icon"/>
     <title>Login Page | WingmanShop</title>
-    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!--    <link rel="stylesheet" th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}"-->
+<!--          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
 </head>
 
 <body>
@@ -50,7 +50,7 @@
             <span th:if="${param.error}" style="color: red">Email hoặc mật khẩu không chính xác!</span>
             <input type="email" placeholder="Email" name="email">
             <input type="password" placeholder="Password" name="password">
-            <button type="button" data-target="#myModalLG" data-toggle="modal">Quên mật khẩu?</button>
+            <a >Quên mật khẩu?</a>
             <button>Đăng nhập</button>
         </form>
     </div>
@@ -70,42 +70,42 @@
     </div>
 </div>
 
-<div class="modal" id="myModalCG" role="dialog" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Quên mật khẩu</h5>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label" for="mail">Email</label>
-                    <input type="email" class="form-control" id="mail">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
-                <button class="btn btn-primary" type="button">Gửi mật khẩu</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal" id="myModalCG" role="dialog" tabindex="-1">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title">Quên mật khẩu</h5>-->
+<!--                <button aria-label="Close" class="close" data-dismiss="modal" type="button">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <div class="mb-3">-->
+<!--                    <label class="form-label" for="mail">Email</label>-->
+<!--                    <input type="email" class="form-control" id="mail">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>-->
+<!--                <button class="btn btn-primary" type="button">Gửi mật khẩu</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 </div>
 <script th:src="@{/js/admin/script.js}"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"></script>
-<script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>
-<!-- Bootstrap JS -->
-<script crossorigin="anonymous"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js}"></script>
-<script crossorigin="anonymous"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+<!--<script crossorigin="anonymous"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"></script>-->
+<!--<script th:src="@{https://code.jquery.com/jquery-3.6.4.min.js}"></script>-->
+<!--&lt;!&ndash; Bootstrap JS &ndash;&gt;-->
+<!--<script crossorigin="anonymous"-->
+<!--        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"-->
+<!--        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js}"></script>-->
+<!--<script crossorigin="anonymous"-->
+<!--        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"-->
+<!--        th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js}"></script>-->
 </body>
 
 </html>
