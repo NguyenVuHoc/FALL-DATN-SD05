@@ -183,7 +183,6 @@
                                 <th>Thương Hiệu</th>
                                 <th>Thành Tiền</th>
                                 <th>Ghi chú</th>
-                                <th>Trạng Thái</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -196,96 +195,12 @@
                                 <td th:text="${ghcts.chiTietSanPham.sanPham.thuongHieu.ten}"></td>
                                 <td th:text="${#numbers.formatDecimal(ghcts.donGia*ghcts.soLuong, 0, 'POINT', 0, 'COMMA')}"></td>
                                 <td th:text="${ghcts.ghiChu}"></td>
-                                <td
-                                        th:if="${(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
-                                         or(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HOAN_TRA)
-                                        }"
-                                        th:text="${ghcts.trangThai.getDisplayName()}"></td>
-                                <td>
-                                </td>
                             </tr>
                         </table>
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-outline-success" style="margin-right: 30px"
-                                    th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG }"
-                                    data-bs-toggle="modal"
-                                    th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
-                                <i class="bi bi-arrow-counterclockwise"></i> Xác Nhận Hoàn Trả
-                            </button>
-
-                            <button class="btn btn-outline-danger ml-2"
-                                    th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
-                                    data-bs-toggle="modal"
-                                    th:data-bs-target="'#huyDon' + ${hoaDon.id}">
-                                <i class="bi bi-x-circle"></i> Từ chối
-                            </button>
-                        </div>
-
                     </div>
 
             </div>
 
-        </div>
-
-        <div class="modal fade" th:id="'ghiChu1' + ${hoaDon.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-center mt-3">
-                            Xác Nhận Hoàn Trả
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="padding: 20px 40px;"> <!-- Adjusted padding -->
-                        <form th:action="@{/admin/hoa-don/validation/accept-refund}" method="post">
-                            <input type="hidden" name="id" th:value="${hoaDon.id}" />
-                            <div class="mb-3">
-                                <label for="oldNote" class="form-label">Ghi chú cũ</label>
-                                <input type="text" class="form-control" id="oldNote" name="id" th:value="${hoaDon.ghiChu}" readonly />
-                            </div>
-                            <div class="mb-3">
-                                <label for="newNote" class="form-label">Ghi chú</label>
-                                <input type="text" class="form-control" id="newNote" name="ghiChu" th:value="${ghiChu}" />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Chuyển Trạng Thái</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" th:id="'huyDon' + ${hoaDon.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-center mt-3">
-                            Xác Nhận Hoàn Trả
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="padding: 20px 40px;"> <!-- Adjusted padding -->
-                        <form th:action="@{/admin/hoa-don/validation/unaccept}" method="post">
-                            <input type="hidden" name="id" th:value="${hoaDon.id}" />
-                            <div class="mb-3">
-                                <label for="oldNote" class="form-label">Ghi chú cũ</label>
-                                <input type="text" class="form-control" id="oldNote" name="id" th:value="${hoaDon.ghiChu}" readonly />
-                            </div>
-                            <div class="mb-3">
-                                <label for="newNote" class="form-label">Ghi chú</label>
-                                <input type="text" class="form-control" id="newNote" name="ghiChu" th:value="${ghiChu}" />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Từ chối</button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
         </div>
 
         <div class="container-fluid pt-4">

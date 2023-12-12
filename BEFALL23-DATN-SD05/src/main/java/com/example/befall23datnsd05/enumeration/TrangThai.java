@@ -30,11 +30,11 @@ public enum TrangThai {
             case DUNG_HOAT_DONG:
                 return "Dừng Hoạt Động";
             case YEU_CAU_TRA_HANG:
-                return "Yêu Cầu Trả Hàng";
+                return "Yêu Cầu Hoàn Trả";
             case DA_TRA_HANG:
-                return "Đã Trả Hàng";
+                return "Đã Hoàn Trả";
             case TU_CHOI_TRA_HANG:
-                return "Từ Chối Trả Hàng";
+                return "Từ Chối Hoàn Trả";
             case DOI_HANG:
                 return "Đổi Hàng";
             case DA_DOI_HANG:

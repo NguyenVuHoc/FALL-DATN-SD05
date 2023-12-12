@@ -15,6 +15,7 @@ import com.example.befall23datnsd05.service.MauSacService;
 import com.example.befall23datnsd05.service.SanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -158,9 +159,18 @@ public class ChiTietSanPhamController {
     }
 
     @GetMapping("/admin/chi-tiet-san-pham/delete/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        service.remove(id);
-        return "redirect:/admin/chi-tiet-san-pham?success";
+    public String delete(@PathVariable("id") Long id,Model model) {
+        try {
+            service.remove(id);
+            model.addAttribute("success", "Xóa thành công");
+            return "redirect:/admin/chi-tiet-san-pham?success";
+        } catch (DataIntegrityViolationException e) {
+            model.addAttribute("errorMessage", "Không thể xóa bản ghi vì có ràng buộc khóa ngoại.");
+            return "redirect:/admin/chi-tiet-san-pham?errorMessage";
+        } catch (Exception e) {
+            model.addAttribute("error", "Đã xảy ra lỗi khi xóa bản ghi.");
+            return "redirect:/admin/chi-tiet-san-pham?errorMessage";
+        }
     }
 
     @PostMapping("/admin/chi-tiet-san-pham/import-excel")

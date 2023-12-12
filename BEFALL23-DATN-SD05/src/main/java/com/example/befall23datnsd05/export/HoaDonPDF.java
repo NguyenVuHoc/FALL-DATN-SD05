@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.export;
 import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
+import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
@@ -318,7 +319,7 @@ public class HoaDonPDF {
         PdfPCell cot1 = new PdfPCell();
         cot1.setBorder(Rectangle.NO_BORDER);
         cot1.addElement(new Paragraph("Mã Hóa Đơn: " + hoaDon.getMa(), new Font(font)));
-        cot1.addElement(new Paragraph("Trạng thái: " + (hoaDon.getTrangThai()), new Font(font)));
+        cot1.addElement(new Paragraph("Trạng thái: " + getDisplayNameTTDH((hoaDon.getTrangThai())), new Font(font)));
         cot1.addElement(new Paragraph("Ngày: " + hoaDon.getNgayTao(), new Font(font)));
         table1.addCell(cot1);
 
@@ -478,5 +479,30 @@ public class HoaDonPDF {
         document.close();
 
     }
-
+    public String getDisplayNameTTDH(TrangThaiDonHang trangThaiDonHang) {
+        switch (trangThaiDonHang) {
+            case HOA_DON_CHO:
+                return "Hoá Đơn Chờ";
+            case CHO_XAC_NHAN:
+                return "Chờ Xác Nhận";
+            case DANG_CHUAN_BI:
+                return "Đang Chuẩn Bị";
+            case DANG_GIAO:
+                return "Đang Giao";
+            case DA_GIAO:
+                return "Đã Giao";
+            case HOAN_THANH:
+                return "Hoàn Thành";
+            case DA_HUY:
+                return "Đã Hủy";
+            case DA_TRA_HANG:
+                return "Đã Hoàn Trả ";
+            case XAC_NHAN_TRA_HANG:
+                return "Xác Nhận Hoàn Trả";
+            case DOI_HANG:
+                return "Đổi Hàng";
+            default:
+                return trangThaiDonHang.name(); // Returns the default enum name if no corresponding name is found
+        }
+    }
 }

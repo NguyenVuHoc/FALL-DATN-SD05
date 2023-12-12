@@ -23,12 +23,19 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
     List<GioHangChiTiet> findByHoaDon(long id);
 
 
+    @Query(value = "SELECT gio_hang_chi_tiet.* from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where gio_hang_chi_tiet.trang_thai=9 OR gio_hang_chi_tiet.trang_thai=7 \n \n" +
+            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n", nativeQuery = true)
+    List<GioHangChiTiet> findByHoaDonHoanTraHoanLaiKho(LocalDate from, LocalDate to);
+
+    @Query(value = "SELECT gio_hang_chi_tiet.* from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where gio_hang_chi_tiet.trang_thai=9 OR gio_hang_chi_tiet.trang_thai=7 \n \n", nativeQuery = true)
+    List<GioHangChiTiet> findByHoaDonHoanTraHoanLaiKho1();
+
     @Query(value = "select * from gio_hang_chi_tiet " +
             "where id_hoa_don is null and id_gio_hang = :idGioHang", nativeQuery = true)
     List<GioHangChiTiet> findAllByGioHang(@Param("idGioHang") Long idGioHang);
 
-    @Query(value = "SELECT count(so_luong) from gio_hang_chi_tiet join hoa_don  where gio_hang_chi_tiet.trang_thai=9 \n" +
-            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n",nativeQuery = true)
+    @Query(value = "SELECT SUM(gio_hang_chi_tiet.so_luong) from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where gio_hang_chi_tiet.trang_thai=9\n \n" +
+            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n", nativeQuery = true)
     Long sanPhamHoanTra(LocalDate from, LocalDate to);
 
 
@@ -36,7 +43,7 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
             "FROM GioHangChiTiet ct " +
             "JOIN ct.hoaDon hd " +
             "WHERE hd.trangThai = com.example.befall23datnsd05.enumeration.TrangThaiDonHang.HOAN_THANH " +
-            "  AND hd.ngayThanhToan BETWEEN ?1 AND ?2 \n"+
+            "  AND hd.ngayThanhToan BETWEEN ?1 AND ?2 \n" +
             "GROUP BY ct.chiTietSanPham.sanPham.ten " +
             "ORDER BY tong_so_luong DESC " +  // Adding an order to get top quantities first
             "LIMIT 5")
@@ -50,7 +57,6 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
             "GROUP BY hoa_don.ngay_tao\n" +
             "ORDER BY hoa_don.ngay_tao ASC;\n", nativeQuery = true)
     List<Object[]> thongKeDoanhTHu(@Param("from") LocalDate from, @Param("to") LocalDate to);
-
 
 
 }

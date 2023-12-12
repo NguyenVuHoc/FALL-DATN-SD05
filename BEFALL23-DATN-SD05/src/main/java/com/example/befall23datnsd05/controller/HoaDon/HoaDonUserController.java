@@ -38,7 +38,7 @@ public class HoaDonUserController {
     }
 
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
-            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG,TrangThaiDonHang.DOI_HANG));
+            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG));
 
     /**
      * Get HoaDon By KhachHang
@@ -246,4 +246,20 @@ public class HoaDonUserController {
         }
         return null;
     }
+
+    @PostMapping("/validation")
+    public String validation(@Param("id") Long id
+    ) {
+        Long idKh = principalKhachHang.getCurrentUserId();
+        if (idKh == null) {
+            return "redirect:/login";
+        }
+        HoaDon hoaDon = hoaDonService.findById(id);
+        if (hoaDon != null) {
+                hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, "");
+                return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
+        }
+        return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
+    }
+
 }

@@ -25,7 +25,7 @@ public interface HoaDonService {
 
     HoaDon save(HoaDon hoaDon);
 
-    List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end, TrangThaiDonHang trangThai);
+    List<HoaDon> findHoaDonsByNgayTao(LocalDate start, LocalDate end);
 
     boolean validate(HoaDon hoaDon, TrangThaiDonHang trangThai, String newGhiChu);
 

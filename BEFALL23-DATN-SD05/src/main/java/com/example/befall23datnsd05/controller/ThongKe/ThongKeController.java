@@ -1,11 +1,17 @@
 package com.example.befall23datnsd05.controller.ThongKe;
 
+import com.example.befall23datnsd05.enumeration.TrangThai;
+import com.example.befall23datnsd05.service.GioHangChiTietService;
+import com.example.befall23datnsd05.service.HoaDonChiTietService;
+import com.example.befall23datnsd05.service.HoaDonService;
 import com.example.befall23datnsd05.service.ThongKeService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
@@ -20,9 +26,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin/thong-ke")
 public class ThongKeController {
     private final ThongKeService thongKeService;
+    private final HoaDonService hoaDonService;
+    private final HoaDonChiTietService hoaDonChiTietService;
+    private final GioHangChiTietService gioHangChiTietService;
+    private final com.example.befall23datnsd05.importFile.importFileExcelHd importFileExcelHd;
 
-    public ThongKeController(ThongKeService thongKeService) {
+
+    public ThongKeController(ThongKeService thongKeService, HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, com.example.befall23datnsd05.importFile.importFileExcelHd importFileExcelHd) {
         this.thongKeService = thongKeService;
+        this.hoaDonService = hoaDonService;
+        this.hoaDonChiTietService = hoaDonChiTietService;
+        this.gioHangChiTietService = gioHangChiTietService;
+        this.importFileExcelHd = importFileExcelHd;
     }
 
     /**
@@ -78,13 +93,49 @@ public class ThongKeController {
         model.addAttribute("listHdct",sortedMap);
         model.addAttribute("listThongKe",sortedDoanhThuMap);
         model.addAttribute("doanhThu", thongKeService.doanhThu(from,to));
+        model.addAttribute("table1", thongKeService.getAllSoSanPhamHoanTraHoanLaiKho(from,to));
         model.addAttribute("soDonHuy", thongKeService.soDonHuy( from,  to));
         model.addAttribute("hoanTra", thongKeService.soSanPhamHoanTra( from,  to));
+       model.addAttribute("hoadons", hoaDonService.findHoaDonsByNgayTao(from, to));
         model.addAttribute("listHd",dataForChart);
         model.addAttribute("endDate", to);
         return "admin-template/thong_ke/thong_ke";
     }
 
+    @GetMapping("/chi-tiet-hoa-don/{id}")
+    public String detaiOff(Model model,
+                           @PathVariable("id") Long idHd,
+                           @Param("trangThai") TrangThai trangThai) {
+        model.addAttribute("hoaDon", hoaDonService.findById(idHd));
+        model.addAttribute("hdcts", hoaDonChiTietService.getCtspById(idHd));
+        model.addAttribute("trangThai", trangThai);
+        return "admin-template/thong_ke/chi_tiet_hoa_don";
+    }
 
+    /**
+     * get HoaDon Online
+     *
+     * @param model
+     * @param idHd
+     * @param trangThai
+     * @return
+     */
+    @GetMapping("/chi-tiet-gio-hang/{id}")
+    public String detailOn(Model model,
+                           @PathVariable("id") Long idHd,
+                           @Param("trangThai") TrangThai trangThai) {
+        model.addAttribute("hoaDon", hoaDonService.findById(idHd));
+        model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(idHd));
+        model.addAttribute("trangThai", trangThai);
+        return "admin-template/thong_ke/chi_tiet_hd_online";
+    }
+    @GetMapping("/export")
+    public ResponseEntity<?> exportHD(){
+        return importFileExcelHd.createExcel();
+    }
+    @GetMapping("/export-hoan-tra")
+    public ResponseEntity<?> exportSp(){
+        return importFileExcelHd.createExcelHoanTra();
+    }
 
 }

@@ -277,22 +277,25 @@
                     }
 
                 </style>
+
                 <table id="example" class="table table-striped" style="width:100%">
                     <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Mã</th>
-                        <th>Ngày Tạo</th>
+                        <th>Ngày Đặt Hàng</th>
                         <th>Hình Thức Mua Hàng</th>
                         <th>Trạng Thái</th>
                         <th>Tổng Tiền</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="hd : ${hoadons}">
+                    <tr th:each="hd,state : ${hoadons}">
+                        <td th:text="${state.index+1}"></td>
                         <td><a th:href="@{'/wingman/chi-tiet-hoa-don/'+ ${hd.id}}" th:text="${hd.ma}"
                                style="color: black; text-decoration: none;"></a></td>
-                        <td><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
-                               th:text="${hd.ngayTao}" style="color: black; text-decoration: none;"></a></td>
+                        <td th:with="dateObj=${#calendars.create(hd.ngayTao.year, hd.ngayTao.monthValue, hd.ngayTao.dayOfMonth)}"><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
+                               th:text="${#dates.format(dateObj, 'dd/MM/yyyy')}" style="color: black; text-decoration: none;"></a></td>
                         <td><a th:href="@{'/wingman/chi-tiet-hoa-don/' + ${hd.id}}"
                                th:text="${hd.loaiHoaDon.getDisplayName()}"
                                style="color: black; text-decoration: none;"></a></td>
@@ -309,8 +312,9 @@
                     </tbody>
                     <tfoot hidden="hidden">
                     <tr>
+                        <th>STT</th>
                         <th>Mã</th>
-                        <th>Ngày Tạo</th>
+                        <th>Ngày Đặt Hàng</th>
                         <th>Hình Thức Mua Hàng</th>
                         <th>Trạng Thái</th>
                         <th>Tổng Tiền</th>

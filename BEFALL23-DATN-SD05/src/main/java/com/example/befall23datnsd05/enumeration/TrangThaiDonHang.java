@@ -40,9 +40,9 @@ public enum TrangThaiDonHang {
             case DA_HUY:
                 return "Đã Hủy";
             case DA_TRA_HANG:
-                return "Đã Trả Hàng ";
+                return "Đã Hoàn Trả ";
             case XAC_NHAN_TRA_HANG:
-                return "Xác Nhận Trả Hàng";
+                return "Xác Nhận Hoàn Trả";
             case DOI_HANG:
                 return "Đổi Hàng";
             default:

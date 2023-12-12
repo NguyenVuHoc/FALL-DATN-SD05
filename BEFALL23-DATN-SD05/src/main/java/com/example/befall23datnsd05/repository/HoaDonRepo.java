@@ -28,7 +28,7 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
     Long doanhThu(LocalDate from, LocalDate to);
 
     @Query(value = "SELECT COUNT(*) from hoa_don where  trang_thai=6" +
-            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n",nativeQuery = true)
+            "  AND hoa_don.ngay_tao BETWEEN ?1 AND ?2\n",nativeQuery = true)
     Long soDonHuy(LocalDate from, LocalDate to);
 
     @Query(value = "SELECT trang_thai, COUNT(trang_thai) FROM hoa_don" +
@@ -36,7 +36,7 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
             "    group by  hoa_don.trang_thai\n",nativeQuery = true)
     List<Object[]> thongKeHoaDon(@Param("from")LocalDate from, @Param("to")LocalDate to);
 
-    @Query(value = "SELECT SUM(hoa_don.thanh_toan) AS total_thanh_toan, hoa_don.ngay_thanh_toan\n" +
+    @Query(value = "SELECT SUM(hoa_don.thanh_toan-hoa_don.phi_van_chuyen) AS total_thanh_toan, hoa_don.ngay_thanh_toan\n" +
             "FROM hoa_don \n" +
             "WHERE hoa_don.trang_thai IN (5, 8, 9)\n" +
             "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n" +

@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.service.impl;
 
+import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepo;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
@@ -35,6 +36,13 @@ public class ThongKeServiceImpl implements ThongKeService {
     public Long soSanPhamHoanTra(LocalDate from, LocalDate to) {
         return gioHangChiTietRepository.sanPhamHoanTra(from,to);
     }
+
+    @Override
+    public List<GioHangChiTiet> getAllSoSanPhamHoanTraHoanLaiKho(LocalDate from, LocalDate to) {
+        return gioHangChiTietRepository.findByHoaDonHoanTraHoanLaiKho(from,to);
+    }
+
+
 
 
     @Override

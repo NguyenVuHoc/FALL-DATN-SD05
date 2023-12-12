@@ -15,7 +15,6 @@ import java.util.List;
 @Repository
 public interface ChiTietSanPhamCustomerRepository extends JpaRepository<ChiTietSanPham, Long> {
 
-    @Query("select ctsp from ChiTietSanPham  ctsp where ctsp.trangThai=0 and ctsp.soLuongTon>0")
     Page<ChiTietSanPham> findAll(Specification<ChiTietSanPham> spec, Pageable pageable);
 
     @Query(value = "select * from chi_tiet_san_pham where chi_tiet_san_pham.trang_thai = 0", nativeQuery = true)

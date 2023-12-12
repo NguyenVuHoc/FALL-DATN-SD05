@@ -930,25 +930,24 @@
     }
 
     function formatCurrencyValue(value) {
-        // Chuyển đổi giá trị thành số nguyên
-        let integerValue = Number.parseFloat(value).toFixed(0);
-        // Định dạng lại số nguyên thành tiền tệ với dấu chấm phân cách hàng nghìn
-        let formattedCurrency = integerValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        return formattedCurrency;
+        let integerValue = Number.parseFloat(value);
+        if (isNaN(integerValue)) {
+            return "0";
+        }
+        return integerValue.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     window.onload = function () {
         let minGiaValue = document.getElementById("minGiaValue").value;
         let maxGiaValue = document.getElementById("maxGiaValue").value;
 
-        if (minGiaValue !== "") {
-            document.getElementById("minGia").value = formatCurrencyValue(minGiaValue);
-        }
-
-        if (maxGiaValue !== "") {
-            document.getElementById("maxGia").value = formatCurrencyValue(maxGiaValue);
-        }
+        // Set default values to 0 if hidden inputs are empty
+        document.getElementById("minGia").value = minGiaValue !== "" ? formatCurrencyValue(minGiaValue) : "0";
+        document.getElementById("maxGia").value = maxGiaValue !== "" ? formatCurrencyValue(maxGiaValue) : "0";
     };
+
+
+
 
 </script>
 <!-- End Footer Section -->
