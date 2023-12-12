@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.*;
+import com.example.befall23datnsd05.sendEmail.SendMailService;
 import com.example.befall23datnsd05.service.BanHangCustomerService;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +46,9 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
 
     @Autowired
     private DiemTichLuyRepository diemTichLuyRepository;
+
+    @Autowired
+    private SendMailService sendMailKhService;
 
 
     @Override
@@ -181,6 +185,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setTongTien(tongTien);
         hoaDon.setThanhToan(totalAmount);
         hoaDonRepository.save(hoaDon);
+        sendMailKhService.sendEmail1(khachHang,hoaDon);
     }
 
     @Override

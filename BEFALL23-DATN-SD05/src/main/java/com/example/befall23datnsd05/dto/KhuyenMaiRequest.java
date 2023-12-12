@@ -1,6 +1,5 @@
 package com.example.befall23datnsd05.dto;
 
-import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
