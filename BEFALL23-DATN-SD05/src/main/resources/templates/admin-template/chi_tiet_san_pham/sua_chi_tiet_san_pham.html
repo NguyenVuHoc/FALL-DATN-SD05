@@ -170,7 +170,7 @@
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Cổ giày</label>
                         <select class="form-select mb-3" aria-label="Default select example" th:field="*{coGiay}">
-                            <option th:each="coGiay : ${listDG}"
+                            <option th:each="coGiay : ${listCG}"
                                     th:value="${coGiay.id}" th:text="${coGiay.ten}"
                             />
                         </select>

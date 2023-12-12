@@ -1,7 +1,7 @@
 package com.example.befall23datnsd05.repository;
 
 import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
-import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -97,4 +97,9 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     Optional<ChiTietSanPham> findChiTietSanPham(@Param("tenSanPham") String tenSanPham, @Param("mauSac") String mauSac,
                                                 @Param("deGiay") String deGiay, @Param("coGiay") String coGiay,
                                                 @Param("lotGiay") String lotGiay,@Param("kichThuoc") String kichThuoc);
+
+
+    ChiTietSanPham findBySanPham_IdAndDeGiay_IdAndMauSac_IdAndKichThuoc_IdAndLotGiay_IdAndCoGiay_Id(
+            Long sanPhamId, Long deGiayId, Long mauSacId, Long kichThuocId, Long lotGiayId, Long coGiayId
+    );
 }

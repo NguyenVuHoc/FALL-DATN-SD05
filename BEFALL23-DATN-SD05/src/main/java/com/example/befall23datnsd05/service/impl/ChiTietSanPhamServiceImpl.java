@@ -1,4 +1,4 @@
-package com.example.befall23datnsd05.service.impl;
+package com.example.befall23datnsd05.service.Impl;
 
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
@@ -123,27 +123,45 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
 
     @Override
     public ChiTietSanPham add(ChiTietSanPhamRequest chiTietSanPham) {
-        ChiTietSanPham chiTietSanPham1 = new ChiTietSanPham();
-        SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
-        chiTietSanPham1.setSanPham(sanPham);
-        DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
-        chiTietSanPham1.setDeGiay(deGiay);
-        MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
-        chiTietSanPham1.setMauSac(mauSac);
-        KichThuoc kichThuoc = kichThuocRepository.findById(chiTietSanPham.getKichThuoc()).orElse(null);
-        chiTietSanPham1.setKichThuoc(kichThuoc);
-        LotGiay lotGiay = lotGiayRepository.findById(chiTietSanPham.getLotGiay()).orElse(null);
-        chiTietSanPham1.setLotGiay(lotGiay);
-        CoGiay coGiay = coGiayRepository.findById(chiTietSanPham.getCoGiay()).orElse(null);
-        chiTietSanPham1.setCoGiay(coGiay);
-        chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
-        chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
-        chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
-        chiTietSanPham1.setNgayTao(LocalDate.now());
-        chiTietSanPham1.setNgaySua(LocalDate.now());
-        chiTietSanPham1.setTrangThai(TrangThai.DANG_HOAT_DONG);
-        repository.save(chiTietSanPham1);
-        return chiTietSanPham1;
+        ChiTietSanPham existingChiTiet = repository.findBySanPham_IdAndDeGiay_IdAndMauSac_IdAndKichThuoc_IdAndLotGiay_IdAndCoGiay_Id(
+                chiTietSanPham.getSanPham(),
+                chiTietSanPham.getDeGiay(),
+                chiTietSanPham.getMauSac(),
+                chiTietSanPham.getKichThuoc(),
+                chiTietSanPham.getLotGiay(),
+                chiTietSanPham.getCoGiay()
+        );
+        if (existingChiTiet != null) {
+            // Nếu ChiTietSanPham đã tồn tại, thực hiện cập nhật số lượng và giá
+            existingChiTiet.setSoLuongTon(existingChiTiet.getSoLuongTon() + chiTietSanPham.getSoLuongTon());
+            existingChiTiet.setGiaBan(chiTietSanPham.getGiaBan()); // hoặc có thể thêm logic cập nhật giá theo nhu cầu của bạn
+            existingChiTiet.setNgaySua(LocalDate.now());
+            repository.save(existingChiTiet);
+            return existingChiTiet;
+        }else {
+            ChiTietSanPham chiTietSanPham1 = new ChiTietSanPham();
+            SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
+            chiTietSanPham1.setSanPham(sanPham);
+            DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
+            chiTietSanPham1.setDeGiay(deGiay);
+            MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
+            chiTietSanPham1.setMauSac(mauSac);
+            KichThuoc kichThuoc = kichThuocRepository.findById(chiTietSanPham.getKichThuoc()).orElse(null);
+            chiTietSanPham1.setKichThuoc(kichThuoc);
+            LotGiay lotGiay = lotGiayRepository.findById(chiTietSanPham.getLotGiay()).orElse(null);
+            chiTietSanPham1.setLotGiay(lotGiay);
+            CoGiay coGiay = coGiayRepository.findById(chiTietSanPham.getCoGiay()).orElse(null);
+            chiTietSanPham1.setCoGiay(coGiay);
+            chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
+            chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
+            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
+            chiTietSanPham1.setNgayTao(LocalDate.now());
+            chiTietSanPham1.setNgaySua(LocalDate.now());
+            chiTietSanPham1.setTrangThai(TrangThai.DANG_HOAT_DONG);
+            repository.save(chiTietSanPham1);
+            return chiTietSanPham1;
+        }
+
     }
 
     @Override
@@ -152,25 +170,42 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         if (chiTietSanPham1 == null) {
             return null;
         }
-        SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
-        chiTietSanPham1.setSanPham(sanPham);
-        DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
-        chiTietSanPham1.setDeGiay(deGiay);
-        MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
-        chiTietSanPham1.setMauSac(mauSac);
-        KichThuoc kichThuoc = kichThuocRepository.findById(chiTietSanPham.getKichThuoc()).orElse(null);
-        chiTietSanPham1.setKichThuoc(kichThuoc);
-        LotGiay lotGiay = lotGiayRepository.findById(chiTietSanPham.getLotGiay()).orElse(null);
-        chiTietSanPham1.setLotGiay(lotGiay);
-        CoGiay coGiay = coGiayRepository.findById(chiTietSanPham.getCoGiay()).orElse(null);
-        chiTietSanPham1.setCoGiay(coGiay);
-        chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
-        chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
-        chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
-        chiTietSanPham1.setNgaySua(LocalDate.now());
-        chiTietSanPham1.setTrangThai(chiTietSanPham.getTrangThai());
-        repository.save(chiTietSanPham1);
-        return chiTietSanPham1;
+        ChiTietSanPham existingChiTiet = repository.findBySanPham_IdAndDeGiay_IdAndMauSac_IdAndKichThuoc_IdAndLotGiay_IdAndCoGiay_Id(
+                chiTietSanPham.getSanPham(),
+                chiTietSanPham.getDeGiay(),
+                chiTietSanPham.getMauSac(),
+                chiTietSanPham.getKichThuoc(),
+                chiTietSanPham.getLotGiay(),
+                chiTietSanPham.getCoGiay()
+        );
+        if (existingChiTiet != null) {
+            // Nếu ChiTietSanPham đã tồn tại, thực hiện cập nhật số lượng và giá
+            existingChiTiet.setSoLuongTon(existingChiTiet.getSoLuongTon() + chiTietSanPham.getSoLuongTon());
+            existingChiTiet.setGiaBan(chiTietSanPham.getGiaBan()); // hoặc có thể thêm logic cập nhật giá theo nhu cầu của bạn
+            existingChiTiet.setNgaySua(LocalDate.now());
+            repository.save(existingChiTiet);
+            return existingChiTiet;
+        }else {
+            SanPham sanPham = sanPhamRepository.findById(chiTietSanPham.getSanPham()).orElse(null);
+            chiTietSanPham1.setSanPham(sanPham);
+            DeGiay deGiay = deGiayRepository.findById(chiTietSanPham.getDeGiay()).orElse(null);
+            chiTietSanPham1.setDeGiay(deGiay);
+            MauSac mauSac = mauSacRepository.findById(chiTietSanPham.getMauSac()).orElse(null);
+            chiTietSanPham1.setMauSac(mauSac);
+            KichThuoc kichThuoc = kichThuocRepository.findById(chiTietSanPham.getKichThuoc()).orElse(null);
+            chiTietSanPham1.setKichThuoc(kichThuoc);
+            LotGiay lotGiay = lotGiayRepository.findById(chiTietSanPham.getLotGiay()).orElse(null);
+            chiTietSanPham1.setLotGiay(lotGiay);
+            CoGiay coGiay = coGiayRepository.findById(chiTietSanPham.getCoGiay()).orElse(null);
+            chiTietSanPham1.setCoGiay(coGiay);
+            chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
+            chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
+            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
+            chiTietSanPham1.setNgaySua(LocalDate.now());
+            chiTietSanPham1.setTrangThai(chiTietSanPham.getTrangThai());
+            repository.save(chiTietSanPham1);
+            return chiTietSanPham1;
+        }
     }
 
     @Override
