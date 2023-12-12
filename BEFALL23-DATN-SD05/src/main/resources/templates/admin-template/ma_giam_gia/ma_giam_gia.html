@@ -48,13 +48,15 @@
             color: #333;
             font-weight: bold;
             border-bottom: 1px solid black;
-            padding: 8px;
+            padding: 5px;
+            width: 100px;
             text-align: center;
 
         }
 
         #example td {
-            padding: 8px;
+            width: 100px;
+            padding: 5px;
             text-align: center;
             border-bottom: 1px solid #ddd;
             color: #6a6a6a;
@@ -272,32 +274,36 @@
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Id</th>
+                                <th style="width: 25px">Id</th>
                                 <th>Mã</th>
-                                <th>Tên mã giảm giá</th>
-                                <th>Mức giảm</th>
+                                <th>Tên</th>
+                                <th style="width: 25px">Mức giảm</th>
                                 <th>Mức giảm tối đa</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
-                                <th>Giá trị áp dụng tối thiểu</th>
-                                <th>Số lượng</th>
+                                <th>Áp dụng từ</th>
+                                <th style="width: 25px">Số lượng</th>
                                 <th>Trạng thái</th>
-                                <th>Chức năng</th>
+                                <th style="width: 50px">Chức năng</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="mgg : ${listMaGiam}">
-                                <td th:text="${mgg.id}"></td>
+                                <td style="width: 25px" th:text="${mgg.id}"></td>
                                 <td th:text="${mgg.ma}"></td>
                                 <td th:text="${mgg.ten}"></td>
-                                <td th:text="${mgg.mucGiamGia + '%'}"></td>
-                                <td th:text="${#numbers.formatDecimal(mgg.mucGiamToiDa, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
+                                <td style="width: 25px" th:text="${mgg.mucGiamGia + '%'}"></td>
+                                <td>
+                                    <span th:if="${mgg.mucGiamToiDa == null}">không giới hạn</span>
+                                    <span th:if="${mgg.mucGiamToiDa != null}"
+                                          th:text="${#numbers.formatDecimal(mgg.mucGiamToiDa, 0, 'POINT', 0, 'COMMA') + ' VND'}"></span>
+                                </td>
                                 <td th:text="${mgg.ngayBatDau}"></td>
                                 <td th:text="${mgg.ngayKetThuc}"></td>
                                 <td th:text="${#numbers.formatDecimal(mgg.giaTriDonHang, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
-                                <td th:text="${mgg.soLuong}"></td>
+                                <td style="width: 25px" th:text="${mgg.soLuong}"></td>
                                 <td th:text="${mgg.trangThai.getDisplayName()}"></td>
-                                <td>
+                                <td style="width: 50px">
                                     <a th:href="@{'/admin/ma-giam-gia/view-update/' + ${mgg.id}}">
                                         <i class="bi bi-pencil" style="font-size: 20px"></i>
                                     </a>
