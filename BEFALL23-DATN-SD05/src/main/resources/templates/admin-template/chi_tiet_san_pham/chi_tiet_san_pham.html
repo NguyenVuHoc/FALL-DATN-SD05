@@ -202,14 +202,36 @@
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
             <div class="row g-2">
-                <div style="width: 90%;">
+                <div style="width: 50%;">
                     <h6 class="mb-4" style="font-size: 40px;">Chi Tiết Sản Phẩm</h6>
                 </div>
-                <div class="create" style="width: 10%;">
-                    <button class="btn btn-outline-success" style="margin-right: -200px;">
-                        <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
-                    </button>
+
+                <div class="create" style="width: 50%;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-success" style="margin-right: -100px;">
+                                <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
+                            </button>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button class="btn-import btn btn-outline-success">
+                                <a href="/admin/chi-tiet-san-pham/export-excel" download>
+                                    Export
+                                </a>
+                            </button>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button class="btn-import btn btn-outline-success">
+                                <a href="/admin/chi-tiet-san-pham/export-excel-mau" download>
+                                    Export Mẫu
+                                </a>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
                 <form th:action="@{/admin/chi-tiet-san-pham/import-excel}"
                       style="border: 1px solid #c3c3c3;border-radius: 20px;margin-top: 2%"
                       enctype="multipart/form-data"
@@ -218,25 +240,19 @@
                         <input type="file" class="form-control" name="file">
                     </div>
                     <div class="col-md-12" style="margin-top: 3%;margin-bottom: 3%">
-                        <div class="check-loi" th:text="${thongBaoLoiImport}"></div>
+                        <div id="thongBao" class="check-loi" th:text="${thongBaoLoiImport}" style="color: red; background-color: lightpink; padding: 10px;"></div>
                         <button type="submit" style="float: right" class="btn btn-success">Nhập Excel</button>
                     </div>
                 </form>
-                <div>
-                    <button class="btn-import btn btn-outline-success">
-                        <a href="/admin/chi-tiet-san-pham/export-excel" download>
-                            Export
-                        </a>
-                    </button>
+                <script>
+                    // Tự động đóng thông báo sau 5 giây
+                    setTimeout(function() {
+                        document.getElementById('thongBao').style.display = 'none';
+                    }, 5000);
+                </script>
 
-                    <button class="btn-import btn btn-outline-success">
-                        <a href="/admin/chi-tiet-san-pham/export-excel-mau" download>
-                            Export Mẫu
-                        </a>
-                    </button>
-                </div>
             </div>
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" style="padding-top: 30px">
                 <button class="nav-link">
                     <a href="/admin/chi-tiet-san-pham">Tất cả</a>
                 </button>
