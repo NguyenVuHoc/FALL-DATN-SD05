@@ -36,9 +36,9 @@ public class DiaChiServiceImpl implements DiaChiService {
     @Override
     public DiaChi getById(Long id) {
         Optional<DiaChi> optional = repository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             return null;
         }
     }
@@ -62,17 +62,20 @@ public class DiaChiServiceImpl implements DiaChiService {
     }
 
     @Override
-    public DiaChi update(DiaChiRequest diaChi, Long id) {
-        DiaChi diaChi1 = repository.getReferenceById(id);
-        if(diaChi1==null){
+    public DiaChi update(DiaChiRequest diaChiRequest, String thanhPho, String quanHuyen, String phuongXa) {
+        DiaChi diaChi = repository.findById(diaChiRequest.getId()).get();
+        if (diaChi == null) {
             return null;
         }
-        diaChi1.setTenNguoiNhan(diaChi.getTenNguoiNhan());
-        diaChi1.setDiaChi(diaChi.getDiaChi());
-        diaChi1.setSdt(diaChi.getSdt());
-        diaChi1.setNgaySua(LocalDate.now());
-        diaChi1.setGhiChu(diaChi.getGhiChu());
-        return repository.save(diaChi1);
+        diaChi.setTenNguoiNhan(diaChiRequest.getTenNguoiNhan());
+        diaChi.setDiaChi(diaChiRequest.getDiaChi());
+        diaChi.setPhuongXa(phuongXa);
+        diaChi.setQuanHuyen(quanHuyen);
+        diaChi.setThanhPho(thanhPho);
+        diaChi.setSdt(diaChiRequest.getSdt());
+        diaChi.setNgaySua(LocalDate.now());
+        diaChi.setGhiChu(diaChiRequest.getGhiChu());
+        return repository.save(diaChi);
     }
 
 

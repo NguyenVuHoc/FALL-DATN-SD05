@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.service.*;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -107,13 +108,13 @@ public class GioHangController {
     @PostMapping("/dat-hang")
     public String datHang(
             @ModelAttribute("gioHangWrapper") GioHangWrapper gioHangWrapper,
-            @RequestParam("diaChi") String diaChi,
-            @RequestParam("wardName") String xa,
-            @RequestParam("districtName") String huyen,
-            @RequestParam("provinceName") String thanhPho,
-            @RequestParam("sdt") String sdt,
+            @RequestParam("diaChi2") String diaChi,
+            @RequestParam("xaPhuong") String xa,
+            @RequestParam("quanHuyen") String huyen,
+            @RequestParam("thanhPho") String thanhPho,
+            @RequestParam("sdt2") String sdt,
             @RequestParam("ghiChu") String ghiChu,
-            @RequestParam("ten") String ten,
+            @RequestParam("ten2") String ten,
             @RequestParam(name = "shippingFee") BigDecimal shippingFee,
             @RequestParam("tongTienHang") String tongTien,
             @RequestParam(name = "originAmount") BigDecimal totalAmount,
@@ -126,12 +127,13 @@ public class GioHangController {
         return "redirect:/wingman/cart/thankyou";
     }
 
-    @GetMapping("/add-dia-chi/{idKhachHang}")
+    @PostMapping("/checkout/add-dia-chi/{idKhachHang}")
     public String suaDiaChi(@PathVariable("idKhachHang") String idKhachHang,
                             @ModelAttribute("newDiaChi") DiaChiRequest diaChiRequest,
                             @RequestParam("phuongXaID") String phuongXa,
                             @RequestParam("quanHuyenID") String quanHuyen,
                             @RequestParam("thanhPhoID") String thanhPho,
+                            @RequestParam("options") String options,
                             Model model) {
         KhachHang khachHang = khachHangService.getById(Long.valueOf(idKhachHang));
         model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(idKhachHang)).get(0));
@@ -147,7 +149,19 @@ public class GioHangController {
         List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
         model.addAttribute("vouchers", vouchers);
         diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
-        return "customer-template/checkout";
+        return "redirect:/wingman/cart/checkout?options=" + options;
+    }
+
+    @PostMapping("/checkout/sua-dia-chi/{idKhachHang}")
+    public String addDiaChi(@Valid
+                            @ModelAttribute("newDiaChi") DiaChiRequest diaChiRequest,
+                            @RequestParam("phuongXa") String phuongXa,
+                            @RequestParam("quanHuyen") String quanHuyen,
+                            @RequestParam("thanhPho") String thanhPho,
+                            @RequestParam("options") String options
+    ) {
+        diaChiService.update(diaChiRequest, thanhPho, quanHuyen, phuongXa);
+        return "redirect:/wingman/cart/checkout?options=" + options;
     }
 
     @PostMapping("/updateQuantity")

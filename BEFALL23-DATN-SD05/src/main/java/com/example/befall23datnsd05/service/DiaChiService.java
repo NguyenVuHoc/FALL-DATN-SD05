@@ -15,7 +15,7 @@ public interface DiaChiService {
 
     DiaChi add(DiaChiRequest diaChiRequest, Long idKhachHang, String thanhPho, String quanHuyen, String phuongXa);
 
-    DiaChi update(DiaChiRequest diaChiRequest, Long id);
+    DiaChi update(DiaChiRequest diaChiRequest, String thanhPho, String quanHuyen, String phuongXa);
 
     void remove(Long id);
 

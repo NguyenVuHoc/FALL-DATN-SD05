@@ -129,7 +129,7 @@ public class UserController {
             return "customer-template/user/profile";
         }
         else {
-            diaChiService.update(diaChiRequest, id);
+//            diaChiService.update(diaChiRequest, id);
         }
         return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
     }

@@ -2,11 +2,13 @@ package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
 import com.example.befall23datnsd05.entity.DiaChi;
+import com.example.befall23datnsd05.entity.GioHang;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.DiaChiRepository;
 import com.example.befall23datnsd05.repository.DiemTichLuyRepository;
+import com.example.befall23datnsd05.repository.GioHangRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Autowired
     private DiemTichLuyRepository diemTichLuyRepository;
 
+    @Autowired
+    private GioHangRepository gioHangRepository;
+
     @Override
     public List<KhachHang> getList() {
         return khachHangRepository.getListKhachHang();
@@ -42,27 +48,26 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public KhachHang add(KhachHangRequest khachHangRequest) {
-        KhachHang khachHang1 = new KhachHang();
-        khachHang1.setMa(khachHangRequest.getMa());
-        khachHang1.setTen(khachHangRequest.getTen());
-        khachHang1.setSdt(khachHangRequest.getSdt());
-        khachHang1.setGioiTinh(GioiTinh.valueOf(khachHangRequest.getGioiTinh()));
-        khachHang1.setNgayTao(LocalDate.now());
-        khachHang1.setNgaySua(LocalDate.now());
-        khachHang1.setEmail(khachHangRequest.getEmail());
-        khachHang1.setMatKhau(khachHangRequest.getMatKhau());
-        List<DiaChi> diaChiList = new ArrayList<>();
-        for (String address : khachHangRequest.getDiaChi()) {
-            DiaChi diaChi = new DiaChi();
-            diaChi.setDiaChi(address);
-            diaChi.setSdt(khachHang1.getSdt());
-            diaChi.setTenNguoiNhan(khachHang1.getTen());
-            diaChi.setKhachHang(khachHang1);
-            diaChiList.add(diaChi);
-        }
-        khachHang1.setListDiaChi(diaChiList);
-        khachHang1.setTrangThai(TrangThai.DANG_HOAT_DONG);
-        return khachHangRepository.save(khachHang1);
+        KhachHang khachHang = new KhachHang();
+        khachHang.setMa(khachHangRequest.getMa());
+        khachHang.setTen(khachHangRequest.getTen());
+        khachHang.setSdt(khachHangRequest.getSdt());
+        khachHang.setGioiTinh(GioiTinh.valueOf(khachHangRequest.getGioiTinh()));
+        khachHang.setNgayTao(LocalDate.now());
+        khachHang.setEmail(khachHangRequest.getEmail());
+        khachHang.setMatKhau(khachHangRequest.getMatKhau());
+        khachHang.setTrangThai(TrangThai.DANG_HOAT_DONG);
+        khachHangRepository.save(khachHang);
+        LocalDateTime time = LocalDateTime.now();
+        String maGH = "GH" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
+                + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
+        GioHang gioHang = new GioHang();
+        gioHang.setMa(maGH);
+        gioHang.setNgayTao(LocalDate.now());
+        gioHang.setTrangThai(TrangThai.DANG_HOAT_DONG);
+        gioHang.setKhachHang(khachHang);
+        gioHangRepository.save(gioHang);
+        return khachHang;
     }
 
     @Override

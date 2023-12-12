@@ -155,9 +155,12 @@ public class KhachHangController {
             @PathVariable("id") Long id,
             @PathVariable("idKH") Long idKH,
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
+            @RequestParam("phuongXa") String phuongXa,
+            @RequestParam("quanHuyen") String quanHuyen,
+            @RequestParam("thanhPho") String thanhPho,
             Model model
     ) {
-        diaChiService.update(diaChiRequest, id);
+        diaChiService.update(diaChiRequest, thanhPho, quanHuyen, phuongXa);
         return "redirect:/admin/khach-hang/view-update/" + idKH;
     }
 
