@@ -121,7 +121,19 @@
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <li><a class="nav-link" href="#"><img src="/../images/user.svg"></a></li>
+                <li>
+                    <div class="dropdown show" style="padding-top: 5px">
+                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img src="/../images/user.svg">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi'">Tài khoản của tôi</a>
+                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
+                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                        </div>
+                    </div>
+                </li>
                 <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="/../images/cart.svg"></a></li>
             </ul>
         </div>
@@ -142,7 +154,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 mb-5 mb-md-0">
+            <div class="col-md-6 mb-5 mb-md-0 ">
                 <h2 class="h3 mb-3 text-black">Chi tiết hóa đơn</h2>
                 <div class="p-3 p-lg-5 border bg-white">
                     <div th:each="option : ${options}" th:style="${'display: none;'}" th:text="${option}"></div>
@@ -157,7 +169,7 @@
                                    class="form-control"
                                    id="tenNguoiNhan"
                                    name="ten"
-                                   placeholder="Họ tên"
+                                   placeholder="Người nhận"
                                    required
                                    th:value="${diaChi2.getTenNguoiNhan()}"
                                    type="text"/>
@@ -168,13 +180,13 @@
                             <label class="text-black"
                             >Tỉnh/thành phố <span class="text-danger">*</span></label
                             >
-                            <input
-                                    class="form-control thanhPho"
-                                    th:id-thanh-pho="${diaChi2.thanhPho}"
-                                    id="provinceName"
-                                    name="provinceName"
-                                    readonly
-                                    type="text"
+                            <input placeholder="Tỉnh/Thành Phố"
+                                   class="form-control thanhPho"
+                                   th:id-thanh-pho="${diaChi2.thanhPho}"
+                                   id="provinceName"
+                                   name="provinceName"
+                                   readonly
+                                   type="text"
                             />
 
                         </div>
@@ -184,13 +196,13 @@
                             <label class="text-black"
                             >Quận/huyện <span class="text-danger">*</span></label
                             >
-                            <input
-                                    class="form-control quanHuyen"
-                                    th:id-quan-huyen="${diaChi2.quanHuyen}"
-                                    id="districtName"
-                                    name="districtName"
-                                    readonly
-                                    type="text"
+                            <input placeholder="Quận/Huyện"
+                                   class="form-control quanHuyen"
+                                   th:id-quan-huyen="${diaChi2.quanHuyen}"
+                                   id="districtName"
+                                   name="districtName"
+                                   readonly
+                                   type="text"
                             />
 
                         </div>
@@ -200,7 +212,8 @@
                             <label class="text-black"
                             >Xã/phường <span class="text-danger">*</span></label
                             >
-                            <input class="form-control phuongXa" id="wardName"
+                            <input placeholder="Phường/Xã"
+                                   class="form-control phuongXa" id="wardName"
                                    name="wardName" readonly
                                    th:id-phuong-xa="${diaChi2.phuongXa}"
                                    type="text"/>
@@ -216,7 +229,7 @@
                                    class="form-control"
                                    id="diaChiCuThe"
                                    name="diaChi"
-                                   placeholder="Street address"
+                                   placeholder="Địa chỉ cụ thể"
                                    th:value="${diaChi2.getDiaChi()}"
                                    type="text"
                             />
@@ -231,7 +244,7 @@
                                    class="form-control"
                                    id="sdt"
                                    name="sdt"
-                                   placeholder="Phone Number"
+                                   placeholder="Số điện thoại"
                                    th:value="${diaChi2.getSdt()}"
                                    type="text"
                             />
@@ -309,6 +322,7 @@
                                                     Cập nhật
                                                 </a>
                                             </td>
+                                            <!-- detail api địa chỉ lên bảng-->
                                             <script th:inline="javascript">
                                                 document.addEventListener('DOMContentLoaded', function () {
                                                     fetch('https://online-gateway.ghn.vn/shiip/public-api/master-data/province', {
@@ -418,11 +432,12 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <button class="btn btn-outline-primary"
+                                    <button class="btn btn-outline-primary themMoiDiaChi"
                                             type="button"
                                             data-bs-toggle="modal"
                                             th:data-bs-target="'#themDiaChi' + ${idKhachHang}"
-                                            style="background-color: #314d43">
+                                            style="background-color: #314d43"
+                                            onclick="apiAddDiaChi(event)">
                                         Thêm Địa Chỉ Mới
                                     </button>
                                 </div>
@@ -757,8 +772,8 @@
                     </form>
 
                     <!-- call api địa chỉ cho form add địa chỉ-->
-                    <script th:inline="javascript">
-                        document.addEventListener('DOMContentLoaded', function () {
+                    <script>
+                        function apiAddDiaChi(event) {
                             var citySelect = document.getElementById('citySelectAdd');
                             var districtSelect = document.getElementById('districtSelectAdd');
                             var wardSelect = document.getElementById('wardSelectAdd');
@@ -854,7 +869,7 @@
                                     select.appendChild(option);
                                 });
                             }
-                        });
+                        }
 
                     </script>
                     <!-- call api địa chỉ cho form add địa chỉ  end-->
@@ -982,75 +997,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <script>
-                                                function formatNumberWithVND(number) {
-                                                    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VND';
-                                                }
-
-                                                function selectVoucher() {
-                                                    // Lấy tất cả các phần tử input type="radio"
-                                                    var voucherInputs = document.querySelectorAll('input[type="radio"][name="chonVoucher"]');
-
-                                                    // Tìm input voucher được chọn
-                                                    var selectedVoucherInput = Array.from(voucherInputs).find(function (input) {
-                                                        return input.checked;
-                                                    });
-
-                                                    // Kiểm tra xem đã chọn voucher hay chưa
-                                                    if (selectedVoucherInput) {
-                                                        // Lấy thông tin voucher được chọn
-                                                        var voucherRow = selectedVoucherInput.closest('tr');
-                                                        var voucherId = voucherRow.querySelector('.voucherIdColumn').getAttribute('id');
-                                                        var voucherName = voucherRow.querySelector('th:nth-child(2)').innerText;
-                                                        var voucherDiscount = voucherRow.querySelector('td:nth-child(3)').innerText;
-                                                        var voucherMaxDiscount = voucherRow.querySelector('td:nth-child(4)').innerText;
-                                                        var giamGia = parseFloat(voucherDiscount);
-                                                        var apDungToiDa = parseInt(voucherMaxDiscount);
-                                                        var duocApDungToiDa = apDungToiDa * 1000;
-                                                        var apDungPhanTram = giamGia / 100;
-
-
-                                                        let existingTotalAmount = parseInt($("#totalAmount").val());
-                                                        let ship = parseInt($("#shippingFee").val());
-                                                        var duocApDung = Math.round(apDungPhanTram * existingTotalAmount);
-                                                        existingTotalAmount = existingTotalAmount + ship;
-                                                        if (duocApDung < duocApDungToiDa) {
-                                                            existingTotalAmount = existingTotalAmount - duocApDung;
-                                                            document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
-                                                            document.getElementById('voucher').innerText = formatNumberWithVND(duocApDung);
-                                                            document.getElementById('voucherName').value = voucherName;
-                                                            document.getElementById('voucherId').value = voucherId;
-                                                            document.getElementById('giamGiaDuocApDung').value = duocApDung;
-                                                        } else {
-                                                            existingTotalAmount = existingTotalAmount - duocApDungToiDa;
-                                                            document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
-                                                            document.getElementById('voucher').innerText = formatNumberWithVND(duocApDungToiDa);
-                                                            document.getElementById('voucher').value = duocApDungToiDa;
-                                                            document.getElementById('voucherName').value = voucherName;
-                                                            document.getElementById('voucherId').value = voucherId;
-                                                            console.log("Áp dụng: " + duocApDungToiDa)
-                                                            // document.getElementById('giamGiaDuocApDung').value = duocApDungToiDa;
-                                                        }
-
-                                                        // In thông tin voucher được chọn
-                                                        console.log('Voucher đã chọn:', voucherId);
-                                                        console.log('Tên:', voucherName);
-                                                        console.log('Giảm giá:', apDungPhanTram);
-                                                        console.log('Tối đa:', duocApDungToiDa);
-
-
-                                                        // Thực hiện các hành động khác khi chọn voucher
-                                                        // Ví dụ: cập nhật giá trị vào các trường input khác trên trang
-                                                    } else {
-                                                        console.log('Vui lòng chọn một voucher.');
-                                                    }
-                                                }
-
-                                                // Gán sự kiện click cho button "Chọn"
-                                                var selectButton = document.getElementById('chon-btn');
-                                                selectButton.addEventListener('click', selectVoucher);
-                                            </script>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1075,7 +1021,8 @@
                                                        id="xuTichDiem" name="xuTichDiem"
                                                        th:value="${diemTichLuy}"
                                                        th:default="0"
-                                                       style="margin-top: 7px">
+                                                       style="margin-top: 7px"
+                                                       onchange="tichXu(event)">
                                             </div>
                                         </td>
                                         <td class="text-black font-weight-bold">
@@ -1111,6 +1058,7 @@
                                             <strong>Phí ship</strong>
                                         </td>
                                         <td id="shippingColumn">
+                                            0 VND
                                         </td>
                                     </tr>
                                     <tr>
@@ -1164,68 +1112,69 @@
                                            th:value="${diaChi2.phuongXa}" type="text"/>
                                     <input id="shippingFee" name="shippingFee" type="number"/>
                                 </div>
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0">
-                                        <a aria-controls="collapsebank" aria-expanded="false" class="d-block"
-                                           data-bs-toggle="collapse" href="#collapsebank" role="button">
-                                            Direct Bank Transfer
-                                        </a>
-                                    </h3>
-                                    <div class="collapse" id="collapsebank">
-                                        <div class="py-2">
-                                            <p class="mb-0">
-                                                Make your payment directly into our bank account.
-                                                Please use your Order ID as the payment reference.
-                                                Your order won’t be shipped until the funds have
-                                                cleared in our account.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--                                <div class="border p-3 mb-3">-->
+                                <!--                                    <h3 class="h6 mb-0">-->
+                                <!--                                        <a aria-controls="collapsebank" aria-expanded="false" class="d-block"-->
+                                <!--                                           data-bs-toggle="collapse" href="#collapsebank" role="button">-->
+                                <!--                                            Direct Bank Transfer-->
+                                <!--                                        </a>-->
+                                <!--                                    </h3>-->
+                                <!--                                    <div class="collapse" id="collapsebank">-->
+                                <!--                                        <div class="py-2">-->
+                                <!--                                            <p class="mb-0">-->
+                                <!--                                                Make your payment directly into our bank account.-->
+                                <!--                                                Please use your Order ID as the payment reference.-->
+                                <!--                                                Your order won’t be shipped until the funds have-->
+                                <!--                                                cleared in our account.-->
+                                <!--                                            </p>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
 
-                                <div class="border p-3 mb-3">
-                                    <h3 class="h6 mb-0">
-                                        <a aria-controls="collapsecheque" aria-expanded="false" class="d-block"
-                                           data-bs-toggle="collapse" href="#collapsecheque" role="button">
-                                            Cheque Payment
-                                        </a>
-                                    </h3>
+                                <!--                                <div class="border p-3 mb-3">-->
+                                <!--                                    <h3 class="h6 mb-0">-->
+                                <!--                                        <a aria-controls="collapsecheque" aria-expanded="false" class="d-block"-->
+                                <!--                                           data-bs-toggle="collapse" href="#collapsecheque" role="button">-->
+                                <!--                                            Cheque Payment-->
+                                <!--                                        </a>-->
+                                <!--                                    </h3>-->
 
-                                    <div class="collapse" id="collapsecheque">
-                                        <div class="py-2">
-                                            <p class="mb-0">
-                                                Make your payment directly into our bank account.
-                                                Please use your Order ID as the payment reference.
-                                                Your order won’t be shipped until the funds have
-                                                cleared in our account.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--                                    <div class="collapse" id="collapsecheque">-->
+                                <!--                                        <div class="py-2">-->
+                                <!--                                            <p class="mb-0">-->
+                                <!--                                                Make your payment directly into our bank account.-->
+                                <!--                                                Please use your Order ID as the payment reference.-->
+                                <!--                                                Your order won’t be shipped until the funds have-->
+                                <!--                                                cleared in our account.-->
+                                <!--                                            </p>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
 
-                                <div class="border p-3 mb-5">
-                                    <h3 class="h6 mb-0">
-                                        <a aria-controls="collapsepaypal" aria-expanded="false" class="d-block"
-                                           data-bs-toggle="collapse" href="#collapsepaypal" role="button">
-                                            Paypal
-                                        </a>
-                                    </h3>
+                                <!--                                <div class="border p-3 mb-5">-->
+                                <!--                                    <h3 class="h6 mb-0">-->
+                                <!--                                        <a aria-controls="collapsepaypal" aria-expanded="false" class="d-block"-->
+                                <!--                                           data-bs-toggle="collapse" href="#collapsepaypal" role="button">-->
+                                <!--                                            Paypal-->
+                                <!--                                        </a>-->
+                                <!--                                    </h3>-->
 
-                                    <div class="collapse" id="collapsepaypal">
-                                        <div class="py-2">
-                                            <p class="mb-0">
-                                                Make your payment directly into our bank account.
-                                                Please use your Order ID as the payment reference.
-                                                Your order won’t be shipped until the funds have
-                                                cleared in our account.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!--                                    <div class="collapse" id="collapsepaypal">-->
+                                <!--                                        <div class="py-2">-->
+                                <!--                                            <p class="mb-0">-->
+                                <!--                                                Make your payment directly into our bank account.-->
+                                <!--                                                Please use your Order ID as the payment reference.-->
+                                <!--                                                Your order won’t be shipped until the funds have-->
+                                <!--                                                cleared in our account.-->
+                                <!--                                            </p>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
 
                                 <div class="form-group">
                                     <button class="btn btn-black btn-lg py-3 btn-block"
-                                            type="submit">
+                                            type="submit"
+                                            style="background-color: #314d43;border: none">
                                         Đặt hàng
                                     </button>
                                 </div>
@@ -1398,11 +1347,106 @@
         return true;
     }
 
-    function checkThemDiaChi() {
-        var modalId = 'staticBackdrop' + $(this).attr('id');
-        var modal = new bootstrap.Modal(document.getElementById('modalId'));
-        modal.show();
-        return true;
+    function formatNumberWithVND(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VND';
+    }
+
+    function selectVoucher() {
+        // Lấy tất cả các phần tử input type="radio"
+        var voucherInputs = document.querySelectorAll('input[type="radio"][name="chonVoucher"]');
+
+        // Tìm input voucher được chọn
+        var selectedVoucherInput = Array.from(voucherInputs).find(function (input) {
+            return input.checked;
+        });
+
+        // Kiểm tra xem đã chọn voucher hay chưa
+        if (selectedVoucherInput) {
+            // Lấy thông tin voucher được chọn
+            var voucherRow = selectedVoucherInput.closest('tr');
+            var voucherId = voucherRow.querySelector('.voucherIdColumn').getAttribute('id');
+            var voucherName = voucherRow.querySelector('th:nth-child(2)').innerText;
+            var voucherDiscount = voucherRow.querySelector('td:nth-child(3)').innerText;
+            var voucherMaxDiscount = voucherRow.querySelector('td:nth-child(4)').innerText;
+            var giamGia = parseFloat(voucherDiscount);
+            var apDungToiDa = parseInt(voucherMaxDiscount);
+            var duocApDungToiDa = apDungToiDa * 1000;
+            var apDungPhanTram = giamGia / 100;
+
+
+            let existingTotalAmount = parseInt($("#totalAmount").val());
+            let ship = parseInt($("#shippingFee").val());
+            var duocApDung = Math.round(apDungPhanTram * existingTotalAmount);
+            existingTotalAmount = existingTotalAmount + ship;
+            if (duocApDung < duocApDungToiDa) {
+                existingTotalAmount = existingTotalAmount - duocApDung;
+                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
+                document.getElementById('voucher').innerText = '-'+  formatNumberWithVND(duocApDung);
+                document.getElementById('voucherName').value = voucherName;
+                document.getElementById('voucherId').value = voucherId;
+                document.getElementById('giamGiaDuocApDung').value = duocApDung;
+            } else {
+                existingTotalAmount = existingTotalAmount - duocApDungToiDa;
+                document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
+                document.getElementById('voucher').innerText = '-'+  formatNumberWithVND(duocApDungToiDa);
+                document.getElementById('voucher').value = duocApDungToiDa;
+                document.getElementById('voucherName').value = voucherName;
+                document.getElementById('voucherId').value = voucherId;
+                console.log("Áp dụng: " + duocApDungToiDa)
+                // document.getElementById('giamGiaDuocApDung').value = duocApDungToiDa;
+            }
+
+            // In thông tin voucher được chọn
+            console.log('Voucher đã chọn:', voucherId);
+            console.log('Tên:', voucherName);
+            console.log('Giảm giá:', apDungPhanTram);
+            console.log('Tối đa:', duocApDungToiDa);
+
+
+            // Thực hiện các hành động khác khi chọn voucher
+            // Ví dụ: cập nhật giá trị vào các trường input khác trên trang
+        } else {
+            console.log('Vui lòng chọn một voucher.');
+        }
+    }
+
+    // Gán sự kiện click cho button "Chọn"
+    var selectButton = document.getElementById('chon-btn');
+    selectButton.addEventListener('click', selectVoucher);
+
+    function tichXu(event){
+        var tongTienHang = parseInt($("#totalAmount").val());
+        console.log("tongTienHang: " + tongTienHang)
+        // var tongTienHangShow = document.getElementById("totalAmountShow");
+        var tienShip = parseInt($("#shippingFee").val());
+        // //voucher
+        let voucher = parseInt($("#voucher").val());
+        console.log("voucher: " + voucher)
+        //
+        if (isNaN(voucher)) {
+            voucher = 0;
+        }
+        tongTienHang = tongTienHang + tienShip - voucher;
+        var xuInput = document.getElementById("xuTichDiem");
+        var discount = 50000;
+        var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
+        if (isNaN(xu)) {
+            return;
+        }
+        if (xu < discount) {
+            var discountedValue = xuInput.checked ? (tongTienHang - xu) : tongTienHang;
+            var formattedDiscountedValue = formatNumberWithVND(discountedValue);
+            document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
+            var xuTru = xuInput.checked ? 0 : xu;
+            document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
+        } else {
+            var discountedValue = xuInput.checked ? (tongTienHang - discount) : tongTienHang;
+
+            var formattedDiscountedValue = formatNumberWithVND(discountedValue);
+            document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
+            var xuTru = xuInput.checked ? (xu - discount) : xu;
+            document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
+        }
     }
 
     function suaDiaChiCheck(event) {
@@ -1568,6 +1612,8 @@
         var idThanhPho = $("input[name='thanhPho']").val();
         var idQuanHuyen = $("input[name='quanHuyen']").val();
         var idPhuongXa = $("input[name='xaPhuong']").val();
+
+
         fetch('https://online-gateway.ghn.vn/shiip/public-api/master-data/province', {
             method: 'GET',
             headers: {
@@ -1685,278 +1731,6 @@
     });
 </script>
 <!-- detail api địa chỉ end-->
-
-<script>
-    $(document).ready(function () {
-        let button = document.getElementById('click-btn');
-        button.disabled = false;
-        // let checkbox = document.getElementById('useAllPointsCheckbox');
-        // checkbox.readOnly = true;
-        // let apDung = document.getElementById('diemTichLuyApDung');
-        // apDung.readOnly = true;
-
-
-        document.getElementById('shippingColumn').innerText = '0 VND';
-        let provinceName = '';
-        let districtName = '';
-        let wardName = '';
-        let fromDistrictId = 1488;
-        let toDistrictId = '';
-        let toWardCode = '';
-
-        function formatNumberWithVND(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + ' VND';
-        }
-
-        const host = "https://online-gateway.ghn.vn/shiip/public-api/master-data/";
-        const token = '5f440054-8c34-11ee-af43-6ead57e9219a';
-
-        let callAPI = (api, params = {}) => {
-            const config = {
-                headers: {
-                    'token': token
-                },
-                params: params
-            };
-
-            return axios.get(host + api, config)
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((error) => {
-                    console.error("Error calling API:", error);
-                });
-        };
-
-        let callAPICalculate = (params = {}) => {
-            const config = {
-                headers: {
-                    'token': token,
-                    'shop_id': 4724045
-                },
-                params: params
-            };
-
-            return axios.get("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", config)
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((error) => {
-                    console.error("Error calling API:", error);
-                });
-        };
-
-        let callApiDistrict = (provinceId) => {
-            return callAPI("district", {'province_id': provinceId});
-        };
-
-        let callApiWard = (districtId) => {
-            return callAPI("ward", {'district_id': districtId});
-        };
-
-        // let renderDataProvince = () => {
-        //     callAPI("province")
-        //         .then((data) => {
-        //             let row = '<option disabled value="">Chọn tỉnh/thành</option>';
-        //             data.data.forEach(element => {
-        //                 row += `<option value="${element.ProvinceID}">${element.ProvinceName}</option>`;
-        //             });
-        //             document.querySelector("#province").innerHTML = row;
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error rendering province data:", error);
-        //         });
-        // };
-        //
-        //
-        // let renderDataDistrict = (array) => {
-        //     let row = '<option disabled value="">Chọn quận/huyện</option>';
-        //     array.data.forEach(element => {
-        //         row += `<option value="${element.DistrictID}">${element.DistrictName}</option>`;
-        //     });
-        //     document.querySelector("#district").innerHTML = row;
-        // };
-        //
-        // let renderDataWard = (array) => {
-        //     let row = '<option disabled value="">Chọn xã/phường</option>';
-        //     array.data.forEach(element => {
-        //         row += `<option value="${element.WardCode}">${element.WardName}</option>`;
-        //     });
-        //     document.querySelector("#ward").innerHTML = row;
-        // };
-        // renderDataProvince();
-        //
-        // $("#province").change(() => {
-        //     const provinceId = $("#province").val();
-        //     provinceName = $("#province").text();
-        //     console.log(provinceId);
-        //     if (provinceId) {
-        //         callApiDistrict(provinceId)
-        //             .then((data) => renderDataDistrict(data));
-        //     }
-        // });
-        //
-        // $("#district").change(() => {
-        //     const districtId = $("#district").val();
-        //     districtName = $("#district").text();
-        //     console.log(districtId);
-        //     if (districtId) {
-        //         toDistrictId = districtId;
-        //         callApiWard(districtId)
-        //             .then((data) => renderDataWard(data));
-        //     }
-        // });
-        //
-        // $("#ward").change(() => {
-        //     toWardCode = $("#ward").val();
-        //     console.log(toWardCode);
-        //     wardName = $("#ward").text();
-        //     document.getElementById('provinceName').value = provinceName;
-        //     document.getElementById('districtName').value = districtName;
-        //     document.getElementById('wardName').value = wardName;
-        //
-        //     callAPICalculate({
-        //         "service_type_id": 2,
-        //         "insurance_value": 500000,
-        //         "coupon": null,
-        //         "from_district_id": fromDistrictId,
-        //         "to_district_id": toDistrictId,
-        //         "to_ward_code": toWardCode,
-        //         "height": 12,
-        //         "length": 26,
-        //         "weight": 500 * length,
-        //         "width": 27
-        //     }).then(data => {
-        //         let shippingFee = data.data.total;
-        //         console.log(data.data.total);
-        //         document.getElementById('shippingFee').value = shippingFee;
-        //
-        //         let value = parseInt($("#totalAmount").val());
-        //         let newTotalAmount = value + shippingFee;
-        //         existingTotalAmount = newTotalAmount;
-        //
-        //         document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newTotalAmount);
-        //         document.getElementById('totalAmount').value = newTotalAmount;
-        //         document.getElementById('shippingColumn').innerText =
-        //             (shippingFee > 0 ?
-        //                 formatNumberWithVND(shippingFee) :
-        //                 '0.000.000 VND');
-        //         let shippingColumnContent = document.getElementById('shippingColumn').innerText;
-        //
-        //         let button = document.getElementById('click-btn');
-        //         let checkbox = document.getElementById('useAllPointsCheckbox');
-        //         let apDung = document.getElementById('diemTichLuyApDung');
-        //
-        //         if (shippingColumnContent.trim() !== "") {
-        //             button.disabled = false;
-        //             checkbox.readOnly = false;
-        //             apDung.readOnly = false;
-        //         } else {
-        //             button.disabled = true;
-        //             checkbox.readOnly = true;
-        //             apDung.readOnly = true;
-        //         }
-        //     });
-        // });
-
-        let existingTotalAmount = parseInt($("#totalAmount").val());
-
-        let originVoucher = 0;
-
-        let duocApDung = 0;
-
-        // $('.add-voucher').click(function (event) {
-        //     event.preventDefault();
-        //     let text = $(this).attr('data-text');
-        //     document.getElementById('voucherName').value = text;
-        //     document.getElementById('voucherId').value = $(this).attr('data-id');
-        //     console.log($(this).attr('data-id'));
-        //     if (originVoucher !== 0) {
-        //         let value1 = existingTotalAmount + duocApDung;
-        //         existingTotalAmount = value1;
-        //         let discountValue = $(this).attr('data-muc-giam-gia');
-        //         let apDungToiDa = parseFloat($(this).attr('data-giam-toi-da'));
-        //         let apDung = Math.round((discountValue / 100) * existingTotalAmount);
-        //         if (apDung > apDungToiDa) {
-        //             let newValue = existingTotalAmount - apDungToiDa;
-        //             existingTotalAmount = newValue;
-        //             document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-        //             document.getElementById('voucher').innerText = formatNumberWithVND(apDungToiDa);
-        //             originVoucher = discountValue;
-        //             duocApDung = apDungToiDa;
-        //         } else {
-        //             let newValue = Math.round(((100 - discountValue) / 100) * existingTotalAmount);
-        //             let apDung = Math.round((discountValue / 100) * existingTotalAmount);
-        //             existingTotalAmount = newValue;
-        //             document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-        //             document.getElementById('voucher').innerText = formatNumberWithVND(apDung);
-        //             originVoucher = discountValue;
-        //             duocApDung = apDung;
-        //         }
-        //     } else {
-        //         let discountValue = $(this).attr('data-muc-giam-gia');
-        //         let apDungToiDa = parseFloat($(this).attr('data-giam-toi-da'));
-        //         console.log(apDungToiDa);
-        //         let apDung = Math.round((discountValue / 100) * existingTotalAmount);
-        //         if (apDung > apDungToiDa) {
-        //             let newValue = existingTotalAmount - apDungToiDa;
-        //             existingTotalAmount = newValue;
-        //             document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-        //             document.getElementById('voucher').innerText = formatNumberWithVND(apDungToiDa);
-        //             originVoucher = discountValue;
-        //             duocApDung = apDungToiDa;
-        //         } else {
-        //             let newValue = Math.round(((100 - discountValue) / 100) * existingTotalAmount);
-        //             let apDung = Math.round((discountValue / 100) * existingTotalAmount);
-        //             existingTotalAmount = newValue;
-        //             document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-        //             document.getElementById('voucher').innerText = formatNumberWithVND(apDung);
-        //             originVoucher = discountValue;
-        //             duocApDung = apDung;
-        //         }
-        //     }
-        // });
-        //
-        // $('#huy-btn').click(function (event) {
-        //     event.preventDefault();
-        //     if (originVoucher !== 0) {
-        //         let newValue = existingTotalAmount + duocApDung;
-        //         existingTotalAmount = newValue;
-        //         document.getElementById('totalAmountShow').innerText = formatNumberWithVND(newValue);
-        //         document.getElementById('voucherName').value = '';
-        //         document.getElementById('voucher').innerText = '0 VND';
-        //         originVoucher = 0;
-        //     }
-        // });
-
-        // let diemTichLuyOrigin = 0;
-        $('#xuTichDiem').change(function () {
-            var xuInput = document.getElementById("xuTichDiem");
-            var discount = 50000;
-            var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
-            if (isNaN(xu)) {
-                return;
-            }
-            if (xu < discount) {
-                var discountedValue = xuInput.checked ? (existingTotalAmount - xu) : existingTotalAmount;
-                var formattedDiscountedValue = formatNumberWithVND(discountedValue);
-                document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
-                var xuTru = xuInput.checked ? 0 : xu;
-                document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
-            } else {
-                var discountedValue = xuInput.checked ? (existingTotalAmount - discount) : existingTotalAmount;
-
-                var formattedDiscountedValue = formatNumberWithVND(discountedValue);
-                document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
-                var xuTru = xuInput.checked ? (xu - discount) : xu;
-                document.getElementById("diemTichLuy").value = "" + xuTru.toLocaleString("vi-VN") + " Xu";
-            }
-        });
-    });
-
-</script>
-
-
 <script src="/../../js/admin/main.js"></script>
 <script src="/js/admin/index_form.js"></script>
 <script src="/js/admin/decimal.js"></script>

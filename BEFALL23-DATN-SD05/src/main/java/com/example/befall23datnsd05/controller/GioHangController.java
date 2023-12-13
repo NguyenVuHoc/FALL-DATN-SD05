@@ -81,10 +81,32 @@ public class GioHangController {
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang,
                            @RequestParam String options) {
-        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
-        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
 
-        model.addAttribute("diaChi2", diaChi);
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        if (khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).isEmpty()) {
+            model.addAttribute("diaChi2", new DiaChi());
+            model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+            model.addAttribute("newDiaChi", new DiaChiRequest());
+
+            String[] optionArray = options.split(",");
+            List<String> listIdString = Arrays.asList(optionArray);
+            gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
+            model.addAttribute("gioHangWrapper", gioHangWrapper);
+            model.addAttribute("options", options);
+            model.addAttribute("idKhachHang", Long.valueOf(5));
+            BigDecimal diemTichLuy = khachHang1.getTichDiem();
+            model.addAttribute("diemTichLuy", diemTichLuy);
+            System.out.println(diemTichLuy);
+            long total = 0;
+            for (GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
+                total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
+            }
+            List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
+            model.addAttribute("vouchers", vouchers);
+            return "customer-template/checkout";
+        }
+
+        model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         model.addAttribute("newDiaChi", new DiaChiRequest());
 
@@ -120,11 +142,12 @@ public class GioHangController {
             @RequestParam("tongTienHang") String tongTien,
             @RequestParam(name = "originAmount") BigDecimal totalAmount,
             @RequestParam(name = "voucherId", required = false, defaultValue = "0") Long selectedVoucherId,
-            @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") BigDecimal diemTichLuyApDung,
             @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
-            @RequestParam(name = "origin") BigDecimal diemTichLuy) {
+            @RequestParam(name = "origin") BigDecimal diemTichLuy,
+            Model model) {
         String diaChiCuThe = diaChi + "," + xa + "," + huyen + "," + thanhPho;
-        banHangCustomerService.datHangItems(gioHangWrapper, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
+        banHangCustomerService.datHangItems(gioHangWrapper, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuy, useAllPointsHidden);
+        model.addAttribute("idHd", banHangCustomerService.getIdHoaDonVuaMua(5L));
         return "redirect:/wingman/cart/thankyou";
     }
 
@@ -136,6 +159,7 @@ public class GioHangController {
                             @RequestParam("thanhPhoID") String thanhPho,
                             @RequestParam("options") String options,
                             Model model) {
+        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
         KhachHang khachHang = khachHangService.getById(Long.valueOf(idKhachHang));
         model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(idKhachHang)).get(0));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang.getId()));
@@ -149,7 +173,6 @@ public class GioHangController {
         }
         List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
         model.addAttribute("vouchers", vouchers);
-        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
         return "redirect:/wingman/cart/checkout?options=" + options;
     }
 

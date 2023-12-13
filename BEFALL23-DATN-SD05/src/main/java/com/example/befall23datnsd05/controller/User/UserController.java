@@ -6,6 +6,7 @@ import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final KhachHangService khachHangService;
     private final DiaChiService diaChiService;
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
 
     public UserController(KhachHangService khachHangService, DiaChiService diaChiService) {
         this.khachHangService = khachHangService;
@@ -26,16 +28,19 @@ public class UserController {
     /**
      * Get User By IdKh
      *
-     * @param id
      * @param model
      * @return
      */
-    @GetMapping("/thong-tin-cua-toi/{id}")
-    public String getAll(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/thong-tin-cua-toi")
+    public String getAll(Model model) {
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
+            return "redirect:/login";
+        }
         KhachHang khachHang = khachHangService.getById(id);
         model.addAttribute("khachHang", khachHang);
         model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
-        model.addAttribute("diaChi",new DiaChiRequest());
+        model.addAttribute("diaChi", new DiaChiRequest());
         return "customer-template/user/profile";
     }
 
@@ -85,10 +90,13 @@ public class UserController {
     public String addDiaChi(
             @Valid
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
-            @PathVariable("idKhachHang") String idKhachHang
+            @PathVariable("idKhachHang") String idKhachHang,
+            @RequestParam("phuongXaID") String phuongXa,
+            @RequestParam("quanHuyenID") String quanHuyen,
+            @RequestParam("thanhPhoID") String thanhPho
     ) {
-//        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKhachHang + "?success";
+        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
+        return "redirect:/wingman/thong-tin-cua-toi?success";
     }
 
     /**
@@ -104,34 +112,37 @@ public class UserController {
     public String updateDiaChi(
             @PathVariable("id") Long id,
             @PathVariable("idKH") Long idKH,
-            @ModelAttribute("diaChi") DiaChiRequest diaChiRequest, Model model
+            @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
+            @RequestParam("phuongXa") String phuongXa,
+            @RequestParam("quanHuyen") String quanHuyen,
+            @RequestParam("thanhPho") String thanhPho,
+            Model model
     ) {
         KhachHang khachHang = khachHangService.getById(idKH);
-        if(diaChiRequest.getTenNguoiNhan().isEmpty()){
+        if (diaChiRequest.getTenNguoiNhan().isEmpty()) {
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
             model.addAttribute("diaChi", new DiaChiRequest());
             model.addAttribute("khachHang", khachHang);
             model.addAttribute("errorTen", "Tên người nhận không được để trống!");
             return "customer-template/user/profile";
         }
-        if(diaChiRequest.getSdt().isEmpty()){
+        if (diaChiRequest.getSdt().isEmpty()) {
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
             model.addAttribute("diaChi", new DiaChiRequest());
             model.addAttribute("khachHang", khachHang);
             model.addAttribute("errorTen", "Số điện thoại không được để trống!");
             return "customer-template/user/profile";
         }
-        if(diaChiRequest.getDiaChi().isEmpty()){
+        if (diaChiRequest.getDiaChi().isEmpty()) {
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
             model.addAttribute("diaChi", new DiaChiRequest());
             model.addAttribute("khachHang", khachHang);
             model.addAttribute("errorTen", "Địa chỉ không được để trống!");
             return "customer-template/user/profile";
+        } else {
+            diaChiService.update(diaChiRequest, thanhPho, quanHuyen, phuongXa);
         }
-        else {
-//            diaChiService.update(diaChiRequest, id);
-        }
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi?success";
     }
 
     /**
@@ -147,11 +158,12 @@ public class UserController {
 
     ) {
         diaChiService.remove(id);
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi?success";
     }
 
     /**
      * Change passwword
+     *
      * @param idKh
      * @param oldPassword
      * @param newPassword
@@ -177,11 +189,10 @@ public class UserController {
             model.addAttribute("khachHang", khachHang);
             model.addAttribute("errorTen", "Mật khẩu bạn nhập không trùng khớp!");
             return "customer-template/user/profile";
-        }
-        else {
+        } else {
 
-        khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
-        return "redirect:/wingman/thong-tin-cua-toi/" + idKh + "?success";
+            khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
+            return "redirect:/wingman/thong-tin-cua-toi?success";
         }
     }
 }

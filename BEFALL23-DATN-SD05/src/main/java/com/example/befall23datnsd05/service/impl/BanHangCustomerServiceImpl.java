@@ -126,7 +126,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
-    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuyApDung, BigDecimal diemTichLuy, String useAll) {
+    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll) {
         KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
         NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
         LocalDateTime time = LocalDateTime.now();
@@ -166,26 +166,25 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
             maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
             maGiamGiaRepository.save(maGiamGia);
         }
-        if (useAll.equals("false")){
+        if (useAll.equals("false")) {
             hoaDon.setXu(BigDecimal.valueOf(0));
-        }else {
-            if (diemTichLuyApDung.compareTo(BigDecimal.valueOf(50000)) > 0){
+        } else {
+            if (diemTichLuy.compareTo(BigDecimal.valueOf(50000)) > 0) {
                 hoaDon.setXu(BigDecimal.valueOf(50000));
                 totalAmount = BigDecimal.valueOf(totalAmount.intValue() - BigDecimal.valueOf(50000).intValue());
                 khachHang.setTichDiem(khachHang.getTichDiem().subtract(BigDecimal.valueOf(50000)));
                 khachHangRepository.save(khachHang);
-            }else {
+            } else {
                 hoaDon.setXu(khachHang.getTichDiem());
                 totalAmount = BigDecimal.valueOf(totalAmount.intValue() - khachHang.getTichDiem().intValue());
                 khachHang.setTichDiem(BigDecimal.valueOf(0));
                 khachHangRepository.save(khachHang);
             }
         }
-        hoaDon.setXu(BigDecimal.valueOf(0));
         hoaDon.setTongTien(tongTien);
         hoaDon.setThanhToan(totalAmount);
         hoaDonRepository.save(hoaDon);
-        sendMailKhService.sendEmail1(khachHang,hoaDon);
+        sendMailKhService.sendEmail1(khachHang, hoaDon);
     }
 
     @Override
@@ -234,5 +233,10 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         GioHangWrapper gioHangWrapper = new GioHangWrapper();
         gioHangWrapper.setListGioHangChiTiet(gioHangChiTietRepository.findAllById(listIdLong));
         return gioHangWrapper;
+    }
+
+    @Override
+    public Long getIdHoaDonVuaMua(Long idKhachHang) {
+        return hoaDonRepository.getIdHoaDon(idKhachHang);
     }
 }
