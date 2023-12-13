@@ -25,7 +25,7 @@ public class CustomNhanVienDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<NhanVien> nhanVien = nhanVienRepository.findByEmail(username);
-        Optional<KhachHang> khachHang = khachHangRepository.findByEmail(username);
+        Optional<KhachHang> khachHang = khachHangRepository.findByEmailAndIdNot(username, 1L);
 
         if (khachHang.isPresent()) {
             return new CustomKhachHangDetail(khachHang.get());
