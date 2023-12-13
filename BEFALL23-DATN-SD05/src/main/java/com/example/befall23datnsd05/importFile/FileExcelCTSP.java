@@ -74,10 +74,10 @@ public class FileExcelCTSP {
                 String coGiayStr = String.valueOf(getCellValue(row.getCell(4))).trim();
                 String lotGiayStr = String.valueOf(getCellValue(row.getCell(3))).trim();
                 String soLuongTon = String.valueOf(getCellValue(row.getCell(6))).trim().replace(".0", "");
-                String giaBan = String.valueOf(getCellValue(row.getCell(7))).trim();
+                String giaMacDinh = String.valueOf(getCellValue(row.getCell(7))).trim();
 
                 if (mauSacStr.isEmpty() && sanPhamStr.isEmpty() && kichThuocStr.isEmpty() && deGiayStr.isEmpty()
-                        && soLuongTon.isEmpty() && giaBan.isEmpty() && coGiayStr.isEmpty() && lotGiayStr.isEmpty()) {
+                        && soLuongTon.isEmpty() && giaMacDinh.isEmpty() && coGiayStr.isEmpty() && lotGiayStr.isEmpty()) {
                     listIndex.add(index);
                     continue;
                 }
@@ -99,7 +99,7 @@ public class FileExcelCTSP {
                     listIndex.add(index);
                     continue;
                 }
-                if (Integer.parseInt(soLuongTon) < 0 || new BigDecimal(giaBan).compareTo(BigDecimal.ZERO) < 0) {
+                if (Integer.parseInt(soLuongTon) < 0 || new BigDecimal(giaMacDinh).compareTo(BigDecimal.ZERO) < 0) {
                     listIndex.add(index);
                     continue;
                 }
@@ -115,15 +115,15 @@ public class FileExcelCTSP {
                     chiTietSanPham.setCoGiay(coGiay);
                     chiTietSanPham.setLotGiay(lotGiay);
                     chiTietSanPham.setSoLuongTon(Integer.parseInt(soLuongTon));
-                    chiTietSanPham.setGiaBan(BigDecimal.valueOf(Double.parseDouble(giaBan)));
-                    chiTietSanPham.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaBan)));
+                    chiTietSanPham.setGiaBan(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
+                    chiTietSanPham.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
                     chiTietSanPham.setTrangThai(TrangThai.DANG_HOAT_DONG);
                     chiTietSanPham.setNgayTao(LocalDate.now());
                     chiTietSanPhamService.save(chiTietSanPham);
                 } else {
                     chiTietSanPhamCheck.setSoLuongTon(chiTietSanPhamCheck.getSoLuongTon() + Integer.parseInt(soLuongTon));
-                    chiTietSanPhamCheck.setGiaBan(BigDecimal.valueOf(Double.parseDouble(giaBan)));
-                    chiTietSanPhamCheck.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaBan)));
+                    chiTietSanPhamCheck.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
+                    chiTietSanPhamCheck.setGiaBan(chiTietSanPhamCheck.tinhGiaSauGiamGia());
                     chiTietSanPhamService.save(chiTietSanPhamCheck);
                 }
                 workbook.close();
