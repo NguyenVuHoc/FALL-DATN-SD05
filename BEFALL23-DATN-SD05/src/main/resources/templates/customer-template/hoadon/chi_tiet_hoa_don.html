@@ -278,7 +278,7 @@
                                 </div>
                                 <div>
                                     <p><strong>Trạng Thái:</strong> <span th:text="${hd.trangThai.getDisplayName()}"></span></p>
-                                    <p><strong>Ghi chú:</strong> <span th:text="${hd.ghiChu}"></span></p>
+                                    <p><strong>Ghi Chú Đơn Hàng:</strong> <span th:text="${hd.ghiChu}"></span></p>
                                     <p>
                                         <strong>Tổng Tiền:</strong>
                                         <span th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
@@ -327,7 +327,7 @@
                                         <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan * gioHangChiTiet.soLuong, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                         <td>
                                             <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
-                         or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_HOAN_TRA)
+                         or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).TU_CHOI_TRA_HANG)
                          }"
                                                  th:text="${gioHangChiTiet.trangThai.getDisplayName()}"></div>
@@ -440,9 +440,7 @@
                                                   class="my-form reduced-height">
                                                 <div class="modal-body">
                                                     <input type="hidden" name="id" th:value="${hd.id}"/>
-                                                    <input type="text" class="form-control mb-3" name="id"
-                                                           th:value="${hd.ghiChu}" readonly/>
-                                                    <label class="form-label">Ghi chú</label>
+                                                    <label class="form-label">Lý do huỷ đơn hàng</label>
                                                     <input type="text" class="form-control mb-3" name="ghiChu"
                                                            th:value="${ghiChu}"/>
                                                 </div>

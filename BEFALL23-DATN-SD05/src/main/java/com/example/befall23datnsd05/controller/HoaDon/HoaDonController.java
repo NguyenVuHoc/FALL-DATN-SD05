@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/admin/hoa-don")
 public class HoaDonController {
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
-            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG,TrangThaiDonHang.DA_TRA_HANG));
+            TrangThaiDonHang.DANG_GIAO, TrangThaiDonHang.DA_GIAO, TrangThaiDonHang.HOAN_THANH, TrangThaiDonHang.DA_HUY, TrangThaiDonHang.XAC_NHAN_TRA_HANG));
     private final HoaDonService hoaDonService;
     private final HoaDonChiTietService hoaDonChiTietService;
     private final GioHangChiTietService gioHangChiTietService;
@@ -322,7 +322,7 @@ public class HoaDonController {
 //                        hoaDonService.removeGioHangChiTietHoanTra(gioHangChiTiet, hoaDon);
                     ChiTietSanPham chiTietSanPham = chiTietSanPhamService.findById(gioHangChiTiet1.getChiTietSanPham().getId()).get();
                     if (chiTietSanPham.getId() != null && gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
-                        gioHangChiTiet1.setTrangThai(TrangThai.DA_HOAN_TRA);
+                        gioHangChiTiet1.setTrangThai(TrangThai.DA_TRA_HANG);
                         gioHangChiTiet1.setGhiChu("sản phẩm hoàn trả");
                         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + gioHangChiTiet1.getSoLuong());
                         chiTietSanPhamService.save(chiTietSanPham);

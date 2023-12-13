@@ -1,7 +1,10 @@
 package com.example.befall23datnsd05.sendEmail;
 
+import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.KhachHang;
+import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
+import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -18,6 +22,8 @@ public class SendMailImpl implements SendMailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private GioHangChiTietRepository gioHangChiTietRepository;
 
     @Override
     public void sendEmail(KhachHang khachHang, String url) {
@@ -70,52 +76,95 @@ public class SendMailImpl implements SendMailService {
         String from = "wingmansd05@gmail.com";
         String to = khachHang.getEmail();
         String subject = "Thông tin hóa đơn";
-        StringBuilder content = new StringBuilder(
-                "<p class=\"email-content\" style=\"font-family: 'Arial', sans-serif;font-size: 16px;color: #333;line-height: 1.5;\">\n" +
-                        "Xin chào [[name]], <br>\n" +
-                        "Cảm ơn bạn đã tin tưởng và mua hàng tại Wingman. Đơn hàng của bạn đang được xử lý và sẽ đến tay bạn sớm\n" +
-                        "</p>\n" +
+        StringBuilder content = new StringBuilder("<div style=\"font-family: 'Arial', sans-serif; font-size: 16px; color: black;\">")
+                .append("<p style=\"color: black;\"><b>Xin chào ").append(khachHang.getTen()).append(",</b></p>")
+                .append("<p style=\"color: black;\">Cảm ơn bạn đã tin tưởng và mua hàng tại Wingman.</p>");
 
-                        "<p class=\"email-content\">\n" +
-                        "**Thông tin đơn hàng**\n" +
-                        "</p>\n" +
-                        "<p class=\"email-content\">\n" +
-                        "Mã hóa đơn: [[maHoaDon]]\n" +
-                        "</p>\n" +
-                        "<p class=\"email-content\">\n" +
-                        "Địa chỉ: [[diaChi]]\n" +
-                        "</p>\n" +
-                        "<p class=\"email-content\">\n" +
-                        "Số điện thoại: [[sdt]]\n" +
+        if (hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI) {
+            content.append("<p style=\"color: black;\">Chúng tôi xin thông báo rằng đơn hàng của bạn hiện đang trong quá trình chuẩn bị và sẽ sớm được gửi đến địa chỉ của bạn.</p>")
+                    .append("<p style=\"color: black;\">Xin cảm ơn vì đã lựa chọn sản phẩm của chúng tôi!</p>");
+        } else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_GIAO) {
+            content.append("<p style=\"color: black;\">Chúc mừng! Đơn hàng của bạn đã được giao thành công đến địa chỉ của bạn!</p>")
+                    .append("<p style=\"color: black;\">Chúng tôi rất vui mừng vì đã có cơ hội phục vụ bạn và hy vọng bạn sẽ hài lòng với sản phẩm đã mua.</p>")
+                    .append("<p style=\"color: black;\">Vui lòng đăng nhập để xác nhận bạn đã nhận hàng và hài lòng với sản phẩm trong vòng 3 ngày</p>")
+                    .append("<p style=\"color: black;\">Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi ngay!</p>")
+                    .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
+        }else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY) {
+            content.append("<p style=\"color: black;\">Xin chào!</p>")
+                    .append("<p style=\"color: black;\">Chúng tôi rất tiếc phải thông báo rằng đơn hàng của bạn đã bị huỷ.</p>")
+                    .append("<p style=\"color: black;\">Chúng tôi xin lỗi về bất kỳ bất tiện nào gây ra và hy vọng có cơ hội phục vụ bạn trong tương lai.</p>")
+                    .append("<p style=\"color: black;\">Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi ngay!</p>")
+                    .append("<p style=\"color: black;\">Xin cảm ơn bạn đã quan tâm và lựa chọn sản phẩm của chúng tôi!</p>");
+        }
+        else {
+            content.append("<p style=\"color: black;\">Đơn hàng của bạn hiện đang được xử lý. Chúng tôi sẽ thông báo khi đơn hàng gửi đến cho bạn.</p>")
+                    .append("<p style=\"color: black;\">Chúng tôi rất cảm kích sự kiên nhẫn của bạn trong quá trình này.</p>")
+                    .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
+        }
+        if(hoaDon.getTrangThai() != TrangThaiDonHang.DA_HUY){
+            content.append("<p style=\"color: black;\"><strong>Thông tin đơn hàng: [[maHoaDon]]</strong></p>");
+            content.append("<table border=\"1\" style=\"border-collapse: collapse;\">")
+                    .append("<tr>")
+                    .append("<th style=\"border: 1px solid black;\">STT</th>")
+                    .append("<th style=\"border: 1px solid black;\">Tên sản phẩm</th>")
+                    .append("<th style=\"border: 1px solid black;\">Cổ giày</th>")
+                    .append("<th style=\"border: 1px solid black;\">Lót Giày</th>")
+                    .append("<th style=\"border: 1px solid black;\">Kích Thước</th>")
+                    .append("<th style=\"border: 1px solid black;\">Đế giày</th>")
+                    .append("<th style=\"border: 1px solid black;\">Dòng sản phẩm</th>")
+                    .append("<th style=\"border: 1px solid black;\">Thương Hiệu</th>")
+                    .append("<th style=\"border: 1px solid black;\">Đơn giá</th>")
+                    .append("<th style=\"border: 1px solid black;\">Số lượng</th>")
+                    .append("</tr>");
+            int stt=1;
+            List<GioHangChiTiet> gioHangChiTiets= gioHangChiTietRepository.findByHoaDon(hoaDon.getId());
+            for( GioHangChiTiet gioHangChiTiet:gioHangChiTiets){
+                content.append("<tr>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(stt++).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getCoGiay().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getLotGiay().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getKichThuoc().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getDeGiay().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getDongSanPham().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getThuongHieu().getTen()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getDonGia()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getSoLuong()).append("</td>")
+                        .append("</tr>");
+            }
+            content.append("</table>");
+
+
+            if (hoaDon.getMaGiamGia() != null) {
+                content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                        "Mã Giảm Giá: [[maGiamGia]]\n" +
                         "</p>\n"
-        );
-        if (hoaDon.getMaGiamGia() != null) {
-            content.append("<p class=\"email-content\">\n" +
-                    "Ma gaim: [[maGiamGia]]\n" +
+                );
+            }
+            content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                    "Phí vận chuyển:[[phiVanChuyen]]\n" +
+                    "</p>\n" +
+                    "<p style=\"color: black;\" class=\"email-content\">\n" +
+                    "Tổng tiền:[[tongTien]]\n" +
+                    "</p>\n" +
+                    "<p style=\"color: black;\" class=\"email-content\">\n" +
+                    "Thanh toán: [[thanhToan]]\n" +
                     "</p>\n"
             );
-        }
-        content.append("<p class=\"email-content\">\n" +
-                "Phí vận chuyển:[[phiVanChuyen]]\n" +
-                "</p>\n" +
-                "<p class=\"email-content\">\n" +
-                "Tổng tiền:[[tongTien]]\n" +
-                "</p>\n" +
-                "<p class=\"email-content\">\n" +
-                "Thanh toán: [[thanhToan]]\n" +
-                "</p>\n"
-        );
-        if (hoaDon.getNgayThanhToan() != null) {
-            content.append("<p class=\"email-content\">\n" +
-                    "Ma gaim: [[ngayThanhToan]]\n" +
-                    "</p>\n"
+            if (hoaDon.getNgayThanhToan() != null) {
+                content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                        "Ngày thanh toán: [[ngayThanhToan]]\n" +
+                        "</p>\n"
+                );
+            }
+            content.append("<br>\n" +
+                    "<p style=\"color: black;\" class=\"email-content\">\n" +
+                    "Cảm ơn bạn đã chọn Wingman! Nếu có bất kỳ thắc mắc nào hoặc cần hỗ trợ, hãy liên hệ với chúng tôi qua số :0329962003.\n" +
+                    "</p>"+
+                    "</div>"
             );
         }
-        content.append("<br>\n" +
-                "<p class=\"email-content\">\n" +
-                "Cảm ơn bạn đã chọn Wingman! Nếu có bất kỳ thắc mắc nào hoặc cần hỗ trợ, hãy liên hệ với chúng tôi.\n" +
-                "</p>"
-        );
+
         try {
 
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -126,7 +175,13 @@ public class SendMailImpl implements SendMailService {
             decimalFormat.applyPattern("#,### VND");
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String ngayThanhToanFormatted = hoaDon.getNgayThanhToan().format(formatter);
+            String ngayThanhToanFormatted;
+            if(hoaDon.getNgayThanhToan()!=null){
+                 ngayThanhToanFormatted = hoaDon.getNgayThanhToan().format(formatter);
+            }
+            else {
+                ngayThanhToanFormatted="";
+            }
 
             helper.setFrom(from, "Wingman");
             helper.setTo(to);

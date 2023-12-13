@@ -1,22 +1,21 @@
 package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.entity.*;
+import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.GioHangChiTiet;
+import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
-import com.example.befall23datnsd05.repository.KhachHangRepository;
-import com.example.befall23datnsd05.request.HoaDonRequest;
+import com.example.befall23datnsd05.sendEmail.SendMailService;
 import com.example.befall23datnsd05.service.HoaDonService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +23,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class HoaDonServiceImpl implements HoaDonService {
-    @Autowired
-    private HoaDonRepo repository;
-    @Autowired
-    private GioHangChiTietRepository gioHangChiTietRepository;
+    private final HoaDonRepo repository;
+    private final GioHangChiTietRepository gioHangChiTietRepository;
 
-    @Autowired
-    private ChiTietSanPhamRepository chiTietSanPhamRepository;
+    private final ChiTietSanPhamRepository chiTietSanPhamRepository;
 
-    @Override
+    private final SendMailService sendMailService;
+
+    public HoaDonServiceImpl(HoaDonRepo repository, GioHangChiTietRepository gioHangChiTietRepository, ChiTietSanPhamRepository chiTietSanPhamRepository, SendMailService sendMailService) {
+        this.repository = repository;
+        this.gioHangChiTietRepository = gioHangChiTietRepository;
+        this.chiTietSanPhamRepository = chiTietSanPhamRepository;
+        this.sendMailService = sendMailService;
+    }
+
     public List<HoaDon> getAll() {
         List<HoaDon> sortedList = repository.findAll().stream()
                 .sorted(Comparator.comparing(HoaDon::getId).reversed()) 
@@ -90,6 +94,10 @@ public class HoaDonServiceImpl implements HoaDonService {
         if (hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
             hoaDon.setNgayThanhToan(LocalDate.now());
         }
+        if(hoaDon.getTrangThai() == TrangThaiDonHang.DA_GIAO|| hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI|| hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY){
+            sendMailService.sendEmail1(hoaDon.getKhachHang(),hoaDon);
+
+        }
         hoaDon = repository.save(hoaDon);
         return hoaDon.getTrangThai().equals(trangThai);
     }
@@ -124,21 +132,7 @@ public class HoaDonServiceImpl implements HoaDonService {
         return true;
     }
 
-    @Override
-    public GioHangChiTiet createGioHangHoanTraByHoaDon(GioHangChiTiet gioHangChiTiet, HoaDon hoaDon) {
-        GioHangChiTiet gioHangChiTietnew = new GioHangChiTiet();
 
-        gioHangChiTietnew.setDonGia(gioHangChiTiet.getDonGia());
-        gioHangChiTietnew.setNgayTao(LocalDate.now());
-        gioHangChiTietnew.setNgaySua(LocalDate.now());
-        gioHangChiTietnew.setGhiChu("sản phẩm hoàn trả của đơn hàng " + hoaDon.getMa());
-        gioHangChiTietnew.setSoLuong(gioHangChiTiet.getSoLuong());
-        gioHangChiTietnew.setTrangThai(TrangThai.DA_HOAN_TRA);
-        gioHangChiTietnew.setChiTietSanPham(gioHangChiTiet.getChiTietSanPham());
-        gioHangChiTietnew.setGioHang(gioHangChiTiet.getGioHang());
-        gioHangChiTietnew.setHoaDon(hoaDon);
-        return gioHangChiTietRepository.save(gioHangChiTietnew);
-    }
 
     @Override
     public ChiTietSanPham refund(GioHangChiTiet gioHangChiTiet) {
@@ -150,6 +144,20 @@ public class HoaDonServiceImpl implements HoaDonService {
         }
         return null;
     }
+    @Scheduled(fixedRate = 300000)
+    public void updateHoaDonEveryDay(){
+        List<HoaDon> hoaDons= repository.findAll();
+        for(HoaDon hoaDon:hoaDons){
+            if(hoaDon.getTrangThai()==TrangThaiDonHang.DA_GIAO|| hoaDon.getNgayThanhToan()!=null){
+                LocalDate ngayCheck = hoaDon.getNgayThanhToan().plusDays(3);
+                if (ngayCheck.isEqual(LocalDate.now()) || ngayCheck.isAfter(LocalDate.now())) {
+                    hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
+                    repository.save(hoaDon);
+                }
+            }
+        }
+    }
+
 
 
 }
