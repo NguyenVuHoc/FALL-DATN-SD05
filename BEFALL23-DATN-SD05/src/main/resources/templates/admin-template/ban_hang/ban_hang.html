@@ -832,6 +832,7 @@
                             <td>
                                 <button type="button" class="btn btn-primary themSoLuong" data-bs-toggle="modal"
                                         th:data-bs-target="'#themSoLuong' + ${sanPham.id}"
+                                        onclick="truyenSoLuongTon(this)"
                                         th:data-so-luong-ton="${sanPham.soLuongTon}"
                                         th:disabled="${sanPham.soLuongTon == 0}">
 
@@ -858,7 +859,7 @@
                                                     Nhập Số Lượng:
                                                     <input type="text" class="form-control"
                                                            name="soLuong" th:field="*{soLuong}">
-                                                    <input type="text" name="soLuongTon" hidden
+                                                    <input type="text" id="soLuongTon" name="soLuongTon" hidden
                                                            th:value="${sanPham.soLuongTon}"/>
                                                 </div>
                                                 <div class="modal-footer">
@@ -1084,6 +1085,7 @@
 </div>
 <script type="text/javascript">
 
+
     function checkThanhToan(form) {
         var url = "[[@{/admin/ban-hang/check-thanh-toan}]]";
         var idHoaDon = form.id.value;
@@ -1132,6 +1134,15 @@
             showErrorModal("Không thể kết nối đến server");
         });
         return false;
+    }
+
+    function truyenSoLuongTon(button) {
+        // Set giá trị soLuongTon cho trường ẩn tương
+        let soLuongTon = button.getAttribute('data-so-luong-ton');
+
+        console.log(soLuongTon);
+        document.getElementById("soLuongTon").value = soLuongTon;
+        console.log("Số lượng 2: "+document.getElementById("soLuongTon").value)
     }
 
     function checkSoLuong(form) {
