@@ -25,6 +25,7 @@ public interface KhachHangService {
     KhachHang getById(Long id);
 
     boolean existsBySdt(String sdt);
+    boolean existsByEmail(String email);
     boolean existsBySdtAndIdNot(String sdt,Long id);
 
     List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang);

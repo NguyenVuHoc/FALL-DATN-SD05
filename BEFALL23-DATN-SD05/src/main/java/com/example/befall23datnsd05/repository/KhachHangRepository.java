@@ -2,8 +2,6 @@ package com.example.befall23datnsd05.repository;
 
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,6 +30,7 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
     boolean existsBySdt(String sdt);
     boolean existsBySdtAndIdNot(String sdt, Long id);
 
-    Optional<KhachHang> findByEmail(String email);
+    Optional<KhachHang> findByEmailAndIdNot(String email, Long id);
 
+    boolean existsByEmail(String email);
 }

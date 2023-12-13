@@ -116,6 +116,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
+    public boolean existsByEmail(String email) {
+        return khachHangRepository.existsByEmail(email);
+    }
+
+    @Override
     public boolean existsBySdtAndIdNot(String sdt, Long id) {
         return khachHangRepository.existsBySdtAndIdNot(sdt, id);
     }
@@ -153,7 +158,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public KhachHang registration(RegisterRequest khachHang) {
-        return null;
+    public KhachHang registration(RegisterRequest request) {
+        return khachHangRepository.save(RegisterRequest.convertToEntity(request));
     }
+
+
 }

@@ -15,7 +15,7 @@ public class CustomKhachHangDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        KhachHang khachHang = khachHangRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("Invalid"));
+        KhachHang khachHang = khachHangRepository.findByEmailAndIdNot(username, 1L).orElseThrow(()-> new UsernameNotFoundException("Invalid"));
         return new CustomKhachHangDetail(khachHang);
     }
 }
