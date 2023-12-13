@@ -122,6 +122,452 @@
         <!-- Navb-->
         <!-- Navbar End -->
         <!-- Recent Sales Start -->
+
+        <!-- Modal đế giầy -->
+        <div class="modal" id="myModalDG" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Đế giày</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="maDG">Mã Đế giày</label>
+                            <input class="form-control" id="maDG" type="text">
+                            <div id="maDGError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tenDG">Tên Đế giày</label>
+                            <input class="form-control" id="tenDG" type="text">
+                            <div id="tenDGError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="button" onclick="addDeGiay()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function addDeGiay() {
+                // Reset previous error messages
+                document.getElementById('maDGError').innerHTML = '';
+                document.getElementById('tenDGError').innerHTML = '';
+
+                var maDG = document.getElementById('maDG').value;
+                var tenDG = document.getElementById('tenDG').value;
+
+                // Validate inputs
+                if (!maDG) {
+                    document.getElementById('maDGError').innerHTML = 'Vui lòng nhập Mã Đế giày';
+                    return;
+                }
+
+                if (!tenDG) {
+                    document.getElementById('tenDGError').innerHTML = 'Vui lòng nhập Tên Đế giày';
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('ma', maDG);
+                formData.append('ten', tenDG);
+
+                // Use AJAX or fetch to send the data to the server
+                // Example using fetch:
+                fetch('/admin/chi-tiet-san-pham/add-de-giay', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        console.log('Trạng thái phản hồi:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(errorMessage => {
+                                throw new Error(errorMessage);
+                            });
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Thành công:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi:', error);
+                        if (error.message.includes('Mã đế giày đã tồn tại')) {
+                            document.getElementById('maDGError').innerHTML = error.message;
+                        } else if (error.message.includes('Tên đế giày đã tồn tại')) {
+                            document.getElementById('tenDGError').innerHTML = error.message;
+                        } else {
+                            console.error('Lỗi không xác định:', error);
+                            var genericErrorElement = document.createElement('div');
+                            genericErrorElement.className = 'text-danger';
+                            genericErrorElement.innerHTML = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                            document.getElementById('maDGError').appendChild(genericErrorElement);
+                        }
+                    });
+            }
+            </script>
+
+        <!-- Modal màu sắc -->
+        <div class="modal" id="myModalMS" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Màu Sắc</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="mauSac">Mã Màu Sắc</label>
+                            <input class="form-control" id="mauSac" type="text">
+                            <div id="maMSError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tenMauSac">Tên Màu Sắc</label>
+                            <input class="form-control" id="tenMauSac" type="text">
+                            <div id="tenMSError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="button" onclick="addMauSac()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function addMauSac() {
+                document.getElementById('maMSError').innerHTML = '';
+                document.getElementById('tenMSError').innerHTML = '';
+
+                var mauSac = document.getElementById('mauSac').value;
+                var tenMauSac = document.getElementById('tenMauSac').value;
+
+                // Validate inputs
+                if (!mauSac) {
+                    document.getElementById('maMSError').innerHTML = 'Vui lòng nhập Mã Màu sắc';
+                    return;
+                }
+
+                if (!tenMauSac) {
+                    document.getElementById('tenMSError').innerHTML = 'Vui lòng nhập Tên Màu sắc';
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('ma', mauSac);
+                formData.append('ten', tenMauSac);
+
+                // Use AJAX or fetch to send the data to the server
+                // Example using fetch:
+                fetch('/admin/chi-tiet-san-pham/add-mau-sac', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        console.log('Trạng thái phản hồi:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(errorMessage => {
+                                throw new Error(errorMessage);
+                            });
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Thành công:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi:', error);
+                        if (error.message.includes('Mã màu sắc đã tồn tại')) {
+                            document.getElementById('maMSError').innerHTML = error.message;
+                        } else if (error.message.includes('Tên màu sắc đã tồn tại')) {
+                            document.getElementById('tenMSError').innerHTML = error.message;
+                        } else {
+                            console.error('Lỗi không xác định:', error);
+                            var genericErrorElement = document.createElement('div');
+                            genericErrorElement.className = 'text-danger';
+                            genericErrorElement.innerHTML = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                            document.getElementById('maMSError').appendChild(genericErrorElement);
+                        }
+                    });
+            }
+        </script>
+
+
+        <!-- Modal kích thước -->
+        <div class="modal" id="myModalKT" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Kích Thước</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="kichThuoc">Mã Kích Thước</label>
+                            <input class="form-control" id="kichThuoc" type="text">
+                            <div id="maKTError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tenKichThuoc">Tên Kích Thước</label>
+                            <input class="form-control" id="tenKichThuoc" type="text">
+                            <div id="tenKTError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="button" onclick="addKichThuoc()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function addKichThuoc() {
+                document.getElementById('maKTError').innerHTML = '';
+                document.getElementById('tenKTError').innerHTML = '';
+
+                var kichThuoc = document.getElementById('kichThuoc').value;
+                var tenKichThuoc = document.getElementById('tenKichThuoc').value;
+
+                // Validate inputs
+                if (!kichThuoc) {
+                    document.getElementById('maKTError').innerHTML = 'Vui lòng nhập Mã kích thước';
+                    return;
+                }
+
+                if (!tenKichThuoc) {
+                    document.getElementById('tenKTError').innerHTML = 'Vui lòng nhập Tên kích thước';
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('ma', kichThuoc);
+                formData.append('ten', tenKichThuoc);
+
+                // Use AJAX or fetch to send the data to the server
+                // Example using fetch:
+                fetch('/admin/chi-tiet-san-pham/add-kich-thuoc', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        console.log('Trạng thái phản hồi:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(errorMessage => {
+                                throw new Error(errorMessage);
+                            });
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Thành công:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi:', error);
+                        if (error.message.includes('Mã kích thước đã tồn tại')) {
+                            document.getElementById('maKTError').innerHTML = error.message;
+                        } else if (error.message.includes('Tên kích thước đã tồn tại')) {
+                            document.getElementById('tenKTError').innerHTML = error.message;
+                        } else {
+                            console.error('Lỗi không xác định:', error);
+                            var genericErrorElement = document.createElement('div');
+                            genericErrorElement.className = 'text-danger';
+                            genericErrorElement.innerHTML = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                            document.getElementById('maKTError').appendChild(genericErrorElement);
+                        }
+                    });
+            }
+        </script>
+
+
+        <!-- Modal lót giày -->
+        <div class="modal" id="myModalLG" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Lót giày</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="maLotGiay">Mã Lót giày</label>
+                            <input class="form-control" id="maLotGiay" type="text">
+                            <div id="maLGError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tenLotGiay">Tên Lót giày</label>
+                            <input class="form-control" id="tenLotGiay" type="text">
+                            <div id="tenLGError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="button" onclick="addLotGiay()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function addLotGiay() {
+                document.getElementById('maLGError').innerHTML = '';
+                document.getElementById('tenLGError').innerHTML = '';
+
+                var maLotGiay = document.getElementById('maLotGiay').value;
+                var tenLotGiay = document.getElementById('tenLotGiay').value;
+
+                // Validate inputs
+                if (!maLotGiay) {
+                    document.getElementById('maLGError').innerHTML = 'Vui lòng nhập Mã Lót giày';
+                    return;
+                }
+
+                if (!maLotGiay) {
+                    document.getElementById('tenLGError').innerHTML = 'Vui lòng nhập Tên Lót giày';
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('ma', maLotGiay);
+                formData.append('ten', tenLotGiay);
+
+                // Use AJAX or fetch to send the data to the server
+                // Example using fetch:
+                fetch('/admin/chi-tiet-san-pham/add-lot-giay', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        console.log('Trạng thái phản hồi:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(errorMessage => {
+                                throw new Error(errorMessage);
+                            });
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Thành công:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi:', error);
+                        if (error.message.includes('Mã lót giày đã tồn tại')) {
+                            document.getElementById('maLGError').innerHTML = error.message;
+                        } else if (error.message.includes('Tên lót giày đã tồn tại')) {
+                            document.getElementById('tenLGError').innerHTML = error.message;
+                        } else {
+                            console.error('Lỗi không xác định:', error);
+                            var genericErrorElement = document.createElement('div');
+                            genericErrorElement.className = 'text-danger';
+                            genericErrorElement.innerHTML = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                            document.getElementById('maLGError').appendChild(genericErrorElement);
+                        }
+                    });
+            }
+        </script>
+
+
+        <!-- Modal cổ giày -->
+        <div class="modal" id="myModalCG" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm Cổ giày</h5>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="maCoGiay">Mã Cổ giày</label>
+                            <input class="form-control" id="maCoGiay" type="text">
+                            <div id="maCGError" class="text-danger"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="tenCoGiay">Tên Cổ giày</label>
+                            <input class="form-control" id="tenCoGiay" type="text">
+                            <div id="tenCGError" class="text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="button" onclick="addCoGiay()">Thêm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function addCoGiay() {
+                document.getElementById('maCGError').innerHTML = '';
+                document.getElementById('tenCGError').innerHTML = '';
+
+                var maCoGiay = document.getElementById('maCoGiay').value;
+                var tenCoGiay = document.getElementById('tenCoGiay').value;
+
+                // Validate inputs
+                if (!maCoGiay) {
+                    document.getElementById('maCGError').innerHTML = 'Vui lòng nhập Mã Lót giày';
+                    return;
+                }
+
+                if (!tenCoGiay) {
+                    document.getElementById('tenCGError').innerHTML = 'Vui lòng nhập Mã Lót giày';
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append('ma', maCoGiay);
+                formData.append('ten', tenCoGiay);
+
+                // Use AJAX or fetch to send the data to the server
+                // Example using fetch:
+                fetch('/admin/chi-tiet-san-pham/add-co-giay', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        console.log('Trạng thái phản hồi:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(errorMessage => {
+                                throw new Error(errorMessage);
+                            });
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        console.log('Thành công:', data);
+                        location.reload();
+                    })
+                    .catch((error) => {
+                        console.error('Lỗi:', error);
+                        if (error.message.includes('Mã cổ giày đã tồn tại')) {
+                            document.getElementById('maCGError').innerHTML = error.message;
+                        } else if (error.message.includes('Tên cổ giày đã tồn tại')) {
+                            document.getElementById('tenCGError').innerHTML = error.message;
+                        } else {
+                            console.error('Lỗi không xác định:', error);
+                            var genericErrorElement = document.createElement('div');
+                            genericErrorElement.className = 'text-danger';
+                            genericErrorElement.innerHTML = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                            document.getElementById('maCGError').appendChild(genericErrorElement);
+                        }
+                    });
+            }
+        </script>
+
+
         <div class="container-fluid pt-4">
             <h6 class="mb-4" style="font-size: 40px; text-align: center;">Thêm Chi Tiết Sản Phẩm</h6>
             <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
@@ -134,45 +580,85 @@
                             />
                         </select>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="row mb-3">
                         <label for="exampleInputPassword1" class="form-label">Đế giày</label>
-                        <select class="form-select mb-3" th:field="*{deGiay}">
-                            <option th:each="deGiay : ${listDG}"
-                                    th:value="${deGiay.id}" th:text="${deGiay.ten}"
-                            />
-                        </select>
+                        <div class="col-md-10">
+                            <select class="form-select mb-3"  th:field="*{deGiay}">
+                                <option th:each="deGiay : ${listDG}"
+                                        th:text="${deGiay.ten}" th:value="${deGiay.id}"
+                                />
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary ml-2" data-target="#myModalDG" data-toggle="modal"
+                                    type="button">+
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="row mb-3">
                         <label for="exampleInputPassword1" class="form-label">Màu sắc</label>
-                        <select class="form-select mb-3" th:field="*{mauSac}">
-                            <option th:each="mauSac : ${listMS}"
-                                    th:value="${mauSac.id}" th:text="${mauSac.ten}"
-                            />
-                        </select>
+                        <div class="col-md-10">
+                            <select class="form-select mb-3" th:field="*{mauSac}">
+                                <option th:each="mauSac : ${listMS}"
+                                        th:value="${mauSac.id}" th:text="${mauSac.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary ml-2" data-target="#myModalMS" data-toggle="modal" type="button">
+                                +
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="row mb-3">
                         <label for="exampleInputPassword1" class="form-label">Kích thước</label>
-                        <select class="form-select mb-3" th:field="*{kichThuoc}">
-                            <option th:each="kichThuoc : ${listKT}"
-                                    th:value="${kichThuoc.id}" th:text="${kichThuoc.ten}"
-                            />
-                        </select>
+                        <div class="col-md-10">
+                            <select class="form-select mb-3" th:field="*{kichThuoc}">
+                                <option th:each="kichThuoc : ${listKT}"
+                                        th:value="${kichThuoc.id}" th:text="${kichThuoc.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary ml-2" data-target="#myModalKT" data-toggle="modal" type="button">
+                                +
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="row mb-3">
                         <label for="exampleInputPassword1" class="form-label">Lót giày</label>
-                        <select class="form-select mb-3" th:field="*{lotGiay}">
-                            <option th:each="lotGiay : ${listLG}"
-                                    th:value="${lotGiay.id}" th:text="${lotGiay.ten}"
-                            />
-                        </select>
+                        <div class="col-md-10">
+                            <select class="form-select mb-3" th:field="*{lotGiay}">
+                                <option th:each="lotGiay : ${listLG}"
+                                        th:value="${lotGiay.id}" th:text="${lotGiay.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary ml-2" data-target="#myModalLG" data-toggle="modal" type="button">
+                                +
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="row mb-3">
                         <label for="exampleInputPassword1" class="form-label">Cổ giày</label>
-                        <select class="form-select mb-3" th:field="*{coGiay}">
-                            <option th:each="coGiay : ${listDG}"
-                                    th:value="${coGiay.id}" th:text="${coGiay.ten}"
-                            />
-                        </select>
+                        <div class="col-md-10">
+                            <select class="form-select mb-3" th:field="*{coGiay}">
+                                <option th:each="coGiay : ${listCG}"
+                                        th:value="${coGiay.id}" th:text="${coGiay.ten}"
+                                />
+                            </select>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary ml-2" data-target="#myModalCG" data-toggle="modal" type="button">
+                                +
+                            </button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Số lượng tồn </label>
@@ -225,7 +711,18 @@
 <script src="../../lib/tempusdominus/js/moment.min.js"></script>
 <script src="../../lib/tempusdominus/js/moment-timezone.min.js"></script>
 <script src="../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+<!-- jQuery -->
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Bootstrap JS -->
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- Template Javascript -->
 <script src="../../js/admin/main.js"></script>
 </body>

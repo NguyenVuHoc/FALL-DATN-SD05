@@ -1,11 +1,10 @@
 package com.example.befall23datnsd05.controller;
 
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
-import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.importFile.ImportFileExcelCTSP;
-import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
-import com.example.befall23datnsd05.service.ChiTietSanPhamCustomerService;
+import com.example.befall23datnsd05.importFile.FileExcelCTSP;
+import com.example.befall23datnsd05.repository.*;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.CoGiayService;
 import com.example.befall23datnsd05.service.DeGiayService;
@@ -16,22 +15,21 @@ import com.example.befall23datnsd05.service.SanPhamService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChiTietSanPhamController {
@@ -56,6 +54,33 @@ public class ChiTietSanPhamController {
 
     @Autowired
     private CoGiayService coGiayService;
+
+    @Autowired
+    SanPhamRepository sanPhamRepository;
+
+    @Autowired
+    MauSacRepository mauSacRepository;
+
+    @Autowired
+    KichThuocRepository kichThuocRepository;
+
+    @Autowired
+    DeGiayRepository deGiayRepository;
+
+    @Autowired
+    ChiTietSanPhamRepository chiTietSanPhamRepository;
+
+    @Autowired
+    LotGiayRepository lotGiayRepository;
+
+    @Autowired
+    CoGiayRepository coGiayRepository;
+
+    @Autowired
+    ChiTietSanPhamService chiTietSanPhamService;
+
+    @Autowired
+    FileExcelCTSP importFileExcelCTSP;
 
     Integer pageNo = 0;
 
@@ -90,11 +115,11 @@ public class ChiTietSanPhamController {
             @ModelAttribute("chiTietSanPham")ChiTietSanPham chiTietSanPham,
             Model model
     ){
-        model.addAttribute("listDG",deGiayService.getAll());
-        model.addAttribute("listMS",mauSacService.getAll());
-        model.addAttribute("listKT",kichThuocService.getAll());
-        model.addAttribute("listLG",lotGiayService.getAll());
-        model.addAttribute("listCG",coGiayService.getAll());
+        model.addAttribute("listDG",deGiayService.getAll().stream().sorted(Comparator.comparing(DeGiay::getId).reversed()).collect(Collectors.toList()));
+        model.addAttribute("listMS",mauSacService.getAll().stream().sorted(Comparator.comparing(MauSac::getId).reversed()).collect(Collectors.toList()));
+        model.addAttribute("listKT",kichThuocService.getAll().stream().sorted(Comparator.comparing(KichThuoc::getId).reversed()).collect(Collectors.toList()));
+        model.addAttribute("listLG",lotGiayService.getAll().stream().sorted(Comparator.comparing(LotGiay::getId).reversed()).collect(Collectors.toList()));
+        model.addAttribute("listCG",coGiayService.getAll().stream().sorted(Comparator.comparing(CoGiay::getId).reversed()).collect(Collectors.toList()));
         model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("chiTietSanPham", new ChiTietSanPham());
@@ -109,11 +134,11 @@ public class ChiTietSanPhamController {
             Model model
     ){
         if(bindingResult.hasErrors()){
-            model.addAttribute("listDG",deGiayService.getAll());
-            model.addAttribute("listMS",mauSacService.getAll());
-            model.addAttribute("listKT",kichThuocService.getAll());
-            model.addAttribute("listLG",lotGiayService.getAll());
-            model.addAttribute("listCG",coGiayService.getAll());
+            model.addAttribute("listDG",deGiayService.getAll().stream().sorted(Comparator.comparing(DeGiay::getId).reversed()).collect(Collectors.toList()));
+            model.addAttribute("listMS",mauSacService.getAll().stream().sorted(Comparator.comparing(MauSac::getId).reversed()).collect(Collectors.toList()));
+            model.addAttribute("listKT",kichThuocService.getAll().stream().sorted(Comparator.comparing(KichThuoc::getId).reversed()).collect(Collectors.toList()));
+            model.addAttribute("listLG",lotGiayService.getAll().stream().sorted(Comparator.comparing(LotGiay::getId).reversed()).collect(Collectors.toList()));
+            model.addAttribute("listCG",coGiayService.getAll().stream().sorted(Comparator.comparing(CoGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listSP",sanPhamService.getList());
 
             return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
@@ -174,19 +199,114 @@ public class ChiTietSanPhamController {
     }
 
     @PostMapping("/admin/chi-tiet-san-pham/import-excel")
-    public String importExcel(@RequestParam("file") MultipartFile file) throws IOException {
-       if (!file.isEmpty()){
-           String directory = "E:\\DATN\\FALL_DATN\\BEFALL23-DATN-SD05";
-           String fileName = file.getOriginalFilename();
-           file.transferTo(new File(directory + "\\" + fileName));
-           String filePath = directory + "\\" + fileName;
-           ImportFileExcelCTSP importFileExcelCTSP = new ImportFileExcelCTSP();
-           importFileExcelCTSP.ImportFile(filePath);
+    public String importExcel(
+            @RequestParam("file") MultipartFile file,
+            RedirectAttributes attributes
 
-           return "redirect:/admin/chi-tiet-san-pham?success";
-       }
-
+    ) throws IOException {
+        if (!file.isEmpty()) {
+            String directory = "D:\\FALL-DATN-SD05";
+            String fileName = file.getOriginalFilename();
+            String filePath = directory + "\\" + fileName;
+            FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
+            try {
+                importFileExcelCTSP.ImportFile(filePath, sanPhamRepository,  mauSacRepository,
+                        kichThuocRepository,deGiayRepository,
+                        chiTietSanPhamRepository,  chiTietSanPhamService,
+                        lotGiayRepository,  coGiayRepository);
+                if (importFileExcelCTSP.checkLoi() > 0) {
+                    attributes.addFlashAttribute("thongBaoLoiImport", "Đã thêm sản phẩm thành công nhưng có một số sản phẩm lỗi, mời bạn check lại trên file excel");
+                    return "redirect:/admin/chi-tiet-san-pham";
+                }
+            } catch (Exception e) {
+                attributes.addFlashAttribute("thongBaoLoiImport", "Sai định dạng file");
+                return "redirect:/admin/chi-tiet-san-pham";
+            }
+            return "redirect:/admin/chi-tiet-san-pham?success";
+        }
+        attributes.addFlashAttribute("thongBaoLoiImport", "Bạn chưa chọn file excel nào");
         return "redirect:/admin/chi-tiet-san-pham";
+    }
+
+    @GetMapping("/admin/chi-tiet-san-pham/export-excel")
+    public ResponseEntity<?> exportExcel(){
+        return importFileExcelCTSP.createExcel();
+    }
+
+    @GetMapping("/admin/chi-tiet-san-pham/export-excel-mau")
+    public ResponseEntity<?> exportExcelMau(){
+        return importFileExcelCTSP.createExcelTemplate();
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/add-de-giay")
+    @ResponseBody
+    public ResponseEntity<String> addDeGiay(@ModelAttribute("deGiay") DeGiay deGiay) {
+        if (deGiayService.existByMa(deGiay.getMa())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã đế giày đã tồn tại");
+        }
+
+        if (deGiayService.existsByTen(deGiay.getTen())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tên đế giày đã tồn tại");
+        }
+        deGiayService.add(deGiay);
+        return ResponseEntity.ok("successfully");
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/add-mau-sac")
+    @ResponseBody
+    public ResponseEntity<String> addMauSac(@ModelAttribute("mauSac") MauSac mauSac) {
+        if (mauSacService.existByMa(mauSac.getMa())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã màu sắc đã tồn tại");
+        }
+
+        if (mauSacService.existsByTen(mauSac.getTen())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tên màu sắc đã tồn tại");
+        }
+        mauSacService.add(mauSac);
+        return ResponseEntity.ok("successfully");
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/add-kich-thuoc")
+    @ResponseBody
+    public ResponseEntity<String> addMauSac(@ModelAttribute("kichThuoc") KichThuoc kichThuoc) {
+        if (kichThuocService.existByMa(kichThuoc.getMa())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã kích thước đã tồn tại");
+        }
+
+        if (kichThuocService.existsByTen(kichThuoc.getTen())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tên kích thước đã tồn tại");
+        }
+        kichThuocService.add(kichThuoc);
+        return ResponseEntity.ok("successfully");
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/add-lot-giay")
+    @ResponseBody
+    public ResponseEntity<String> addLotGiay(@ModelAttribute("lotGiay") LotGiay lotGiay) {
+        if (lotGiayService.existByMa(lotGiay.getMa())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã lót giày đã tồn tại");
+        }
+
+        if (lotGiayService.existsByTen(lotGiay.getTen())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tên lót giày đã tồn tại");
+        }
+        lotGiayService.add(lotGiay);
+        return ResponseEntity.ok("successfully");
+    }
+
+    @PostMapping("/admin/chi-tiet-san-pham/add-co-giay")
+    @ResponseBody
+    public ResponseEntity<String> addCoGiay(@ModelAttribute("coGiay") CoGiay coGiay) {
+        if (coGiayService.existByMa(coGiay.getMa())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã cổ giày đã tồn tại");
+        }
+
+        if (coGiayService.existsByTen(coGiay.getTen())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tên cổ giày đã tồn tại");
+        }
+
+        coGiayService.add(coGiay);
+        return ResponseEntity.ok("successfully");
     }
 
 }
