@@ -14,6 +14,7 @@ import com.example.befall23datnsd05.service.HoaDonService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -159,5 +160,27 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
 
+    @Override
+    public BigDecimal maGiamGia(Long idHd){
+        HoaDon hoaDon= repository.findById(idHd).get();
+        BigDecimal tongTien = hoaDon.getTongTien();
+        BigDecimal phiVanChuyen = hoaDon.getPhiVanChuyen();
+        BigDecimal giamGia= BigDecimal.ZERO;
+        if(hoaDon.getMaGiamGia()!=null){
+            int mucGiamGia = hoaDon.getMaGiamGia().getMucGiamGia();
 
+            BigDecimal tongTienVaPhi = tongTien.add(phiVanChuyen);
+
+            BigDecimal mucGiamToiDa = hoaDon.getMaGiamGia().getMucGiamToiDa();
+            BigDecimal chietKhau = tongTienVaPhi.multiply(BigDecimal.valueOf(100).subtract(BigDecimal.valueOf(mucGiamGia)))
+                    .divide(BigDecimal.valueOf(100));
+            int comparison = chietKhau.compareTo(mucGiamToiDa);
+            if (comparison>0) {
+                giamGia = mucGiamToiDa;
+            } else {
+                giamGia= chietKhau;
+            }
+        }
+        return giamGia;
+    }
 }
