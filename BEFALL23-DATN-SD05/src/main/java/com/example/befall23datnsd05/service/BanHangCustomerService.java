@@ -14,12 +14,14 @@ public interface BanHangCustomerService {
 
     void datHang(List<GioHangChiTiet> listGioHangChiTiet,String ten,String diaChi, String sdt, String ghiChu);
 
-    void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuyApDung, BigDecimal diemTichLuy, String useAll);
+    void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll);
 
     List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong);
 
     List<GioHangChiTiet> findAllById(List<String> listIdString);
 
     GioHangWrapper findAllItemsById(List<String> listIdString);
+
+    Long getIdHoaDonVuaMua(Long idKhachHang);
 
 }
