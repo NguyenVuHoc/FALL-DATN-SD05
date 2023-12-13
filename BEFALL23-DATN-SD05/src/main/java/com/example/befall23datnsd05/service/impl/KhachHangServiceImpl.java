@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.KhachHangRequest;
+import com.example.befall23datnsd05.dto.RegisterRequest;
 import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.GioHang;
 import com.example.befall23datnsd05.entity.KhachHang;
@@ -149,5 +150,10 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public Integer layDiemTichLuy(Long id) {
         return diemTichLuyRepository.getDiemTichLuyByIdKhach(id);
+    }
+
+    @Override
+    public KhachHang registration(RegisterRequest khachHang) {
+        return null;
     }
 }
