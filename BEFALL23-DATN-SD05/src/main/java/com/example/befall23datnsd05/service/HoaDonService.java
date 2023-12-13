@@ -34,7 +34,6 @@ public interface HoaDonService {
 
     boolean removeGioHangChiTietHoanTra(GioHangChiTiet gioHangChiTiet,HoaDon hoaDon);
 
-    GioHangChiTiet createGioHangHoanTraByHoaDon(GioHangChiTiet gioHangChiTiet,HoaDon hoaDon);
 
     ChiTietSanPham refund(GioHangChiTiet gioHangChiTiet);
 
