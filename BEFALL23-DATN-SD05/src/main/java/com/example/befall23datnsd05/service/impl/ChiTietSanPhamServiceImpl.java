@@ -179,8 +179,6 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
                 chiTietSanPham.getCoGiay()
         );
         if (existingChiTiet != null) {
-            // Nếu ChiTietSanPham đã tồn tại, thực hiện cập nhật số lượng và giá
-            existingChiTiet.setSoLuongTon(existingChiTiet.getSoLuongTon() + chiTietSanPham.getSoLuongTon());
             existingChiTiet.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
             existingChiTiet.setGiaBan(existingChiTiet.tinhGiaSauGiamGia());
             existingChiTiet.setNgaySua(LocalDate.now());
