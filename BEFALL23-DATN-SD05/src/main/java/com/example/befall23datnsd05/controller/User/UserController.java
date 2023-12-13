@@ -6,7 +6,6 @@ import com.example.befall23datnsd05.entity.DiaChi;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
-import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,19 +22,16 @@ public class UserController {
         this.khachHangService = khachHangService;
         this.diaChiService = diaChiService;
     }
-private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
+
     /**
      * Get User By IdKh
      *
+     * @param id
      * @param model
      * @return
      */
-    @GetMapping("/thong-tin-cua-toi")
-    public String getAll(Model model) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
+    @GetMapping("/thong-tin-cua-toi/{id}")
+    public String getAll(@PathVariable("id") Long id, Model model) {
         KhachHang khachHang = khachHangService.getById(id);
         model.addAttribute("khachHang", khachHang);
         model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
@@ -56,10 +52,7 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
                          BindingResult bindingResult,
                          Model model
     ) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
+        Long id = khachHangRequest.getId();
         String sdt = khachHangRequest.getSdt();
         KhachHang khachHang = khachHangService.getById(id);
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
@@ -78,7 +71,7 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
         }
         model.addAttribute("success", "Sửa thành công");
         khachHangService.update(khachHangRequest);
-        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + id + "?success";
     }
 
     /**
@@ -94,8 +87,8 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest,
             @PathVariable("idKhachHang") String idKhachHang
     ) {
-        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
-        return "redirect:/wingman/thong-tin-cua-toi"+"?success";
+//        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang));
+        return "redirect:/wingman/thong-tin-cua-toi/" + idKhachHang + "?success";
     }
 
     /**
@@ -113,7 +106,6 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
             @PathVariable("idKH") Long idKH,
             @ModelAttribute("diaChi") DiaChiRequest diaChiRequest, Model model
     ) {
-
         KhachHang khachHang = khachHangService.getById(idKH);
         if(diaChiRequest.getTenNguoiNhan().isEmpty()){
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKH));
@@ -137,9 +129,9 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
             return "customer-template/user/profile";
         }
         else {
-            diaChiService.update(diaChiRequest, id);
+//            diaChiService.update(diaChiRequest, id);
         }
-        return "redirect:/wingman/thong-tin-cua-toi/"+ "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
     }
 
     /**
@@ -155,25 +147,22 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
 
     ) {
         diaChiService.remove(id);
-        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + idKH + "?success";
     }
 
     /**
      * Change passwword
+     * @param idKh
      * @param oldPassword
      * @param newPassword
      * @param model
      * @return
      */
     @PostMapping("/change-password")
-    public String changePassword(
+    public String changePassword(@RequestParam("id") Long idKh,
                                  @RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("newPassword") String newPassword,
                                  Model model) {
-        Long idKh=principalKhachHang.getCurrentUserId();
-        if(idKh==null){
-            return "redirect:/login";
-        }
         KhachHang khachHang = khachHangService.getById(idKh);
         if (khachHang.getMatKhau().isEmpty()) {
             model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(idKh));
@@ -192,7 +181,7 @@ private PrincipalKhachHang principalKhachHang=new PrincipalKhachHang();
         else {
 
         khachHangService.changeUserPassword(idKh, oldPassword, newPassword);
-        return "redirect:/wingman/thong-tin-cua-toi" + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi/" + idKh + "?success";
         }
     }
 }

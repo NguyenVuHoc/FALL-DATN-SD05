@@ -36,17 +36,20 @@ public class DiaChiServiceImpl implements DiaChiService {
     @Override
     public DiaChi getById(Long id) {
         Optional<DiaChi> optional = repository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             return null;
         }
     }
 
     @Override
-    public DiaChi add(DiaChiRequest diaChi, Long idKhachHang) {
+    public DiaChi add(DiaChiRequest diaChi, Long idKhachHang, String thanhPho, String quanHuyen, String phuongXa) {
         DiaChi diaChi1 = new DiaChi();
         diaChi1.setTenNguoiNhan(diaChi.getTenNguoiNhan());
+        diaChi1.setThanhPho(thanhPho);
+        diaChi1.setQuanHuyen(quanHuyen);
+        diaChi1.setPhuongXa(phuongXa);
         diaChi1.setDiaChi(diaChi.getDiaChi());
         diaChi1.setSdt(diaChi.getSdt());
         diaChi1.setNgayTao(LocalDate.now());
@@ -55,23 +58,24 @@ public class DiaChiServiceImpl implements DiaChiService {
         diaChi1.setTrangThai(TrangThai.DANG_HOAT_DONG);
         KhachHang khachHang = khachHangRepository.findById(idKhachHang).orElse(null);
         diaChi1.setKhachHang(khachHang);
-        repository.save(diaChi1);
-        return diaChi1;
+        return repository.save(diaChi1);
     }
 
     @Override
-    public DiaChi update(DiaChiRequest diaChi, Long id) {
-        DiaChi diaChi1 = repository.getReferenceById(id);
-        if(diaChi1==null){
+    public DiaChi update(DiaChiRequest diaChiRequest, String thanhPho, String quanHuyen, String phuongXa) {
+        DiaChi diaChi = repository.findById(diaChiRequest.getId()).get();
+        if (diaChi == null) {
             return null;
         }
-        diaChi1.setTenNguoiNhan(diaChi.getTenNguoiNhan());
-        diaChi1.setDiaChi(diaChi.getDiaChi());
-        diaChi1.setSdt(diaChi.getSdt());
-        diaChi1.setNgaySua(LocalDate.now());
-        diaChi1.setGhiChu(diaChi.getGhiChu());
-        repository.save(diaChi1);
-        return diaChi1;
+        diaChi.setTenNguoiNhan(diaChiRequest.getTenNguoiNhan());
+        diaChi.setDiaChi(diaChiRequest.getDiaChi());
+        diaChi.setPhuongXa(phuongXa);
+        diaChi.setQuanHuyen(quanHuyen);
+        diaChi.setThanhPho(thanhPho);
+        diaChi.setSdt(diaChiRequest.getSdt());
+        diaChi.setNgaySua(LocalDate.now());
+        diaChi.setGhiChu(diaChiRequest.getGhiChu());
+        return repository.save(diaChi);
     }
 
 

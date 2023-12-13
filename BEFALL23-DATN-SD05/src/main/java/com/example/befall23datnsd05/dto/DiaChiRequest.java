@@ -12,6 +12,12 @@ public class DiaChiRequest {
 
     private String tenNguoiNhan;
 
+    private String tinhThanhPho;
+
+    private String huyenQuan;
+
+    private String xaPhuong;
+
     private String diaChi;
 
     private String sdt;

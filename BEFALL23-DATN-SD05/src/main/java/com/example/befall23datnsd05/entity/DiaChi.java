@@ -33,11 +33,19 @@ public class DiaChi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "ten_nguoi_nhan")
     private String tenNguoiNhan;
+
+    @Column(name = "thanh_pho", length = 50)
+    private String thanhPho;
+
+    @Column(name = "quan_huyen", length = 50)
+    private String quanHuyen;
+
+    @Column(name = "phuong_xa", length = 50)
+    private String phuongXa;
 
     @Column(name = "dia_chi")
     private String diaChi;

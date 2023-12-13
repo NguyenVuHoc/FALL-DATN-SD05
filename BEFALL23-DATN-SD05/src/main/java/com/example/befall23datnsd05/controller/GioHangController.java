@@ -1,10 +1,11 @@
 package com.example.befall23datnsd05.controller;
 
+import com.example.befall23datnsd05.dto.DiaChiRequest;
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.service.*;
-import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,16 +37,13 @@ public class GioHangController {
     private MaGiamGiaService maGiamGiaService;
 
     private GioHangWrapper gioHangWrapper;
-    
-    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
+    @Autowired
+    private DiaChiService diaChiService;
 
     @GetMapping
-    public String cart(Model model){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(id);
+    public String cart(Model model) {
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(Long.valueOf(5));
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/cart";
     }
@@ -53,33 +51,27 @@ public class GioHangController {
     @PostMapping("/add/{id}")
     public String addCart(@PathVariable("id") Long idChiTietSanPham,
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
-                          Model model,
-                          @RequestParam("soLuong") Integer soLuong){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, soLuong);
+                          @RequestParam("soLuong") Integer soLuong,
+                          Model model) {
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
+        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
         model.addAttribute("success", "Thêm thành công");
-        return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
+        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
     }
 
     @GetMapping("/addOne/{id}")
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
-                         Model model){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        banHangCustomerService.themVaoGioHang(id, idChiTietSanPham, 1);
+                         Model model) {
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
+        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
         model.addAttribute("success", "Thêm thành công");
-        return "redirect:/wingman/chi-tiet-san-pham/"+ idChiTietSanPham + "?success";
+        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
     }
 
 
     @GetMapping("/xoa/{id}")
-    public String xoaKhoiGio(@PathVariable("id") Long id){
+    public String xoaKhoiGio(@PathVariable("id") Long id) {
         banHangCustomerService.xoaKhoiGioHang(id);
         return "redirect:/wingman/cart";
     }
@@ -87,28 +79,25 @@ public class GioHangController {
     @GetMapping("/checkout")
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang,
-                           @RequestParam String options){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        KhachHang khachHang1 = khachHangService.getById(id);
-        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(id).get(0);
+                           @RequestParam String options) {
+        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
+        DiaChi diaChi = khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0);
 
         model.addAttribute("diaChi2", diaChi);
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+        model.addAttribute("newDiaChi", new DiaChiRequest());
 
         String[] optionArray = options.split(",");
         List<String> listIdString = Arrays.asList(optionArray);
         gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
         model.addAttribute("gioHangWrapper", gioHangWrapper);
-        model.addAttribute("options",  options);
-        model.addAttribute("idKhachHang", id);
+        model.addAttribute("options", options);
+        model.addAttribute("idKhachHang", Long.valueOf(5));
         BigDecimal diemTichLuy = khachHang1.getTichDiem();
         model.addAttribute("diemTichLuy", diemTichLuy);
         System.out.println(diemTichLuy);
         long total = 0;
-        for(GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
+        for (GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
             total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
         }
         List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
@@ -119,13 +108,13 @@ public class GioHangController {
     @PostMapping("/dat-hang")
     public String datHang(
             @ModelAttribute("gioHangWrapper") GioHangWrapper gioHangWrapper,
-            @RequestParam("diaChi") String diaChi,
-            @RequestParam("wardName") String xa,
-            @RequestParam("districtName") String huyen,
-            @RequestParam("provinceName") String thanhPho,
-            @RequestParam("sdt") String sdt,
+            @RequestParam("diaChi2") String diaChi,
+            @RequestParam("xaPhuong") String xa,
+            @RequestParam("quanHuyen") String huyen,
+            @RequestParam("thanhPho") String thanhPho,
+            @RequestParam("sdt2") String sdt,
             @RequestParam("ghiChu") String ghiChu,
-            @RequestParam("ten") String ten,
+            @RequestParam("ten2") String ten,
             @RequestParam(name = "shippingFee") BigDecimal shippingFee,
             @RequestParam("tongTienHang") String tongTien,
             @RequestParam(name = "originAmount") BigDecimal totalAmount,
@@ -133,41 +122,51 @@ public class GioHangController {
             @RequestParam(name = "diemTichLuyApDung", required = false, defaultValue = "0") BigDecimal diemTichLuyApDung,
             @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
             @RequestParam(name = "origin") BigDecimal diemTichLuy) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        String diaChiCuThe = diaChi + "," + xa + "," +huyen + "," +thanhPho;
-        banHangCustomerService.datHangItems(gioHangWrapper,ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
+        String diaChiCuThe = diaChi + "," + xa + "," + huyen + "," + thanhPho;
+        banHangCustomerService.datHangItems(gioHangWrapper, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuyApDung, diemTichLuy, useAllPointsHidden);
         return "redirect:/wingman/cart/thankyou";
     }
 
-    @GetMapping("/sua-dia-chi/{idDiaChi}")
-    public String suaDiaChi(@PathVariable("idDiaChi") String idDiaChi,
-                            Model model){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
-        model.addAttribute("diaChi2", khachHangService.getByIdDiaChi(Long.valueOf(idDiaChi)));
-        KhachHang khachHang1 = khachHangService.getById(id);
-        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
+    @PostMapping("/checkout/add-dia-chi/{idKhachHang}")
+    public String suaDiaChi(@PathVariable("idKhachHang") String idKhachHang,
+                            @ModelAttribute("newDiaChi") DiaChiRequest diaChiRequest,
+                            @RequestParam("phuongXaID") String phuongXa,
+                            @RequestParam("quanHuyenID") String quanHuyen,
+                            @RequestParam("thanhPhoID") String thanhPho,
+                            @RequestParam("options") String options,
+                            Model model) {
+        KhachHang khachHang = khachHangService.getById(Long.valueOf(idKhachHang));
+        model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(idKhachHang)).get(0));
+        model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang.getId()));
         model.addAttribute("gioHangWrapper", gioHangWrapper);
-        model.addAttribute("idKhachHang", id);
-        model.addAttribute("diemTichLuy", khachHang1.getTichDiem());
+        model.addAttribute("idKhachHang", 5L);
+        BigDecimal diemTichLuy = khachHang.getTichDiem();
+        model.addAttribute("diemTichLuy", diemTichLuy);
         long total = 0;
-        for(GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
+        for (GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
             total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
         }
         List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
         model.addAttribute("vouchers", vouchers);
-        return "customer-template/checkout";
+        diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
+        return "redirect:/wingman/cart/checkout?options=" + options;
+    }
+
+    @PostMapping("/checkout/sua-dia-chi/{idKhachHang}")
+    public String addDiaChi(@Valid
+                            @ModelAttribute("newDiaChi") DiaChiRequest diaChiRequest,
+                            @RequestParam("phuongXa") String phuongXa,
+                            @RequestParam("quanHuyen") String quanHuyen,
+                            @RequestParam("thanhPho") String thanhPho,
+                            @RequestParam("options") String options
+    ) {
+        diaChiService.update(diaChiRequest, thanhPho, quanHuyen, phuongXa);
+        return "redirect:/wingman/cart/checkout?options=" + options;
     }
 
     @PostMapping("/updateQuantity")
     @ResponseBody
     public ResponseEntity<String> updateQuantity(@RequestParam Long idGioHangChiTiet, @RequestParam Integer soLuong) {
-
         try {
             // Update quantity in the database using your service
             banHangCustomerService.updateGioHangChiTiet(idGioHangChiTiet, soLuong);
@@ -179,11 +178,7 @@ public class GioHangController {
     }
 
     @GetMapping("/thankyou")
-    public String b(){
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
-            return "redirect:/login";
-        }
+    public String b() {
         return "customer-template/thankyou";
     }
 }
