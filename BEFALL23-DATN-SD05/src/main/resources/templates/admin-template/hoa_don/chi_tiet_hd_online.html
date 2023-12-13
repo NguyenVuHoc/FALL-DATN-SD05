@@ -49,7 +49,7 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="/../../img/userNew.png" alt="" style="width: 40px; height: 40px;">
                     <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
@@ -107,9 +107,9 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                        <img class="rounded-circle me-lg-2" src="/../../img/userNew.png" alt=""
                              style="width: 40px; height: 40px;">
-                        <span class="d-none d-lg-inline-flex">John Doe</span>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
 
@@ -210,14 +210,18 @@
                                     th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG }"
                                     data-bs-toggle="modal"
                                     th:data-bs-target="'#ghiChu1' + ${hoaDon.id}">
-                                <i class="bi bi-arrow-counterclockwise"></i> Xác Nhận Hoàn Trả
+                                <i class="bi bi-arrow-counterclockwise"></i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/>
+                            </svg> Xác Nhận Hoàn Trả
                             </button>
 
                             <button class="btn btn-outline-danger ml-2"
                                     th:if="${hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).XAC_NHAN_TRA_HANG or hoaDon.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThaiDonHang).DOI_HANG}"
                                     data-bs-toggle="modal"
                                     th:data-bs-target="'#huyDon' + ${hoaDon.id}">
-                                <i class="bi bi-x-circle"></i> Từ chối
+                                <i class="bi bi-x-circle"></i><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                            </svg> Từ chối
                             </button>
                         </div>
 
@@ -249,7 +253,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary">Chuyển Trạng Thái</button>
+                                <button type="submit" class="btn btn-primary">Xác Nhận</button>
                             </div>
                         </form>
                     </div>

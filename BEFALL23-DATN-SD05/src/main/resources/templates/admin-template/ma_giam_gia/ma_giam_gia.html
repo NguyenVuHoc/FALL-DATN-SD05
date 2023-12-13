@@ -127,7 +127,7 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="/../../img/userNew.png" alt="" style="width: 40px; height: 40px;">
                     <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
@@ -185,9 +185,9 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                        <img class="rounded-circle me-lg-2" src="/../../img/userNew.png" alt=""
                              style="width: 40px; height: 40px;">
-                        <span class="d-none d-lg-inline-flex">John Doe</span>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
 
@@ -248,17 +248,17 @@
                                     <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row g-2">
                             <div class="col-md-2">
                                 <!-- Button thứ nhất -->
-                                <button type="submit" class="btn btn-outline-info" style="width: 100%">Lọc</button>
+                                <button type="submit" class="btn btn-outline-info" style="width: 100%"><i class="bi bi-search"></i>Tìm Kiếm</button>
                             </div>
                             <div class="col-md-2">
                                 <!-- Button thứ hai -->
-                                <a class="btn btn-outline-info" href="/admin/ma-giam-gia"> Làm mới</a>
-                            </div>
+                                <a class="btn btn-outline-info" href="/admin/ma-giam-gia"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                    <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                                    <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+                                </svg>Làm mới</a>
+                        </div>
                         </div>
                     </div>
                 </form>

@@ -124,7 +124,7 @@
 <!--                </a>-->
 <!--                <div class="d-flex align-items-center ms-4 mb-4">-->
 <!--                    <div class="position-relative">-->
-<!--                        <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">-->
+<!--                        <img class="rounded-circle" src="/../../img/userNew.png" alt="" style="width: 40px; height: 40px;">-->
 <!--                        <div-->
 <!--                                class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">-->
 <!--                        </div>-->
@@ -183,9 +183,9 @@
 <!--                <div class="navbar-nav align-items-center ms-auto">-->
 <!--                    <div class="nav-item dropdown">-->
 <!--                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">-->
-<!--                            <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""-->
+<!--                            <img class="rounded-circle me-lg-2" src="/../../img/userNew.png" alt=""-->
 <!--                                style="width: 40px; height: 40px;">-->
-<!--                            <span class="d-none d-lg-inline-flex">John Doe</span>-->
+<!--                            -->
 <!--                        </a>-->
 <!--                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">-->
 
@@ -361,7 +361,7 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle" src="/../../img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="../../img/userNew.png" alt="" style="width: 40px; height: 40px;">
                     <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
@@ -420,9 +420,9 @@
             <div class="navbar-nav align-items-center ms-auto">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img class="rounded-circle me-lg-2" src="/../../img/user.jpg" alt=""
+                        <img class="rounded-circle me-lg-2" src="../../img/userNew.png" alt=""
                              style="width: 40px; height: 40px;">
-                        <span class="d-none d-lg-inline-flex">John Doe</span>
+
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
 
@@ -459,25 +459,33 @@
                     <div class="row">
                         <div class="col-md-3">
                             <button class="btn btn-outline-success" style="margin-right: -100px;">
-                                <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;">Thêm</a>
+                                <a class="them" th:href="@{/admin/chi-tiet-san-pham/view-add}" style="color: darkgreen;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                </svg>Thêm</a>
                             </button>
                         </div>
 
                         <div class="col-md-3">
                             <button class="btn-import btn btn-outline-success">
                                 <a href="/admin/chi-tiet-san-pham/export-excel" download>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-exe" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM2.575 15.202H.785v-1.073H2.47v-.606H.785v-1.025h1.79v-.648H0v3.999h2.575zM6.31 11.85h-.893l-.823 1.439h-.036l-.832-1.439h-.931l1.227 1.983-1.239 2.016h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm1.025 3.352h1.79v.647H6.548V11.85h2.576v.648h-1.79v1.025h1.684v.606H7.334v1.073Z"/>
+                                    </svg>
                                     Export
                                 </a>
                             </button>
                         </div>
 
-                        <div class="col-md-3">
-                            <button class="btn-import btn btn-outline-success">
-                                <a href="/admin/chi-tiet-san-pham/export-excel-mau" download>
-                                    Export Mẫu
-                                </a>
-                            </button>
-                        </div>
+<!--                        <div class="col-md-3">-->
+<!--                            <button class="btn-import btn btn-outline-success">-->
+<!--                                <a href="/admin/chi-tiet-san-pham/export-excel-mau" download>-->
+<!--                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-exe" viewBox="0 0 16 16">-->
+<!--                                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM2.575 15.202H.785v-1.073H2.47v-.606H.785v-1.025h1.79v-.648H0v3.999h2.575zM6.31 11.85h-.893l-.823 1.439h-.036l-.832-1.439h-.931l1.227 1.983-1.239 2.016h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm1.025 3.352h1.79v.647H6.548V11.85h2.576v.648h-1.79v1.025h1.684v.606H7.334v1.073Z"/>-->
+<!--                                    </svg>-->
+<!--                                    Export Mẫu-->
+<!--                                </a>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
                 </div>
 
@@ -490,7 +498,9 @@
                     </div>
                     <div class="col-md-12" style="margin-top: 3%;margin-bottom: 3%">
                         <div id="thongBao" class="check-loi" th:text="${thongBaoLoiImport}" style="color: red; padding: 10px;"></div>
-                        <button type="submit" style="float: right" class="btn btn-success">Nhập Excel</button>
+                        <button type="submit" style="float: right" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-exe" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM2.575 15.202H.785v-1.073H2.47v-.606H.785v-1.025h1.79v-.648H0v3.999h2.575zM6.31 11.85h-.893l-.823 1.439h-.036l-.832-1.439h-.931l1.227 1.983-1.239 2.016h.861l.853-1.415h.035l.85 1.415h.908l-1.254-1.992zm1.025 3.352h1.79v.647H6.548V11.85h2.576v.648h-1.79v1.025h1.684v.606H7.334v1.073Z"/>
+                        </svg>Nhập Excel</button>
                     </div>
                 </form>
                 <script>
