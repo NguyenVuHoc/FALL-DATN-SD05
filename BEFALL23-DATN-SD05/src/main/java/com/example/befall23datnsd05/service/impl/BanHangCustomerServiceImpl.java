@@ -237,6 +237,6 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
 
     @Override
     public Long getIdHoaDonVuaMua(Long idKhachHang) {
-        return hoaDonRepository.getIdHoaDon(idKhachHang);
+        return null;
     }
 }

@@ -141,6 +141,7 @@ public class HoaDonController {
                            @Param("trangThai") TrangThai trangThai) {
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(idHd));
+        model.addAttribute("giamGia",hoaDonService.maGiamGia(idHd));
         model.addAttribute("trangThai", trangThai);
         return "admin-template/hoa_don/chi_tiet_hd_online";
     }

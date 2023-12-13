@@ -7,6 +7,7 @@ import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public interface HoaDonService {
 
     ChiTietSanPham refund(GioHangChiTiet gioHangChiTiet);
 
-
+     BigDecimal maGiamGia(Long idHd);
 
 
 }

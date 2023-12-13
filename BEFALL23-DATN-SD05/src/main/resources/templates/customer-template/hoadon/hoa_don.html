@@ -286,7 +286,7 @@
                         <th>Ngày Đặt Hàng</th>
                         <th>Hình Thức Mua Hàng</th>
                         <th>Trạng Thái</th>
-                        <th>Tổng Tiền</th>
+                        <th>Thanh Toán</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -304,7 +304,7 @@
                                style="color: black; text-decoration: none;"></a></td>
                         <td>
                             <a th:href="@{'/wingman/chi-tiet-hoa-don/'+${hd.id}}"
-                               th:text="${#numbers.formatDecimal(hd.tongTien ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
+                               th:text="${#numbers.formatDecimal(hd.thanhToan ?: 0, 0, 'POINT', 0, 'COMMA')} + ' VND'"
                                style="color: black; text-decoration: none;"/>
                         </td>
 
@@ -317,7 +317,7 @@
                         <th>Ngày Đặt Hàng</th>
                         <th>Hình Thức Mua Hàng</th>
                         <th>Trạng Thái</th>
-                        <th>Tổng Tiền</th>
+                        <th>Thanh Toán</th>
                     </tr>
                     </tfoot>
                 </table>

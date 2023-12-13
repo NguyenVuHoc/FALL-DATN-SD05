@@ -286,6 +286,10 @@
                                     <p><strong>Phí Vận Chuyển:</strong>
                                         <span th:if="${hd.phiVanChuyen != null}" th:text="${#numbers.formatDecimal(hd.phiVanChuyen, 0, 'POINT', 0, 'COMMA')}+ ' VND'"></span>
                                         <span th:if="${hd.phiVanChuyen == null}">0 VND</span>                                    <p>
+                                    </p>
+                                    <p><strong>Tiền Giảm Giá:</strong>
+                                        <span th:if="${giamGia != null}" th:text="${#numbers.formatDecimal(giamGia, 0, 'POINT', 0, 'COMMA')}+ ' VND'"></span>
+                                        <span th:if="${giamGia == null}">0 VND</span>                                    <p>
                                 </p>
                                     <p>
                                         <strong>Tổng Tiền Thanh Toán:</strong>

@@ -92,6 +92,7 @@ public class HoaDonUserController {
         if(id==null){
             return "redirect:/login";
         }
+        model.addAttribute("giamGia",hoaDonService.maGiamGia(idHd));
         model.addAttribute("newGhct", new GioHangChiTietRequest());
         model.addAttribute("hd", hoaDonService.findById(idHd));
         model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(idHd));
