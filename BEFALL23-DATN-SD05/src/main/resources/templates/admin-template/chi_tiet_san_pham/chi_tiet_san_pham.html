@@ -102,6 +102,16 @@
 
     <!-- Template Stylesheet -->
     <link href="/../../css/admin/style.css" rel="stylesheet">
+    <style>
+        .btn-outline-success a {
+            color: black !important; /* Set the text color to black */
+        }
+
+        /* Optional: If you want to change the text color on hover, you can add the following */
+        .btn-outline-success a:hover {
+            color: #0a53be !important; /* Change the hover text color to red (you can replace with your desired color) */
+        }
+    </style>
 </head>
 
 <body>
@@ -215,7 +225,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button class="btn-import btn btn-outline-success">
+                            <button class="btn-import btn btn-outline-success" style="color: black">
                                 <a href="/admin/chi-tiet-san-pham/export-excel" download>
                                     Export
                                 </a>
@@ -223,7 +233,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button class="btn-import btn btn-outline-success">
+                            <button class="btn-import btn btn-outline-success" style="color: black">
                                 <a href="/admin/chi-tiet-san-pham/export-excel-mau" download>
                                     Export Mẫu
                                 </a>
