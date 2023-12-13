@@ -671,11 +671,6 @@
                         <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{giaMacDinh}"/>
                         <div th:if="${#fields.hasErrors('giaMacDinh')}" th:errors="*{giaMacDinh}"  style="color: red"></div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword2" class="form-label">Giá bán</label>
-                        <input type="text" class="form-control" id="exampleInputPassword2" th:field="*{giaBan}"/>
-                        <div th:if="${#fields.hasErrors('giaBan')}" th:errors="*{giaBan}"  style="color: red"></div>
-                    </div>
                     <button type="submit" class="btn btn-success " style="margin-left: 40%;">
                         Thêm
                     </button>

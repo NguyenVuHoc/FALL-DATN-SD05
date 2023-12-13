@@ -1,10 +1,9 @@
-package com.example.befall23datnsd05.service.Impl;
+package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.ChiTietSanPhamRequest;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
-import com.example.befall23datnsd05.entity.KhuyenMai;
 import com.example.befall23datnsd05.entity.KichThuoc;
 import com.example.befall23datnsd05.entity.LotGiay;
 import com.example.befall23datnsd05.entity.MauSac;
@@ -134,7 +133,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         if (existingChiTiet != null) {
             // Nếu ChiTietSanPham đã tồn tại, thực hiện cập nhật số lượng và giá
             existingChiTiet.setSoLuongTon(existingChiTiet.getSoLuongTon() + chiTietSanPham.getSoLuongTon());
-            existingChiTiet.setGiaBan(chiTietSanPham.getGiaBan()); // hoặc có thể thêm logic cập nhật giá theo nhu cầu của bạn
+            existingChiTiet.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
+            existingChiTiet.setGiaBan(existingChiTiet.tinhGiaSauGiamGia());
             existingChiTiet.setNgaySua(LocalDate.now());
             repository.save(existingChiTiet);
             return existingChiTiet;
@@ -154,7 +154,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
             chiTietSanPham1.setCoGiay(coGiay);
             chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
             chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
-            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
+            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaMacDinh());
             chiTietSanPham1.setNgayTao(LocalDate.now());
             chiTietSanPham1.setNgaySua(LocalDate.now());
             chiTietSanPham1.setTrangThai(TrangThai.DANG_HOAT_DONG);
@@ -181,7 +181,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         if (existingChiTiet != null) {
             // Nếu ChiTietSanPham đã tồn tại, thực hiện cập nhật số lượng và giá
             existingChiTiet.setSoLuongTon(existingChiTiet.getSoLuongTon() + chiTietSanPham.getSoLuongTon());
-            existingChiTiet.setGiaBan(chiTietSanPham.getGiaBan()); // hoặc có thể thêm logic cập nhật giá theo nhu cầu của bạn
+            existingChiTiet.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
+            existingChiTiet.setGiaBan(existingChiTiet.tinhGiaSauGiamGia());
             existingChiTiet.setNgaySua(LocalDate.now());
             repository.save(existingChiTiet);
             return existingChiTiet;
@@ -200,7 +201,7 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
             chiTietSanPham1.setCoGiay(coGiay);
             chiTietSanPham1.setSoLuongTon(chiTietSanPham.getSoLuongTon());
             chiTietSanPham1.setGiaMacDinh(chiTietSanPham.getGiaMacDinh());
-            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaBan());
+            chiTietSanPham1.setGiaBan(chiTietSanPham.getGiaMacDinh());
             chiTietSanPham1.setNgaySua(LocalDate.now());
             chiTietSanPham1.setTrangThai(chiTietSanPham.getTrangThai());
             repository.save(chiTietSanPham1);

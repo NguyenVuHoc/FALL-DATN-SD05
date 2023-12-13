@@ -52,8 +52,8 @@ public class ChiTietSanPhamRequest {
     @DecimalMin(value = "0.0", message = "Giá mặc định phải lớn hơn hoặc bằng 0")
     private BigDecimal giaMacDinh;
 
-    @NotNull(message = "Giá bán không được để trống")
-    @DecimalMin(value = "0.0", message = "Giá bán định phải lớn hơn hoặc bằng 0")
+//    @NotNull(message = "Giá bán không được để trống")
+//    @DecimalMin(value = "0.0", message = "Giá bán định phải lớn hơn hoặc bằng 0")
     private BigDecimal giaBan;
 
     private TrangThai trangThai;

@@ -273,11 +273,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
-                                <th>Số lượng tồn</th>
+                                <th>Số lượng</th>
                                 <th>Giá bán</th>
                                 <th>Khuyến mại</th>
                                 <th>Trạng thái</th>
@@ -287,7 +286,6 @@
                             <tbody>
                             <tr th:each="chiTietSanPham : ${listCTSP}">
                                 <td th:text="${chiTietSanPham.id}"></td>
-                                <td th:text="${chiTietSanPham.sanPham.ma}"></td>
                                 <td th:text="${chiTietSanPham.sanPham.ten}"></td>
                                 <td th:text="${chiTietSanPham.mauSac.ten}"></td>
                                 <td th:text="${chiTietSanPham.kichThuoc.ten}"></td>
@@ -311,11 +309,10 @@
                             <tfoot hidden="hidden">
                             <tr>
                                 <th>ID</th>
-                                <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Màu sắc</th>
                                 <th>Kích thước</th>
-                                <th>Số lượng tồn</th>
+                                <th>Số lượng</th>
                                 <th>Giá bán</th>
                                 <th>Khuyến mại</th>
                                 <th>Trạng thái</th>

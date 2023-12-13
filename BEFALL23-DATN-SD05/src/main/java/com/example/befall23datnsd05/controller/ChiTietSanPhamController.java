@@ -139,7 +139,6 @@ public class ChiTietSanPhamController {
             model.addAttribute("listLG",lotGiayService.getAll().stream().sorted(Comparator.comparing(LotGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listCG",coGiayService.getAll().stream().sorted(Comparator.comparing(CoGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listSP",sanPhamService.getList());
-
             return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
         }else{
             service.add(chiTietSanPham);
@@ -195,7 +194,7 @@ public class ChiTietSanPhamController {
 
     ) throws IOException {
         if (!file.isEmpty()) {
-            String directory = "D:\\FALL-DATN-SD05";
+            String directory = "C:\\Users\\Admin\\Downloads";
             String fileName = file.getOriginalFilename();
             String filePath = directory + "\\" + fileName;
             FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
