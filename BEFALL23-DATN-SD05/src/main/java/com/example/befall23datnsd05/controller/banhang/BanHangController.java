@@ -48,6 +48,9 @@ public class BanHangController {
     @Autowired
     private MaGiamGiaService maGiamGiaService;
 
+    @Autowired
+    private KhachHangRepository khachHangRepository;
+
     private Boolean isActive = false;
 
     private Boolean checkHoaDon = false;
@@ -71,6 +74,7 @@ public class BanHangController {
     public String hienThiHoaDonChiTiet(@PathVariable("idHoaDon") String idHoaDon,
                                        Model model) {
         isActive = true;
+//<<<<<<< HEAD
         BigDecimal tongTien = banHangService.getTongTien(Long.valueOf(idHoaDon));
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
@@ -81,6 +85,15 @@ public class BanHangController {
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
         model.addAttribute("listKhachHang", khachHangService.getList());
         model.addAttribute("listMaGiamGia", maGiamGiaService.getListHoatDong());
+//=======
+//        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
+//        model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
+//        model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
+//        model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
+//        model.addAttribute("listSanPham", chiTietSanPhamService.getAll());
+//        model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
+//        model.addAttribute("listKhachHang", khachHangRepository.findAll());
+//>>>>>>> be/ban-hang/tuanv
         model.addAttribute("idHoaDonCho", idHoaDon);
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("isActive", isActive);
@@ -189,6 +202,7 @@ public class BanHangController {
 
     @PostMapping("/thanh-toan/{idHoaDonCho}")
     public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
+//<<<<<<< HEAD
                                   @RequestParam("tongTien") String tongTien,
                                   @RequestParam("thanhTien") String thanhTien,
                                   @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
@@ -196,6 +210,11 @@ public class BanHangController {
         banHangService.checkXuHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
         banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon));
         banHangService.updateGiamGia(Long.valueOf(idHoaDon));
+//=======
+//                                  @RequestParam("thanhTien") String thanhTien) {
+//        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
+//        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
+//>>>>>>> be/ban-hang/tuanv
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }

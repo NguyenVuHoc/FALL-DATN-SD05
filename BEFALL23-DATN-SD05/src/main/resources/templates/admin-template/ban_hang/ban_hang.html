@@ -721,6 +721,7 @@
                                               onsubmit="return checkThanhToan(this);">
                                             <!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
                                             <input th:field="*{id}" name="id" hidden/>
+                                            <input th:value="${xu}" name="xu" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
                                                    name="tongTien"
@@ -741,6 +742,7 @@
                                               th:object="${hoaDonCho}"
                                               onsubmit="return checkThanhToan(this);">
                                             <input th:field="*{id}" name="id" hidden/>
+                                            <input th:value="${xu}" name="xu" hidden/>
                                             <input type="text" class="form-control"
                                                    style="color: red"
                                                    name="tongTien"
@@ -803,7 +805,6 @@
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4">
             <h6 class="mb-4" style="font-size: 25px;">Sản Phẩm</h6>
-
         </div>
         <div class="bg-light text-center rounded p-4" style="width:96%;margin-left: 2%">
             <div>
