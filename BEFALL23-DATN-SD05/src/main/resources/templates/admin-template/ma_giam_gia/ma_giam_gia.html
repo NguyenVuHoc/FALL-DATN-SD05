@@ -224,7 +224,7 @@
             <div class="row g-2">
                 <form th:action="@{/admin/ma-giam-gia/filter}" method="get" onsubmit="return validateDate()">
                     <div class="container-fluid pt-3">
-                        <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}" />
+                        <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
                         <div class="row g-2">
                             <div class="col-md-4">
                                 <!-- Ngày bắt đầu -->
@@ -233,7 +233,8 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Ngày bắt đầu</div>
                                     </div>
-                                    <input type="date" class="form-control" name="startDate" id="start7" th:value="${startDate}">
+                                    <input type="date" class="form-control" name="startDate" id="start7"
+                                           th:value="${startDate}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -243,7 +244,8 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Ngày kết thúc</div>
                                     </div>
-                                    <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
+                                    <input type="date" class="form-control" name="endDate" id="end7"
+                                           th:value="${endDate}">
                                 </div>
                             </div>
                         </div>
@@ -301,8 +303,12 @@
                                     <a th:href="@{'/admin/ma-giam-gia/view-update/' + ${mgg.id}}">
                                         <i class="bi bi-pencil" style="font-size: 20px"></i>
                                     </a>
-                                    <a th:href="@{/admin/ma-giam-gia/huy/{id}(id=${mgg.id})}"
+                                    <a th:unless="${mgg.trangThai.getDisplayName().equals('Dừng Hoạt Động')}"
+                                       th:href="@{/admin/ma-giam-gia/huy/{id}(id=${mgg.id})}"
                                        onclick="return confirm('Bạn có chắc muốn hủy mã giảm giá này?')">
+                                        <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
+                                    </a>
+                                    <a th:if="${mgg.trangThai.getDisplayName().equals('Dừng Hoạt Động')}">
                                         <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
                                     </a>
                                 </td>

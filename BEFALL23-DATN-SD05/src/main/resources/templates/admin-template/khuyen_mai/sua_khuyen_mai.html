@@ -146,7 +146,7 @@
                         <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                        <label for="inputMuc" class="form-label">Mức Giảm Giá(%)</label>
                         <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
                         <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"
                              style="color: red"></div>

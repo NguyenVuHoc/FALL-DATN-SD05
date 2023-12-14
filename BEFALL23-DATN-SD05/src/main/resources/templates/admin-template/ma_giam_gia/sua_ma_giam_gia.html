@@ -141,14 +141,14 @@
                         <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                        <label for="inputMuc" class="form-label">Mức Giảm Giá(%)</label>
                         <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
                         <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"
                              style="color: red"></div>
                         <div id="errorMucGiam"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMucGiam" class="form-label">Tiền Giảm Tối Đa</label>
+                        <label for="inputMucGiam" class="form-label">Tiền Giảm Tối Đa(VND)</label>
                         <input type="number" class="form-control" id="inputMucGiam" th:field="*{mucGiamToiDa}"/>
                         <div th:if="${#fields.hasErrors('mucGiamToiDa')}" th:errors="*{mucGiamToiDa}"
                              style="color: red"></div>
@@ -159,7 +159,7 @@
                         <div th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu</label>
+                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu(VND)</label>
                         <input type="number" class="form-control" id="inputApDung" th:field="*{giaTriDonHang}"/>
                         <div th:if="${#fields.hasErrors('giaTriDonHang')}" th:errors="*{giaTriDonHang}"
                              style="color: red"></div>

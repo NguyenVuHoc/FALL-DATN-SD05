@@ -243,7 +243,8 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Ngày bắt đầu</div>
                                     </div>
-                                    <input type="date" class="form-control" name="startDate" id="start7" th:value="${startDate}">
+                                    <input type="date" class="form-control" name="startDate" id="start7"
+                                           th:value="${startDate}">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -253,7 +254,8 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">Ngày kết thúc</div>
                                     </div>
-                                    <input type="date" class="form-control" name="endDate" id="end7" th:value="${endDate}">
+                                    <input type="date" class="form-control" name="endDate" id="end7"
+                                           th:value="${endDate}">
                                 </div>
                             </div>
                         </div>
@@ -306,8 +308,12 @@
                                     <a th:href="@{'/admin/khuyen-mai/view-update/' + ${khuyenMai.id}}">
                                         <i class="bi bi-pencil" style="font-size: 20px"></i>
                                     </a>
-                                    <a th:href="@{/admin/khuyen-mai/huy/{id}(id=${khuyenMai.id})}"
+                                    <a th:unless="${khuyenMai.trangThai.getDisplayName().equals('Dừng Hoạt Động')}"
+                                       th:href="@{/admin/khuyen-mai/huy/{id}(id=${khuyenMai.id})}"
                                        onclick="return confirm('Bạn có chắc muốn hủy khuyến mãi này?')">
+                                        <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
+                                    </a>
+                                    <a th:if="${khuyenMai.trangThai.getDisplayName().equals('Dừng Hoạt Động')}">
                                         <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
                                     </a>
                                 </td>
