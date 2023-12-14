@@ -168,7 +168,7 @@
                 <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link active"><i
-                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mại</a>
                 <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
@@ -249,7 +249,7 @@
                             <td th:text="${#numbers.formatDecimal(ctspCoKM.GiaSauGiamGia, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
                             <td>
                                 <a th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/xoa/'+ ${khuyenMai.id} +'/'+ ${ctspCoKM.id}}"
-                                   onclick="return confirm('Bạn chắc chắn muốn bỏ sản phẩm khỏi khuyến mãi ?')">
+                                   onclick="return confirm('Bạn chắc chắn muốn bỏ sản phẩm khỏi khuyến mại ?')">
                                     <img src="/../../img/stop.png" style="width: 25px; padding-right: 5px;">
                                 </a>
                             </td>
@@ -303,7 +303,7 @@
                             <td th:text="${ctsp.soLuongTon}"></td>
                             <td>
                                 <a th:if="${ctsp.khuyenMai != null}"  th:href="@{'/admin/khuyen-mai/them-san-pham-khuyen-mai/them/' + ${khuyenMai.id} +'/'+ ${ctsp.id}}"
-                                   onclick="return confirm('Sản phẩm này đã có khuyến mại bạn chắc chắn muốn đổi sản phẩm sang khuyến mãi này ?')">
+                                   onclick="return confirm('Sản phẩm này đã có khuyến mại bạn chắc chắn muốn đổi sản phẩm sang khuyến mại này ?')">
                                     <img src="/../../img/them.png"
                                          style="width: 25px; padding-right: 5px;">
                                 </a>
