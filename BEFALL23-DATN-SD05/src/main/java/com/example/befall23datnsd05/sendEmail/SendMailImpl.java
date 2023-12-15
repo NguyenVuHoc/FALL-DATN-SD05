@@ -5,6 +5,8 @@ import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
+import com.example.befall23datnsd05.repository.KhachHangRepository;
+import com.example.befall23datnsd05.worker.CodeGenerator;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -24,6 +28,8 @@ public class SendMailImpl implements SendMailService {
     private JavaMailSender javaMailSender;
     @Autowired
     private GioHangChiTietRepository gioHangChiTietRepository;
+    @Autowired
+    private KhachHangRepository khachHangRepository;
 
     @Override
     public void sendEmail(KhachHang khachHang, String url) {
@@ -94,20 +100,19 @@ public class SendMailImpl implements SendMailService {
                     .append("<p style=\"color: black;\">Quý khách có thể tra cứu thông tin đơn hàng tại đây: http://localhost:8080/wingman/tra-cuu-don-hang</p>")
                     .append("<p style=\"color: black;\">Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi ngay!</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
-        }else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY) {
+        } else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY) {
             content.append("<p style=\"color: black;\">Xin chào!</p>")
                     .append("<p style=\"color: black;\">Chúng tôi rất tiếc phải thông báo rằng đơn hàng của bạn đã bị huỷ.</p>")
                     .append("<p style=\"color: black;\">Chúng tôi xin lỗi về bất kỳ bất tiện nào gây ra và hy vọng có cơ hội phục vụ bạn trong tương lai.</p>")
                     .append("<p style=\"color: black;\">Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi ngay!</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn bạn đã quan tâm và lựa chọn sản phẩm của chúng tôi!</p>");
-        }
-        else {
+        } else {
             content.append("<p style=\"color: black;\">Đơn hàng của bạn hiện đang được xử lý. Chúng tôi sẽ thông báo khi đơn hàng gửi đến cho bạn.</p>")
                     .append("<p style=\"color: black;\">Chúng tôi rất cảm kích sự kiên nhẫn của bạn trong quá trình này.</p>")
                     .append("<p style=\"color: black;\">Quý khách có thể tra cứu thông tin đơn hàng tại đây: http://localhost:8080/wingman/tra-cuu-don-hang</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
         }
-        if(hoaDon.getTrangThai() != TrangThaiDonHang.DA_HUY){
+        if (hoaDon.getTrangThai() != TrangThaiDonHang.DA_HUY) {
             content.append("<p style=\"color: black;\"><strong>Thông tin đơn hàng: [[maHoaDon]]</strong></p>");
             content.append("<table border=\"1\" style=\"border-collapse: collapse;\">")
                     .append("<tr>")
@@ -122,9 +127,9 @@ public class SendMailImpl implements SendMailService {
                     .append("<th style=\"border: 1px solid black;\">Đơn giá</th>")
                     .append("<th style=\"border: 1px solid black;\">Số lượng</th>")
                     .append("</tr>");
-            int stt=1;
-            List<GioHangChiTiet> gioHangChiTiets= gioHangChiTietRepository.findByHoaDon(hoaDon.getId());
-            for( GioHangChiTiet gioHangChiTiet:gioHangChiTiets){
+            int stt = 1;
+            List<GioHangChiTiet> gioHangChiTiets = gioHangChiTietRepository.findByHoaDon(hoaDon.getId());
+            for (GioHangChiTiet gioHangChiTiet : gioHangChiTiets) {
                 content.append("<tr>")
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(stt++).append("</td>")
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getTen()).append("</td>")
@@ -166,7 +171,7 @@ public class SendMailImpl implements SendMailService {
             content.append("<br>\n" +
                     "<p style=\"color: black;\" class=\"email-content\">\n" +
                     "Cảm ơn bạn đã chọn Wingman! Nếu có bất kỳ thắc mắc nào hoặc cần hỗ trợ, hãy liên hệ với chúng tôi qua số :0329962003.\n" +
-                    "</p>"+
+                    "</p>" +
                     "</div>"
             );
         }
@@ -177,14 +182,12 @@ public class SendMailImpl implements SendMailService {
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
 
-
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String ngayThanhToanFormatted;
-            if(hoaDon.getNgayThanhToan()!=null){
-                 ngayThanhToanFormatted = hoaDon.getNgayThanhToan().format(formatter);
-            }
-            else {
-                ngayThanhToanFormatted="";
+            if (hoaDon.getNgayThanhToan() != null) {
+                ngayThanhToanFormatted = hoaDon.getNgayThanhToan().format(formatter);
+            } else {
+                ngayThanhToanFormatted = "";
             }
 
             helper.setFrom(from, "Wingman");
@@ -217,7 +220,56 @@ public class SendMailImpl implements SendMailService {
     }
 
     @Override
-    public boolean verifyAccount(String verificationPassWord, String resetPass) {
+    public boolean sendNewPassWord(String verificationPassWord, String resetPass) {
         return false;
+    }
+
+    @Override
+    public void sendNewPassWord(String mail) {
+        KhachHang khachHang = khachHangRepository.findByEmail(mail).get();
+        String from = "wingmansd05@gmail.com";
+        String to = mail;
+        String subject = "Quên mật khẩu";
+        StringBuilder content = new StringBuilder("<div style=\"font-family: 'Arial', sans-serif; font-size: 16px; color: black;\">")
+                .append("<p style=\"color: black;\"><b>Xin chào ").append(khachHang.getTen()).append(",</b></p>")
+                .append("<p style=\"color: black;\">Bạn đã xác nhận quên mật khẩu và yêu cầu tìm lại mật khẩu của mình vào : [[time]]</p>");
+
+        content.append("<p style=\"color: black;\">Chúng tôi đã nhận được yêu cầu khôi phục mật khẩu từ phía bạn. Dưới đây là mật khẩu mới để truy cập vào tài khoản của bạn: [[newPass]].</p>");
+
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Đề nghị bạn đăng nhập bằng mật khẩu này và sau đó thay đổi mật khẩu trong phần cài đặt tài khoản của mình để đảm bảo tính bảo mật cho tài khoản của bạn.\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Nếu có bất kỳ câu hỏi hoặc vấn đề gì, đừng ngần ngại liên hệ với chúng tôi. Chúng tôi luôn ở đây để hỗ trợ bạn.\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Trân trọng,\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Wingman\n" +
+                "</p>\n");
+        try {
+
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            String ngayGioFormatted = formatter.format(now);
+
+            helper.setFrom(from, "Wingman");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            String content1 = content.toString();
+            content1 = content1.replace("[[name]]", khachHang.getTen());
+            content1 = content1.replace("[[newPass]]", CodeGenerator.genUUID());
+            content1 = content1.replace("[[time]]", ngayGioFormatted);
+            helper.setText(content1, true);
+            javaMailSender.send(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

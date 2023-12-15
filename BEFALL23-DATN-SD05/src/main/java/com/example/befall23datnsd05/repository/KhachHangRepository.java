@@ -33,4 +33,6 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Long> {
     Optional<KhachHang> findByEmailAndIdNot(String email, Long id);
 
     boolean existsByEmail(String email);
+
+    Optional<KhachHang> findByEmail(String email);
 }

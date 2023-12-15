@@ -148,7 +148,22 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
     @Override
     public KhachHang registration(RegisterRequest request) {
-        return khachHangRepository.save(RegisterRequest.convertToEntity(request));
+
+        KhachHang khachHang = khachHangRepository.save(RegisterRequest.convertToEntity(request));
+        GioHang gioHang= new GioHang();
+        gioHang.setNgayTao(LocalDate.now());
+        gioHang.setNgaySua(LocalDate.now());
+        gioHang.setKhachHang(khachHang);
+        gioHangRepository.save(gioHang);
+        gioHang.setMa("HD"+gioHang.getId());
+        gioHangRepository.save(gioHang);
+        return khachHang;
+    }
+
+    @Override
+    public String quenMatKhau(String mail) {
+
+        return null;
     }
 
 

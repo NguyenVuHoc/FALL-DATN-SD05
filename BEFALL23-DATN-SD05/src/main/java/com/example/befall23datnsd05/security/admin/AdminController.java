@@ -2,6 +2,7 @@ package com.example.befall23datnsd05.security.admin;
 
 import com.example.befall23datnsd05.dto.RegisterRequest;
 import com.example.befall23datnsd05.entity.KhachHang;
+import com.example.befall23datnsd05.sendEmail.SendMailService;
 import com.example.befall23datnsd05.service.KhachHangService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -13,12 +14,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
 
     @Autowired
     private KhachHangService khachHangService;
+    @Autowired
+    private SendMailService sendMailService;
     @GetMapping("/login")
     public String getFormLoginAdmin(Model model) {
         model.addAttribute("khachHang", new RegisterRequest());
@@ -33,9 +37,9 @@ public class AdminController {
             BindingResult result,
             Model model
             ){
-        if(result.hasErrors() || khachHangService.existsByEmail(khachHang.getEmail()) || khachHangService.existsByEmail(khachHang.getEmail())){
-            model.addAttribute("validateRegis", result.hasErrors());
-            model.addAttribute("exSdt", khachHangService.existsByEmail(khachHang.getEmail()));
+        if(result.hasErrors() || khachHangService.existsByEmail(khachHang.getEmail()) || khachHangService.existsBySdt(khachHang.getSdt())){
+            model.addAttribute("validateRegis", true);
+            model.addAttribute("exSdt", khachHangService.existsBySdt(khachHang.getSdt()));
             model.addAttribute("exEmail", khachHangService.existsByEmail(khachHang.getEmail()));
             return "admin-template/login";
         }
@@ -49,5 +53,19 @@ public class AdminController {
         }
         return "redirect:/wingman/trang-chu";
 
+    }
+
+    @PostMapping("/quen-mat-khau")
+    public String quenMatKhau(@RequestParam("mail")String mail,Model model){
+        if(!khachHangService.existsByEmail(mail)){
+            model.addAttribute("vld", true);
+            model.addAttribute("vld1", "Email bạn nhập không tồn tại hoặc chưa đăng ký!");
+            model.addAttribute("exEmail1", khachHangService.existsByEmail(mail));
+            return "admin-template/login";
+        }else {
+            khachHangService.quenMatKhau(mail);
+            sendMailService.sendNewPassWord(mail);
+            return "admin-template/login";
+        }
     }
 }

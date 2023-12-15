@@ -9,5 +9,6 @@ public interface SendMailService {
 
     public void sendEmail1(KhachHang khachHang, HoaDon hoaDon);
 
-    public boolean verifyAccount(String verificationPassWord, String resetPass);
+    public boolean sendNewPassWord(String verificationPassWord, String resetPass);
+    public void sendNewPassWord(String mail);
 }

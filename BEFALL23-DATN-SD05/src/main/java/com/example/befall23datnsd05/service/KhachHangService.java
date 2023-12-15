@@ -37,4 +37,7 @@ public interface KhachHangService {
     boolean changeUserPassword(Long idKh,String oldPassword, String newPassword);
 
     KhachHang registration(RegisterRequest khachHang);
+
+    String quenMatKhau(String mail);
+
 }
