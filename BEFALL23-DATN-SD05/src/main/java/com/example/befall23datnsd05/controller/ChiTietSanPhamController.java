@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -191,15 +194,19 @@ public class ChiTietSanPhamController {
     public String importExcel(
             @RequestParam("file") MultipartFile file,
             RedirectAttributes attributes
-
     ) throws IOException {
         if (!file.isEmpty()) {
-            String directory = "C:\\Users\\Admin\\Downloads";
-            String fileName = file.getOriginalFilename();
-            String filePath = directory + "\\" + fileName;
+//            String directory = "C:\\Users\\Admin\\Downloads";
+//            String fileName = file.getOriginalFilename();
+//            String filePath = directory + "\\" + fileName;
+//            String originalFilename = file.getOriginalFilename();
+//
+//            // Tạo đường dẫn tuyệt đối bằng cách kết hợp tên tệp với đường dẫn tạm thời
+//            String absolutePath = Paths.get(System.getProperty("java.io.tmpdir"), originalFilename).toString();
+//            System.out.println(absolutePath);
             FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
             try {
-                importFileExcelCTSP.ImportFile(filePath, sanPhamRepository,  mauSacRepository,
+                importFileExcelCTSP.ImportFile(file, sanPhamRepository,  mauSacRepository,
                         kichThuocRepository,deGiayRepository,
                         chiTietSanPhamRepository,  chiTietSanPhamService,
                         lotGiayRepository,  coGiayRepository);
@@ -216,6 +223,47 @@ public class ChiTietSanPhamController {
         attributes.addFlashAttribute("thongBaoLoiImport", "Bạn chưa chọn file excel nào");
         return "redirect:/admin/chi-tiet-san-pham";
     }
+
+//    @PostMapping("/admin/chi-tiet-san-pham/import-excel")
+//    public String importExcel(
+//            @RequestParam("file") MultipartFile file,
+//            RedirectAttributes attributes
+//    ) throws IOException {
+//        if (!file.isEmpty()) {
+//            try {
+//                // Sử dụng thư mục tạm thời của hệ thống
+//                Path directoryPath = Paths.get(System.getProperty("java.io.tmpdir"));
+//
+//                String fileName = file.getOriginalFilename();
+//                Path filePath = directoryPath.resolve(fileName); // Sử dụng resolve để tạo đường dẫn
+//
+//                FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
+//
+//                // Lưu file vào thư mục được chọn
+//                file.transferTo(filePath.toFile());
+//                System.out.println(filePath);
+//
+//                // Tiếp tục với quá trình nhập
+//                importFileExcelCTSP.ImportFile(filePath.toString(), sanPhamRepository, mauSacRepository,
+//                        kichThuocRepository, deGiayRepository,
+//                        chiTietSanPhamRepository, chiTietSanPhamService,
+//                        lotGiayRepository, coGiayRepository);
+//
+//                if (importFileExcelCTSP.checkLoi() > 0) {
+//                    attributes.addFlashAttribute("thongBaoLoiImport", "Đã thêm sản phẩm thành công nhưng có một số sản phẩm lỗi, mời bạn kiểm tra lại trên file excel");
+//                    return "redirect:/admin/chi-tiet-san-pham";
+//                }
+//            } catch (Exception e) {
+//                attributes.addFlashAttribute("thongBaoLoiImport", "Sai định dạng file hoặc có lỗi xảy ra trong quá trình xử lý");
+//                return "redirect:/admin/chi-tiet-san-pham";
+//            }
+//            return "redirect:/admin/chi-tiet-san-pham?success";
+//        }
+//        attributes.addFlashAttribute("thongBaoLoiImport", "Bạn chưa chọn file excel nào");
+//        return "redirect:/admin/chi-tiet-san-pham";
+//    }
+
+
 
     @GetMapping("/admin/chi-tiet-san-pham/export-excel")
     public ResponseEntity<?> exportExcel(){

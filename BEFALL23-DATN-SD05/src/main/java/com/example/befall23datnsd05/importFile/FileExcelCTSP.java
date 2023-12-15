@@ -50,101 +50,106 @@ public class FileExcelCTSP {
     Integer indexLoi = 0;
 
     public void ImportFile(
-            String path, SanPhamRepository sanPhamRepository, MauSacRepository mauSacRepository,
+            MultipartFile file, SanPhamRepository sanPhamRepository, MauSacRepository mauSacRepository,
             KichThuocRepository kichThuocRepository, DeGiayRepository deGiayRepository,
             ChiTietSanPhamRepository chiTietSanPhamRepository, ChiTietSanPhamService chiTietSanPhamService,
             LotGiayRepository lotGiayRepository, CoGiayRepository coGiayRepository) throws Exception {
 
-        FileInputStream fileExcel = new FileInputStream(new File(path));
-        Workbook workbook = new XSSFWorkbook(fileExcel);
-        Sheet sheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = sheet.iterator();
-        Row firtRow = iterator.next();
-        Cell firtCell = firtRow.getCell(0);
-        List<Integer> listIndex = new ArrayList<>();
-        int index = 0;
-        while (iterator.hasNext()) {
-            index++;
-            try {
-                Row row = iterator.next();
-                String sanPhamStr = String.valueOf(getCellValue(row.getCell(0))).trim();
-                String mauSacStr = String.valueOf(getCellValue(row.getCell(1))).trim();
-                String kichThuocStr = String.valueOf(getCellValue(row.getCell(2))).trim().replace(".0", "");
-                String deGiayStr = String.valueOf(getCellValue(row.getCell(5))).trim();
-                String coGiayStr = String.valueOf(getCellValue(row.getCell(4))).trim();
-                String lotGiayStr = String.valueOf(getCellValue(row.getCell(3))).trim();
-                String soLuongTon = String.valueOf(getCellValue(row.getCell(6))).trim().replace(".0", "");
-                String giaMacDinh = String.valueOf(getCellValue(row.getCell(7))).trim();
+//        FileInputStream fileExcel = new FileInputStream(new File(path));
+        try (InputStream inputStream = file.getInputStream()){
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = sheet.iterator();
+            Row firtRow = iterator.next();
+            Cell firtCell = firtRow.getCell(0);
+            List<Integer> listIndex = new ArrayList<>();
+            int index = 0;
+            while (iterator.hasNext()) {
+                index++;
+                try {
+                    Row row = iterator.next();
+                    String sanPhamStr = String.valueOf(getCellValue(row.getCell(0))).trim();
+                    String mauSacStr = String.valueOf(getCellValue(row.getCell(1))).trim();
+                    String kichThuocStr = String.valueOf(getCellValue(row.getCell(2))).trim().replace(".0", "");
+                    String deGiayStr = String.valueOf(getCellValue(row.getCell(5))).trim();
+                    String coGiayStr = String.valueOf(getCellValue(row.getCell(4))).trim();
+                    String lotGiayStr = String.valueOf(getCellValue(row.getCell(3))).trim();
+                    String soLuongTon = String.valueOf(getCellValue(row.getCell(6))).trim().replace(".0", "");
+                    String giaMacDinh = String.valueOf(getCellValue(row.getCell(7))).trim();
 
-                if (mauSacStr.isEmpty() && sanPhamStr.isEmpty() && kichThuocStr.isEmpty() && deGiayStr.isEmpty()
-                        && soLuongTon.isEmpty() && giaMacDinh.isEmpty() && coGiayStr.isEmpty() && lotGiayStr.isEmpty()) {
+                    if (mauSacStr.isEmpty() && sanPhamStr.isEmpty() && kichThuocStr.isEmpty() && deGiayStr.isEmpty()
+                            && soLuongTon.isEmpty() && giaMacDinh.isEmpty() && coGiayStr.isEmpty() && lotGiayStr.isEmpty()) {
+                        listIndex.add(index);
+                        continue;
+                    }
+
+                    SanPham sanPham = sanPhamRepository.findSanPhamByTen(sanPhamStr)
+                            .orElse(null);
+                    MauSac mauSac = mauSacRepository.findMauSacByTen(mauSacStr)
+                            .orElse(null);;
+                    KichThuoc kichThuoc = kichThuocRepository.findKichThuocByTen(kichThuocStr)
+                            .orElse(null);;
+                    DeGiay deGiay = deGiayRepository.findDeGiayByTen(deGiayStr)
+                            .orElse(null);;
+                    CoGiay coGiay = coGiayRepository.findCoGiayByTen(coGiayStr)
+                            .orElse(null);;
+                    LotGiay lotGiay = lotGiayRepository.findLotGiayByTen(lotGiayStr)
+                            .orElse(null);;
+
+                    if (sanPham == null || mauSac == null || kichThuoc == null || deGiay == null || coGiay == null || lotGiay == null) {
+                        listIndex.add(index);
+                        continue;
+                    }
+                    if (Integer.parseInt(soLuongTon) < 0 || new BigDecimal(giaMacDinh).compareTo(BigDecimal.ZERO) < 0) {
+                        listIndex.add(index);
+                        continue;
+                    }
+
+                    ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
+                    ChiTietSanPham chiTietSanPhamCheck = chiTietSanPhamRepository.findChiTietSanPham(sanPham.getTen(), mauSac.getTen(), deGiay.getTen(), coGiay.getTen(), lotGiay.getTen(), kichThuoc.getTen())
+                            .orElse(null);;
+                    if (chiTietSanPhamCheck == null) {
+                        chiTietSanPham.setSanPham(sanPham);
+                        chiTietSanPham.setMauSac(mauSac);
+                        chiTietSanPham.setKichThuoc(kichThuoc);
+                        chiTietSanPham.setDeGiay(deGiay);
+                        chiTietSanPham.setCoGiay(coGiay);
+                        chiTietSanPham.setLotGiay(lotGiay);
+                        chiTietSanPham.setSoLuongTon(Integer.parseInt(soLuongTon));
+                        chiTietSanPham.setGiaBan(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
+                        chiTietSanPham.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
+                        chiTietSanPham.setTrangThai(TrangThai.DANG_HOAT_DONG);
+                        chiTietSanPham.setNgayTao(LocalDate.now());
+                        chiTietSanPhamService.save(chiTietSanPham);
+                    } else {
+                        chiTietSanPhamCheck.setSoLuongTon(chiTietSanPhamCheck.getSoLuongTon() + Integer.parseInt(soLuongTon));
+                        chiTietSanPhamCheck.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
+                        chiTietSanPhamCheck.setGiaBan(chiTietSanPhamCheck.tinhGiaSauGiamGia());
+                        chiTietSanPhamService.save(chiTietSanPhamCheck);
+                    }
+                    workbook.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                     listIndex.add(index);
                     continue;
                 }
-
-                SanPham sanPham = sanPhamRepository.findSanPhamByTen(sanPhamStr)
-                        .orElse(null);
-                MauSac mauSac = mauSacRepository.findMauSacByTen(mauSacStr)
-                        .orElse(null);;
-                KichThuoc kichThuoc = kichThuocRepository.findKichThuocByTen(kichThuocStr)
-                        .orElse(null);;
-                DeGiay deGiay = deGiayRepository.findDeGiayByTen(deGiayStr)
-                        .orElse(null);;
-                CoGiay coGiay = coGiayRepository.findCoGiayByTen(coGiayStr)
-                        .orElse(null);;
-                LotGiay lotGiay = lotGiayRepository.findLotGiayByTen(lotGiayStr)
-                        .orElse(null);;
-
-                if (sanPham == null || mauSac == null || kichThuoc == null || deGiay == null || coGiay == null || lotGiay == null) {
-                    listIndex.add(index);
-                    continue;
-                }
-                if (Integer.parseInt(soLuongTon) < 0 || new BigDecimal(giaMacDinh).compareTo(BigDecimal.ZERO) < 0) {
-                    listIndex.add(index);
-                    continue;
-                }
-
-                ChiTietSanPham chiTietSanPham = new ChiTietSanPham();
-                ChiTietSanPham chiTietSanPhamCheck = chiTietSanPhamRepository.findChiTietSanPham(sanPham.getTen(), mauSac.getTen(), deGiay.getTen(), coGiay.getTen(), lotGiay.getTen(), kichThuoc.getTen())
-                        .orElse(null);;
-                if (chiTietSanPhamCheck == null) {
-                    chiTietSanPham.setSanPham(sanPham);
-                    chiTietSanPham.setMauSac(mauSac);
-                    chiTietSanPham.setKichThuoc(kichThuoc);
-                    chiTietSanPham.setDeGiay(deGiay);
-                    chiTietSanPham.setCoGiay(coGiay);
-                    chiTietSanPham.setLotGiay(lotGiay);
-                    chiTietSanPham.setSoLuongTon(Integer.parseInt(soLuongTon));
-                    chiTietSanPham.setGiaBan(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
-                    chiTietSanPham.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
-                    chiTietSanPham.setTrangThai(TrangThai.DANG_HOAT_DONG);
-                    chiTietSanPham.setNgayTao(LocalDate.now());
-                    chiTietSanPhamService.save(chiTietSanPham);
-                } else {
-                    chiTietSanPhamCheck.setSoLuongTon(chiTietSanPhamCheck.getSoLuongTon() + Integer.parseInt(soLuongTon));
-                    chiTietSanPhamCheck.setGiaMacDinh(BigDecimal.valueOf(Double.parseDouble(giaMacDinh)));
-                    chiTietSanPhamCheck.setGiaBan(chiTietSanPhamCheck.tinhGiaSauGiamGia());
-                    chiTietSanPhamService.save(chiTietSanPhamCheck);
-                }
-                workbook.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                listIndex.add(index);
-                continue;
             }
+            this.SaveFileError(file, listIndex);
+            indexLoi = listIndex.size();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        this.SaveFileError(path, listIndex);
-        indexLoi = listIndex.size();
+
     }
 
     public Integer checkLoi() {
         return indexLoi;
     }
 
-    public void SaveFileError(String path, List<Integer> listIndex) {
-        try (FileInputStream fileExcel = new FileInputStream(new File(path))) {
-            Workbook workbook = new XSSFWorkbook(fileExcel);
+    public void SaveFileError(MultipartFile file, List<Integer> listIndex) {
+        try (InputStream inputStream = file.getInputStream()) {
+            Workbook workbook = new XSSFWorkbook(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = sheet.iterator();
 
@@ -160,10 +165,10 @@ public class FileExcelCTSP {
                 rowIndex++;
             }
 
-            try (FileOutputStream fileOut = new FileOutputStream(path)) {
+            try (FileOutputStream fileOut = new FileOutputStream(file.getOriginalFilename())) {
                 workbook.write(fileOut);
             }
-
+            workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
