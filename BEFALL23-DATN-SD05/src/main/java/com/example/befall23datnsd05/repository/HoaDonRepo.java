@@ -44,5 +44,9 @@ public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
             "ORDER BY hoa_don.ngay_thanh_toan ASC;\n", nativeQuery = true)
     List<Object[]> thongKeDoanhTHu(@Param("from") LocalDate from, @Param("to") LocalDate to);
 
+    HoaDon findHoaDonByMa(String ma);
+
+    boolean existsByMa(String ma);
+
 
 }

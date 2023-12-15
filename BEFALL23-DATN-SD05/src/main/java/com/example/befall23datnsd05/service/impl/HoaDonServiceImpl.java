@@ -183,4 +183,8 @@ public class HoaDonServiceImpl implements HoaDonService {
         }
         return giamGia;
     }
+    @Override
+    public HoaDon findByMa(String maHd) {
+        return repository.findHoaDonByMa(maHd);
+    }
 }

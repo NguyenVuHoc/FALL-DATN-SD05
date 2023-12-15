@@ -191,4 +191,5 @@ public class ChiTietSanPhamCustomerController {
         model.addAttribute("soLuongTrongGioHang", soLuongTrongGioHang);
         return "customer-template/detail";
     }
+
 }

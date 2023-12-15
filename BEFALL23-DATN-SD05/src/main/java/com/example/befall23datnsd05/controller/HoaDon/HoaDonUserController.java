@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
+import com.example.befall23datnsd05.repository.HoaDonRepo;
 import com.example.befall23datnsd05.request.GioHangChiTietRequest;
 import com.example.befall23datnsd05.service.*;
 import com.example.befall23datnsd05.worker.PrincipalKhachHang;
@@ -29,12 +30,14 @@ public class HoaDonUserController {
     private final ChiTietSanPhamService chiTietSanPhamService;
     private final KhachHangService khachHangService;
     private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
-    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService, KhachHangService khachHangService) {
+    private  final HoaDonRepo hoaDonRepo;
+    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService, KhachHangService khachHangService, HoaDonRepo hoaDonRepo) {
         this.hoaDonService = hoaDonService;
         this.hoaDonChiTietService = hoaDonChiTietService;
         this.gioHangChiTietService = gioHangChiTietService;
         this.chiTietSanPhamService = chiTietSanPhamService;
         this.khachHangService = khachHangService;
+        this.hoaDonRepo = hoaDonRepo;
     }
 
     List<TrangThaiDonHang> list = new ArrayList<>(Arrays.asList(TrangThaiDonHang.CHO_XAC_NHAN, TrangThaiDonHang.HOAN_THANH.DANG_CHUAN_BI,
@@ -263,4 +266,23 @@ public class HoaDonUserController {
         return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
     }
 
-}
+    @GetMapping("/tra-cuu-don-hang")
+    public String view(){
+            return "customer-template/hoadon/tra_cuu";
+
+    }
+
+    @GetMapping("/thong-tin-tra-cuu-don-hang")
+    public String traCuuDonHang(@RequestParam(value = "maHd",required = false)String maHd,Model model) {
+        if (hoaDonRepo.existsByMa(maHd)) {
+            HoaDon hoaDon = hoaDonService.findByMa(maHd);
+            model.addAttribute("giamGia", hoaDonService.maGiamGia(hoaDon.getId()));
+            model.addAttribute("hd", hoaDonService.findById(hoaDon.getId()));
+            model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(hoaDon.getId()));
+            return "customer-template/hoadon/tra_cuu1";
+        } else {
+            model.addAttribute("err", "Hoá đơn bạn nhập không tồn tại!");
+            return "customer-template/hoadon/tra_cuu";
+        }
+    }
+    }

@@ -205,6 +205,7 @@ public class ChiTietSanPhamController {
     ) throws IOException {
         if (!file.isEmpty()) {
             String directory = "C:\\Users\\Admin\\Downloads";
+//            String directory = "C:\\Users\\Mr Hao\\Downloads";
             String fileName = file.getOriginalFilename();
             String filePath = directory + "\\" + fileName;
             FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();

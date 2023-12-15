@@ -73,6 +73,9 @@ public class SendMailImpl implements SendMailService {
 
     @Override
     public void sendEmail1(KhachHang khachHang, HoaDon hoaDon) {
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        DecimalFormat decimalFormat = (DecimalFormat) currencyFormat;
+        decimalFormat.applyPattern("#,### VND");
         String from = "wingmansd05@gmail.com";
         String to = khachHang.getEmail();
         String subject = "Thông tin hóa đơn";
@@ -82,11 +85,13 @@ public class SendMailImpl implements SendMailService {
 
         if (hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI) {
             content.append("<p style=\"color: black;\">Chúng tôi xin thông báo rằng đơn hàng của bạn hiện đang trong quá trình chuẩn bị và sẽ sớm được gửi đến địa chỉ của bạn.</p>")
+                    .append("<p style=\"color: black;\">Quý khách có thể tra cứu thông tin đơn hàng tại đây: http://localhost:8080/wingman/tra-cuu-don-hang</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn vì đã lựa chọn sản phẩm của chúng tôi!</p>");
         } else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_GIAO) {
             content.append("<p style=\"color: black;\">Chúc mừng! Đơn hàng của bạn đã được giao thành công đến địa chỉ của bạn!</p>")
                     .append("<p style=\"color: black;\">Chúng tôi rất vui mừng vì đã có cơ hội phục vụ bạn và hy vọng bạn sẽ hài lòng với sản phẩm đã mua.</p>")
                     .append("<p style=\"color: black;\">Vui lòng đăng nhập để xác nhận bạn đã nhận hàng và hài lòng với sản phẩm trong vòng 3 ngày</p>")
+                    .append("<p style=\"color: black;\">Quý khách có thể tra cứu thông tin đơn hàng tại đây: http://localhost:8080/wingman/tra-cuu-don-hang</p>")
                     .append("<p style=\"color: black;\">Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với chúng tôi ngay!</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
         }else if (hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY) {
@@ -99,6 +104,7 @@ public class SendMailImpl implements SendMailService {
         else {
             content.append("<p style=\"color: black;\">Đơn hàng của bạn hiện đang được xử lý. Chúng tôi sẽ thông báo khi đơn hàng gửi đến cho bạn.</p>")
                     .append("<p style=\"color: black;\">Chúng tôi rất cảm kích sự kiên nhẫn của bạn trong quá trình này.</p>")
+                    .append("<p style=\"color: black;\">Quý khách có thể tra cứu thông tin đơn hàng tại đây: http://localhost:8080/wingman/tra-cuu-don-hang</p>")
                     .append("<p style=\"color: black;\">Xin cảm ơn bạn đã lựa chọn sản phẩm của chúng tôi!</p>");
         }
         if(hoaDon.getTrangThai() != TrangThaiDonHang.DA_HUY){
@@ -128,7 +134,7 @@ public class SendMailImpl implements SendMailService {
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getDeGiay().getTen()).append("</td>")
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getDongSanPham().getTen()).append("</td>")
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getChiTietSanPham().getSanPham().getThuongHieu().getTen()).append("</td>")
-                        .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getDonGia()).append("</td>")
+                        .append("<td style=\"border: 1px solid black;color: black;\">").append(decimalFormat.format(gioHangChiTiet.getDonGia())).append("</td>")
                         .append("<td style=\"border: 1px solid black;color: black;\">").append(gioHangChiTiet.getSoLuong()).append("</td>")
                         .append("</tr>");
             }
@@ -170,9 +176,7 @@ public class SendMailImpl implements SendMailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            DecimalFormat decimalFormat = (DecimalFormat) currencyFormat;
-            decimalFormat.applyPattern("#,### VND");
+
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String ngayThanhToanFormatted;
