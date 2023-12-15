@@ -259,6 +259,9 @@
             <div style="margin-bottom: 2%; margin-right: -10%;">
                 <form th:action="@{/admin/ban-hang/tao-hoa-don}" method="post" th:object="${hoaDon}">
                     <button type="submit" class="btn btn-outline-primary" style="margin-left: 78%;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                        </svg>
                         Tạo Hóa Đơn
                     </button>
                 </form>
@@ -322,7 +325,7 @@
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title fs-5"
-                                                                                id="suaSoLuongLabel">Sửa số lượng
+                                                                                id="suaSoLuongLabel">Cập nhật số lượng
                                                                                 sản
                                                                                 phẩm</h1>
                                                                             <button type="button" class="btn-close"
@@ -534,12 +537,18 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#voucher"
                                             style="margin-top: 30px;margin-left: 5px;width: 100px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                        </svg>
                                         Chọn
                                     </button>
                                     <button id="huyVoucher" type="button" class="btn btn-outline-danger"
                                             data-bs-toggle="modal"
                                             data-bs-target="#huyMaGiamGia"
                                             style="margin-top: 30px;margin-left: 5px;width: 100px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                        </svg>
                                         Hủy
                                     </button>
                                 </div>
@@ -656,12 +665,18 @@
                                 th:data-bs-target="'#checkThanhToan' + ${idHoaDonCho}"
                                 data-bs-toggle="modal"
                                 style="width: auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+                                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                            </svg>
                             Thanh Toán
                         </button>
                         <button class="btn btn-outline-danger"
                                 th:data-bs-target="'#huyDon' + ${idHoaDonCho}"
                                 data-bs-toggle="modal"
                                 style="width: auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                            </svg>
                             Hủy Đơn
                         </button>
                         <div class="modal fade text-center" th:id="'checkThanhToan' + ${idHoaDonCho}"

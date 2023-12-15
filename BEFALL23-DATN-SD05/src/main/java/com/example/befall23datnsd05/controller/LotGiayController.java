@@ -93,7 +93,7 @@ public class LotGiayController {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
             return "admin-template/lot_giay/sua_lot_giay";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
 
         service.update(lotGiay);
         return "redirect:/admin/lot-giay?success";

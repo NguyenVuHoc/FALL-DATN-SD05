@@ -109,7 +109,7 @@ public class DeGiayController {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
             return "admin-template/de_giay/sua_de_giay";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
 
         service.update(deGiay);
         return "redirect:/admin/de-giay?success";

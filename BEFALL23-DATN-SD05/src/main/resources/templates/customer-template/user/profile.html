@@ -53,10 +53,11 @@
                 <li>
                     <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
                 </li>
-                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/tra-cuu-don-hang}">Tra cứu đơn hàng</a></li>
+
             </ul>
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                 <li>
@@ -283,7 +284,7 @@
                                             <div class="edit-address text-btn" data-bs-toggle="modal"
                                                  th:data-bs-target="'#suaDiaChi' + ${diaChi.id}"
                                                  data-target="#addNewShipping">
-                                                Chỉnh sửa
+                                                Cập nhật
                                             </div>
                                             <div style="margin-left: 2%">
                                                 <a th:data-bs-target="'#xoaDiaChi' + ${diaChi.id}"

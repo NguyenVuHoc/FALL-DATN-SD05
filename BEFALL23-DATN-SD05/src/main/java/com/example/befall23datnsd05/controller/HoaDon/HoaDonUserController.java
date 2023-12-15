@@ -267,15 +267,27 @@ public class HoaDonUserController {
     }
 
     @GetMapping("/tra-cuu-don-hang")
-    public String view(){
+    public String view(Model model){
+        Long id=principalKhachHang.getCurrentUserId();
+        Boolean checkSecurity=false;
+        if (id != null) {
+            checkSecurity= true;
+        }
+        model.addAttribute("checkSecurity",checkSecurity);
             return "customer-template/hoadon/tra_cuu";
 
     }
 
     @GetMapping("/thong-tin-tra-cuu-don-hang")
     public String traCuuDonHang(@RequestParam(value = "maHd",required = false)String maHd,Model model) {
-        if (hoaDonRepo.existsByMa(maHd)) {
-            HoaDon hoaDon = hoaDonService.findByMa(maHd);
+        Long id=principalKhachHang.getCurrentUserId();
+        Boolean checkSecurity=false;
+        if (id != null) {
+            checkSecurity= true;
+        }
+        model.addAttribute("checkSecurity",checkSecurity);
+        if (hoaDonRepo.existsByMa(maHd.trim())) {
+            HoaDon hoaDon = hoaDonService.findByMa(maHd.trim());
             model.addAttribute("giamGia", hoaDonService.maGiamGia(hoaDon.getId()));
             model.addAttribute("hd", hoaDonService.findById(hoaDon.getId()));
             model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(hoaDon.getId()));

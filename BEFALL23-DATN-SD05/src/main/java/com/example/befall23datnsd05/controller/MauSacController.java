@@ -91,7 +91,7 @@ public class MauSacController {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
             return "admin-template/mau_sac/sua_mau_sac";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
         service.update(mauSac);
         return "redirect:/admin/mau-sac?success";
     }

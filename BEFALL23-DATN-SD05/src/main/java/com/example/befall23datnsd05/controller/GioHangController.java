@@ -48,6 +48,9 @@ public class GioHangController {
     @GetMapping
     public String cart(Model model) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
+        if(idKhachHang==null){
+            return "redirect:/login";
+        }
         List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(idKhachHang);
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/cart";
@@ -59,6 +62,9 @@ public class GioHangController {
                           @RequestParam("soLuong") Integer soLuong,
                           Model model) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
+        if(idKhachHang==null){
+            return "redirect:/login";
+        }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, soLuong);
         model.addAttribute("success", "Thêm thành công");
@@ -70,6 +76,9 @@ public class GioHangController {
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                          Model model) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
+        if(idKhachHang==null){
+            return "redirect:/login";
+        }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, 1);
         model.addAttribute("success", "Thêm thành công");

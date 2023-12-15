@@ -74,7 +74,7 @@ public class UserController {
             model.addAttribute("diaChi", new DiaChiRequest());
             return "customer-template/user/profile";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
         khachHangService.update(khachHangRequest);
         return "redirect:/wingman/thong-tin-cua-toi/" + id + "?success";
     }

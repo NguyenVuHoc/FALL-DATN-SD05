@@ -92,7 +92,7 @@ public class CoGiayController {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
             return "admin-template/co_giay/sua_co_giay";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
         service.update(coGiay);
         return "redirect:/admin/co-giay?success";
     }

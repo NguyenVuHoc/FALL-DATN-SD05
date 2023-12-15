@@ -131,7 +131,7 @@ public class KhachHangController {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
             return "admin-template/khach_hang/sua_khach_hang";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
         khachHangService.update(khachHangRequest);
         return "redirect:/admin/khach-hang?success";
 

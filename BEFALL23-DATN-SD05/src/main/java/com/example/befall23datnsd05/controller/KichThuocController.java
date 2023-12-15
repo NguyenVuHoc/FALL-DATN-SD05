@@ -93,7 +93,7 @@ public class KichThuocController {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
             return "admin-template/kich_thuoc/sua_kich_thuoc";
         }
-        model.addAttribute("success", "Sửa thành công");
+        model.addAttribute("success", "Cập nhật thành công!");
         service.update(kichThuoc);
         return "redirect:/admin/kich-thuoc?success";
     }

@@ -31,10 +31,11 @@
                 <li class="active ">
                     <a class="nav-link" th:href="@{/wingman/cua-hang}">Cửa hàng</a>
                 </li>
-                <li><a class="nav-link" th:href="@{/wingman/doi-ngu}">Đội ngũ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/dich-vu}">Dịch vụ</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/thong-tin}">Thông tin</a></li>
                 <li><a class="nav-link" th:href="@{/wingman/lien-he}">Liên hệ</a></li>
+                <li><a class="nav-link" th:href="@{/wingman/tra-cuu-don-hang}">Tra cứu đơn hàng</a></li>
+
             </ul>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
@@ -44,10 +45,18 @@
                            aria-expanded="false">
                             <img src="/../images/user.svg">
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi'">Tài khoản của tôi</a>
-                            <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
-                            <a class="dropdown-item" href="#">Đăng xuất</a>
+                        <div th:if="${checkSecurity}">
+                            <!-- If checkSecurity is true, display the dropdown menu -->
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" th:href="'/wingman/thong-tin-cua-toi'">Tài khoản của tôi</a>
+                                <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đơn mua</a>
+                                <a class="dropdown-item" href="#">Đăng xuất</a>
+                            </div>
+                        </div>
+                        <div th:unless="${checkSecurity}">
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đăng nhập</a>
+                            </div>
                         </div>
                     </div>
                 </li>

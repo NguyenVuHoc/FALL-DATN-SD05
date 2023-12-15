@@ -105,7 +105,7 @@ public class NhanVienController {
         if (bindingResult.hasErrors()){
             return "admin-template/nhan_vien/sua_nhan_vien";
         }else {
-            model.addAttribute("success", "Sửa thành công");
+            model.addAttribute("success", "Cập nhật thành công!");
             nhanVienService.update(nhanVienRequest);
             return "redirect:/admin/nhan-vien?success";
         }
