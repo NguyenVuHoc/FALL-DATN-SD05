@@ -40,5 +40,7 @@ public interface HoaDonService {
 
      BigDecimal maGiamGia(Long idHd);
 
+    public HoaDon findByMa(String maHd);
+
 
 }
