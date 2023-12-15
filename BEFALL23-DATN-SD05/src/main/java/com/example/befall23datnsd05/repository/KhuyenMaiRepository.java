@@ -31,7 +31,7 @@ public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, Long> {
     @Transactional
     @Modifying
     @Query(value = "update khuyen_mai km set km.trang_thai = 0\n" +
-            "where id > 0 and current_date() between km.ngay_bat_dau and km.ngay_ket_thuc;", nativeQuery = true)
+            "where id > 0 and current_date() between km.ngay_bat_dau and km.ngay_ket_thuc and km.trang_thai != 1;", nativeQuery = true)
     int updateTrangThaiDangHoatDong();
 
     @Transactional

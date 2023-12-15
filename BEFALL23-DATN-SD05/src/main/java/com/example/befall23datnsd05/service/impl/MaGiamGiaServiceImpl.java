@@ -97,7 +97,6 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
     public void huy(Long id) {
         MaGiamGia maGiamGia = repository.findById(id).orElse(null);
         if (maGiamGia != null) {
-            maGiamGia.setNgayKetThuc(LocalDate.now().minusDays(1));
             maGiamGia.setTrangThai(TrangThaiKhuyenMai.DUNG_HOAT_DONG);
             repository.save(maGiamGia);
         }
