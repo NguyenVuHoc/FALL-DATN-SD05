@@ -25,7 +25,9 @@ public interface KhachHangService {
     KhachHang getById(Long id);
 
     boolean existsBySdt(String sdt);
+
     boolean existsByEmail(String email);
+
     boolean existsBySdtAndIdNot(String sdt,Long id);
 
     List<DiaChi> getDiaChiByIdKhachHang(Long idKhachHang);
@@ -34,6 +36,5 @@ public interface KhachHangService {
 
     boolean changeUserPassword(Long idKh,String oldPassword, String newPassword);
 
-    Integer layDiemTichLuy(Long id);
     KhachHang registration(RegisterRequest khachHang);
 }

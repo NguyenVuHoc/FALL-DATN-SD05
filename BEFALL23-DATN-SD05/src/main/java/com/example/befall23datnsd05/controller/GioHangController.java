@@ -4,6 +4,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.dto.DiaChiRequest;
 import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.service.*;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import com.example.befall23datnsd05.wrapper.GioHangWrapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -42,9 +43,12 @@ public class GioHangController {
     @Autowired
     private DiaChiService diaChiService;
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     @GetMapping
     public String cart(Model model) {
-        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(Long.valueOf(5));
+        Long idKhachHang = principalKhachHang.getCurrentUserId();
+        List<GioHangChiTiet> listGioHangChiTiet = gioHangChiTietService.getAll(idKhachHang);
         model.addAttribute("listGioHangChiTiet", listGioHangChiTiet);
         return "customer-template/cart";
     }
@@ -54,8 +58,9 @@ public class GioHangController {
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                           @RequestParam("soLuong") Integer soLuong,
                           Model model) {
+        Long idKhachHang = principalKhachHang.getCurrentUserId();
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, soLuong);
+        banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, soLuong);
         model.addAttribute("success", "Thêm thành công");
         return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
     }
@@ -64,8 +69,9 @@ public class GioHangController {
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                          Model model) {
+        Long idKhachHang = principalKhachHang.getCurrentUserId();
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
-        banHangCustomerService.themVaoGioHang(Long.valueOf(5), idChiTietSanPham, 1);
+        banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, 1);
         model.addAttribute("success", "Thêm thành công");
         return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
     }
@@ -81,9 +87,9 @@ public class GioHangController {
     public String checkout(Model model,
                            @ModelAttribute("khachHang") KhachHang khachHang,
                            @RequestParam String options) {
-
-        KhachHang khachHang1 = khachHangService.getById(Long.valueOf(5));
-        if (khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).isEmpty()) {
+        Long idKhachHang = principalKhachHang.getCurrentUserId();
+        KhachHang khachHang1 = khachHangService.getById(idKhachHang);
+        if (khachHangService.getDiaChiByIdKhachHang(idKhachHang).isEmpty()) {
             model.addAttribute("diaChi2", new DiaChi());
             model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
             model.addAttribute("newDiaChi", new DiaChiRequest());
@@ -93,7 +99,7 @@ public class GioHangController {
             gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
             model.addAttribute("gioHangWrapper", gioHangWrapper);
             model.addAttribute("options", options);
-            model.addAttribute("idKhachHang", Long.valueOf(5));
+            model.addAttribute("idKhachHang", idKhachHang);
             BigDecimal diemTichLuy = khachHang1.getTichDiem();
             model.addAttribute("diemTichLuy", diemTichLuy);
             System.out.println(diemTichLuy);
@@ -106,7 +112,7 @@ public class GioHangController {
             return "customer-template/checkout";
         }
 
-        model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(5)).get(0));
+        model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(idKhachHang).get(0));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang1.getId()));
         model.addAttribute("newDiaChi", new DiaChiRequest());
 
@@ -115,7 +121,7 @@ public class GioHangController {
         gioHangWrapper = banHangCustomerService.findAllItemsById(listIdString);
         model.addAttribute("gioHangWrapper", gioHangWrapper);
         model.addAttribute("options", options);
-        model.addAttribute("idKhachHang", Long.valueOf(5));
+        model.addAttribute("idKhachHang", idKhachHang);
         BigDecimal diemTichLuy = khachHang1.getTichDiem();
         model.addAttribute("diemTichLuy", diemTichLuy);
         System.out.println(diemTichLuy);
@@ -145,9 +151,10 @@ public class GioHangController {
             @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
             @RequestParam(name = "origin") BigDecimal diemTichLuy,
             Model model) {
+        Long idKhachHang = principalKhachHang.getCurrentUserId();
         String diaChiCuThe = diaChi + "," + xa + "," + huyen + "," + thanhPho;
-        banHangCustomerService.datHangItems(gioHangWrapper, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuy, useAllPointsHidden);
-        model.addAttribute("idHd", banHangCustomerService.getIdHoaDonVuaMua(5L));
+        banHangCustomerService.datHangItems(gioHangWrapper, idKhachHang, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuy, useAllPointsHidden);
+//        model.addAttribute("idHd", banHangCustomerService.getIdHoaDonVuaMua(5L));
         return "redirect:/wingman/cart/thankyou";
     }
 
@@ -164,7 +171,7 @@ public class GioHangController {
         model.addAttribute("diaChi2", khachHangService.getDiaChiByIdKhachHang(Long.valueOf(idKhachHang)).get(0));
         model.addAttribute("diaChi", khachHangService.getDiaChiByIdKhachHang(khachHang.getId()));
         model.addAttribute("gioHangWrapper", gioHangWrapper);
-        model.addAttribute("idKhachHang", 5L);
+        model.addAttribute("idKhachHang", idKhachHang);
         BigDecimal diemTichLuy = khachHang.getTichDiem();
         model.addAttribute("diemTichLuy", diemTichLuy);
         long total = 0;

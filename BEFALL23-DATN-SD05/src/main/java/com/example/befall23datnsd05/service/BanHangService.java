@@ -23,7 +23,7 @@ public interface BanHangService {
 
     List<ChiTietSanPham> getChiTietSanPham();
 
-    HoaDon themHoaDon(HoaDon hoaDon);
+    HoaDon themHoaDon(HoaDon hoaDon,Long idNhanVien);
 
     HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham,Long idHoaDon, HoaDonChiTiet hoaDonChiTiet);
 

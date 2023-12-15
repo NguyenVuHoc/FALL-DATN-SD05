@@ -8,12 +8,10 @@ import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.DiaChiRepository;
-import com.example.befall23datnsd05.repository.DiemTichLuyRepository;
 import com.example.befall23datnsd05.repository.GioHangRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,9 +28,6 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     private KhachHangRepository khachHangRepository;
-
-    @Autowired
-    private DiemTichLuyRepository diemTichLuyRepository;
 
     @Autowired
     private GioHangRepository gioHangRepository;
@@ -151,12 +146,6 @@ public class KhachHangServiceImpl implements KhachHangService {
 //        }
 //        return false;
     }
-
-    @Override
-    public Integer layDiemTichLuy(Long id) {
-        return diemTichLuyRepository.getDiemTichLuyByIdKhach(id);
-    }
-
     @Override
     public KhachHang registration(RegisterRequest request) {
         return khachHangRepository.save(RegisterRequest.convertToEntity(request));
