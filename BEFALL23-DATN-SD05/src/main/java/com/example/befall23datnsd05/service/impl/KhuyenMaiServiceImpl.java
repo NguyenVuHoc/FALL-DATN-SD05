@@ -83,7 +83,6 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
     public void huy(Long id) {
         KhuyenMai khuyenMai = repository.findById(id).orElse(null);
         if (khuyenMai != null) {
-            khuyenMai.setNgayKetThuc(LocalDate.now().minusDays(1));
             khuyenMai.setTrangThai(TrangThaiKhuyenMai.DUNG_HOAT_DONG);
             repository.save(khuyenMai);
         }

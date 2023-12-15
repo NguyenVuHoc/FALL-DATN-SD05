@@ -34,7 +34,7 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
     @Transactional
     @Modifying
     @Query(value = "update ma_giam_gia mgg set mgg.trang_thai = 0\n" +
-            "where mgg.id > 0 and mgg.so_luong > 0  and current_date() between mgg.ngay_bat_dau and mgg.ngay_ket_thuc;", nativeQuery = true)
+            "where mgg.id > 0 and mgg.so_luong > 0  and current_date() between mgg.ngay_bat_dau and mgg.ngay_ket_thuc and mgg.trang_thai != 1;", nativeQuery = true)
     int updateTrangThaiDangHoatDong();
 
     @Transactional

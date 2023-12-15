@@ -86,7 +86,7 @@
                 <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
-                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mại</a>
                 <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link active"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
@@ -129,20 +129,20 @@
                 <form th:action="@{/admin/ma-giam-gia/add}" method="post" th:object="${maGiamGia}"
                       onsubmit="return validateDate()">
                     <div class="mb-3">
-                        <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
+                        <label for="inputTen" class="form-label">Tên Mã Giảm Giá</label>
                         <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
                         <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: red"></div>
                         <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                        <label for="inputMuc" class="form-label">Mức Giảm Giá(%)</label>
                         <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
                         <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"
                              style="color: red"></div>
                         <div id="errorMucGiam"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMucGiam" class="form-label">Tiền Giảm Tối Đa</label>
+                        <label for="inputMucGiam" class="form-label">Tiền Giảm Tối Đa(VND)</label>
                         <input type="number" class="form-control" id="inputMucGiam" th:field="*{mucGiamToiDa}"/>
                         <div th:if="${#fields.hasErrors('mucGiamToiDa')}" th:errors="*{mucGiamToiDa}"
                              style="color: red"></div>
@@ -153,7 +153,7 @@
                         <div th:if="${#fields.hasErrors('soLuong')}" th:errors="*{soLuong}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu</label>
+                        <label for="inputApDung" class="form-label">Giá trị áp dụng tối thiểu(VND)</label>
                         <input type="number" class="form-control" id="inputApDung" th:field="*{giaTriDonHang}"/>
                         <div th:if="${#fields.hasErrors('giaTriDonHang')}" th:errors="*{giaTriDonHang}"
                              style="color: red"></div>

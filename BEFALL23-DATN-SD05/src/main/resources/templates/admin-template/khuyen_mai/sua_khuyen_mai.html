@@ -94,7 +94,7 @@
                 <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link active"><i
-                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mại</a>
                 <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
@@ -130,23 +130,23 @@
         </nav>
 
         <div class="container-fluid pt-4">
-            <h6 class="mb-4" style="font-size: 40px;text-align: center;">Sửa Khuyến Mãi</h6>
+            <h6 class="mb-4" style="font-size: 40px;text-align: center;">Sửa Khuyến Mại</h6>
             <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
                 <form th:action="@{/admin/khuyen-mai/update}" method="post" th:object="${khuyenMai}"
                       onsubmit="return validateDate()">
                     <input type="hidden" th:field="*{id}">
                     <div class="mb-3">
-                        <label for="inputMa" class="form-label">Mã Khuyến Mãi</label>
+                        <label for="inputMa" class="form-label">Mã Khuyến Mại</label>
                         <input type="text" class="form-control" id="inputMa" th:field="*{ma}" readonly/>
                     </div>
                     <div class="mb-3">
-                        <label for="inputTen" class="form-label">Tên Khuyến Mãi</label>
+                        <label for="inputTen" class="form-label">Tên Khuyến Mại</label>
                         <input type="text" class="form-control" id="inputTen" th:field="*{ten}"/>
                         <div th:if="${#fields.hasErrors('ten')}" th:errors="*{ten}" style="color: #ff0000"></div>
                         <div th:if="${errorTen}" th:text="${errorTen}" style="color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="inputMuc" class="form-label">Mức Giảm Giá</label>
+                        <label for="inputMuc" class="form-label">Mức Giảm Giá(%)</label>
                         <input type="number" class="form-control" id="inputMuc" th:field="*{mucGiamGia}"/>
                         <div th:if="${#fields.hasErrors('mucGiamGia')}" th:errors="*{mucGiamGia}"
                              style="color: red"></div>

@@ -170,7 +170,7 @@
                 <a th:href="@{/admin/nhan-vien}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Nhân
                     Viên</a>
                 <a th:href="@{/admin/khuyen-mai}" class="nav-item nav-link"><i
-                        class="fa fa-chart-bar me-2"></i>Khuyến Mãi</a>
+                        class="fa fa-chart-bar me-2"></i>Khuyến Mại</a>
                 <a th:href="@{/admin/ma-giam-gia}" class="nav-item nav-link"><i
                         class="fa fa-chart-bar me-2"></i>Mã Giảm Giá</a>
                 <a th:href="@{/admin/thong-ke}" class="nav-item nav-link"><i
@@ -305,7 +305,7 @@
                                 <td th:text="${chiTietSanPham.kichThuoc.ten}"></td>
                                 <td th:text="${chiTietSanPham.soLuongTon}"></td>
                                 <td th:text="${#numbers.formatDecimal(chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></td>
-                                <td th:text="${chiTietSanPham.khuyenMai != null ? chiTietSanPham.khuyenMai.ten : 'Không có khuyến mãi'}"></td>
+                                <td th:text="${chiTietSanPham.khuyenMai != null ? chiTietSanPham.khuyenMai.ten : 'Không có khuyến mại'}"></td>
                                 <td>
                                     <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 0}">Đang hoạt động</span>
                                     <span th:if="${chiTietSanPham != null and chiTietSanPham.trangThai != null and chiTietSanPham.trangThai.getTrangThai() == 1}">Dừng hoạt động</span>

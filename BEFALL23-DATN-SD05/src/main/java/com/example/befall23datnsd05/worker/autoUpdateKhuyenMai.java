@@ -24,7 +24,7 @@ public class autoUpdateKhuyenMai {
     ChiTietSanPhamService ctspService;
 
     @PostConstruct
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(cron = "0 0 0 * * ?")
     public void autoCheckTrangThai(){
         service.updateTrangThai();
         maGiamGiaService.updateTrangThai();
