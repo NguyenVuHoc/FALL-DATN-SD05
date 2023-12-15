@@ -1,23 +1,13 @@
 package com.example.befall23datnsd05.controller.banhang;
 
-import com.example.befall23datnsd05.dto.hoadon.HoaDonRequest;
-import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
-import com.example.befall23datnsd05.entity.KhachHang;
-import com.example.befall23datnsd05.entity.NhanVien;
-import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
-import com.example.befall23datnsd05.enumeration.TrangThai;
-import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.export.HoaDonPDF;
-import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
 import com.example.befall23datnsd05.service.KhachHangService;
 import com.example.befall23datnsd05.service.MaGiamGiaService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -48,25 +36,20 @@ public class BanHangController {
     @Autowired
     private MaGiamGiaService maGiamGiaService;
 
-    @Autowired
-    private KhachHangRepository khachHangRepository;
-
     private Boolean isActive = false;
 
     private Boolean checkHoaDon = false;
 
     @GetMapping()
     public String hienThiBanHang(Model model) {
-        BigDecimal tongTien = new BigDecimal(Double.valueOf(0));
-        BigDecimal xu = new BigDecimal(Double.valueOf(0));
         model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
         model.addAttribute("hoaDon", new HoaDon());
         model.addAttribute("hoaDonCho", new HoaDon());
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("checkHoaDon", checkHoaDon);
         model.addAttribute("checkBtn", true);
-        model.addAttribute("thanhTien", tongTien);
-        model.addAttribute("xu", xu);
+        model.addAttribute("thanhTien", new BigDecimal(Double.valueOf(0)));
+        model.addAttribute("xu", new BigDecimal(Double.valueOf(0)));
         return "admin-template/ban_hang/ban_hang";
     }
 
@@ -74,7 +57,6 @@ public class BanHangController {
     public String hienThiHoaDonChiTiet(@PathVariable("idHoaDon") String idHoaDon,
                                        Model model) {
         isActive = true;
-//<<<<<<< HEAD
         BigDecimal tongTien = banHangService.getTongTien(Long.valueOf(idHoaDon));
         HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
         model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
@@ -85,15 +67,6 @@ public class BanHangController {
         model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
         model.addAttribute("listKhachHang", khachHangService.getList());
         model.addAttribute("listMaGiamGia", maGiamGiaService.getListHoatDong());
-//=======
-//        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-//        model.addAttribute("listHoaDonChiTiet", banHangService.getHoaDonChiTietByIdHoaDon(Long.valueOf(idHoaDon)));
-//        model.addAttribute("thanhTien", banHangService.getTongTien(Long.valueOf(idHoaDon)));
-//        model.addAttribute("listHoaDonCho", banHangService.getHoaDonCho());
-//        model.addAttribute("listSanPham", chiTietSanPhamService.getAll());
-//        model.addAttribute("hoaDonCho", banHangService.getOneById(Long.valueOf(idHoaDon)));
-//        model.addAttribute("listKhachHang", khachHangRepository.findAll());
-//>>>>>>> be/ban-hang/tuanv
         model.addAttribute("idHoaDonCho", idHoaDon);
         model.addAttribute("hoaDonChiTiet", new HoaDonChiTiet());
         model.addAttribute("isActive", isActive);
@@ -106,24 +79,7 @@ public class BanHangController {
     @PostMapping("/tao-hoa-don")
     public String taoHoaDon(@ModelAttribute("hoaDon") HoaDon hoaDon,
                             Model model) {
-        LocalDateTime time = LocalDateTime.now();
-        String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
-                + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
-        NhanVien nhanVien = new NhanVien();
-        nhanVien.setId(Long.valueOf(4));
-        KhachHang khachHang = new KhachHang();
-        khachHang.setId(Long.valueOf(5));
-        hoaDon = HoaDon.builder()
-                .ma(maHD)
-                .nhanVien(nhanVien)
-                .sdt(khachHang.getSdt())
-                .tenKhachHang(khachHang.getTen())
-                .khachHang(khachHang)
-                .ngayTao(LocalDate.now())
-                .loaiHoaDon(LoaiHoaDon.HOA_DON_OFFLINE)
-                .trangThai(TrangThaiDonHang.HOA_DON_CHO)
-                .build();
-        banHangService.themHoaDon(hoaDon);
+        banHangService.themHoaDon(hoaDon, 4l);
         model.addAttribute("success", "Thêm thành công");
         return "redirect:/admin/ban-hang?success";
     }
@@ -153,20 +109,6 @@ public class BanHangController {
     public String themHoaDonChitiet(@PathVariable("idHoaDon") String idHoaDonCho,
                                     @PathVariable("idSanPham") String idSanPham,
                                     @ModelAttribute("hoaDonChiTiet") HoaDonChiTiet hoaDonChiTiet) {
-        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDonCho));
-        ChiTietSanPham chiTietSanPham = banHangService.getChiTietSanPhamById(Long.valueOf(idSanPham));
-        hoaDonChiTiet = HoaDonChiTiet.builder()
-                .hoaDon(hoaDon)
-                .chiTietSanPham(chiTietSanPham)
-                .deGiay(chiTietSanPham.getDeGiay().getTen())
-                .kichThuoc(chiTietSanPham.getKichThuoc().getTen())
-                .mauSac(chiTietSanPham.getMauSac().getTen())
-                .tenSanPham(chiTietSanPham.getSanPham().getTen())
-                .ngayTao(LocalDate.now())
-                .giaBan(chiTietSanPham.getGiaBan())
-                .soLuong(hoaDonChiTiet.getSoLuong())
-                .trangThaiDonHang(TrangThaiDonHang.CHO_XAC_NHAN)
-                .build();
         banHangService.taoHoaDonChiTiet(Long.valueOf(idSanPham), Long.valueOf(idHoaDonCho), hoaDonChiTiet);
         banHangService.updateSoLuong(Long.valueOf(idSanPham), hoaDonChiTiet.getSoLuong());
         return "redirect:/admin/ban-hang/hoa-don/{idHoaDon}";
@@ -202,7 +144,6 @@ public class BanHangController {
 
     @PostMapping("/thanh-toan/{idHoaDonCho}")
     public String thanhToanHoaDon(@PathVariable("idHoaDonCho") String idHoaDon,
-//<<<<<<< HEAD
                                   @RequestParam("tongTien") String tongTien,
                                   @RequestParam("thanhTien") String thanhTien,
                                   @RequestParam(value = "xuTichDiem", defaultValue = "false") Boolean xuTichDiem) {
@@ -210,11 +151,6 @@ public class BanHangController {
         banHangService.checkXuHoaDon(Long.valueOf(idHoaDon), tongTien, thanhTien, xuTichDiem);
         banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon));
         banHangService.updateGiamGia(Long.valueOf(idHoaDon));
-//=======
-//                                  @RequestParam("thanhTien") String thanhTien) {
-//        HoaDon hoaDon = banHangService.getOneById(Long.valueOf(idHoaDon));
-//        banHangService.thanhToanHoaDon(Long.valueOf(idHoaDon), thanhTien);
-//>>>>>>> be/ban-hang/tuanv
         banHangService.tichDiem(hoaDon.getKhachHang().getId(), thanhTien);
         return "redirect:/admin/ban-hang";
     }

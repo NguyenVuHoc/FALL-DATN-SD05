@@ -545,7 +545,7 @@
                                 </div>
                             </div>
                             <script>
-                                document.addEventListener("DOMContentLoaded", function() {
+                                document.addEventListener("DOMContentLoaded", function () {
                                     var voucherInput = document.getElementById("voucherInput");
                                     var chonVoucherBtn = document.getElementById("chonVoucher");
                                     var huyVoucherBtn = document.getElementById("huyVoucher");
@@ -836,7 +836,7 @@
                                         th:data-so-luong-ton="${sanPham.soLuongTon}"
                                         th:disabled="${sanPham.soLuongTon == 0}">
 
-                                <img src="/../../img/them.png" style="width: 20px;">
+                                    <img src="/../../img/them.png" style="width: 20px;">
                                 </button>
                                 <div class="modal fade" th:id="'themSoLuong' + ${sanPham.id}"
                                      data-bs-backdrop="static" data-bs-keyboard="false"
@@ -1142,7 +1142,7 @@
 
         console.log(soLuongTon);
         document.getElementById("soLuongTon").value = soLuongTon;
-        console.log("Số lượng 2: "+document.getElementById("soLuongTon").value)
+        console.log("Số lượng 2: " + document.getElementById("soLuongTon").value)
     }
 
     function checkSoLuong(form) {

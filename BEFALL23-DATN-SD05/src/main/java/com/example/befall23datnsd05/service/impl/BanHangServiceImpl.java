@@ -1,27 +1,27 @@
 package com.example.befall23datnsd05.service.impl;
 
-import com.example.befall23datnsd05.dto.ChiTietSanPhamCustom;
-import com.example.befall23datnsd05.dto.hoadon.HoaDonCustom;
-import com.example.befall23datnsd05.dto.hoadonchitiet.HoaDonChiTietCustom;
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.entity.HoaDonChiTiet;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.MaGiamGia;
+import com.example.befall23datnsd05.entity.NhanVien;
+import com.example.befall23datnsd05.enumeration.LoaiHoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
-import com.example.befall23datnsd05.enumeration.TrangThaiKhuyenMai;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.repository.MaGiamGiaRepository;
+import com.example.befall23datnsd05.repository.NhanVienRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +42,9 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Autowired
     private MaGiamGiaRepository maGiamGiaRepository;
+
+    @Autowired
+    private NhanVienRepository nhanVienRepository;
 
     @Override
     public List<HoaDon> getHoaDonCho() {
@@ -87,11 +90,22 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon themHoaDon(HoaDon hoaDon) {
+    public HoaDon themHoaDon(HoaDon hoaDon,Long idNhanVien) {
+        LocalDateTime time = LocalDateTime.now();
+        String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
+                + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
         if (hoaDonRepository.checkHoaDonCho() < 4) {
             for (KhachHang khachHang : khachHangRepository.findAll()) {
                 if (khachHang.getMa().equals("KH000")) {
-                    hoaDon.setKhachHang(khachHang);
+                    NhanVien nhanVien = nhanVienRepository.findById(idNhanVien).get();
+                    hoaDon = HoaDon.builder()
+                            .ma(maHD)
+                            .nhanVien(nhanVien)
+                            .khachHang(khachHang)
+                            .ngayTao(LocalDate.now())
+                            .loaiHoaDon(LoaiHoaDon.HOA_DON_OFFLINE)
+                            .trangThai(TrangThaiDonHang.HOA_DON_CHO)
+                            .build();
                     return hoaDonRepository.save(hoaDon);
                 }
             }
@@ -101,6 +115,20 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Override
     public HoaDonChiTiet taoHoaDonChiTiet(Long idSanPham, Long idHoaDon, HoaDonChiTiet hoaDonChiTiet) {
+        HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
+        ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(idSanPham).get();
+        hoaDonChiTiet = HoaDonChiTiet.builder()
+                .hoaDon(hoaDon)
+                .chiTietSanPham(chiTietSanPham)
+                .deGiay(chiTietSanPham.getDeGiay().getTen())
+                .kichThuoc(chiTietSanPham.getKichThuoc().getTen())
+                .mauSac(chiTietSanPham.getMauSac().getTen())
+                .tenSanPham(chiTietSanPham.getSanPham().getTen())
+                .ngayTao(LocalDate.now())
+                .giaBan(chiTietSanPham.getGiaBan())
+                .soLuong(hoaDonChiTiet.getSoLuong())
+                .trangThaiDonHang(TrangThaiDonHang.CHO_XAC_NHAN)
+                .build();
         for (HoaDonChiTiet hdct : hoaDonChiTietRepository.getHoaDonChiTietByIdHoaDon(idHoaDon)) {
             if (hdct.getChiTietSanPham().getId() == idSanPham) {
                 hdct.setSoLuong(hdct.getSoLuong() + hoaDonChiTiet.getSoLuong());

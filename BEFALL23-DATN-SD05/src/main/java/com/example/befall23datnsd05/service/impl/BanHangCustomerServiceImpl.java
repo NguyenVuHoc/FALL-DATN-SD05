@@ -45,14 +45,11 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     private MaGiamGiaRepository maGiamGiaRepository;
 
     @Autowired
-    private DiemTichLuyRepository diemTichLuyRepository;
-
-    @Autowired
     private SendMailService sendMailKhService;
 
 
     @Override
-    public void themVaoGioHang(Long khachHangId, Long chiTietSanPhamId, Integer soLuong) {
+    public GioHangChiTiet themVaoGioHang(Long khachHangId, Long chiTietSanPhamId, Integer soLuong) {
         ChiTietSanPham chiTietSanPham = chiTietSanPhamRepository.findById(chiTietSanPhamId).orElse(null);
         GioHang gioHang = gioHangRepository.getByKhachHangId(khachHangId);
 
@@ -65,18 +62,17 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         GioHangChiTiet gioHangChiTiet1 = gioHangChiTietRepository.findByGioHangAndChiTietSanPhamAndHoaDonIsNull(gioHang, chiTietSanPham);
         if (gioHangChiTiet1 != null) {
             gioHangChiTiet1.setSoLuong(gioHangChiTiet1.getSoLuong() + soLuong);
-            gioHangChiTietRepository.save(gioHangChiTiet1);
+            return gioHangChiTietRepository.save(gioHangChiTiet1);
 
-        } else {
-            GioHangChiTiet gioHangChiTiet = new GioHangChiTiet();
-            gioHangChiTiet.setSoLuong(soLuong);
-            gioHangChiTiet.setChiTietSanPham(chiTietSanPham);
-            gioHangChiTiet.setDonGia(gioHangChiTiet.getChiTietSanPham().getGiaBan());
-            gioHangChiTiet.setNgayTao(LocalDate.now());
-            gioHangChiTiet.setTrangThai(TrangThai.DANG_HOAT_DONG);
-            gioHangChiTiet.setGioHang(gioHang);
-            gioHangChiTietRepository.save(gioHangChiTiet);
         }
+        GioHangChiTiet gioHangChiTiet = new GioHangChiTiet();
+        gioHangChiTiet.setSoLuong(soLuong);
+        gioHangChiTiet.setChiTietSanPham(chiTietSanPham);
+        gioHangChiTiet.setDonGia(gioHangChiTiet.getChiTietSanPham().getGiaBan());
+        gioHangChiTiet.setNgayTao(LocalDate.now());
+        gioHangChiTiet.setTrangThai(TrangThai.DANG_HOAT_DONG);
+        gioHangChiTiet.setGioHang(gioHang);
+        return gioHangChiTietRepository.save(gioHangChiTiet);
     }
 
     @Override
@@ -126,9 +122,9 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
-    public void datHangItems(GioHangWrapper gioHangWrapper, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll) {
-        KhachHang khachHang = khachHangRepository.findById(Long.valueOf(5)).orElse(null);
-        NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
+    public HoaDon datHangItems(GioHangWrapper gioHangWrapper, Long idKachHang, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll) {
+        KhachHang khachHang = khachHangRepository.findById(idKachHang).orElse(null);
+//        NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
@@ -136,7 +132,7 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setMa(maHD);
         hoaDon.setNgayTao(LocalDate.now());
         hoaDon.setKhachHang(khachHang);
-        hoaDon.setNhanVien(nhanVien);
+//        hoaDon.setNhanVien(nhanVien);
         hoaDon.setSdt(sdt);
         hoaDon.setDiaChi(diaChi);
         hoaDon.setGhiChu(ghiChu);
@@ -183,8 +179,8 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         }
         hoaDon.setTongTien(tongTien);
         hoaDon.setThanhToan(totalAmount);
-        hoaDonRepository.save(hoaDon);
         sendMailKhService.sendEmail1(khachHang, hoaDon);
+        return hoaDonRepository.save(hoaDon);
     }
 
     @Override
@@ -233,10 +229,5 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         GioHangWrapper gioHangWrapper = new GioHangWrapper();
         gioHangWrapper.setListGioHangChiTiet(gioHangChiTietRepository.findAllById(listIdLong));
         return gioHangWrapper;
-    }
-
-    @Override
-    public Long getIdHoaDonVuaMua(Long idKhachHang) {
-        return null;
     }
 }
