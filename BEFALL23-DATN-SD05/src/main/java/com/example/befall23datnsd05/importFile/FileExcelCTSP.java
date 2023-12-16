@@ -11,11 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +49,13 @@ public class FileExcelCTSP {
     CoGiayRepository coGiayRepository;
 
     Integer indexLoi = 0;
+
+    private String genFileName(){
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
+        return time.format(dateTimeFormatter) + ".xlsx";
+    }
+
 
     public void ImportFile(
             String path, SanPhamRepository sanPhamRepository, MauSacRepository mauSacRepository,
@@ -160,7 +168,10 @@ public class FileExcelCTSP {
                 rowIndex++;
             }
 
-            try (FileOutputStream fileOut = new FileOutputStream(path)) {
+            String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmmss")) + ".xlsx";
+
+
+            try (FileOutputStream fileOut = new FileOutputStream(fileName)) {
                 workbook.write(fileOut);
             }
 
