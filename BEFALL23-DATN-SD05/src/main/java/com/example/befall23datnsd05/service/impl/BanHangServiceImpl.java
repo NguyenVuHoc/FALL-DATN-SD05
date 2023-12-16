@@ -238,8 +238,10 @@ public class BanHangServiceImpl implements BanHangService {
             if (hoaDon.getMaGiamGia().getSoLuong() <= 0) {
                 return new BigDecimal(0);
             } else {
-                if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()))) > 0) {
-                    return tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()));
+                BigDecimal phanTramApDung = BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()).divide(BigDecimal.valueOf(Double.valueOf(100)));
+                BigDecimal tienApDung = tongTien.multiply(phanTramApDung);
+                if (hoaDon.getMaGiamGia().getMucGiamToiDa().compareTo(tienApDung) > 0) {
+                    return tienApDung;
                 }
                 return hoaDon.getMaGiamGia().getMucGiamToiDa();
             }
