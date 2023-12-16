@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -58,7 +59,12 @@ public class AdminSecurityConfig {
                                 .defaultSuccessUrl("/default")
                 )
                 .logout(
-                        lo-> lo.logoutUrl("/logout").logoutSuccessUrl("/login")
+                        lo-> lo.logoutUrl("/logout")
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/login")
+                                .clearAuthentication(true)
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
                 )
                 .authenticationProvider(providerAdmin())
                 .exceptionHandling(

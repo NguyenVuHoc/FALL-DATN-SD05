@@ -5,7 +5,9 @@ import com.example.befall23datnsd05.entity.GioHangChiTiet;
 import com.example.befall23datnsd05.entity.HoaDon;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
+import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
+import com.example.befall23datnsd05.repository.KhachHangRepository;
 import com.example.befall23datnsd05.request.GioHangChiTietRequest;
 import com.example.befall23datnsd05.service.*;
 import com.example.befall23datnsd05.worker.PrincipalKhachHang;
@@ -29,14 +31,17 @@ public class HoaDonUserController {
     private final GioHangChiTietService gioHangChiTietService;
     private final ChiTietSanPhamService chiTietSanPhamService;
     private final KhachHangService khachHangService;
+    private final GioHangChiTietRepository gioHangChiTietRepository;
     private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
-    private  final HoaDonRepo hoaDonRepo;
-    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService, KhachHangService khachHangService, HoaDonRepo hoaDonRepo) {
+    private final HoaDonRepo hoaDonRepo;
+
+    public HoaDonUserController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamService chiTietSanPhamService, KhachHangService khachHangService, KhachHangRepository khachHangRepository, GioHangChiTietRepository gioHangChiTietRepository, HoaDonRepo hoaDonRepo) {
         this.hoaDonService = hoaDonService;
         this.hoaDonChiTietService = hoaDonChiTietService;
         this.gioHangChiTietService = gioHangChiTietService;
         this.chiTietSanPhamService = chiTietSanPhamService;
         this.khachHangService = khachHangService;
+        this.gioHangChiTietRepository = gioHangChiTietRepository;
         this.hoaDonRepo = hoaDonRepo;
     }
 
@@ -50,10 +55,10 @@ public class HoaDonUserController {
      * @return
      */
     @GetMapping("/hoa-don-cua-toi")
-    public String getAll(Model model ){
+    public String getAll(Model model) {
 
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
             return "redirect:/login";
         }
         model.addAttribute("hoadons", hoaDonService.getAllByKhachHang(id));
@@ -71,8 +76,8 @@ public class HoaDonUserController {
     @GetMapping("hoa-don-cua-toi/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThaiDonHang trangThai) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
             return "redirect:/login";
         }
         model.addAttribute("trangThais", list);
@@ -91,11 +96,11 @@ public class HoaDonUserController {
     public String detail(Model model,
                          @PathVariable("idHd") Long idHd
     ) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
             return "redirect:/login";
         }
-        model.addAttribute("giamGia",hoaDonService.maGiamGia(idHd));
+        model.addAttribute("giamGia", hoaDonService.maGiamGia(idHd));
         model.addAttribute("newGhct", new GioHangChiTietRequest());
         model.addAttribute("hd", hoaDonService.findById(idHd));
         model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(idHd));
@@ -117,8 +122,8 @@ public class HoaDonUserController {
                           @PathVariable("idHd") Long idHd) {
         GioHangChiTiet gioHangChiTiet = gioHangChiTietService.getOne(idGhct).get();
         HoaDon hoaDon = hoaDonService.findById(idHd);
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
             return "redirect:/login";
         }
 
@@ -146,19 +151,30 @@ public class HoaDonUserController {
             model.addAttribute("newGhct", new GioHangChiTietRequest());
             model.addAttribute("hd", hoaDonService.findById(idHd));
             model.addAttribute("gioHangChiTiets", gioHangChiTietService.findGioHangChiTietById(idHd));
-            model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
+            model.addAttribute("err", "Lý do trả hàng không được để trống!");
             return "customer-template/hoadon/chi_tiet_hoa_don";
         }
 
         if (gioHangChiTiet.getHoaDon().getTrangThai() == TrangThaiDonHang.HOAN_THANH) {
             return "redirect:/wingman/chi-tiet-hoa-don/" + idHd;
         }
+        for (GioHangChiTiet gioHangChiTiet2 : gioHangChiTietService.findGioHangChiTietById(idHd)) {
+            if (gioHangChiTiet2.getTrangThai().equals(TrangThai.YEU_CAU_TRA_HANG)
+                    && gioHangChiTiet.getChiTietSanPham().getId().equals(gioHangChiTiet2.getChiTietSanPham().getId())
+                    && gioHangChiTietRequest.getSoLuong() == gioHangChiTiet.getSoLuong()) {
+                gioHangChiTiet2.setSoLuong(gioHangChiTietRequest.getSoLuong()+gioHangChiTiet2.getSoLuong());
+                gioHangChiTiet2.setDonGia(gioHangChiTiet.getDonGia());
+                gioHangChiTietRepository.delete(gioHangChiTiet);
+                gioHangChiTietService.save(gioHangChiTiet2);
+                return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
+            }
+        }
         if (gioHangChiTietRequest.getSoLuong() == gioHangChiTiet.getSoLuong()) {
             hoaDon.setTrangThai(TrangThaiDonHang.XAC_NHAN_TRA_HANG);
             hoaDonService.save(hoaDon);
             gioHangChiTiet.setTrangThai(TrangThai.YEU_CAU_TRA_HANG);
             gioHangChiTietService.save(gioHangChiTiet);
-            return "redirect:/wingman/chi-tiet-hoa-don/"+ idHd + "?success";
+            return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
         }
         hoaDon.setTrangThai(TrangThaiDonHang.XAC_NHAN_TRA_HANG);
         hoaDonService.save(hoaDon);
@@ -169,14 +185,17 @@ public class HoaDonUserController {
         gioHangChiTiet1.setChiTietSanPham(gioHangChiTiet.getChiTietSanPham());
         gioHangChiTiet1.setHoaDon(gioHangChiTiet.getHoaDon());
         gioHangChiTiet1.setGioHang(gioHangChiTiet.getGioHang());
-        gioHangChiTiet1.setDonGia(gioHangChiTiet.getDonGia().multiply(BigDecimal.valueOf(gioHangChiTiet.getSoLuong())));
+        gioHangChiTiet1.setDonGia(gioHangChiTiet.getDonGia());
         gioHangChiTiet1.setNgayTao(LocalDate.now());
         gioHangChiTiet1.setSoLuong(gioHangChiTietRequest.getSoLuong());
         gioHangChiTiet1.setGhiChu(gioHangChiTietRequest.getGhiChu());
         gioHangChiTiet1.setTrangThai(TrangThai.YEU_CAU_TRA_HANG);
-        for (GioHangChiTiet gioHangChiTiet2: gioHangChiTietService.findGioHangChiTietById(idHd)){
+        for (GioHangChiTiet gioHangChiTiet2 : gioHangChiTietService.findGioHangChiTietById(idHd)) {
+
             if (gioHangChiTiet2.getTrangThai().equals(TrangThai.YEU_CAU_TRA_HANG)
                     && gioHangChiTiet.getChiTietSanPham().getId().equals(gioHangChiTiet2.getChiTietSanPham().getId())) {
+
+
                 int tongSoLuong = gioHangChiTiet2.getSoLuong() + gioHangChiTietRequest.getSoLuong();
                 gioHangChiTiet2.setSoLuong(tongSoLuong);
                 gioHangChiTiet2.setGhiChu(gioHangChiTietRequest.getGhiChu());
@@ -184,8 +203,8 @@ public class HoaDonUserController {
                 return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
             }
         }
-            gioHangChiTietService.save(gioHangChiTiet1);
-        return "redirect:/wingman/chi-tiet-hoa-don/"  + idHd + "?success";
+        gioHangChiTietService.save(gioHangChiTiet1);
+        return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
     }
 
 
@@ -194,8 +213,8 @@ public class HoaDonUserController {
                           @PathVariable("id") Long idGhct,
                           Model model,
                           @PathVariable("idHd") Long idHd) {
-        Long id=principalKhachHang.getCurrentUserId();
-        if(id==null){
+        Long id = principalKhachHang.getCurrentUserId();
+        if (id == null) {
             return "redirect:/login";
         }
         GioHangChiTiet gioHangChiTiet = gioHangChiTietService.getOne(idGhct).get();
@@ -210,13 +229,13 @@ public class HoaDonUserController {
         }
 
         if (gioHangChiTiet.getHoaDon().getTrangThai() == TrangThaiDonHang.HOAN_THANH) {
-            return "redirect:/wingman/chi-tiet-hoa-don/"+ idHd;
+            return "redirect:/wingman/chi-tiet-hoa-don/" + idHd;
         }
         gioHangChiTiet.setTrangThai(TrangThai.DOI_HANG);
         hoaDon.setTrangThai(TrangThaiDonHang.DOI_HANG);
         gioHangChiTietService.save(gioHangChiTiet);
         hoaDonService.save(hoaDon);
-        return "redirect:/wingman/chi-tiet-hoa-don/"  + idHd + "?success";
+        return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
     }
 
     @PostMapping("/validation/deny")
@@ -224,29 +243,24 @@ public class HoaDonUserController {
                                  @RequestParam("ghiChu") String ghichu,
                                  Model model
     ) {
-        Long idKh=principalKhachHang.getCurrentUserId();
-        if(idKh==null){
+        Long idKh = principalKhachHang.getCurrentUserId();
+        HoaDon hoaDon = hoaDonService.findById(id);
+
+        if (idKh == null) {
             return "redirect:/login";
         }
         if (ghichu.isEmpty()) {
             model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
             model.addAttribute("hoadons", hoaDonService.getAll());
             model.addAttribute("trangThais", list);
-            return "redirect:/wingman/chi-tiet-hoa-don/"  + id + "?success";
+            return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
         }
-        HoaDon hoaDon = hoaDonService.findById(id);
         if (hoaDon != null) {
-            if (hoaDon.getTrangThai() != TrangThaiDonHang.CHO_XAC_NHAN) {
-                for (GioHangChiTiet gioHangChiTiet3 : gioHangChiTietService.findGioHangChiTietById(hoaDon.getId())
-                ) {
-                    ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(gioHangChiTiet3.getChiTietSanPham().getId());
-                    int soLuongHoanKho = chiTietSanPham.getSoLuongTon() + gioHangChiTiet3.getSoLuong();
-                    chiTietSanPham.setSoLuongTon(soLuongHoanKho);
-                    chiTietSanPhamService.save(chiTietSanPham);
-                }
+            if(hoaDon.getTrangThai() != TrangThaiDonHang.CHO_XAC_NHAN){
+                return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
             }
             hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_HUY, ghichu);
-            return "redirect:/wingman/chi-tiet-hoa-don/"  + id + "?success";
+            return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
         }
         return null;
     }
@@ -260,32 +274,32 @@ public class HoaDonUserController {
         }
         HoaDon hoaDon = hoaDonService.findById(id);
         if (hoaDon != null) {
-                hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, "");
-                return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
+            hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, "");
+            return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
         }
         return "redirect:/wingman/chi-tiet-hoa-don/" + id + "?success";
     }
 
     @GetMapping("/tra-cuu-don-hang")
-    public String view(Model model){
-        Long id=principalKhachHang.getCurrentUserId();
-        Boolean checkSecurity=false;
+    public String view(Model model) {
+        Long id = principalKhachHang.getCurrentUserId();
+        Boolean checkSecurity = false;
         if (id != null) {
-            checkSecurity= true;
+            checkSecurity = true;
         }
-        model.addAttribute("checkSecurity",checkSecurity);
-            return "customer-template/hoadon/tra_cuu";
+        model.addAttribute("checkSecurity", checkSecurity);
+        return "customer-template/hoadon/tra_cuu";
 
     }
 
     @GetMapping("/thong-tin-tra-cuu-don-hang")
-    public String traCuuDonHang(@RequestParam(value = "maHd",required = false)String maHd,Model model) {
-        Long id=principalKhachHang.getCurrentUserId();
-        Boolean checkSecurity=false;
+    public String traCuuDonHang(@RequestParam(value = "maHd", required = false) String maHd, Model model) {
+        Long id = principalKhachHang.getCurrentUserId();
+        Boolean checkSecurity = false;
         if (id != null) {
-            checkSecurity= true;
+            checkSecurity = true;
         }
-        model.addAttribute("checkSecurity",checkSecurity);
+        model.addAttribute("checkSecurity", checkSecurity);
         if (hoaDonRepo.existsByMa(maHd.trim())) {
             HoaDon hoaDon = hoaDonService.findByMa(maHd.trim());
             model.addAttribute("giamGia", hoaDonService.maGiamGia(hoaDon.getId()));
@@ -297,4 +311,4 @@ public class HoaDonUserController {
             return "customer-template/hoadon/tra_cuu";
         }
     }
-    }
+}

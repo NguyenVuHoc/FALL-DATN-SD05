@@ -149,7 +149,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     public void updateHoaDonEveryDay(){
         List<HoaDon> hoaDons= repository.findAll();
         for(HoaDon hoaDon:hoaDons){
-            if(hoaDon.getTrangThai()==TrangThaiDonHang.DA_GIAO|| hoaDon.getNgayThanhToan()!=null){
+            if(hoaDon.getTrangThai()==TrangThaiDonHang.DA_GIAO&& hoaDon.getNgayThanhToan()!=null){
                 LocalDate ngayCheck = hoaDon.getNgayThanhToan().plusDays(3);
                 if (ngayCheck.isEqual(LocalDate.now()) || ngayCheck.isAfter(LocalDate.now())) {
                     hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);

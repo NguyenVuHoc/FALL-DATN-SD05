@@ -312,15 +312,6 @@ public class HoaDonController {
         }
         HoaDon hoaDon = hoaDonService.findById(id);
         if (hoaDon != null) {
-            if (hoaDon.getTrangThai() != TrangThaiDonHang.CHO_XAC_NHAN) {
-                for (GioHangChiTiet gioHangChiTiet3 : gioHangChiTietService.findGioHangChiTietById(hoaDon.getId())
-                ) {
-                    ChiTietSanPham chiTietSanPham = chiTietSanPhamService.findById(gioHangChiTiet3.getChiTietSanPham().getId()).get();
-                    int soLuongHoanKho = chiTietSanPham.getSoLuongTon() + gioHangChiTiet3.getSoLuong();
-                    chiTietSanPham.setSoLuongTon(soLuongHoanKho);
-                    chiTietSanPhamService.save(chiTietSanPham);
-                }
-            }
             hoaDonService.validate(hoaDon, TrangThaiDonHang.DA_HUY, ghichu);
             return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
         }

@@ -138,7 +138,6 @@ public class KhachHangController {
         }
 
     }
-
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("khachHang") KhachHangRequest khachHangRequest,
                          BindingResult bindingResult,
@@ -150,12 +149,19 @@ public class KhachHangController {
         Long id = khachHangRequest.getId();
         String sdt = khachHangRequest.getSdt();
         if (bindingResult.hasErrors()) {
+            model.addAttribute("diaChi",new DiaChiRequest());
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
+            model.addAttribute("idKhachHang", id);
             model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
 
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
+            model.addAttribute("diaChi",new DiaChiRequest());
+            model.addAttribute("khachHang", khachHangService.getById(id));
+            model.addAttribute("idKhachHang", id);
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
             model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
@@ -164,6 +170,31 @@ public class KhachHangController {
         return "redirect:/admin/khach-hang?success";
 
     }
+//    @PostMapping("/update")
+//    public String update(@Valid @ModelAttribute("khachHang") KhachHangRequest khachHangRequest,
+//                         BindingResult bindingResult,
+//                         Model model) {
+//        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+//        if (idNhanVien == null){
+//            return "redirect:/login";
+//        }
+//        Long id = khachHangRequest.getId();
+//        String sdt = khachHangRequest.getSdt();
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
+//            return "admin-template/khach_hang/sua_khach_hang";
+//        }
+//
+//        if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
+//            model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
+//            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
+//            return "admin-template/khach_hang/sua_khach_hang";
+//        }
+//        model.addAttribute("success", "Cập nhật thành công!");
+//        khachHangService.update(khachHangRequest);
+//        return "redirect:/admin/khach-hang?success";
+//
+//    }
 
     @PostMapping("/add-dia-chi/{idKhachHang}")
     public String addDiaChi(
