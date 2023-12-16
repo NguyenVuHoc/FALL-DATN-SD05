@@ -346,7 +346,7 @@ public class HoaDonController {
                         gioHangChiTiet1.setGhiChu("sản phẩm hoàn trả");
                         chiTietSanPham.setSoLuongTon(chiTietSanPham.getSoLuongTon() + gioHangChiTiet1.getSoLuong());
                         chiTietSanPhamService.save(chiTietSanPham);
-                        BigDecimal giaTriSanPham = gioHangChiTiet1.getChiTietSanPham().getGiaBan()
+                        BigDecimal giaTriSanPham = gioHangChiTiet1.getDonGia()
                                 .multiply(BigDecimal.valueOf(gioHangChiTiet1.getSoLuong()));
                         tongTienHoanHang = tongTienHoanHang.add(giaTriSanPham);
                     }
