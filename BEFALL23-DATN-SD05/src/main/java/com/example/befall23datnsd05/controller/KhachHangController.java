@@ -150,12 +150,18 @@ public class KhachHangController {
         Long id = khachHangRequest.getId();
         String sdt = khachHangRequest.getSdt();
         if (bindingResult.hasErrors()) {
+            model.addAttribute("diaChi",new DiaChiRequest());
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
+            model.addAttribute("khachHang",khachHangService.getById(id));
             model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
 
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
+            model.addAttribute("diaChi",new DiaChiRequest());
+            model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
+            model.addAttribute("khachHang", khachHangService.getById(id));
             model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
@@ -164,7 +170,6 @@ public class KhachHangController {
         return "redirect:/admin/khach-hang?success";
 
     }
-
     @PostMapping("/add-dia-chi/{idKhachHang}")
     public String addDiaChi(
             @Valid
