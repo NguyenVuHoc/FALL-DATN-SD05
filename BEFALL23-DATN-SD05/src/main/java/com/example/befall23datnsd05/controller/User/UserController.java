@@ -76,7 +76,7 @@ public class UserController {
         }
         model.addAttribute("success", "Cập nhật thành công!");
         khachHangService.update(khachHangRequest);
-        return "redirect:/wingman/thong-tin-cua-toi/" + id + "?success";
+        return "redirect:/wingman/thong-tin-cua-toi?success";
     }
 
     /**

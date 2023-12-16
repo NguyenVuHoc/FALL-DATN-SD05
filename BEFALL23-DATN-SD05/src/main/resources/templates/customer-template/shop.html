@@ -383,7 +383,7 @@
                                 <strong class="product-price"
                                         th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                             </a>
-                            <a th:href="@{/wingman/cart/addOne/{id}(id=${ctsp.id})}">
+                            <a>
                     <span class="icon-cross">
                                 <img src="../images/cross.svg" class="img-fluid">
                             </span>
@@ -471,7 +471,7 @@
                         <strong class="product-price"
                                 th:text="${#numbers.formatDecimal(ctspCustom.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
-                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspCustom.getId()})}">
+                    <a>
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>
@@ -513,7 +513,7 @@
                         <strong class="product-price"
                                 th:text="${#numbers.formatDecimal(ctspLimited.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
-                    <a th:href="@{/wingman/cart/addOne/{id}(id=${ctspLimited.getId()})}">
+                    <a>
                     <span class="icon-cross">
 								<img src="../images/cross.svg" class="img-fluid">
 							</span>

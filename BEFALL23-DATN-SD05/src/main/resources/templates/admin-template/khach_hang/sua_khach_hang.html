@@ -161,7 +161,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword13" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="exampleInputPassword13" th:field="*{email}"/>
+                            <input type="text" class="form-control" id="exampleInputPassword13" th:field="*{email}" readonly/>
                             <div th:if="${#fields.hasErrors('email')}" th:errors="*{email} " style=" color: red"></div>
                         </div>
                         <!--                    <div class="mb-3 ">-->
