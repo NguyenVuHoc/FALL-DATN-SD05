@@ -5,14 +5,8 @@ import com.example.befall23datnsd05.entity.*;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.importFile.FileExcelCTSP;
 import com.example.befall23datnsd05.repository.*;
-import com.example.befall23datnsd05.service.ChiTietSanPhamService;
-import com.example.befall23datnsd05.service.CoGiayService;
-import com.example.befall23datnsd05.service.DeGiayService;
-import com.example.befall23datnsd05.service.KichThuocService;
-import com.example.befall23datnsd05.service.LotGiayService;
-import com.example.befall23datnsd05.service.MauSacService;
-import com.example.befall23datnsd05.service.SanPhamService;
 import com.example.befall23datnsd05.worker.PrincipalKhachHang;
+import com.example.befall23datnsd05.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -232,34 +227,41 @@ public class ChiTietSanPhamController {
             return "redirect:/admin/chi-tiet-san-pham?errorMessage";
         }
     }
-
+    
     @PostMapping("/admin/chi-tiet-san-pham/import-excel")
     public String importExcel(
             @RequestParam("file") MultipartFile file,
             RedirectAttributes attributes
-
     ) throws IOException {
         Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
         if (idNhanVien == null) {
             return "redirect:/login";
         }
         if (!file.isEmpty()) {
-            String directory = "C:\\Users\\Admin\\Downloads";
-//            String directory = "C:\\Users\\Mr Hao\\Downloads";
-            String fileName = file.getOriginalFilename();
-            String filePath = directory + "\\" + fileName;
-            FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
             try {
-                importFileExcelCTSP.ImportFile(filePath, sanPhamRepository,  mauSacRepository,
-                        kichThuocRepository,deGiayRepository,
-                        chiTietSanPhamRepository,  chiTietSanPhamService,
-                        lotGiayRepository,  coGiayRepository);
+                // Sử dụng thư mục tạm thời của hệ thống
+                String directory = System.getProperty("java.io.tmpdir");
+
+                String fileName = file.getOriginalFilename();
+                String filePath = directory + File.separator + fileName;
+                FileExcelCTSP importFileExcelCTSP = new FileExcelCTSP();
+
+                // Lưu file vào thư mục được chọn
+                file.transferTo(new File(filePath));
+                System.out.println(filePath);
+
+                // Tiếp tục với quá trình nhập
+                importFileExcelCTSP.ImportFile(filePath, sanPhamRepository, mauSacRepository,
+                        kichThuocRepository, deGiayRepository,
+                        chiTietSanPhamRepository, chiTietSanPhamService,
+                        lotGiayRepository, coGiayRepository);
+
                 if (importFileExcelCTSP.checkLoi() > 0) {
-                    attributes.addFlashAttribute("thongBaoLoiImport", "Đã thêm sản phẩm thành công nhưng có một số sản phẩm lỗi, mời bạn check lại trên file excel");
+                    attributes.addFlashAttribute("thongBaoLoiImport", "Đã thêm sản phẩm thành công nhưng có một số sản phẩm lỗi, mời bạn kiểm tra lại trên file excel");
                     return "redirect:/admin/chi-tiet-san-pham";
                 }
             } catch (Exception e) {
-                attributes.addFlashAttribute("thongBaoLoiImport", "Sai định dạng file");
+                attributes.addFlashAttribute("thongBaoLoiImport", "Sai định dạng file hoặc có lỗi xảy ra trong quá trình xử lý");
                 return "redirect:/admin/chi-tiet-san-pham";
             }
             return "redirect:/admin/chi-tiet-san-pham?success";
