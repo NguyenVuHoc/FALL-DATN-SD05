@@ -158,11 +158,15 @@
 
     <!-- Template Stylesheet -->
     <link href="/../../css/admin/style.css" rel="stylesheet">
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+    <script src='https://github.com/jasonday/printThis/blob/master/printThis.js'></script>
 
 </head>
 
 <body>
-<div class="container-xxl position-relative bg-white d-flex p-0">
+<div class="container-xxl tongHoaDon position-relative bg-white d-flex p-0">
+
     <!-- Spinner Start -->
     <div id="spinner"
          class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -171,9 +175,8 @@
         </div>
     </div>
     <!-- Spinner End -->
-
-
     <!-- Sidebar Start -->
+    <!--    <div class="htmlTongTrang">-->
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-light navbar-light">
             <a th:href="@{/admin/ban-hang}" class="navbar-brand mx-4 mb-3">
@@ -181,7 +184,8 @@
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
-                    <img class="rounded-circle" src="/../../img/userNew.png" alt="" style="width: 40px; height: 40px;">
+                    <img class="rounded-circle" src="/../../img/userNew.png" alt=""
+                         style="width: 40px; height: 40px;">
                     <div
                             class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
                     </div>
@@ -226,7 +230,6 @@
     </div>
     <!-- Sidebar End -->
 
-
     <!-- Content Start -->
     <div class="content">
         <!-- Navbar Start -->
@@ -258,8 +261,10 @@
             <div style="margin-bottom: 2%; margin-right: -10%;">
                 <form th:action="@{/admin/ban-hang/tao-hoa-don}" method="post" th:object="${hoaDon}">
                     <button type="submit" class="btn btn-outline-primary" style="margin-left: 78%;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                         </svg>
                         Tạo Hóa Đơn
                     </button>
@@ -316,7 +321,8 @@
                                                                 <img src="/../../img/pen_v2.png"
                                                                      style="width: 15px;">
                                                             </button>
-                                                            <div class="modal fade" th:id="'suaSoLuong' + ${hdct.id}"
+                                                            <div class="modal fade"
+                                                                 th:id="'suaSoLuong' + ${hdct.id}"
                                                                  data-bs-backdrop="static" data-bs-keyboard="false"
                                                                  aria-hidden="true"
                                                                  aria-labelledby="suaSoLuongLabel" tabindex="-1">
@@ -324,7 +330,8 @@
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title fs-5"
-                                                                                id="suaSoLuongLabel">Cập nhật số lượng
+                                                                                id="suaSoLuongLabel">Cập nhật số
+                                                                                lượng
                                                                                 sản
                                                                                 phẩm</h1>
                                                                             <button type="button" class="btn-close"
@@ -332,7 +339,8 @@
                                                                                     aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            Vui lòng chọn (Tăng/Giảm) số lượng sản phẩm!
+                                                                            Vui lòng chọn (Tăng/Giảm) số lượng sản
+                                                                            phẩm!
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button"
@@ -353,7 +361,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal fade" th:id="'tangSoLuong' + ${hdct.id}"
+                                                            <div class="modal fade"
+                                                                 th:id="'tangSoLuong' + ${hdct.id}"
                                                                  aria-hidden="true"
                                                                  data-bs-backdrop="static" data-bs-keyboard="false"
                                                                  aria-labelledby="tangSoLuongLabel2" tabindex="-1">
@@ -366,7 +375,8 @@
                                                                                 <h1 class="modal-title fs-5"
                                                                                     id="tangSoLuongLabel2">Tăng Số
                                                                                     Lượng</h1>
-                                                                                <button type="button" class="btn-close"
+                                                                                <button type="button"
+                                                                                        class="btn-close"
                                                                                         data-bs-dismiss="modal"
                                                                                         aria-label="Close"></button>
                                                                             </div>
@@ -390,7 +400,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal fade" th:id="'giamSoLuong' + ${hdct.id}"
+                                                            <div class="modal fade"
+                                                                 th:id="'giamSoLuong' + ${hdct.id}"
                                                                  aria-hidden="true"
                                                                  data-bs-backdrop="static" data-bs-keyboard="false"
                                                                  aria-labelledby="giamSoLuongLabel2" tabindex="-1">
@@ -403,7 +414,8 @@
                                                                                 <h1 class="modal-title fs-5"
                                                                                     id="giamSoLuongLabel2">Giảm Số
                                                                                     Lượng</h1>
-                                                                                <button type="button" class="btn-close"
+                                                                                <button type="button"
+                                                                                        class="btn-close"
                                                                                         data-bs-dismiss="modal"
                                                                                         aria-label="Close"></button>
                                                                             </div>
@@ -418,7 +430,8 @@
                                                                                        name="soLuongSanPham"
                                                                                        hidden
                                                                                        th:value="${hdct.getSoLuong()}"/>
-                                                                                <input type="text" class="form-control"
+                                                                                <input type="text"
+                                                                                       class="form-control"
                                                                                        style="color: red"
                                                                                        name="tongTien"
                                                                                        hidden
@@ -446,7 +459,8 @@
                                                                 <img src="/../../img/xoa_v2.png"
                                                                      style="width: 15px;">
                                                             </button>
-                                                            <div class="modal fade" th:id="'xoaSanPham' + ${hdct.id}"
+                                                            <div class="modal fade"
+                                                                 th:id="'xoaSanPham' + ${hdct.id}"
                                                                  data-bs-backdrop="static" data-bs-keyboard="false"
                                                                  aria-hidden="true"
                                                                  aria-labelledby="xoaSanPhamLabel" tabindex="-1">
@@ -455,8 +469,10 @@
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
                                                                                 <h1 class="modal-title fs-5"
-                                                                                    id="xoaSanPhamLabel">Xác nhận</h1>
-                                                                                <button type="button" class="btn-close"
+                                                                                    id="xoaSanPhamLabel">Xác
+                                                                                    nhận</h1>
+                                                                                <button type="button"
+                                                                                        class="btn-close"
                                                                                         data-bs-dismiss="modal"
                                                                                         aria-label="Close"></button>
                                                                             </div>
@@ -505,7 +521,7 @@
                 <div class="col-sm-12 col-xl-6" style="width: 30%;">
                     <div class="bg-light rounded h-100 p-4">
                         <h6 class="mb-4">Thông Tin</h6>
-                        <form th:object="${hoaDonCho}">
+                        <div th:object="${hoaDonCho}">
                             <div class="mb-3">
                                 <label class="form-label">Mã Hóa Đơn</label>
                                 <input type="text" class="form-control" name="ma" th:field="*{ma}" readonly/>
@@ -528,7 +544,8 @@
                             <div class="mb-3 g-2">
                                 <div>
                                     <label class="form-label">Voucher</label>
-                                    <input type="text" class="form-control" name="voucher" readonly id="voucherInput"
+                                    <input type="text" class="form-control" name="voucher" readonly
+                                           id="voucherInput"
                                            th:field="*{maGiamGia.ten}"/>
                                 </div>
                                 <div class="row g-2" style="display: flex">
@@ -536,8 +553,10 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#voucher"
                                             style="margin-top: 30px;margin-left: 5px;width: 100px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                                         </svg>
                                         Chọn
                                     </button>
@@ -545,7 +564,8 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#huyMaGiamGia"
                                             style="margin-top: 30px;margin-left: 5px;width: 100px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                                         </svg>
                                         Hủy
@@ -577,7 +597,8 @@
                             </script>
                             <div class="mb-3">
                                 <label class="form-label">Ngày Tạo</label>
-                                <input type="date" class="form-control" name="ngayTao" th:value="*{ngayTao}" readonly/>
+                                <input type="date" class="form-control" name="ngayTao" th:value="*{ngayTao}"
+                                       readonly/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Thành Tiền</label>
@@ -659,123 +680,51 @@
                                     xuTichDiemCheckbox2.checked = checked;
                                 }
                             </script>
-                        </form>
-                        <button class="btn btn-outline-primary"
-                                th:data-bs-target="'#checkThanhToan' + ${idHoaDonCho}"
-                                data-bs-toggle="modal"
-                                style="width: auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
-                                <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
-                            </svg>
-                            Thanh Toán
-                        </button>
-                        <button class="btn btn-outline-danger"
-                                th:data-bs-target="'#huyDon' + ${idHoaDonCho}"
-                                data-bs-toggle="modal"
-                                style="width: auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                            </svg>
-                            Hủy Đơn
-                        </button>
-                        <div class="modal fade text-center" th:id="'checkThanhToan' + ${idHoaDonCho}"
-                             data-bs-backdrop="static" data-bs-keyboard="false"
-                             aria-hidden="true"
-                             aria-labelledby="checkThanhToanLabel" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5"
-                                            id="checkThanhToanLabel">Thanh Toán</h1>
-                                        <button type="button" class="btn-close"
-                                                data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có muốn thanh toán hay không?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                                class="btn btn-danger"
-                                                data-bs-dismiss="modal">Đóng
-                                        </button>
-                                        <button class="btn btn-primary"
-                                                th:data-bs-target="'#thanhToan' + ${idHoaDonCho}"
-                                                data-bs-toggle="modal">
-                                            Thanh Toán
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                        <div class="modal fade text-center" th:id="'thanhToan' + ${idHoaDonCho}"
-                             aria-hidden="true"
-                             data-bs-backdrop="static" data-bs-keyboard="false"
-                             aria-labelledby="thanhToanLabel" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5"
-                                            id="thanhToanLabel">Xuất Hóa Đơn</h1>
-                                        <button type="button" class="btn-close"
-                                                data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Bạn có muốn xuất hóa đơn hay không?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                                class="btn btn-danger"
-                                                data-bs-dismiss="modal">Đóng
-                                        </button>
-                                        <form th:action="@{'/admin/ban-hang/hoa-don/xuat-hoan-don/' + ${idHoaDonCho}}"
-                                              method="post"
-                                              th:object="${hoaDonCho}"
-                                              onsubmit="return checkThanhToan(this);">
-                                            <!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
-                                            <input th:field="*{id}" name="id" hidden/>
-                                            <input th:value="${xu}" name="xu" hidden/>
-                                            <input type="text" class="form-control"
-                                                   style="color: red"
-                                                   name="tongTien"
-                                                   hidden
-                                                   th:value="${tongTien}">
-                                            <input type="text" class="form-control"
-                                                   style="color: red"
-                                                   name="thanhTien"
-                                                   hidden
-                                                   th:value="${thanhTien}">
-                                            <input type="checkbox" id="xuTichDiemCheckbox1" name="xuTichDiem" hidden>
-                                            <button type="submit" class="btn btn-primary">
-                                                Có
-                                            </button>
-                                        </form>
-                                        <form th:action="@{'/admin/ban-hang/thanh-toan/' + ${idHoaDonCho}}"
-                                              method="post"
-                                              th:object="${hoaDonCho}"
-                                              onsubmit="return checkThanhToan(this);">
-                                            <input th:field="*{id}" name="id" hidden/>
-                                            <input th:value="${xu}" name="xu" hidden/>
-                                            <input type="text" class="form-control"
-                                                   style="color: red"
-                                                   name="tongTien"
-                                                   hidden
-                                                   th:value="${tongTien}">
-                                            <input type="text" class="form-control"
-                                                   style="color: red"
-                                                   name="thanhTien"
-                                                   hidden
-                                                   th:value="${thanhTien}">
-                                            <input type="checkbox" id="xuTichDiemCheckbox2" name="xuTichDiem" hidden>
-                                            <button type="submit" class="btn btn-primary">
-                                                Không
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <div style="display: flex">
+                           <form th:action="@{'/admin/ban-hang/thanh-toan/' + ${idHoaDonCho}}"
+                                 method="post" th:object="${hoaDonCho}"
+                                 onsubmit="return checkThanhToan(this);">
+                               <!--                                            <input type="hidden" name="idHoaDonCho" th:value="${idHoaDonCho}"/>-->
+                               <input th:field="*{id}" name="id" hidden/>
+                               <input th:value="${xu}" name="xu" hidden/>
+                               <input type="text" class="form-control"
+                                      style="color: red"
+                                      name="tongTien"
+                                      hidden
+                                      th:value="${tongTien}">
+                               <input type="text" class="form-control"
+                                      style="color: red"
+                                      name="thanhTien"
+                                      hidden
+                                      th:value="${thanhTien}">
+                               <input type="checkbox" id="xuTichDiemCheckbox1" name="xuTichDiem"
+                                      hidden>
+                               <button id="xuatHoaDon" class="btn btn-outline-primary">
+                                   <!--                            <button id="xuatHoaDon" class="btn btn-outline-primary"-->
+                                   <!--                                    th:data-bs-target="'#checkThanhToan' + ${idHoaDonCho}"-->
+                                   <!--                                    data-bs-toggle="modal"-->
+                                   <!--                                    style="width: auto"-->
+                                   <!--                            >-->
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-wallet2" viewBox="0 0 16 16">
+                                       <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
+                                   </svg>
+                                   Thanh Toán
+                               </button>
+                           </form>
+
+                           <button style="margin-left: 2%" class="btn btn-outline-danger"
+                                   th:data-bs-target="'#huyDon' + ${idHoaDonCho}"
+                                   data-bs-toggle="modal">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-x-lg" viewBox="0 0 16 16">
+                                   <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                               </svg>
+                               Hủy Đơn
+                           </button>
+                       </div>
+
                         <div class="modal fade text-center" th:id="'huyDon' + ${idHoaDonCho}"
                              data-bs-backdrop="static" data-bs-keyboard="false"
                              aria-hidden="true"
@@ -996,7 +945,8 @@
                                         <form th:action="@{'/admin/ban-hang/hoa-don/' + ${idHoaDonCho} + '/them-voucher/' + ${maGiamGia.getId()}}"
                                               method="post"
                                               onsubmit="return checkVoucher(this);">
-                                            <input type="text" hidden name="idMaGiamGia" th:value="${maGiamGia.id}"/>
+                                            <input type="text" hidden name="idMaGiamGia"
+                                                   th:value="${maGiamGia.id}"/>
                                             <input type="text" name="tongTien" hidden th:value="${tongTien}">
                                             <input hidden th:value="${idHoaDonCho}" name="id"/>
                                             <button type="submit"
@@ -1074,12 +1024,160 @@
 
     </div>
     <!-- Content End -->
-
-
+    <!--    </div>-->
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
+    <div class="inHoaDon">
+        <section class="row" style="margin: auto;margin-top: -10%;width: 100%;height:100%;background-color: white">
+            <div class="col-md-12">
 
+                <div class="logo-hoa-don">
+                    <img src="../../static/img/logo.png" alt="">
+                    <h1>Wingman</h1>
+                </div>
+                <div class="border-hoadon"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="logo-hoa-don2">
+                    <h6>Phố Trịnh Văn Bô - Nam Từ Liêm - Hà Nội</h6>
+                    <h6>Tel: 1900996686</h6>
+                </div>
+                <div class="mid">
+                    <h2>HÓA ĐƠN BÁN HÀNG</h2>
+                    <h5>Số HĐ: [[${hoaDonCho.ma}]] - [[${hoaDonCho.ngayTao}]]</h5>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên Sản Phẩm</th>
+                        <th scope="col">Số Lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Thành Tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="hdct, status : ${listHoaDonChiTiet}">
+                        <td th:text="${status.index + 1}"></td>
+                        <td th:text="${hdct.getTenSanPham()}"></td>
+                        <td th:text="${hdct.getSoLuong()}"></td>
+                        <td th:text="${#numbers.formatDecimal(hdct.getGiaBan(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                        <td th:text="${#numbers.formatDecimal((hdct.getGiaBan()*hdct.getSoLuong()), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <div class="border-hoadon-duoi"></div>
+                <div>
+                    <p><span class="info-label">Tổng tiền:</span> <span class="info-value"
+                                                                        th:text="${#numbers.formatDecimal(tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                    </p>
+                    <p><span class="info-label">Giảm giá:</span> <span class="info-value">0 VND</span>
+                    </p>
+                    <p><span class="info-label">Phí vận chuyển:</span> <span class="info-value">0 VND</span>
+                    </p>
+                    <p><span class="info-label">Thành tiền:</span> <span class="info-value"
+                                                                         th:text="${#numbers.formatDecimal(thanhTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="border-hoadon-duoi"></div>
+
+                <div class="">
+                    <h5>KHÁCH HÀNG:</h5>
+                    <h6>Tên Khách hàng: [[${hoaDonCho.khachHang.ten}]]</h6>
+                    <h6>Số điện thoại: [[${hoaDonCho.khachHang.sdt}]]</h6>
+                    <h6>Địa chỉ: [[${hoaDonCho.diaChi}]]</h6>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="border-hoadon-duoi"></div>
+
+                <div class="bottom-hoadon">
+                    <h3>Xin cảm ơn quý khách !</h3>
+                    <h6>Nhân viên: [[${tenNhanVien}]]</h6>
+                </div>
+            </div>
+        </section>
+        <style>
+            .table {
+                margin-top: 3%;
+            }
+
+            .bottom-hoadon {
+                text-align: center;
+            }
+
+            .logo-hoa-don {
+                margin-top: 10%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .logo-hoa-don img {
+                max-width: 100%;
+                margin-right: 10px;
+            }
+
+            .logo-hoa-don h1 {
+                margin-top: 10px;
+            }
+
+            .info-label {
+                display: inline-block;
+                width: 200px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                margin-left: 50%;
+            }
+
+            .info-value {
+                white-space: nowrap;
+                float: right;
+                font-weight: bold;
+            }
+
+            .logo-hoa-don2 {
+                text-align: center;
+                margin-top: -3%;
+                margin-bottom: 3%;
+
+            }
+
+            .logo-hoa-don2 h6 {
+                font-weight: bold;
+            }
+
+            .mid {
+                text-align: center;
+            }
+
+            .mid h2 {
+                font-weight: bold;
+            }
+
+            .border-hoadon {
+                border-top: 1px solid #000000;
+                margin-top: 5%;
+                margin-bottom: 5%;
+            }
+
+            .border-hoadon-duoi {
+                border-top: 1px solid #000000;
+                margin-top: 1%;
+                margin-bottom: 5%;
+            }
+        </style>
+    </div>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top muiTen"><i class="bi bi-arrow-up"></i></a>
+</div>
 <div class="modal fade text-center" id="modalDialog"
      data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
@@ -1097,8 +1195,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
 
+<script type="text/javascript">
 
     function checkThanhToan(form) {
         var url = "[[@{/admin/ban-hang/check-thanh-toan}]]";
@@ -1114,11 +1212,24 @@
 
         $.post(url, params, function (response) {
             if (response === 0) {
+                $("#liveToastSuccess").hide();
+                $(".content").hide();
+                $(".sidebar").hide();
+                $(".muiTen").hide();
+                $(".inHoaDon").show();
+                $('#pdfDocument').attr('src', 'https://connect-hm.top/pdf/test.pdf');
+                print();
+                setTimeout(function () {
+                    $(".inHoaDon").hide();
+                    $(".content").show();
+                    $(".sidebar").show();
+                    $(".muiTen").show();
+                }, 1);
                 form.submit();
             } else if (response === 1) {
-                showWarningModal("Vui lòng chọn hóa đơn để thanh toán.");
+                showThongBaoModal("Vui lòng chọn hóa đơn để thanh toán.");
             } else if (response === 2) {
-                showWarningModal("Hóa đơn chưa có sản phẩm vui lòng thêm sản phẩm!");
+                showThongBaoModal("Hóa đơn chưa có sản phẩm vui lòng thêm sản phẩm!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1140,7 +1251,7 @@
             if (response === 0) {
                 form.submit();
             } else if (response === 1) {
-                showWarningModal("Vui lòng chọn hóa đơn để hủy đơn!");
+                showThongBaoModal("Vui lòng chọn hóa đơn để hủy đơn!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1173,13 +1284,13 @@
             if (response === 0) {
                 form.submit();
             } else if (response === 1) {
-                showWarningModal("Vui lòng nhập số lượng!");
+                showThongBaoModal("Vui lòng nhập số lượng!");
             } else if (response === 2) {
-                showWarningModal("Số lượng phải > 0 ");
+                showThongBaoModal("Số lượng phải > 0 ");
             } else if (response === 3) {
-                showWarningModal("Số lượng phải <= số lượng tồn");
+                showThongBaoModal("Số lượng phải <= số lượng tồn");
             } else if (response === 4) {
-                showWarningModal("Số lượng nhập phải là số!");
+                showThongBaoModal("Số lượng nhập phải là số!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1204,13 +1315,13 @@
             if (response === 0) {
                 form.submit();
             } else if (response === 1) {
-                showWarningModal("Vui lòng nhập số lượng!");
+                showThongBaoModal("Vui lòng nhập số lượng!");
             } else if (response === 2) {
-                showWarningModal("Số lượng phải > 0 ");
+                showThongBaoModal("Số lượng phải > 0 ");
             } else if (response === 3) {
-                showWarningModal("Số lượng phải <= số lượng sản phẩm trong hóa đơn!");
+                showThongBaoModal("Số lượng phải <= số lượng sản phẩm trong hóa đơn!");
             } else if (response === 4) {
-                showWarningModal("Số lượng nhập phải là số!");
+                showThongBaoModal("Số lượng nhập phải là số!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1237,11 +1348,11 @@
             if (response === 0) {
                 form.submit();
             } else if (response === 1) {
-                showWarningModal("Vui lòng chọn hóa đơn!");
+                showThongBaoModal("Vui lòng chọn hóa đơn!");
             } else if (response === 2) {
-                showWarningModal("Khách lẻ không thể thêm Voucher!");
+                showThongBaoModal("Khách lẻ không thể thêm Voucher!");
             } else if (response === 3) {
-                showWarningModal("Không đủ điều kiện áp dụng Voucher!");
+                showThongBaoModal("Không đủ điều kiện áp dụng Voucher!");
             } else {
                 showErrorModal("Lỗi phản hồi từ server");
             }
@@ -1354,6 +1465,11 @@
     })
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $(".inHoaDon").hide();
+    });
+</script>
 <!--thư viện js tích tìm kiếm end-->
 <!-- JavaScript Libraries -->
 <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->

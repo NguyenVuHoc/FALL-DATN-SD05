@@ -1484,6 +1484,9 @@
 
             let existingTotalAmount = parseInt($("#totalAmount").val());
             let ship = parseInt($("#shippingFee").val());
+            if (isNaN(ship)){
+                ship = 0;
+            }
             var duocApDung = Math.round(apDungPhanTram * existingTotalAmount);
             existingTotalAmount = existingTotalAmount + ship;
             if (duocApDung < duocApDungToiDa) {
@@ -1539,15 +1542,21 @@
         // //voucher
         let voucher = parseInt($("#voucher").val());
         console.log("voucher: " + voucher)
-        //
-        if (isNaN(voucher)) {
-            voucher = 0;
-        }
-        tongTienHang = tongTienHang + tienShip - voucher;
         var xuInput = document.getElementById("xuTichDiem");
         var discount = 50000;
         var xu = parseFloat(xuInput.value.replace(/[^\d.-]/g, ''));
+        console.log("Xu: " + xu)
+        if (isNaN(voucher)) {
+            voucher = 0;
+        }
+        if (isNaN(tienShip)){
+            tienShip = 0;
+        }
+        tongTienHang = tongTienHang + tienShip - voucher;
+
         if (isNaN(xu)) {
+            var formattedDiscountedValue = formatNumberWithVND(tongTienHang);
+            document.getElementById("totalAmountShow").innerText = formattedDiscountedValue;
             return;
         }
         if (xu < discount) {
