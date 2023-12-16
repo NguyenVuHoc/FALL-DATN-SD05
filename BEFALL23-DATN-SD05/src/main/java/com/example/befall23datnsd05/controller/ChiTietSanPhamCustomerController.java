@@ -173,8 +173,7 @@ public class ChiTietSanPhamCustomerController {
     public String detailCustomerSanPham(@PathVariable("id") Long id, Model model) {
         Long idKh=principalKhachHang.getCurrentUserId();
         Boolean checkSecurity=false;
-        if (id != null) {
-            checkSecurity= true;
+        if (idKh == null) {
             model.addAttribute("checkSecurity",checkSecurity);
             ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
             model.addAttribute("spDetail", chiTietSanPham);
@@ -186,6 +185,7 @@ public class ChiTietSanPhamCustomerController {
             model.addAttribute("listRandom2", listRand2.stream().toList());
             model.addAttribute("soLuongTon", chiTietSanPham.getSoLuongTon());
         }else {
+            checkSecurity= true;
             model.addAttribute("checkSecurity",checkSecurity);
             ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(id);
             model.addAttribute("spDetail", chiTietSanPham);
