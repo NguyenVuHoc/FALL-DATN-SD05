@@ -32,8 +32,6 @@
             <input type="email" placeholder="Email" th:field="*{email}">
             <span style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
             <span style="color: red" th:if="${exEmail}"> Email đã được sử dụng</span>
-            <input type="password" placeholder="Password" th:field="*{matKhau}">
-            <span style="color: red" th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}"></span>
             <button type="submit">Đăng ký</button>
         </form>
     </div>
@@ -50,7 +48,7 @@
             <span th:if="${param.error}" style="color: red">Mời nhập lại email và mật khẩu!</span>
             <input type="email" placeholder="Email" name="email">
             <input type="password" placeholder="Password" name="password">
-            <a>Quên mật khẩu?</a>
+            <a th:href="quen-mat-khau">Quên mật khẩu?</a>
             <button>Đăng nhập</button>
         </form>
     </div>

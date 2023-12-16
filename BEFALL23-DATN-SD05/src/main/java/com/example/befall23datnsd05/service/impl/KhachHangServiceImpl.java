@@ -10,7 +10,9 @@ import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.repository.DiaChiRepository;
 import com.example.befall23datnsd05.repository.GioHangRepository;
 import com.example.befall23datnsd05.repository.KhachHangRepository;
+import com.example.befall23datnsd05.sendEmail.SendMailService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.worker.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Autowired
     private GioHangRepository gioHangRepository;
+    @Autowired
+    SendMailService sendMailService;
 
     @Override
     public List<KhachHang> getList() {
@@ -140,9 +144,9 @@ public class KhachHangServiceImpl implements KhachHangService {
     public boolean changeUserPassword(Long idKh, String oldPassword, String newPassword) {
         KhachHang khachHang = khachHangRepository.findById(idKh).orElse(null);
 //        if (khachHang != null && oldPassword.equals(khachHang.getMatKhau())) {
-            khachHang.setMatKhau(newPassword);
-            khachHangRepository.save(khachHang);
-            return true;
+        khachHang.setMatKhau(newPassword);
+        khachHangRepository.save(khachHang);
+        return true;
 //        }
 //        return false;
     }
@@ -150,6 +154,10 @@ public class KhachHangServiceImpl implements KhachHangService {
     public KhachHang registration(RegisterRequest request) {
 
         KhachHang khachHang = khachHangRepository.save(RegisterRequest.convertToEntity(request));
+        khachHang.setMatKhau(CodeGenerator.genUUID());
+        khachHangRepository.save(khachHang);
+        sendMailService.sendDangKy(khachHang.getEmail());
+        sendMailService.sendNewPassWord(khachHang.getEmail());
         GioHang gioHang= new GioHang();
         gioHang.setNgayTao(LocalDate.now());
         gioHang.setNgaySua(LocalDate.now());
@@ -161,9 +169,11 @@ public class KhachHangServiceImpl implements KhachHangService {
     }
 
     @Override
-    public String quenMatKhau(String mail) {
-
-        return null;
+    public void quenMatKhau(String mail) {
+        KhachHang khachHang = khachHangRepository.findByEmail(mail).get();
+        khachHang.setMatKhau(CodeGenerator.genUUID());
+        khachHangRepository.save(khachHang);
+        sendMailService.sendNewPassWord(mail);
     }
 
 

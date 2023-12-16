@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/styleLogin.css}">
+    <!-- Favicon -->
+    <link th:href="@{/images/WingMan-black.png}" rel="icon"/>
+    <title>Login Page | WingmanShop</title>
+</head>
+
+<body>
+
+<div class="container" id="container" style="width: 500px;height: 50px;min-height: 350px">
+    <a style="margin-left: 30px;" th:href="@{/login}"><img src="/../img/back.png" width="30" height="30" style="margin-top: 20px"/></a>
+    <form th:action="@{/quen-mat-khau}" method="post" th:object="${khachHang}">
+        <h1>Quên mật khẩu</h1>
+        <span>Nhập email của bạn tại đây</span>
+        <input type="email" placeholder="Email"th:field="*{email}" style="width: 320px">
+        <span th:if="${validateRegis}" style="color: red">Có lỗi xảy ra, vui lòng kiểm tra lại thông tin!</span>
+        <span th:if="${exEmail1}" style="color: red">Email không tồn tại!</span>
+        <button type="submit">Gửi yêu cầu</button>
+    </form>
+</div>
+</div>
+
+<!--<script th:src="@{/js/admin/script.js}">-->
+<script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+        container.classList.add("active");
+    });
+
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove("active");
+    });
+
+    const shouldClickButton = [[${validateRegis}]] /* Lấy giá trị từ server (chẳng hạn qua một biến global, AJAX, hoặc một cách khác) */;
+
+    // Kiểm tra và tự động kích hoạt sự kiện click nếu shouldClickButton là true
+    if (shouldClickButton) {
+        registerBtn.click();
+    }
+</script>
+</body>
+
+</html>

@@ -234,7 +234,7 @@ public class SendMailImpl implements SendMailService {
                 .append("<p style=\"color: black;\"><b>Xin chào ").append(khachHang.getTen()).append(",</b></p>")
                 .append("<p style=\"color: black;\">Bạn đã xác nhận quên mật khẩu và yêu cầu tìm lại mật khẩu của mình vào : [[time]]</p>");
 
-        content.append("<p style=\"color: black;\">Chúng tôi đã nhận được yêu cầu khôi phục mật khẩu từ phía bạn. Dưới đây là mật khẩu mới để truy cập vào tài khoản của bạn: [[newPass]].</p>");
+        content.append("<p style=\"color: black;\">Chúng tôi đã nhận được yêu cầu khôi phục mật khẩu từ phía bạn. Dưới đây là mật khẩu mới để truy cập vào tài khoản của bạn:<b> [[newPass]]<b>.</p>");
 
         content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
                 "Đề nghị bạn đăng nhập bằng mật khẩu này và sau đó thay đổi mật khẩu trong phần cài đặt tài khoản của mình để đảm bảo tính bảo mật cho tài khoản của bạn.\n" +
@@ -253,7 +253,7 @@ public class SendMailImpl implements SendMailService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" ss:mm:HH dd/MM/yyyy");
             LocalDateTime now = LocalDateTime.now();
             String ngayGioFormatted = formatter.format(now);
 
@@ -262,8 +262,52 @@ public class SendMailImpl implements SendMailService {
             helper.setSubject(subject);
             String content1 = content.toString();
             content1 = content1.replace("[[name]]", khachHang.getTen());
-            content1 = content1.replace("[[newPass]]", CodeGenerator.genUUID());
+            content1 = content1.replace("[[newPass]]", khachHang.getMatKhau());
             content1 = content1.replace("[[time]]", ngayGioFormatted);
+            helper.setText(content1, true);
+            javaMailSender.send(message);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void sendDangKy(String mail) {
+        KhachHang khachHang = khachHangRepository.findByEmail(mail).get();
+        String from = "wingmansd05@gmail.com";
+        String to = mail;
+        String subject = "Đăng Ký Thành Công";
+        StringBuilder content = new StringBuilder("<div style=\"font-family: 'Arial', sans-serif; font-size: 16px; color: black;\">")
+                .append("<p style=\"color: black;\"><b>Xin chào ").append(khachHang.getTen()).append(",</b></p>")
+                .append("<p style=\"color: black;\">Chúc mừng bạn đã đăng ký tài khoản thành công!</p>")
+                .append("<p style=\"color: black;\">Thông tin tài khoản của bạn:</p>")
+                .append("<p style=\"color: black;\"><b>Mật Khẩu:</b> ").append(khachHang.getMatKhau()).append("</p>");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Cảm ơn bạn đã tham gia cùng chúng tôi. Bây giờ, bạn có thể truy cập và sử dụng tài khoản của mình.\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi. Chúng tôi sẽ luôn hỗ trợ bạn.\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Trân trọng,\n" +
+                "</p>\n");
+        content.append("<p style=\"color: black;\" class=\"email-content\">\n" +
+                "Wingman\n" +
+                "</p>\n");
+        try {
+
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" ss:mm:HH dd/MM/yyyy");
+            LocalDateTime now = LocalDateTime.now();
+            String ngayGioFormatted = formatter.format(now);
+
+            helper.setFrom(from, "Wingman");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            String content1 = content.toString();
+            content1 = content1.replace("[[name]]", khachHang.getTen());
             helper.setText(content1, true);
             javaMailSender.send(message);
 

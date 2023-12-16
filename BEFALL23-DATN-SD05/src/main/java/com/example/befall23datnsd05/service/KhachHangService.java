@@ -38,6 +38,6 @@ public interface KhachHangService {
 
     KhachHang registration(RegisterRequest khachHang);
 
-    String quenMatKhau(String mail);
+    void quenMatKhau(String mail);
 
 }

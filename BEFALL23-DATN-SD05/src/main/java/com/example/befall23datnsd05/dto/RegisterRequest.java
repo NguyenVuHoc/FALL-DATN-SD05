@@ -25,8 +25,6 @@ public class RegisterRequest {
     @Email(message = "Vui lòng nhập Email đúng định dạng")
     private String email;
 
-    @NotBlank(message = "Mật khẩu không được để trống")
-    private String matKhau;
 
     @NotBlank(message = "Sdt không được để trống")
     @Size(min = 10, max = 10, message = "Sdt phải đủ 10 số")
@@ -37,7 +35,6 @@ public class RegisterRequest {
         KhachHang khachHang = new KhachHang();
         khachHang.setMa("KH"+ CodeGenerator.genUUID());
         khachHang.setSdt(request.getSdt());
-        khachHang.setMatKhau(request.getMatKhau());
         khachHang.setTen(request.getTen());
         khachHang.setEmail(request.getEmail());
         khachHang.setNgayTao(LocalDate.now());

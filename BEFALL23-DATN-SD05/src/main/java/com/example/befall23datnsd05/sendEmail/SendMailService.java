@@ -5,10 +5,13 @@ import com.example.befall23datnsd05.entity.KhachHang;
 
 public interface SendMailService {
 
-    public void sendEmail(KhachHang khachHang, String path);
+    void sendEmail(KhachHang khachHang, String path);
 
-    public void sendEmail1(KhachHang khachHang, HoaDon hoaDon);
+    void sendEmail1(KhachHang khachHang, HoaDon hoaDon);
 
-    public boolean sendNewPassWord(String verificationPassWord, String resetPass);
-    public void sendNewPassWord(String mail);
+    boolean sendNewPassWord(String verificationPassWord, String resetPass);
+
+    void sendNewPassWord(String mail);
+
+    void sendDangKy(String mail);
 }
