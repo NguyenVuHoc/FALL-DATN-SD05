@@ -1,5 +1,6 @@
 package com.example.befall23datnsd05.security.admin;
 
+import com.example.befall23datnsd05.dto.QuenMatKhauRequest;
 import com.example.befall23datnsd05.dto.RegisterRequest;
 import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.sendEmail.SendMailService;
@@ -44,7 +45,7 @@ public class AdminController {
             return "admin-template/login";
         }
         khachHangService.registration(khachHang);
-        return "redirect:/login";
+        return "admin-template/thanhCong";
     }
     @GetMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
@@ -55,17 +56,24 @@ public class AdminController {
 
     }
 
+    @GetMapping("/quen-mat-khau")
+    public String view(Model model) {
+        model.addAttribute("khachHang", new QuenMatKhauRequest());
+        return "admin-template/quenMatKhau";
+
+    }
+
     @PostMapping("/quen-mat-khau")
-    public String quenMatKhau(@RequestParam("mail")String mail,Model model){
-        if(!khachHangService.existsByEmail(mail)){
-            model.addAttribute("vld", true);
-            model.addAttribute("vld1", "Email bạn nhập không tồn tại hoặc chưa đăng ký!");
-            model.addAttribute("exEmail1", khachHangService.existsByEmail(mail));
-            return "admin-template/login";
-        }else {
-            khachHangService.quenMatKhau(mail);
-            sendMailService.sendNewPassWord(mail);
-            return "admin-template/login";
+    public String quenMatKhau(@Valid
+                                  @ModelAttribute("khachHang") QuenMatKhauRequest khachHang,
+                              BindingResult result,Model model){
+        if(result.hasErrors()|| !khachHangService.existsByEmail(khachHang.getEmail())){
+            model.addAttribute("validateRegis", true);
+            model.addAttribute("khachHang", new QuenMatKhauRequest());
+            model.addAttribute("exEmail1", khachHangService.existsByEmail(khachHang.getEmail()));
+            return "admin-template/quenMatKhau";
         }
+            khachHangService.quenMatKhau(khachHang.getEmail());
+        return "admin-template/thanhCong";
     }
 }

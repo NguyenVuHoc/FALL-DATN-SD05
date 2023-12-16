@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/styleLogin.css}">
+    <!-- Favicon -->
+    <link th:href="@{/images/WingMan-black.png}" rel="icon"/>
+    <title>Login Page | WingmanShop</title>
+</head>
+
+<body>
+
+    <br>
+
+</div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+<!-- SweetAlert JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script th:inline="javascript">
+        window.onload = function() {
+            Swal.fire({
+                title: 'Thành công!',
+                text: 'Kiểm tra Email để nhận mật khẩu!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                timer: 5000 // Hiển thị SweetAlert trong 5 giây
+            }).then(function() {
+                window.location.href = '/login'; // Chuyển hướng về /login sau khi hiển thị SweetAlert
+            });
+        }
+    </script>
+
+    <script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+        container.classList.add("active");
+    });
+
+    loginBtn.addEventListener('click', () => {
+        container.classList.remove("active");
+    });
+
+    const shouldClickButton = [[${validateRegis}]] /* Lấy giá trị từ server (chẳng hạn qua một biến global, AJAX, hoặc một cách khác) */;
+
+    // Kiểm tra và tự động kích hoạt sự kiện click nếu shouldClickButton là true
+    if (shouldClickButton) {
+        registerBtn.click();
+    }
+</script>
+</body>
+
+</html>
