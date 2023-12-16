@@ -23,7 +23,6 @@ public class KhachHangRequest {
     private String ma;
 
     @NotBlank(message = "Tên không được để trống")
-    @Pattern(regexp = "^[^0-9]+$", message = "Tên không được chứa số")
     private String ten;
 
     @NotBlank(message = "Sdt không được để trống")
