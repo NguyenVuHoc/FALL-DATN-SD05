@@ -329,7 +329,7 @@
                                         </td>
                                         <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                         <td th:text="${gioHangChiTiet.soLuong}" id="currentQuantity"></td>
-                                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.chiTietSanPham.giaBan * gioHangChiTiet.soLuong, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                        <td th:text="${#numbers.formatDecimal(gioHangChiTiet.donGia * gioHangChiTiet.soLuong, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                         <td>
                                             <div th:if="${(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                          or(gioHangChiTiet.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)
