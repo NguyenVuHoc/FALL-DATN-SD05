@@ -11,6 +11,7 @@ import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import com.example.befall23datnsd05.service.HoaDonService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,8 @@ public class HoaDonController {
         this.importFileExcelHd = importFileExcelHd;
     }
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     /**
      * Get All HoaDon
      *
@@ -50,11 +53,15 @@ public class HoaDonController {
      * @return
      */
     @GetMapping
-    public String getAll(Model model
-    ) {
+    public String getAll(Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("hoadons", hoaDonService.getAll());
         model.addAttribute("trangThais", list);
         model.addAttribute("endDate", LocalDate.now());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/hoa_don/hoa_don";
     }
 
@@ -68,6 +75,10 @@ public class HoaDonController {
     @GetMapping("/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThaiDonHang trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("trangThais", list);
         model.addAttribute("endDate", LocalDate.now());
         model.addAttribute("hoadons", hoaDonService.getByTrangThai(trangThai));
@@ -88,6 +99,10 @@ public class HoaDonController {
                                 @Param("trangThai") TrangThaiDonHang trangThai,
                                 @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                 @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         startDate = (startDate != null) ? startDate : LocalDate.of(2000, 1, 1);
         endDate = (endDate != null) ? endDate : LocalDate.now();
 
@@ -121,6 +136,10 @@ public class HoaDonController {
     public String detaiOff(Model model,
                            @PathVariable("id") Long idHd,
                            @Param("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("hdcts", hoaDonChiTietService.getCtspById(idHd));
         model.addAttribute("trangThai", trangThai);
@@ -139,6 +158,10 @@ public class HoaDonController {
     public String detailOn(Model model,
                            @PathVariable("id") Long idHd,
                            @Param("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(idHd));
         model.addAttribute("giamGia",hoaDonService.maGiamGia(idHd));
@@ -158,6 +181,10 @@ public class HoaDonController {
     public String validation(@Param("id") Long id,
                              @RequestParam("ghiChu") String ghichu, Model model
     ) throws Exception {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         int i = 0;
         HoaDon hoaDon = hoaDonService.findById(id);
         if (ghichu.isEmpty()) {
@@ -165,6 +192,7 @@ public class HoaDonController {
             model.addAttribute("hoadons", hoaDonService.getAll());
             model.addAttribute("trangThais", list);
             model.addAttribute("endDate", LocalDate.now());
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/hoa_don/hoa_don";
         }
         if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
@@ -187,6 +215,7 @@ public class HoaDonController {
                         model.addAttribute("trangThais", list);
                         model.addAttribute("endDate", LocalDate.now());
                         model.addAttribute("err", "Không thành công!Số lượng sản phẩm còn trong kho không đủ!");
+                        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
                         return "admin-template/hoa_don/hoa_don";
                     }
                 }
@@ -278,6 +307,7 @@ public class HoaDonController {
             model.addAttribute("hoadons", hoaDonService.getAll());
             model.addAttribute("trangThais", list);
             model.addAttribute("endDate", LocalDate.now());
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/hoa_don/hoa_don";
         }
         HoaDon hoaDon = hoaDonService.findById(id);
@@ -310,6 +340,7 @@ public class HoaDonController {
             model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
             model.addAttribute("hoaDon", hoaDonService.findById(id));
             model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(id));
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/hoa_don/chi_tiet_hd_online";
         }
         if (hoaDon.getTrangThai() == TrangThaiDonHang.CHO_XAC_NHAN || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.HOAN_THANH || hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY

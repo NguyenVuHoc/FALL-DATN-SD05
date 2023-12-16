@@ -7,6 +7,7 @@ import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.service.DiaChiService;
 import com.example.befall23datnsd05.service.KhachHangService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,40 +40,57 @@ public class KhachHangController {
 
     List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
 
     @GetMapping
     public String getAll(Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("listKH", khachHangService.getList());
         model.addAttribute("trangThais", list);
         model.addAttribute("diaChi", new DiaChiRequest());
         model.addAttribute("listDC", diaChiService.getAll());
         model.addAttribute("index", pageNo + 1);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/khach_hang/khach_hang";
     }
 
     @GetMapping("/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("trangThais", list);
         model.addAttribute("diaChi", new DiaChiRequest());
         model.addAttribute("listDC", diaChiService.getAll());
         model.addAttribute("listKH", khachHangService.getByTrangThai(trangThai));
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/khach_hang/khach_hang";
     }
 
     @GetMapping("/view-update/{id}")
     public String viewUpdate(@PathVariable("id") Long id, Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         KhachHang khachHang = khachHangService.getById(id);
         model.addAttribute("listDC", diaChiService.getAllTheoKhachHang(id));
         model.addAttribute("khachHang", khachHang);
         model.addAttribute("idKhachHang", id);
         model.addAttribute("diaChi", new DiaChiRequest());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/khach_hang/sua_khach_hang";
     }
 
     @GetMapping("/view-add")
     public String viewAdd(Model model) {
         model.addAttribute("khachHang", new KhachHangRequest());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/khach_hang/them_khach_hang";
     }
 
@@ -80,12 +98,18 @@ public class KhachHangController {
     public String add(@Valid @ModelAttribute("khachHang") KhachHangRequest khachHangRequest,
                       BindingResult bindingResult,
                       Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         String sdt = khachHangRequest.getSdt();
         if (bindingResult.hasErrors()) {
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/them_khach_hang";
         }
         if (khachHangService.existsBySdt(sdt)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/them_khach_hang";
         }
         model.addAttribute("success", "Thêm thành công");
@@ -94,14 +118,13 @@ public class KhachHangController {
 
     }
 
-//    @GetMapping("/delete/{id}")
-//    public String delete(@PathVariable("id") Long id) {
-//        khachHangService.remove(id);
-//        return "redirect:/admin/khach-hang?success";
-//    }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         try {
             khachHangService.remove(id);
             model.addAttribute("success", "Xóa thành công");
@@ -119,16 +142,21 @@ public class KhachHangController {
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("khachHang") KhachHangRequest khachHangRequest,
                          BindingResult bindingResult,
-                         Model model
-    ) {
+                         Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         Long id = khachHangRequest.getId();
         String sdt = khachHangRequest.getSdt();
         if (bindingResult.hasErrors()) {
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
 
         if (khachHangService.existsBySdtAndIdNot(sdt, id)) {
             model.addAttribute("errorTen", "Số điện thoại đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/khach_hang/sua_khach_hang";
         }
         model.addAttribute("success", "Cập nhật thành công!");
@@ -146,6 +174,10 @@ public class KhachHangController {
             @RequestParam("quanHuyenID") String quanHuyen,
             @RequestParam("thanhPhoID") String thanhPho
     ) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         diaChiService.add(diaChiRequest, Long.valueOf(idKhachHang), thanhPho, quanHuyen, phuongXa);
         return "redirect:/admin/khach-hang/view-update/" + idKhachHang + "?success";
     }
@@ -160,15 +192,21 @@ public class KhachHangController {
             @RequestParam("thanhPho") String thanhPho,
             Model model
     ) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         diaChiService.update(diaChiRequest, thanhPho, quanHuyen, phuongXa);
         return "redirect:/admin/khach-hang/view-update/" + idKH;
     }
 
     @GetMapping("/delete-dia-chi/{id}/{idKH}")
     public String deleteDiaChi(@PathVariable("id") Long id,
-                               @PathVariable("idKH") Long idKH
-
-    ) {
+                               @PathVariable("idKH") Long idKH) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         diaChiService.remove(id);
         return "redirect:/admin/khach-hang/view-update/" + idKH;
     }

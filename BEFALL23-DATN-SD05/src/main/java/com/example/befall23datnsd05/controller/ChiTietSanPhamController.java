@@ -12,6 +12,7 @@ import com.example.befall23datnsd05.service.KichThuocService;
 import com.example.befall23datnsd05.service.LotGiayService;
 import com.example.befall23datnsd05.service.MauSacService;
 import com.example.befall23datnsd05.service.SanPhamService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -86,10 +87,16 @@ public class ChiTietSanPhamController {
 
     List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     @GetMapping("/admin/chi-tiet-san-pham")
     public String getAll(
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("listCTSP",service.getAll());
         model.addAttribute("listDG",deGiayService.getAll());
         model.addAttribute("listMS",mauSacService.getAll());
@@ -99,14 +106,20 @@ public class ChiTietSanPhamController {
         model.addAttribute("listSP",sanPhamService.getList());
         model.addAttribute("trangThais", list);
         model.addAttribute("index", pageNo+1);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
 
     @GetMapping("/admin/chi-tiet-san-pham/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("trangThais", list);
         model.addAttribute("listCTSP", service.getByTrangThai(trangThai));
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/chi_tiet_san_pham/chi_tiet_san_pham";
     }
 
@@ -115,6 +128,10 @@ public class ChiTietSanPhamController {
             @ModelAttribute("chiTietSanPham")ChiTietSanPham chiTietSanPham,
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("listDG",deGiayService.getAll().stream().sorted(Comparator.comparing(DeGiay::getId).reversed()).collect(Collectors.toList()));
         model.addAttribute("listMS",mauSacService.getAll().stream().sorted(Comparator.comparing(MauSac::getId).reversed()).collect(Collectors.toList()));
         model.addAttribute("listKT",kichThuocService.getAll().stream().sorted(Comparator.comparing(KichThuoc::getId).reversed()).collect(Collectors.toList()));
@@ -123,6 +140,7 @@ public class ChiTietSanPhamController {
         model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("chiTietSanPham", new ChiTietSanPham());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
     }
 
@@ -133,6 +151,10 @@ public class ChiTietSanPhamController {
             BindingResult bindingResult,
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         if(bindingResult.hasErrors()){
             model.addAttribute("listDG",deGiayService.getAll().stream().sorted(Comparator.comparing(DeGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listMS",mauSacService.getAll().stream().sorted(Comparator.comparing(MauSac::getId).reversed()).collect(Collectors.toList()));
@@ -140,6 +162,7 @@ public class ChiTietSanPhamController {
             model.addAttribute("listLG",lotGiayService.getAll().stream().sorted(Comparator.comparing(LotGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listCG",coGiayService.getAll().stream().sorted(Comparator.comparing(CoGiay::getId).reversed()).collect(Collectors.toList()));
             model.addAttribute("listSP",sanPhamService.getList());
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/chi_tiet_san_pham/them_chi_tiet_san_pham";
         }else{
             service.add(chiTietSanPham);
@@ -152,6 +175,10 @@ public class ChiTietSanPhamController {
             @PathVariable("id") Long id,
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("listDG",deGiayService.getAll());
         model.addAttribute("listMS",mauSacService.getAll());
         model.addAttribute("listKT",kichThuocService.getAll());
@@ -160,6 +187,7 @@ public class ChiTietSanPhamController {
         model.addAttribute("listSP",sanPhamService.getList());
 
         model.addAttribute("chiTietSanPham",service.getById(id));
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/chi_tiet_san_pham/sua_chi_tiet_san_pham";
     }
 
@@ -168,6 +196,10 @@ public class ChiTietSanPhamController {
                          BindingResult bindingResult,
                          Model model
     ) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("listDG",deGiayService.getAll());
             model.addAttribute("listMS",mauSacService.getAll());
@@ -175,7 +207,7 @@ public class ChiTietSanPhamController {
             model.addAttribute("listLG",lotGiayService.getAll());
             model.addAttribute("listCG",coGiayService.getAll());
             model.addAttribute("listSP",sanPhamService.getList());
-
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/chi_tiet_san_pham/sua_chi_tiet_san_pham";
         }
         service.update(chiTietSanPham);
@@ -184,6 +216,10 @@ public class ChiTietSanPhamController {
 
     @GetMapping("/admin/chi-tiet-san-pham/delete/{id}")
     public String delete(@PathVariable("id") Long id,Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         try {
             service.remove(id);
             model.addAttribute("success", "Xóa thành công");
@@ -203,6 +239,10 @@ public class ChiTietSanPhamController {
             RedirectAttributes attributes
 
     ) throws IOException {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         if (!file.isEmpty()) {
             String directory = "C:\\Users\\Admin\\Downloads";
 //            String directory = "C:\\Users\\Mr Hao\\Downloads";

@@ -5,6 +5,7 @@ import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import com.example.befall23datnsd05.service.HoaDonService;
 import com.example.befall23datnsd05.service.ThongKeService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,8 @@ public class ThongKeController {
         this.importFileExcelHd = importFileExcelHd;
     }
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     /**
      * Thống Kê
      * @param model
@@ -51,7 +54,10 @@ public class ThongKeController {
     public String hienThi(Model model,
                           @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
                           @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         from = (from != null) ? from : LocalDate.of(2000, 1, 1);
         to = (to != null) ? to : LocalDate.now();
         //thống kê Hoá Đơn
@@ -99,6 +105,7 @@ public class ThongKeController {
        model.addAttribute("hoadons", hoaDonService.findHoaDonsByNgayTao(from, to));
         model.addAttribute("listHd",dataForChart);
         model.addAttribute("endDate", to);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/thong_ke/thong_ke";
     }
 
@@ -106,9 +113,14 @@ public class ThongKeController {
     public String detaiOff(Model model,
                            @PathVariable("id") Long idHd,
                            @Param("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("hdcts", hoaDonChiTietService.getCtspById(idHd));
         model.addAttribute("trangThai", trangThai);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/thong_ke/chi_tiet_hoa_don";
     }
 
@@ -124,9 +136,14 @@ public class ThongKeController {
     public String detailOn(Model model,
                            @PathVariable("id") Long idHd,
                            @Param("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("hoaDon", hoaDonService.findById(idHd));
         model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(idHd));
         model.addAttribute("trangThai", trangThai);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/thong_ke/chi_tiet_hd_online";
     }
     @GetMapping("/export")
