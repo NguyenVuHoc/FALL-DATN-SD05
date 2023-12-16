@@ -227,13 +227,14 @@
                                     </a>
                                     <a th:href="@{'/admin/khach-hang/delete-dia-chi/' + ${diaChi.id} +'/'+${diaChi.khachHang.id}} "
                                        class="card-link">Xóa</a>
-                                    <form th:action="@{'/admin/khach-hang/update-dia-chi/'+${diaChi.id}+'/'+${diaChi.khachHang.id}} "
-                                          method="post"
-                                          class="my-form reduced-height" th:object="${diaChi}"
-                                          onsubmit="return checkTrong(this);">
-                                        <div class="modal fade" th:id="'suaDiaChi' + ${diaChi.id}" tabindex="-1"
-                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-scrollable">
+                                    <form th:id="${'myForm'+status.index}"
+                                          th:action="@{'/admin/khach-hang/update-dia-chi/'+${diaChi.id}+'/'+${diaChi.khachHang.id}} "
+                                          method="post" class="my-form reduced-height" th:object="${diaChi}"
+                                          onsubmit="return validateUpdateDiaChi(event)">
+                                    <div class="modal fade" th:id="'suaDiaChi' + ${diaChi.id}" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title"
@@ -248,6 +249,8 @@
                                                             <input type="text" class="form-control"
                                                                    id="tenNguoiNhan" name="tenNguoiNhan"
                                                                    th:field="*{tenNguoiNhan}">
+                                                            <span class="check-loi" id="checkLoiNguoiNhanUpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">Số
@@ -255,6 +258,8 @@
                                                             <input type="text" class="form-control"
                                                                    id="sdt" name="sdt"
                                                                    th:field="*{sdt}">
+                                                            <span class="check-loi" id="checkLoiSDTUpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">Chọn
@@ -264,6 +269,8 @@
                                                                     aria-label="Default select example">
                                                                 <option value="">Chọn Tỉnh/Thành Phố</option>
                                                             </select>
+                                                            <span class="check-loi" id="checkLoiThanhPhoUpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">Chọn
@@ -273,6 +280,8 @@
                                                                     aria-label="Default select example">
                                                                 <option value="">Chọn Huyện/Quận</option>
                                                             </select>
+                                                            <span class="check-loi" id="checkLoiQuanHuyenUpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">Chọn
@@ -282,6 +291,8 @@
                                                                     aria-label="Default select example">
                                                                 <option value="">Chọn Xã/Phường</option>
                                                             </select>
+                                                            <span class="check-loi" id="checkLoiPhuongXaUpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">
@@ -290,6 +301,8 @@
                                                             <input type="text" class="form-control"
                                                                    id="diaChi" name="diaChi"
                                                                    th:field="*{diaChi}">
+                                                            <span class="check-loi" id="checkLoiDCUTpdate"
+                                                                  style="display: none;color: red"></span>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="col-form-label">Ghi
@@ -307,11 +320,113 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </div>
+
                                         </div>
+                                    </div>
                                     </form>
-                                    <!--                                        modal sửa địa chỉ end-->
-                                    <!--        api detail địa chỉ-->
+                                    <script th:inline="javascript">
+                                        function validateUpdateDiaChi(event) {
+                                            event.preventDefault();
+                                            var index = [[${status.index}]];
+                                            console.log("index: "+ index)
+                                            var nameForm = 'myForm' + index
+                                            var formElement = document.getElementById(nameForm);
+                                            var formData = new FormData(formElement);
+
+                                            var isValid = true; // Biến để theo dõi trạng thái tổng thể
+
+
+                                            var tenNguoiNhanCheck = document.getElementById('tenNguoiNhan');
+                                            var checkLoitenNguoiNhanUpdate = document.getElementById('checkLoiNguoiNhanUpdate');
+                                            checkLoitenNguoiNhanUpdate.style.display = 'none'
+                                            if (tenNguoiNhanCheck.value.trim() == '') {
+                                                checkLoitenNguoiNhanUpdate.innerHTML = ''
+                                                checkLoitenNguoiNhanUpdate.style.display = 'block'
+                                                checkLoitenNguoiNhanUpdate.innerText = "Chưa nhập địa chỉ cụ thể"
+                                                isValid = false
+                                            }
+
+
+                                            var sdtCheck = document.getElementById('sdt');
+                                            var checkLoiSDTUpdate = document.getElementById('checkLoiSDTUpdate');
+                                            checkLoiSDTUpdate.style.display = 'none'
+                                            if (sdtCheck.value.trim() == '') {
+                                                checkLoiSDTUpdate.innerHTML = ''
+                                                checkLoiSDTUpdate.style.display = 'block'
+                                                checkLoiSDTUpdate.innerText = "Chưa nhập địa chỉ cụ thể"
+                                                isValid = false
+                                            }
+
+                                            var districtSelectUpdateCheck = document.getElementById('districtSelect' + index);
+                                            console.log("idThanhPho: " +districtSelectUpdateCheck);
+                                            var checkLoiThanhPhoUpdate = document.getElementById('checkLoiThanhPhoUpdate');
+                                            checkLoiThanhPhoUpdate.style.display = 'none'
+                                            if (districtSelectUpdateCheck.value == '') {
+                                                checkLoiThanhPhoUpdate.innerHTML = ''
+                                                checkLoiThanhPhoUpdate.style.display = 'block'
+                                                checkLoiThanhPhoUpdate.innerText = "Chưa chọn Tỉnh/Thành phố"
+                                                isValid = false
+                                            }
+
+                                            var districtSelectUpdateCheck = document.getElementById('districtSelect' + index);
+                                            console.log("idThanhPho: " +districtSelectUpdateCheck);
+                                            var checkLoiQuanHuyenUpdate = document.getElementById('checkLoiQuanHuyenUpdate');
+                                            checkLoiQuanHuyenUpdate.style.display = 'none'
+                                            if (districtSelectUpdateCheck.value == '') {
+                                                console.log("Chưa chọn quận/huyện")
+                                                checkLoiQuanHuyenUpdate.innerHTML = ''
+                                                checkLoiQuanHuyenUpdate.style.display = 'block'
+                                                checkLoiQuanHuyenUpdate.innerText = "Chưa chọn quận/huyện"
+                                                isValid = false
+                                            }
+
+                                            var wardSelectUpdateCheck = document.getElementById('wardSelect' + index);
+                                            var checkLoiPhuongXaUpdate = document.getElementById('checkLoiPhuongXaUpdate');
+                                            checkLoiPhuongXaUpdate.style.display = 'none'
+                                            if (wardSelectUpdateCheck.value.trim() == '') {
+                                                checkLoiPhuongXaUpdate.innerHTML = ''
+                                                checkLoiPhuongXaUpdate.style.display = 'block'
+                                                checkLoiPhuongXaUpdate.innerText = "Chưa chọn phường/xã"
+                                                isValid = false
+                                            }
+
+                                            var diaChiCuTheCheck = document.getElementById('diaChi');
+                                            var checkLoiDCCTUpdate = document.getElementById('checkLoiDCUTpdate');
+                                            checkLoiDCCTUpdate.style.display = 'none'
+                                            if (diaChiCuTheCheck.value.trim() == '') {
+                                                checkLoiDCCTUpdate.innerHTML = ''
+                                                checkLoiDCCTUpdate.style.display = 'block'
+                                                checkLoiDCCTUpdate.innerText = "Chưa nhập địa chỉ cụ thể"
+                                                isValid = false
+                                            }
+
+                                            if (isValid) {
+                                                fetch(formElement.action, {
+                                                    method: 'POST',
+                                                    body: formData
+                                                })
+                                                    .then(response => {
+                                                        if (!response.ok) {
+                                                            throw new Error('Network response was not ok');
+                                                        }
+                                                        // Nếu muốn xử lý dữ liệu trả về từ máy chủ, thêm logic xử lý ở đây
+                                                        // ...
+
+                                                        // Load lại trang hiện tại sau khi gửi dữ liệu thành công
+                                                        location.reload();
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('There was a problem with the fetch operation:', error);
+                                                        // Xử lý lỗi nếu cần thiết
+                                                    });
+                                            }
+
+                                            console.log("thành công")
+
+                                        }
+                                    </script>
+                                    <!--  modal sửa địa chỉ end-->
+                                    <!--   api detail địa chỉ-->
                                     <script th:inline="javascript">
                                         document.addEventListener('DOMContentLoaded', function () {
                                             var citySelect = document.getElementById(/*[[ ${'citySelect'+status.index} ]]*/ '');
@@ -452,7 +567,7 @@
                                     </script>
                                     <!--    api detail địa chỉ end-->
 
-<!--                                    detail địa chỉ-->
+                                    <!--   detail địa chỉ-->
                                     <script>
                                         document.addEventListener('DOMContentLoaded', function () {
                                             // Lấy danh sách các thẻ <a> có class là "item"
@@ -470,7 +585,7 @@
 
                                                     // Lấy giá trị của thuộc tính th:data-ten-nguoi-nhan, th:data-sdt, th:data-dia-chi-cu-the, th:data-ghi-chu từ đối tượng được click
                                                     var idDiaChi = $(this).attr('id');
-                                                    console.log("id địa chỉ" +idDiaChi)
+                                                    console.log("id địa chỉ" + idDiaChi)
                                                     var tenNguoiNhanValue = $(this).attr('data-ten-nguoi-nhan');
                                                     console.log(tenNguoiNhanValue);
                                                     var sdtValue = $(this).attr('data-sdt');
@@ -613,10 +728,9 @@
                     </div>
 
                     <!--                    Modal add địa chỉ-->
-                    <form th:action="@{'/admin/khach-hang/add-dia-chi/'+${idKhachHang}} "
-                          method="post"
-                          class="my-form reduced-height" th:object="${diaChi}"
-                          onsubmit="return checkTrong(this);">
+                    <form id="myFormAdd" th:action="@{'/admin/khach-hang/add-dia-chi/'+${idKhachHang}} "
+                          method="post" class="my-form reduced-height" th:object="${diaChi}"
+                          onsubmit="return validateAdd(event)">
                         <div class="modal fade" th:id="'addDiaChi' + ${idKhachHang}" tabindex="-1"
                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">
@@ -632,15 +746,19 @@
                                             <label class="col-form-label">Tên
                                                 người nhận:</label>
                                             <input type="text" class="form-control"
-                                                   name="tenNguoiNhan"
+                                                   id="tenNguoiNhanAdd" name="tenNguoiNhan"
                                                    th:field="*{tenNguoiNhan}">
+                                            <span class="check-loi" id="checkLoiNguoiNhanAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">Số
                                                 điện thoại:</label>
                                             <input type="text" class="form-control"
-                                                   name="sdt"
+                                                   id="sdtAdd" name="sdt"
                                                    th:field="*{sdt}">
+                                            <span class="check-loi" id="checkLoiSDTAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">Chọn
@@ -650,6 +768,8 @@
                                                     aria-label="Default select example" p>
                                                 <option value="">Chọn Tỉnh/Thành Phố</option>
                                             </select>
+                                            <span class="check-loi" id="checkLoiThanhPhoAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">Chọn
@@ -659,6 +779,8 @@
                                                     aria-label="Default select example">
                                                 <option value="">Chọn Huyện/Quận</option>
                                             </select>
+                                            <span class="check-loi" id="checkLoiQuanHuyenAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">Chọn
@@ -668,14 +790,18 @@
                                                     aria-label="Default select example">
                                                 <option value="">Chọn Xã/Phường</option>
                                             </select>
+                                            <span class="check-loi" id="checkLoiPhuongXaAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">
                                                 Địa chỉ cụ thể:
                                             </label>
                                             <input type="text" class="form-control"
-                                                   name="diaChi"
+                                                   id="diaChiAdd" name="diaChi"
                                                    th:field="*{diaChi}">
+                                            <span class="check-loi" id="checkLoiDCCTAdd"
+                                                  style="display: none;color: red"></span>
                                         </div>
                                         <div class="mb-3">
                                             <label class="col-form-label">Ghi
@@ -839,6 +965,111 @@
     </div>
 </div>
 
+<script>
+    function validateAdd(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        var formElement = document.getElementById('myFormAdd');
+
+        // Check spam submit
+        var btnThem = event.target.querySelector('button[type="submit"]');
+        setTimeout(function () {
+            btnThem.disabled = false;
+        }, 2000); // 2000 miligiây = 2 giây
+
+
+        var formData = new FormData(formElement);
+        var isValid = true; // Biến để theo dõi trạng thái tổng thể
+
+        var nguoiNhanAddCheck = document.getElementById("tenNguoiNhanAdd");
+        var checkLoiNguoiNhanAdd = document.getElementById("checkLoiNguoiNhanAdd");
+        if (nguoiNhanAddCheck.value.trim() == '') {
+            checkLoiNguoiNhanAdd.innerHTML = ''
+            checkLoiNguoiNhanAdd.style.display = 'block'
+            checkLoiNguoiNhanAdd.innerText = "Chưa nhập tên người nhận!"
+            isValid = false
+        }
+
+        var regex = /^0[0-9]{9}$/;
+        var sdtAddCheck = document.getElementById("sdtAdd").value;
+        console.log("Số điện thoại: " + sdtAddCheck)
+        var checkLoiSDTAdd = document.getElementById("checkLoiSDTAdd");
+        checkLoiSDTAdd.style.display = 'none'
+        if (sdtAddCheck.trim() == '') {
+            checkLoiSDTAdd.innerHTML = ''
+            checkLoiSDTAdd.style.display = 'block'
+            checkLoiSDTAdd.innerText = "Chưa nhập số điện thoại!"
+            isValid = false
+        } else if (!regex.test(sdtAddCheck)) {
+            checkLoiSDTAdd.innerHTML = ''
+            checkLoiSDTAdd.style.display = 'block'
+            checkLoiSDTAdd.innerText = "Số điện thoại không hợp lệ!"
+            isValid = false
+        }
+
+        var citySelectAddCheck = document.getElementById("citySelectAdd");
+        var checkLoiThanhPhoAdd = document.getElementById("checkLoiThanhPhoAdd");
+        checkLoiThanhPhoAdd.style.display = 'none'
+        if (citySelectAddCheck.value.trim() == '') {
+            checkLoiThanhPhoAdd.innerHTML = ''
+            checkLoiThanhPhoAdd.style.display = 'block'
+            checkLoiThanhPhoAdd.innerText = "Chưa chọn tỉnh/thành phố"
+            isValid = false
+        }
+
+        var districtSelectAddCheck = document.getElementById("districtSelectAdd");
+        var checkLoiQuanHuyenAdd = document.getElementById("checkLoiQuanHuyenAdd");
+        checkLoiQuanHuyenAdd.style.display = 'none'
+        if (districtSelectAddCheck.value.trim() == '') {
+            checkLoiQuanHuyenAdd.innerHTML = ''
+            checkLoiQuanHuyenAdd.style.display = 'block'
+            checkLoiQuanHuyenAdd.innerText = "Chưa chọn quận/huyện"
+            isValid = false
+        }
+
+        var wardSelectAddCheck = document.getElementById("wardSelectAdd");
+        var checkLoiPhuongXaAdd = document.getElementById("checkLoiPhuongXaAdd");
+        checkLoiPhuongXaAdd.style.display = 'none'
+        if (wardSelectAddCheck.value.trim() == '') {
+            checkLoiPhuongXaAdd.innerHTML = ''
+            checkLoiPhuongXaAdd.style.display = 'block'
+            checkLoiPhuongXaAdd.innerText = "Chưa chọn phường/xã"
+            isValid = false
+        }
+
+        var diaChiCuTheCheck = document.getElementById("diaChiAdd");
+        var checkLoiDCCTAdd = document.getElementById("checkLoiDCCTAdd");
+        checkLoiDCCTAdd.style.display = 'none'
+        if (diaChiCuTheCheck.value.trim() == '') {
+            checkLoiDCCTAdd.innerHTML = ''
+            checkLoiDCCTAdd.style.display = 'block'
+            checkLoiDCCTAdd.innerText = "Chưa nhập địa chỉ cụ thể"
+            isValid = false
+        }
+
+        if (isValid) {
+            fetch(formElement.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // Nếu muốn xử lý dữ liệu trả về từ máy chủ, thêm logic xử lý ở đây
+                    // ...
+
+                    // Load lại trang hiện tại sau khi gửi dữ liệu thành công
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    // Xử lý lỗi nếu cần thiết
+                });
+        }
+    }
+
+</script>
+
 <script type="text/javascript">
     var selectButton = document.getElementById('selectButton');
     selectButton.addEventListener('click', function () {
@@ -887,12 +1118,18 @@
         var sdt = form.sdt.value;
         var diaChi = form.diaChi.value;
         var ghiChu = form.ghiChu.value;
+        var xaPhuong = form.phuongXaID.value;
+        var quanHuyen = form.quanHuyenID.value;
+        var thanhPho = form.thanhPhoID.value;
 
         var params = {
             tenNguoiNhan: tenNguoiNhan,
             sdt: sdt,
             diaChi: diaChi,
-            ghiChu: ghiChu
+            ghiChu: ghiChu,
+            xaPhuong: xaPhuong,
+            quanHuyen: quanHuyen,
+            thanhPho: thanhPho
 
         };
 

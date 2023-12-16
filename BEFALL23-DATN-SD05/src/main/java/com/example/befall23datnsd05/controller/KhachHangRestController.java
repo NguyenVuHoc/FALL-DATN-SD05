@@ -12,21 +12,29 @@ public class KhachHangRestController {
     public String checkTrong(@RequestParam("tenNguoiNhan") String tenNguoiNhan,
                              @RequestParam("sdt") String sdt,
                              @RequestParam("diaChi") String diaChi,
-                             @RequestParam("ghiChu") String ghiChu
+                             @RequestParam("ghiChu") String ghiChu,
+                             @RequestParam("xaPhuong") String xaPhuong,
+                             @RequestParam("quanHuyen") String quanHuyen,
+                             @RequestParam("thanhPho") String thanhPho
     ) {
         if (tenNguoiNhan.equals("")) {
             return "tenNguoiNhanNull";
-        } else if(sdt.equals("")) {
+        } else if (sdt.equals("")) {
             return "sdtNull";
-        } else if(diaChi.equals("")) {
+        } else if (diaChi.equals("")) {
             return "diaChiNull";
-        } else if(ghiChu.equals("")) {
+        } else if (ghiChu.equals("")) {
             return "ghiChuNull";
-        }else {
+        } else if (xaPhuong.equals("")) {
+            return "xaPhuongNull";
+        } else if (quanHuyen.equals("")) {
+            return "quanHuyenNull";
+        } else if (thanhPho.equals("")) {
+            return "thanhPhoNull";
+        } else {
             return "OK";
         }
     }
-
 
 
 }
