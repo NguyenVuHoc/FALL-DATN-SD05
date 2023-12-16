@@ -90,7 +90,7 @@ public class BanHangServiceImpl implements BanHangService {
     }
 
     @Override
-    public HoaDon themHoaDon(HoaDon hoaDon,Long idNhanVien) {
+    public HoaDon themHoaDon(HoaDon hoaDon, Long idNhanVien) {
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
@@ -275,16 +275,17 @@ public class BanHangServiceImpl implements BanHangService {
 
     @Override
     public BigDecimal getThanhTien(Long idHoaDon, BigDecimal tongTien) {
-        BigDecimal thanhTien;
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         if (hoaDon.getMaGiamGia() == null) {
-            thanhTien = tongTien;
-        } else if (tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia())).compareTo(hoaDon.getMaGiamGia().getMucGiamToiDa()) < 0) {
-            thanhTien = tongTien.subtract(tongTien.divide(BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia())));
-        } else {
-            thanhTien = tongTien.subtract(hoaDon.getMaGiamGia().getMucGiamToiDa());
+            return tongTien;
         }
-        return thanhTien;
+        BigDecimal phanTramApDung = BigDecimal.valueOf(hoaDon.getMaGiamGia().getMucGiamGia()).divide(BigDecimal.valueOf(Double.valueOf(100)));
+        BigDecimal tienApDung = tongTien.multiply(phanTramApDung);
+        if (tienApDung.compareTo(hoaDon.getMaGiamGia().getMucGiamToiDa()) < 0) {
+            return tongTien.subtract(tienApDung);
+        }
+        return tongTien.subtract(hoaDon.getMaGiamGia().getMucGiamToiDa());
+
     }
 
     @Override
@@ -322,7 +323,7 @@ public class BanHangServiceImpl implements BanHangService {
     @Override
     public HoaDon checkGiamGia(Long idHoaDon, BigDecimal tongTien) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
-        if (hoaDon.getMaGiamGia() == null){
+        if (hoaDon.getMaGiamGia() == null) {
             return null;
         }
         if (hoaDon.getMaGiamGia().getGiaTriDonHang().compareTo(tongTien) > 0) {

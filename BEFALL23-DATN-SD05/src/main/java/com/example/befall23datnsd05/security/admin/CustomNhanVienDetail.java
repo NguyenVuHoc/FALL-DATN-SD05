@@ -22,6 +22,14 @@ public class CustomNhanVienDetail implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
+    public Long getId(){
+        return  nhanVien.getId();
+    }
+
+    public String getTen(){
+        return  nhanVien.getTen();
+    }
+
     @Override
     public String getPassword() {
         return nhanVien.getMatKhau();

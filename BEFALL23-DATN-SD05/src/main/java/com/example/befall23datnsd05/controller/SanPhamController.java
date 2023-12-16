@@ -10,6 +10,7 @@ import com.example.befall23datnsd05.service.AnhSanPhamService;
 import com.example.befall23datnsd05.service.DongSanPhamService;
 import com.example.befall23datnsd05.service.SanPhamService;
 import com.example.befall23datnsd05.service.ThuongHieuService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -37,28 +38,45 @@ public class SanPhamController {
 
     List<TrangThai> list = new ArrayList<>(Arrays.asList(TrangThai.DANG_HOAT_DONG, TrangThai.DUNG_HOAT_DONG));
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     @GetMapping()
     public String hienThi(Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("listSanPham", sanPhamService.getAll());
         model.addAttribute("index", pageNo + 1);
         model.addAttribute("trangThais", list);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/san_pham/san_pham";
     }
 
     @GetMapping("/trang-thai/{trangThai}")
     public String getByTrangThai(Model model,
                                  @PathVariable("trangThai") TrangThai trangThai) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("trangThais", list);
         model.addAttribute("listSanPham", sanPhamService.getByTrangThai(trangThai));
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/san_pham/san_pham";
     }
 
 
     @GetMapping("/view-add-san-pham")
     public String getViewAdd(Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("sanPham", new SanPhamRequest());
         model.addAttribute("listThuongHieu", thuongHieuService.getList());
         model.addAttribute("listDongSp", dongSanPhamService.getList());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/san_pham/them_san_pham";
     }
 
@@ -69,17 +87,23 @@ public class SanPhamController {
                               RedirectAttributes ra,
                               @RequestParam("fileImage") MultipartFile[] multipartFiles,
                               Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         String ma = sanPham.getMa();
         String ten = sanPham.getTen();
         if (result.hasErrors()) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/san_pham/them_san_pham";
         }
         if (multipartFiles.length > 4) {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
             model.addAttribute("errorAnh", "Chỉ được tải lên tối đa 4 ảnh");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/san_pham/them_san_pham";
         }
         for (MultipartFile multipartFile : multipartFiles) {
@@ -87,6 +111,7 @@ public class SanPhamController {
                 model.addAttribute("listThuongHieu", thuongHieuService.getList());
                 model.addAttribute("listDongSp", dongSanPhamService.getList());
                 model.addAttribute("errorAnh", "Ảnh phải có kích cỡ nhỏ hơn 2KB");
+                model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
                 return "admin-template/san_pham/them_san_pham";
             }
         }
@@ -95,6 +120,7 @@ public class SanPhamController {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
             model.addAttribute("errorMa", "Mã đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/san_pham/them_san_pham";
         }
 
@@ -102,6 +128,7 @@ public class SanPhamController {
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
             model.addAttribute("errorTen", "Tên đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/san_pham/them_san_pham";
         }
 
@@ -136,19 +163,27 @@ public class SanPhamController {
 
     @GetMapping("edit/{id}")
     public String editProduct(@PathVariable("id") Long id, Model model) {
-
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         SanPham sanPham = sanPhamService.findById(id);
         List<AnhSanPham> listAnh = sanPham.getListAnhSanPham();
         model.addAttribute("listThuongHieu", thuongHieuService.getList());
         model.addAttribute("listDongSp", dongSanPhamService.getList());
         model.addAttribute("listAnh", listAnh);
         model.addAttribute("sanPham", sanPham);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/san_pham/sua_san_pham";
     }
 
     @PostMapping("/update")
     public String updateProduct(@Valid @ModelAttribute("sanPham") SanPhamRequest sanPhamRequest,
                                 BindingResult result, Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         String ten = sanPhamRequest.getTen();
         Long id = sanPhamRequest.getId();
         SanPham existingSanPham = sanPhamService.findById(id);
@@ -157,6 +192,7 @@ public class SanPhamController {
         if(result.hasErrors()){
             model.addAttribute("listThuongHieu", thuongHieuService.getList());
             model.addAttribute("listDongSp", dongSanPhamService.getList());
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/san_pham/sua_san_pham";
         }
         if (sanPhamService.existsByTenAndIdNot(ten, id)) {

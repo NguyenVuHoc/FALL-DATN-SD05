@@ -3,6 +3,7 @@ package com.example.befall23datnsd05.controller;
 import com.example.befall23datnsd05.entity.CoGiay;
 import com.example.befall23datnsd05.entity.DeGiay;
 import com.example.befall23datnsd05.service.DeGiayService;
+import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,37 +22,33 @@ public class DeGiayController {
 
     Integer pageNo = 0;
 
+    private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
+
     @GetMapping
     public String getAll(
             Model model
     ){
-//        Page<DeGiay> page = service.phanTrang(pageNo,5);
-//        model.addAttribute("listDG",page.stream().toList());
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("listDG", service.getAll());
         model.addAttribute("index", pageNo+1);
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/de_giay/de_giay";
     }
-
-//    @GetMapping("/pre")
-//    private String pre() {
-//        pageNo--;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/de-giay";
-//    }
-//
-//    @GetMapping("/next")
-//    private String next() {
-//        pageNo++;
-//        pageNo = service.chuyenPage(pageNo);
-//        return "redirect:/admin/de-giay";
-//    }
 
     @GetMapping("/view-add")
     public String viewAdd(
             @ModelAttribute("deGiay")DeGiay deGiay,
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("deGiay", new DeGiay());
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/de_giay/them_de_giay";
     }
 
@@ -62,22 +59,30 @@ public class DeGiayController {
             BindingResult bindingResult,
             Model model
     ){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         String ma = deGiay.getMa();
         String ten = deGiay.getTen();
         if(bindingResult.hasErrors()){
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/them_de_giay";
         }
         if (service.existByMa(ma) && service.existsByTen(ten)) {
             model.addAttribute("errorMa", "Mã  đã tồn tại");
             model.addAttribute("errorTen", "Tên  đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/them_de_giay";
         }
         if (service.existByMa(ma)) {
             model.addAttribute("errorMa", "Mã  đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/them_de_giay";
         }
         if (service.existsByTen(ten)) {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/them_de_giay";
         }
         model.addAttribute("success", "Thêm thành công");
@@ -89,40 +94,46 @@ public class DeGiayController {
     @GetMapping("/view-update/{id}")
     public String viewUpdate(
             @PathVariable("id") Long id,
-            Model model
-    ){
+            Model model){
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         model.addAttribute("deGiay",service.getById(id));
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/de_giay/sua_de_giay";
     }
 
     @PostMapping("/update")
     public String update(@Valid @ModelAttribute("deGiay") DeGiay deGiay,
                          BindingResult bindingResult,
-                         Model model
-    ) {
+                         Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         String ten = deGiay.getTen();
         Long id = deGiay.getId();
         if (bindingResult.hasErrors()) {
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/sua_de_giay";
         }
         if (service.existsByTenAndIdNot(ten, id)) {
             model.addAttribute("errorTen", "Tên  đã tồn tại");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/de_giay/sua_de_giay";
         }
         model.addAttribute("success", "Sửa thành công");
-
         service.update(deGiay);
         return "redirect:/admin/de-giay?success";
     }
 
-//    @GetMapping("/delete/{id}")
-//    public String delete(@PathVariable("id") Long id) {
-//        service.remove(id);
-//        return "redirect:/admin/de-giay?success";
-//    }
-
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id, Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
         try {
             service.remove(id);
             model.addAttribute("success", "Xóa thành công");
