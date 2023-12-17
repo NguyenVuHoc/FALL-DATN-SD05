@@ -151,11 +151,12 @@ public class BanHangServiceImpl implements BanHangService {
 
 
     @Override
-    public HoaDon thanhToanHoaDon(Long idHoaDon) {
+    public HoaDon thanhToanHoaDon(Long idHoaDon, BigDecimal tienGiamGia) {
         HoaDon hoaDon = hoaDonRepository.findById(idHoaDon).get();
         hoaDon.setNgayThanhToan(LocalDate.now());
         hoaDon.setSdt(hoaDon.getKhachHang().getSdt());
         hoaDon.setPhiVanChuyen(BigDecimal.ZERO);
+        hoaDon.setTienGiamGia(tienGiamGia);
         hoaDon.setTenKhachHang(hoaDon.getKhachHang().getTen());
         hoaDon.setTrangThai(TrangThaiDonHang.HOAN_THANH);
         return hoaDonRepository.save(hoaDon);

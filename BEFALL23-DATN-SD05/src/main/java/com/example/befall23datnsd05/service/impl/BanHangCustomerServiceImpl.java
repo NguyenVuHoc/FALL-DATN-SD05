@@ -122,9 +122,8 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
     }
 
     @Override
-    public HoaDon datHangItems(GioHangWrapper gioHangWrapper, Long idKachHang, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll) {
+    public HoaDon datHangItems(GioHangWrapper gioHangWrapper, Long idKachHang, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, BigDecimal tienGiamGia, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll) {
         KhachHang khachHang = khachHangRepository.findById(idKachHang).orElse(null);
-//        NhanVien nhanVien = nhanVienRepository.findById(Long.valueOf(14)).orElse(null);
         LocalDateTime time = LocalDateTime.now();
         String maHD = "HD" + String.valueOf(time.getYear()).substring(2) + time.getMonthValue()
                 + time.getDayOfMonth() + time.getHour() + time.getMinute() + time.getSecond();
@@ -132,7 +131,6 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         hoaDon.setMa(maHD);
         hoaDon.setNgayTao(LocalDate.now());
         hoaDon.setKhachHang(khachHang);
-//        hoaDon.setNhanVien(nhanVien);
         hoaDon.setSdt(sdt);
         hoaDon.setDiaChi(diaChi);
         hoaDon.setGhiChu(ghiChu);
@@ -154,11 +152,8 @@ public class BanHangCustomerServiceImpl implements BanHangCustomerService {
         } else {
             MaGiamGia maGiamGia = maGiamGiaRepository.findById(selectedVoucherId).get();
             hoaDon.setMaGiamGia(maGiamGia);
-            if (totalAmount.multiply(BigDecimal.valueOf(maGiamGia.getMucGiamGia())).compareTo(maGiamGia.getMucGiamToiDa()) < 0) {
-                totalAmount = BigDecimal.valueOf((long) ((100 - maGiamGia.getMucGiamGia()) * totalAmount.intValue()) / 100);
-            } else {
-                totalAmount = BigDecimal.valueOf((long) (totalAmount.intValue() - maGiamGia.getMucGiamToiDa().intValue()));
-            }
+            hoaDon.setTienGiamGia(tienGiamGia);
+            totalAmount = BigDecimal.valueOf(totalAmount.intValue() - tienGiamGia.intValue());
             maGiamGia.setSoLuong(maGiamGia.getSoLuong() - 1);
             maGiamGiaRepository.save(maGiamGia);
         }

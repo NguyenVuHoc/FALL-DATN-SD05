@@ -31,7 +31,8 @@ public interface BanHangService {
 
     HoaDonChiTiet xoaHoaDonChiTiet(Long idHoaDonChiTiet);
 
-    HoaDon thanhToanHoaDon(Long idHoaDon);
+    HoaDon thanhToanHoaDon(Long idHoaDon, BigDecimal tienGiamGia);
+
     HoaDon checkXuHoaDon(Long idHoaDon, String tongTien, String thanhTien, Boolean xuTichDiem);
 
     BigDecimal voucher(Long idHoaDon, BigDecimal tongTien);
