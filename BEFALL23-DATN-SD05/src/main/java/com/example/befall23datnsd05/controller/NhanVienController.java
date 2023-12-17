@@ -1,6 +1,8 @@
 package com.example.befall23datnsd05.controller;
 
+import com.example.befall23datnsd05.dto.DiaChiRequest;
 import com.example.befall23datnsd05.dto.NhanVienRequest;
+import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.enumeration.TrangThai;
 import com.example.befall23datnsd05.service.NhanVienService;
@@ -139,6 +141,34 @@ public class NhanVienController {
         }else {
             model.addAttribute("success", "Cập nhật thành công!");
             nhanVienService.update(nhanVienRequest);
+            return "redirect:/admin/nhan-vien?success";
+        }
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("id") Long idKh,
+                                 @RequestParam("oldPassword") String oldPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 Model model) {
+        Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
+        NhanVien nhanVien = nhanVienService.getById(idKh);
+        if (idNhanVien == null){
+            return "redirect:/login";
+        }
+
+        if (nhanVien.getMatKhau().isEmpty()) {
+            model.addAttribute("nhanVien", nhanVien);
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
+            model.addAttribute("errorTen", "Mật khẩu không được để trống!");
+            return "admin-template/nhan_vien/sua_nhan_vien";
+        }
+        if (!nhanVien.getMatKhau().equals(oldPassword)) {
+            model.addAttribute("nhanVien", nhanVien);
+            model.addAttribute("errorTen", "Mật khẩu bạn nhập không trùng khớp!");
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
+            return "admin-template/nhan_vien/sua_nhan_vien";
+        } else {
+            nhanVienService.changeUserPassword(idKh, oldPassword, newPassword);
             return "redirect:/admin/nhan-vien?success";
         }
     }

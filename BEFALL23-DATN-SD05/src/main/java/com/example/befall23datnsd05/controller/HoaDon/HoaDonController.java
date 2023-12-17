@@ -8,13 +8,13 @@ import com.example.befall23datnsd05.enumeration.TrangThaiDonHang;
 import com.example.befall23datnsd05.export.HoaDonPDF;
 import com.example.befall23datnsd05.importFile.importFileExcelHd;
 import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
+import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.GioHangChiTietService;
 import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import com.example.befall23datnsd05.service.HoaDonService;
 import com.example.befall23datnsd05.worker.PrincipalKhachHang;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +34,15 @@ public class HoaDonController {
     private final HoaDonChiTietService hoaDonChiTietService;
     private final GioHangChiTietService gioHangChiTietService;
     private final ChiTietSanPhamRepository chiTietSanPhamService;
+    private  final BanHangService banHangService;
     private final importFileExcelHd importFileExcelHd;
 
-    public HoaDonController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamRepository chiTietSanPhamService1, com.example.befall23datnsd05.importFile.importFileExcelHd importFileExcelHd) {
+    public HoaDonController(HoaDonService hoaDonService, HoaDonChiTietService hoaDonChiTietService, GioHangChiTietService gioHangChiTietService, ChiTietSanPhamRepository chiTietSanPhamService1, BanHangService banHangService, com.example.befall23datnsd05.importFile.importFileExcelHd importFileExcelHd) {
         this.hoaDonService = hoaDonService;
         this.hoaDonChiTietService = hoaDonChiTietService;
         this.gioHangChiTietService = gioHangChiTietService;
         this.chiTietSanPhamService = chiTietSanPhamService1;
+        this.banHangService = banHangService;
         this.importFileExcelHd = importFileExcelHd;
     }
 
@@ -195,7 +197,7 @@ public class HoaDonController {
             model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
             return "admin-template/hoa_don/hoa_don";
         }
-        if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG) {
+        if (hoaDon.getTrangThai() == TrangThaiDonHang.XAC_NHAN_TRA_HANG || hoaDon.getTrangThai() == TrangThaiDonHang.DOI_HANG|| hoaDon.getTrangThai()==TrangThaiDonHang.DA_HUY) {
             return "redirect:/admin/hoa-don";
         }
 

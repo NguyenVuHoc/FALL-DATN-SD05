@@ -10,6 +10,7 @@ import com.example.befall23datnsd05.repository.ChiTietSanPhamRepository;
 import com.example.befall23datnsd05.repository.GioHangChiTietRepository;
 import com.example.befall23datnsd05.repository.HoaDonRepo;
 import com.example.befall23datnsd05.sendEmail.SendMailService;
+import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.HoaDonService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,14 @@ public class HoaDonServiceImpl implements HoaDonService {
 
     private final SendMailService sendMailService;
 
-    public HoaDonServiceImpl(HoaDonRepo repository, GioHangChiTietRepository gioHangChiTietRepository, ChiTietSanPhamRepository chiTietSanPhamRepository, SendMailService sendMailService) {
+    private final BanHangService banHangService;
+
+    public HoaDonServiceImpl(HoaDonRepo repository, GioHangChiTietRepository gioHangChiTietRepository, ChiTietSanPhamRepository chiTietSanPhamRepository, SendMailService sendMailService, BanHangService banHangService) {
         this.repository = repository;
         this.gioHangChiTietRepository = gioHangChiTietRepository;
         this.chiTietSanPhamRepository = chiTietSanPhamRepository;
         this.sendMailService = sendMailService;
+        this.banHangService = banHangService;
     }
 
     public List<HoaDon> getAll() {
@@ -98,6 +102,9 @@ public class HoaDonServiceImpl implements HoaDonService {
         if(hoaDon.getTrangThai() == TrangThaiDonHang.DA_GIAO|| hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI|| hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY){
             sendMailService.sendEmail1(hoaDon.getKhachHang(),hoaDon);
 
+        }
+        if(hoaDon.getTrangThai()==TrangThaiDonHang.HOAN_THANH){
+            banHangService.tichDiem(hoaDon.getKhachHang().getId(),hoaDon.getThanhToan().toString());
         }
         hoaDon = repository.save(hoaDon);
         return hoaDon.getTrangThai().equals(trangThai);
