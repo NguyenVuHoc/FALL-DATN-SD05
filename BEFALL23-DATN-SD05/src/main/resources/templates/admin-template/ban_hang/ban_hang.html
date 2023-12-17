@@ -624,7 +624,7 @@
                                            id="xuTichDiem"
                                            name="xuTichDiem"
                                            th:value="${xu}"
-                                           onclick="applyDiscount()"
+                                           onclick="applyDiscount()" th:disabled="${xu==0}"
                                            onchange="syncCheckboxState(this.checked)"
                                            th:text="${#numbers.formatDecimal(xu, 0, 'POINT', 0, 'COMMA')} + ' Xu'">
                                 </div>

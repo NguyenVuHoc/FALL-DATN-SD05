@@ -165,11 +165,21 @@
                     <a th:href="@{'/wingman/chi-tiet-san-pham/' + ${ctsp3New.getId()}}" style="text-decoration: none">
                         <img th:src="@{'../images/' + ${ctsp3New.getAnh_chinh}}" class="img-fluid product-thumbnail" style="width: 200px; height: 180px;">
                     <h3 class="product-title"
-                        th:text="${ctsp3New.getTenSp() +' '+ ctsp3New.getTenDongSp() +' '+ ctsp3New.getTenDe_giay() +' '+ ctsp3New.getTenCo_giay() +' '+ ctsp3New.getTenLot_giay()}"></h3>
-                        <strong th:if="${ctsp3New.getGia_mac_dinh() != ctsp3New.getGia_ban()}" class="product-price"
-                                th:text="${#numbers.formatDecimal(ctsp3New.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
-                        <strong th:if="${ctsp3New.getGia_mac_dinh() == ctsp3New.getGia_ban()}" class="product-price"
-                                th:text="${#numbers.formatDecimal(ctsp3New.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                        th:text="${ctsp3New.getTenSp() +' ['+ ctsp3New.getTenDongSp() +'-'+ ctsp3New.getTenDe_giay() +'-'+ ctsp3New.getTenCo_giay() +'-'+ ctsp3New.getTenLot_giay()}+']'"></h3>
+                        <div th:if="${ctsp3New.getGia_mac_dinh() == ctsp3New.getGia_ban()}">
+                            <strong  class="product-price"
+                                     th:text="${#numbers.formatDecimal(ctsp3New.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                        </div>
+                        <div th:if="${ctsp3New.getGia_mac_dinh() != ctsp3New.getGia_ban()}">
+                            <strong class="product-price">
+                                <s style="font-size: small" th:text="${#numbers.formatDecimal(ctsp3New.getGia_mac_dinh, 0, 'POINT', 0, 'COMMA') + ' VND'}"></s>
+                            </strong>
+                            <br>
+                            <strong class="product-price" style=" color: #bf1222;"
+                                    th:text="${#numbers.formatDecimal(ctsp3New.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}" >
+                            </strong>
+                        </div>
+
                     </a>
                     <a>
                     <span class="icon-cross">
@@ -212,7 +222,7 @@
 <!--                                  th:if="${ctsp3prominent.getMucGiam()} > 0" th:text="'-' + ${ctsp3prominent.getMucGiam()} + '%'"> 10% </span>-->
 <!--                        </div>-->
                     <h3 class="product-title"
-                        th:text="${ctsp3prominent.getTenSp() +' '+ ctsp3prominent.getTenDongSp() +' '+ ctsp3prominent.getTenDe_giay() +' '+ ctsp3prominent.getTenCo_giay() +' '+ ctsp3prominent.getTenLot_giay()}"></h3>
+                        th:text="${ctsp3prominent.getTenSp() +' ['+ ctsp3prominent.getTenDongSp() +' -'+ ctsp3prominent.getTenDe_giay() +' -'+ ctsp3prominent.getTenCo_giay() +' -'+ ctsp3prominent.getTenLot_giay()}+']'"></h3>
                         <strong th:if="${ctsp3prominent.getGia_mac_dinh() != ctsp3prominent.getGia_ban()}" class="product-price"
                                 th:text="${#numbers.formatDecimal(ctsp3prominent.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
                         <strong th:if="${ctsp3prominent.getGia_mac_dinh() == ctsp3prominent.getGia_ban()}" class="product-price"

@@ -379,12 +379,20 @@
                                      style="width: 200px; height: 180px;">
 
                                 <h3 class="product-title"
-                                    th:text="${ctsp.tenSanPham +' '+ ctsp.tenDongSanPham +' '+ ctsp.tenDeGiay +' '+ ctsp.tenCoGiay +' '+ ctsp.tenLotGiay}"></h3>
+                                    th:text="${ctsp.tenSanPham +' ['+ ctsp.tenDongSanPham +'- '+ ctsp.tenDeGiay +'- '+ ctsp.tenCoGiay +'- '+ ctsp.tenLotGiay+']'}"></h3>
+                                <div th:if="${ctsp.giaMacDinh == ctsp.giaBan}">
+                                    <strong  class="product-price"
+                                            th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
+                                </div>
+                                <div th:if="${ctsp.giaMacDinh != ctsp.giaBan}">
+                                    <strong class="product-price">
+                                        <s style="font-size: small" th:text="${#numbers.formatDecimal(ctsp.giaMacDinh, 0, 'POINT', 0, 'COMMA') + ' VND'}"></s>
+                                    </strong>
+                                    <strong class="product-price" style=" color: #bf1222;"
+                                            th:text="${#numbers.formatDecimal(ctsp.giaMacDinh, 0, 'POINT', 0, 'COMMA') + ' VND'}" >
+                                    </strong>
+                                </div>
 
-                                <strong th:if="${ctsp.giaMacDinh != ctsp.giaBan}" class="product-price"
-                                        th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
-                                <strong th:if="${ctsp.giaMacDinh == ctsp.giaBan}" class="product-price"
-                                        th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                             </a>
                             <a>
                     <span class="icon-cross">
@@ -470,7 +478,7 @@
                         <img th:src="@{'../images/' + ${ctspCustom.getAnh_chinh}}" class="img-fluid product-thumbnail"
                              style="width: 200px; height: 180px;">
                         <h3 class="product-title"
-                            th:text="${ctspCustom.getTenSp() +' '+ ctspCustom.getTenDongSp() +' '+ ctspCustom.getTenDe_giay() +' '+ ctspCustom.getTenCo_giay() +' '+ ctspCustom.getTenLot_giay()}"></h3>
+                            th:text="${ctspCustom.getTenSp() +' ['+ ctspCustom.getTenDongSp() +' -'+ ctspCustom.getTenDe_giay() +' -'+ ctspCustom.getTenCo_giay() +' -'+ ctspCustom.getTenLot_giay()}+']'"></h3>
                         <strong class="product-price"
                                 th:text="${#numbers.formatDecimal(ctspCustom.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
@@ -512,7 +520,7 @@
                              style="width: 200px; height: 180px;">
 
                         <h3 class="product-title"
-                            th:text="${ctspLimited.getTenSp() +' '+ ctspLimited.getTenDongSp() +' '+ ctspLimited.getTenDe_giay() +' '+ ctspLimited.getTenCo_giay() +' '+ ctspLimited.getTenLot_giay()}"></h3>
+                            th:text="${ctspLimited.getTenSp() +' ['+ ctspLimited.getTenDongSp() +' -'+ ctspLimited.getTenDe_giay() +' -'+ ctspLimited.getTenCo_giay() +' -'+ ctspLimited.getTenLot_giay()+']'}"></h3>
                         <strong class="product-price"
                                 th:text="${#numbers.formatDecimal(ctspLimited.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>

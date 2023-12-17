@@ -319,8 +319,8 @@
                 <div class="col-lg-6">
 
                     <h2 style="color: #0c0e12"
-                        th:text="*{sanPham.ten +' '+ sanPham.dongSanPham.ten +' '+ deGiay.ten +' '+ coGiay.ten +' '+ lotGiay.ten}"></h2>
-
+                        th:text="*{sanPham.ten}"></h2>
+                    <h4 th:text="*{'['+ sanPham.dongSanPham.ten +' -'+ deGiay.ten +' -'+ coGiay.ten +' -'+ lotGiay.ten+']'}"></h4>
                     <div class="row">
                         <div class="col-lg-4">
                             <p th:text="*{sanPham.ma}"></p>
