@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -45,6 +46,21 @@ public class GioHangController {
 
     private PrincipalKhachHang principalKhachHang = new PrincipalKhachHang();
 
+    void thongBao(RedirectAttributes redirectAttributes, String thongBao, int trangThai) {
+        if (trangThai == 0) {
+            redirectAttributes.addFlashAttribute("checkThongBao", "thatBai");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        } else if (trangThai == 1) {
+            redirectAttributes.addFlashAttribute("checkThongBao", "thanhCong");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        } else {
+
+            redirectAttributes.addFlashAttribute("checkThongBao", "canhBao");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        }
+
+    }
+
     @GetMapping
     public String cart(Model model) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
@@ -60,29 +76,33 @@ public class GioHangController {
     public String addCart(@PathVariable("id") Long idChiTietSanPham,
                           @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
                           @RequestParam("soLuong") Integer soLuong,
-                          Model model) {
+                          Model model,
+                          RedirectAttributes redirectAttributes) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
         if(idKhachHang==null){
             return "redirect:/login";
         }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, soLuong);
-        model.addAttribute("success", "Thêm thành công");
-        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
+//        model.addAttribute("success", "Thêm thành công");
+        thongBao(redirectAttributes, "Thêm thành công", 1);
+        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham;
     }
 
     @GetMapping("/addOne/{id}")
     public String addOne(@PathVariable("id") Long idChiTietSanPham,
                          @ModelAttribute("gioHangChiTiet") GioHangChiTiet gioHangChiTiet,
-                         Model model) {
+                         Model model,
+                         RedirectAttributes redirectAttributes) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
         if(idKhachHang==null){
             return "redirect:/login";
         }
         ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(idChiTietSanPham);
         banHangCustomerService.themVaoGioHang(idKhachHang, idChiTietSanPham, 1);
-        model.addAttribute("success", "Thêm thành công");
-        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham + "?success";
+        thongBao(redirectAttributes, "Thêm thành công", 1);
+//        thongBao(redirectAttributes, "Thành công", 1);
+        return "redirect:/wingman/chi-tiet-san-pham/" + idChiTietSanPham;
     }
 
 

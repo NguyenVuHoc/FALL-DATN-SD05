@@ -166,8 +166,10 @@
                                 <a class="dropdown-item" th:href="'/wingman/hoa-don-cua-toi'">Đăng nhập</a>
                             </div>
                         </div>
-                    </div>                </li>
-                <li><a class="nav-link"  th:href="@{/wingman/cart}"><img src="/../images/cart.svg" style="padding-bottom: 5px"></a>
+                    </div>
+                </li>
+                <li><a class="nav-link" th:href="@{/wingman/cart}"><img src="/../images/cart.svg"
+                                                                        style="padding-bottom: 5px"></a>
                 </li>
                 <style>
                     /* Dropdown Button */
@@ -233,23 +235,60 @@
 <!-- Kiểm tra xem có thông báo thành công không -->
 
 <!-- Modal -->
-<div id="successModal" class="modal" th:if="${param.success}" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Thông Báo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>  Thêm sản phẩm vào giỏ hàng thành công!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="dongModal" data-bs-dismiss="modal">Đóng</button>
+<!--<div id="successModal" class="modal" th:if="${param.success}" tabindex="-1">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title">Thông Báo</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <p>  Thêm sản phẩm vào giỏ hàng thành công!</p>-->
+<!--            </div>-->
+<!--            <div class="modal-footer">-->
+<!--                <button type="button" class="btn btn-secondary" id="dongModal" data-bs-dismiss="modal">Đóng</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--Toats-->
+
+<!--Thông báo thành công-->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <script th:if="${checkThongBao=='thanhCong'}">
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Hiển thị toats
+            var liveToast = new bootstrap.Toast(document.getElementById('liveToastSuccess'));
+            liveToast.show();
+        });
+    </script>
+
+    <div id="liveToastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+         style="margin-top: 10%;background-color: #ffcd39;color: white;border:none;  border-radius:1rem;">
+        <div class="toast-body">
+            <div class="row g-3">
+                <div class="col-md-2">
+                    <img src="../../../static/img/successful_notification.png" alt="" style="margin: auto">
+                </div>
+                <div class="col-md-8" style=" margin-top:6.3%">
+                        <span style="
+                    text-align: center;
+                    font-size: 1rem; /* Kích thước phông chữ */
+                    font-weight: bold; /* Độ đậm của chữ */
+                    color: white;">
+                            [[${thongBao}]]</span>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"
+                            style="font-size: 1rem;margin: auto;color: white"></button>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-
+<!--Thông báo thành công end-->
 <div class="untree_co-section product-section before-footer-section" style="margin-top: -100px" th:object="${spDetail}">
     <div class="container">
 
