@@ -23,8 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
@@ -53,7 +55,10 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
 
     @Override
     public List<ChiTietSanPham> getAll() {
-        return repository.findAll();
+        List<ChiTietSanPham> sortedList = repository.findAll().stream()
+                .sorted(Comparator.comparing(ChiTietSanPham::getId).reversed())
+                .collect(Collectors.toList());
+        return sortedList;
     }
 
     @Override
