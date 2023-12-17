@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -85,6 +86,7 @@ public class BanHangController {
         model.addAttribute("checkHoaDon", checkHoaDon == true);
         model.addAttribute("checkBtn", false);
         model.addAttribute("xu", hoaDon.getKhachHang().getTichDiem());
+        model.addAttribute("giamGia", banHangService.voucher(Long.valueOf(idHoaDon), tongTien));
         model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/ban_hang/ban_hang";
     }
@@ -96,8 +98,8 @@ public class BanHangController {
         if (idNhanVien == null){
             return "redirect:/login";
         }
-        banHangService.themHoaDon(hoaDon, idNhanVien);
         model.addAttribute("success", "Thêm thành công");
+        banHangService.themHoaDon(hoaDon, idNhanVien);
         return "redirect:/admin/ban-hang?success";
     }
 
@@ -115,7 +117,8 @@ public class BanHangController {
     @PostMapping("/hoa-don/{idHoaDon}/them-voucher/{idGiamGia}")
     public String themVoucher(@PathVariable("idHoaDon") String idHoaDon,
                               @PathVariable("idGiamGia") String idGiamGia,
-                              @RequestParam("tongTien") String tongTien) {
+                              @RequestParam("tongTien") String tongTien,
+                              RedirectAttributes redirectAttributes){
         Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
         if (idNhanVien == null){
             return "redirect:/login";

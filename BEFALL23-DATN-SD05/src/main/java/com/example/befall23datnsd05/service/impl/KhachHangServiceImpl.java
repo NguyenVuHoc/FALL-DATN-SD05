@@ -16,6 +16,7 @@ import com.example.befall23datnsd05.worker.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class KhachHangServiceImpl implements KhachHangService {
         khachHang.setNgayTao(LocalDate.now());
         khachHang.setEmail(khachHangRequest.getEmail());
         khachHang.setMatKhau(khachHangRequest.getMatKhau());
+        khachHang.setTichDiem(new BigDecimal(0));
         khachHang.setTrangThai(TrangThai.DANG_HOAT_DONG);
         khachHangRepository.save(khachHang);
         LocalDateTime time = LocalDateTime.now();
