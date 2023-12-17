@@ -15,7 +15,7 @@ public interface BanHangCustomerService {
 
     void datHang(List<GioHangChiTiet> listGioHangChiTiet,String ten,String diaChi, String sdt, String ghiChu);
 
-    HoaDon datHangItems(GioHangWrapper gioHangWrapper, Long idKachHang, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll);
+    HoaDon datHangItems(GioHangWrapper gioHangWrapper, Long idKachHang, String ten, String diaChi, String sdt, String ghiChu, BigDecimal shippingFee, BigDecimal tongTien, BigDecimal totalAmount, BigDecimal tienGiamGia, Long selectedVoucherId, BigDecimal diemTichLuy, String useAll);
 
     List<GioHangChiTiet> updateGioHangChiTiet(Long idGioHangChiTiet, Integer soLuong);
 

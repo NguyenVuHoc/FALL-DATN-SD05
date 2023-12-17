@@ -179,11 +179,11 @@ public class GioHangController {
             @RequestParam(name = "voucherId", required = false, defaultValue = "0") Long selectedVoucherId,
             @RequestParam(name = "xuTichDiem", required = false, defaultValue = "false") String useAllPointsHidden,
             @RequestParam(name = "origin") BigDecimal diemTichLuy,
+            @RequestParam(name = "tienGiamGia") BigDecimal tienGiamGia,
             Model model) {
         Long idKhachHang = principalKhachHang.getCurrentUserId();
         String diaChiCuThe = diaChi + "," + xa + "," + huyen + "," + thanhPho;
-        banHangCustomerService.datHangItems(gioHangWrapper, idKhachHang, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, selectedVoucherId, diemTichLuy, useAllPointsHidden);
-//        model.addAttribute("idHd", banHangCustomerService.getIdHoaDonVuaMua(5L));
+        banHangCustomerService.datHangItems(gioHangWrapper, idKhachHang, ten, diaChiCuThe, sdt, ghiChu, shippingFee, BigDecimal.valueOf(Double.valueOf(tongTien)), totalAmount, tienGiamGia, selectedVoucherId, diemTichLuy, useAllPointsHidden);
         return "redirect:/wingman/cart/thankyou";
     }
 

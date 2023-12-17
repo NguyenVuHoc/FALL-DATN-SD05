@@ -72,6 +72,9 @@ public class HoaDon {
     @Column(name = "thanh_toan", precision = 19, scale = 2)
     private BigDecimal thanhToan;
 
+    @Column(name = "tien_giam_gia", precision = 19, scale = 2)
+    private BigDecimal tienGiamGia;
+
     @Column(name = "xu", precision = 19, scale = 2)
     private BigDecimal xu;
 

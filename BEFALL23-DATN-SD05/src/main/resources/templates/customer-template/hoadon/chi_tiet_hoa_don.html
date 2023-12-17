@@ -274,7 +274,7 @@
                                     <p><strong>Tên Khách Hàng:</strong> <span th:text="${hd.tenKhachHang}"></span></p>
                                     <p><strong>Địa Chỉ Giao:</strong> <span th:text="${hd.diaChi}"></span></p>
                                     <p><strong>Ngày Tạo:</strong> <span><span th:text="${hd.ngayTao}"></span></span></p>
-                                    <p><strong>Ngày Sửa:</strong><span th:text="${hd.ngaySua}"></span></p>
+                                    <p><strong>Ngày Thanh Toán:</strong><span th:text="${hd.ngayThanhToan}"></span></p>
                                     <p><strong>Số Điện Thoại:</strong><span th:text="${hd.sdt}"></span></p>
                                 </div>
                                 <div>
@@ -289,8 +289,8 @@
                                         <span th:if="${hd.phiVanChuyen == null}">0 VND</span>                                    <p>
                                     </p>
                                     <p><strong>Tiền Giảm Giá:</strong>
-                                        <span th:if="${giamGia != null}" th:text="${#numbers.formatDecimal(giamGia, 0, 'POINT', 0, 'COMMA')}+ ' VND'"></span>
-                                        <span th:if="${giamGia == null}">0 VND</span>                                    <p>
+                                        <span th:if="${hd.tienGiamGia != null}" th:text="${#numbers.formatDecimal(hd.tienGiamGia , 0, 'POINT', 0, 'COMMA')}+ ' VND'"></span>
+                                        <span th:if="${hd.tienGiamGia  == null}">0 VND</span>                                    <p>
                                 </p>
                                     <p>
                                         <strong>Tổng Tiền Thanh Toán:</strong>
