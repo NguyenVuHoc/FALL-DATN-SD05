@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 
@@ -24,6 +25,21 @@ public class BanHangRestContrller {
 
     @Autowired
     HttpServletRequest request;
+
+    void thongBao(RedirectAttributes redirectAttributes, String thongBao, int trangThai) {
+        if (trangThai == 0) {
+            redirectAttributes.addFlashAttribute("checkThongBao", "thatBai");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        } else if (trangThai == 1) {
+            redirectAttributes.addFlashAttribute("checkThongBao", "thanhCong");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        } else {
+
+            redirectAttributes.addFlashAttribute("checkThongBao", "canhBao");
+            redirectAttributes.addFlashAttribute("thongBao", thongBao);
+        }
+
+    }
 
     @RequestMapping(value = "/admin/ban-hang/check-thanh-toan", method = {RequestMethod.GET, RequestMethod.POST})
     public Integer checkThanhToan(@RequestParam("id") String idHoaDonCho) {
@@ -84,7 +100,8 @@ public class BanHangRestContrller {
     @RequestMapping(value = "/admin/ban-hang/check-them-voucher", method = {RequestMethod.GET, RequestMethod.POST})
     public Integer checkVoucher(@RequestParam("idHoaDon") String idHoaDon,
                                 @RequestParam("idMaGiamGia") String idMaGiamGia,
-                                @RequestParam("tongTien") String tongTien) {
+                                @RequestParam("tongTien") String tongTien,
+                                RedirectAttributes redirectAttributes) {
         Integer checkVoucher = banHangService.checkVoucher(Long.valueOf(idHoaDon), Long.valueOf(idMaGiamGia), BigDecimal.valueOf(Double.valueOf(tongTien)));
         if (checkVoucher == 1) {
             return 2;

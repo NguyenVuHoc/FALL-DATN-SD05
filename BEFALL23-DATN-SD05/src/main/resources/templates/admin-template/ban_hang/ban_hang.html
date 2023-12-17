@@ -255,7 +255,7 @@
         </nav>
         <!-- Navbar End -->
         <div th:if="${param.success}">
-            <div class="alert alert-info" id="success-alert">Success!</div>
+            <div class="alert alert-info" id="success-alert">Thêm thành công</div>
         </div>
         <div class="container-fluid pt-4">
             <div style="margin-bottom: 2%; margin-right: -10%;">
@@ -646,9 +646,12 @@
                                         var discountedValue = xuInput.checked ? (thanhTien - xu) : thanhTien;
                                         var formattedDiscountedValue = formatCurrency(discountedValue);
                                         document.getElementById("thanhTien").value = formattedDiscountedValue;
+                                        document.getElementById("thanhTienAn").innerText = formattedDiscountedValue;
 
                                         var xuTru = xuInput.checked ? 0 : xu;
+                                        var xuTruAn = xuInput.checked ? xu : 0;
                                         xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
+                                        document.getElementById("xu").innerText = " " + xuTruAn.toLocaleString("vi-VN") + " Xu";
                                     } else {
                                         // Áp dụng giảm giá
                                         var discountedValue = xuInput.checked ? (thanhTien - discount) : thanhTien;
@@ -656,9 +659,12 @@
                                         // Cập nhật lại giá trị thành tiền
                                         var formattedDiscountedValue = formatCurrency(discountedValue);
                                         document.getElementById("thanhTien").value = formattedDiscountedValue;
+                                        document.getElementById("thanhTienAn").innerText = formattedDiscountedValue;
 
                                         var xuTru = xuInput.checked ? (xu - discount) : xu;
+                                        // var xuTruAn = xuInput.checked ? xu : (xu - discount);
                                         xuInput.nextSibling.textContent = " " + xuTru.toLocaleString("vi-VN") + " Xu";
+                                        document.getElementById("xu").innerText = " " + discount.toLocaleString("vi-VN") + " Xu";
                                     }
                                 }
 
@@ -1073,15 +1079,18 @@
             <div class="col-md-12">
                 <div class="border-hoadon-duoi"></div>
                 <div>
-                    <p><span class="info-label">Tổng tiền:</span> <span class="info-value"
-                                                                        th:text="${#numbers.formatDecimal(tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                    <p><span class="info-label">Tổng tiền:</span>
+                        <span class="info-value" th:text="${#numbers.formatDecimal(tongTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
                     </p>
-                    <p><span class="info-label">Giảm giá:</span> <span class="info-value">0 VND</span>
+                    <p><span class="info-label">Giảm giá:</span>
+                        <span class="info-value" th:text="${#numbers.formatDecimal(giamGia, 0, 'POINT', 0, 'COMMA')} + ' VND'">
+                            0 VND
+                        </span>
                     </p>
-                    <p><span class="info-label">Phí vận chuyển:</span> <span class="info-value">0 VND</span>
+                    <p><span class="info-label">Xu:</span>
+                        <span id="xu" class="info-value">0 VND</span>
                     </p>
-                    <p><span class="info-label">Thành tiền:</span> <span class="info-value"
-                                                                         th:text="${#numbers.formatDecimal(thanhTien, 0, 'POINT', 0, 'COMMA')} + ' VND'"></span>
+                    <p><span class="info-label">Thành tiền:</span> <span id="thanhTienAn" class="info-value"></span>
                     </p>
                 </div>
             </div>
