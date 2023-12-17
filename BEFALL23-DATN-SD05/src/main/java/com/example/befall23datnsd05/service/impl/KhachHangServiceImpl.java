@@ -164,6 +164,7 @@ public class KhachHangServiceImpl implements KhachHangService {
         gioHang.setNgayTao(LocalDate.now());
         gioHang.setNgaySua(LocalDate.now());
         gioHang.setKhachHang(khachHang);
+        gioHang.setTrangThai(TrangThai.DANG_HOAT_DONG);
         gioHangRepository.save(gioHang);
         gioHang.setMa("HD"+gioHang.getId());
         gioHangRepository.save(gioHang);

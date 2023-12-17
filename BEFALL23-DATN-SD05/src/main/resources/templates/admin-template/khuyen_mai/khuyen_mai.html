@@ -211,7 +211,7 @@
         <div class="container-fluid pt-4">
             <div class="row g-2">
                 <div style="width: 90%;">
-                    <h6 class="mb-4" style="font-size: 40px;">Quản Lý Khuyến Mãi</h6>
+                    <h6 class="mb-4" style="font-size: 40px;">Quản Lý Khuyến Mại</h6>
                 </div>
                 <div class="create" style="width: 10%;">
                     <button type="submit" class="btn btn-outline-success mb-2">
@@ -285,7 +285,7 @@
                                 <th hidden>STT</th>
                                 <th>Id</th>
                                 <th>Mã</th>
-                                <th>Tên khuyến mãi</th>
+                                <th>Tên khuyến Mại</th>
                                 <th>Mức giảm</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>
@@ -312,7 +312,7 @@
                                     </a>
                                     <a th:unless="${khuyenMai.trangThai.getDisplayName().equals('Dừng Hoạt Động')}"
                                        th:href="@{/admin/khuyen-mai/huy/{id}(id=${khuyenMai.id})}"
-                                       onclick="return confirm('Bạn có chắc muốn hủy khuyến mãi này?')">
+                                       onclick="return confirm('Bạn có chắc muốn hủy khuyến Mại này?')">
                                         <i class="bi bi-slash-circle" style="font-size: 20px;"></i>
                                     </a>
                                     <a th:if="${khuyenMai.trangThai.getDisplayName().equals('Dừng Hoạt Động')}">
@@ -326,7 +326,7 @@
                                 <th hidden>STT</th>
                                 <th>Id</th>
                                 <th>Mã</th>
-                                <th>Tên khuyến mãi</th>
+                                <th>Tên khuyến Mại</th>
                                 <th>Mức giảm</th>
                                 <th>Ngày bắt đầu</th>
                                 <th>Ngày kết thúc</th>

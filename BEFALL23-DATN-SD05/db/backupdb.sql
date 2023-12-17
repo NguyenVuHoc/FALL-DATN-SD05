@@ -133,7 +133,7 @@ create table mau_sac
         unique (ten)
 );
 
--- 10.Khuyến Mãi
+-- 10.Khuyến Mại
 create table khuyen_mai
 (
     id                        bigint auto_increment
@@ -584,7 +584,7 @@ VALUES ('MS001', 'Đỏ'),
 select *
 from mau_sac;
 
--- 10.khuyến mãi
+-- 10.khuyến Mại
 INSERT INTO khuyen_mai (ma, ten, mo_ta, muc_giam_gia, ngay_bat_dau, ngay_ket_thuc, ngay_sua, ngay_tao, trang_thai)
 VALUES ('KM22344324', 'Hè vui', 'Khuyến mại mùa hè', 15, '2023-07-01', '2023-08-31', '2023-06-28', '2023-06-28', 1),
        ('KM22342523', 'Back-to-school', 'Khuyến mại back-to-school', 10, '2023-09-01', '2023-09-15', '2023-08-28',

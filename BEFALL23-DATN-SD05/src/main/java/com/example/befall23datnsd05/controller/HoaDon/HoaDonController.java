@@ -366,6 +366,50 @@ public class HoaDonController {
         return null;
     }
 
+    @PostMapping("/validation/accept")
+    public String validationHoanTra(@Param("id") Long id,
+                                          @RequestParam("ghiChu") String ghichu,
+                                          Model model
+    ) {
+        HoaDon hoaDon = hoaDonService.findById(id);
+        BigDecimal tongTienHoanHang = BigDecimal.ZERO;
+        List<GioHangChiTiet> gioHangChiTiets = gioHangChiTietService.findGioHangChiTietById(id);
+        if (ghichu.isEmpty()) {
+            model.addAttribute("err", "Ghi chú  đơn hàng không được để trống!");
+            model.addAttribute("hoaDon", hoaDonService.findById(id));
+            model.addAttribute("ghcts", gioHangChiTietService.findGioHangChiTietById(id));
+            model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
+            return "admin-template/hoa_don/chi_tiet_hd_online";
+        }
+        if (hoaDon.getTrangThai() == TrangThaiDonHang.CHO_XAC_NHAN || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_CHUAN_BI || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.DANG_GIAO || hoaDon.getTrangThai() == TrangThaiDonHang.HOAN_THANH || hoaDon.getTrangThai() == TrangThaiDonHang.DA_HUY
+        ) {
+            return "redirect:/admin/hoa-don";
+        }
+        if (hoaDon != null) {
+            for (GioHangChiTiet gioHangChiTiet1 : gioHangChiTiets) {
+                ChiTietSanPham chiTietSanPham = chiTietSanPhamService.findById(gioHangChiTiet1.getChiTietSanPham().getId()).get();
+                if (chiTietSanPham.getId() != null && gioHangChiTiet1.getTrangThai() == TrangThai.YEU_CAU_TRA_HANG) {
+                    gioHangChiTiet1.setTrangThai(TrangThai.DA_TRA_HANG);
+                    gioHangChiTiet1.setGhiChu("sản phẩm hoàn trả");
+                    chiTietSanPhamService.save(chiTietSanPham);
+                    BigDecimal giaTriSanPham = gioHangChiTiet1.getDonGia()
+                            .multiply(BigDecimal.valueOf(gioHangChiTiet1.getSoLuong()));
+                    tongTienHoanHang = tongTienHoanHang.add(giaTriSanPham);
+                }
+            }
+            if(hoaDon.getThanhToan().compareTo(tongTienHoanHang) < 0){
+                hoaDon.setThanhToan(BigDecimal.ZERO);
+            }else {
+                hoaDon.setThanhToan(hoaDon.getThanhToan().subtract(tongTienHoanHang));
+            }
+            hoaDon.setNgayThanhToan(LocalDate.now());
+            hoaDonService.validate(hoaDon, TrangThaiDonHang.HOAN_THANH, ghichu);
+            hoaDonService.save(hoaDon);
+            return "redirect:/admin/hoa-don/trang-thai/"+hoaDon.getTrangThai()+"?success";
+        }
+        return null;
+    }
+
 
 
 }

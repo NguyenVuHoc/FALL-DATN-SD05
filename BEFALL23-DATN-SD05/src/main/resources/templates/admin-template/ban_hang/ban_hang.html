@@ -787,6 +787,7 @@
                             <th>Kích Thước</th>
                             <th>Giá bán</th>
                             <th>Số lượng</th>
+                            <th>Khuyến mại</th>
                             <th>Thêm</th>
                         </tr>
                         </thead>
@@ -798,6 +799,8 @@
                             <td th:text="${sanPham.getKichThuoc().getTen()}"></td>
                             <td th:text="${#numbers.formatDecimal(sanPham.getGiaBan(), 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                             <td th:text="${sanPham.getSoLuongTon()}"></td>
+                            <td th:text="${sanPham.khuyenMai != null ? sanPham.khuyenMai.ten : 'Không có khuyến mại'}"></td>
+
                             <td>
                                 <button type="button" class="btn btn-primary themSoLuong" data-bs-toggle="modal"
                                         th:data-bs-target="'#themSoLuong' + ${sanPham.id}"
@@ -852,6 +855,7 @@
                             <th>Kích Thước</th>
                             <th>Giá bán</th>
                             <th>Số lượng</th>
+                            <th>Khuyến mại</th>
                             <th>Thêm</th>
                         </tr>
                         </tfoot>
