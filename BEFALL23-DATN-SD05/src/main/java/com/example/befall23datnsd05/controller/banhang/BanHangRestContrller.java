@@ -1,8 +1,11 @@
 package com.example.befall23datnsd05.controller.banhang;
 
 import com.example.befall23datnsd05.entity.ChiTietSanPham;
+import com.example.befall23datnsd05.entity.HoaDonChiTiet;
+import com.example.befall23datnsd05.repository.HoaDonChiTietRepository;
 import com.example.befall23datnsd05.service.BanHangService;
 import com.example.befall23datnsd05.service.ChiTietSanPhamService;
+import com.example.befall23datnsd05.service.HoaDonChiTietService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +26,7 @@ public class BanHangRestContrller {
     private ChiTietSanPhamService chiTietSanPhamService;
 
     @Autowired
-    HttpServletRequest request;
+    private HoaDonChiTietRepository hoaDonChiTietRepository;
 
     @RequestMapping(value = "/admin/ban-hang/check-thanh-toan", method = {RequestMethod.GET, RequestMethod.POST})
     public Integer checkThanhToan(@RequestParam("id") String idHoaDonCho) {
@@ -75,6 +78,28 @@ public class BanHangRestContrller {
                 return 3;
             } else {
                 return 0;
+            }
+        } catch (NumberFormatException numberFormatException) {
+            return 4;
+        }
+    }
+
+    @RequestMapping(value = "/admin/ban-hang/them-san-pham/check-tang-so-luong/{idHoaDonChiTiet}", method = {RequestMethod.GET, RequestMethod.POST})
+    public Integer checkTangSoLuong(@RequestParam("soLuong") String soLuong,
+                                    @PathVariable("idHoaDonChiTiet") Long idHoaDonChiTiet) {
+        try {
+            if (soLuong.equals("")) {
+                return 1;
+            } else if (Integer.parseInt(soLuong) <= 0) {
+                return 2;
+            } else {
+                HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietRepository.findById(idHoaDonChiTiet).get();
+                ChiTietSanPham chiTietSanPham = chiTietSanPhamService.getById(hoaDonChiTiet.getChiTietSanPham().getId());
+                if (Integer.parseInt(soLuong) > chiTietSanPham.getSoLuongTon()) {
+                    return 3;
+                } else {
+                    return 0;
+                }
             }
         } catch (NumberFormatException numberFormatException) {
             return 4;
