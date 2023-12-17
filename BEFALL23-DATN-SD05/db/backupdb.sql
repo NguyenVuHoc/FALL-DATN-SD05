@@ -1,6 +1,367 @@
 use fall23_datn_sd05;
 
--- dòng sản phẩm
+-- 1.Dòng Sản Phẩm
+create table dong_san_pham
+(
+    id         bigint auto_increment
+        primary key,
+    ma         varchar(255) not null,
+    ngay_sua   date         null,
+    ngay_tao   date         null,
+    ten        varchar(255) not null,
+    trang_thai tinyint      null,
+    constraint UK_28w4x0up9146ir61vu5nj6gs4
+        unique (ma),
+    constraint UK_ti2brqn4tp0othp3iwu97jwtp
+        unique (ten)
+);
+
+-- 2.Thương Hiệu
+create table thuong_hieu
+(
+    id         bigint auto_increment
+        primary key,
+    ma         varchar(255) not null,
+    ngay_sua   date         null,
+    ngay_tao   date         null,
+    ten        varchar(255) not null,
+    trang_thai tinyint      null,
+    constraint UK_123sssxf1x7ax6jyo4wdcvk36
+        unique (ma),
+    constraint UK_53w31rjwmistgvxj1lk2gnus9
+        unique (ten)
+);
+
+-- 3.Sản Phẩm
+create table san_pham
+(
+    id               bigint auto_increment
+        primary key,
+    anh_chinh        varchar(255) null,
+    ma               varchar(255) not null,
+    mo_ta            varchar(255) null,
+    ngay_sua         date         null,
+    ngay_tao         date         null,
+    ten              varchar(255) null,
+    trang_thai       tinyint      null,
+    id_dong_san_pham bigint       null,
+    id_thuong_hieu   bigint       null,
+    constraint UK_131y1wu003wtcyqns9naaabhr
+        unique (ma),
+    constraint FK5266y3xb83fch2ygdg6wf58qu
+        foreign key (id_thuong_hieu) references thuong_hieu (id),
+    constraint FKlds313o255x6s8a6cj58lo5hj
+        foreign key (id_dong_san_pham) references dong_san_pham (id)
+);
+
+-- 4.Ảnh
+create table anh
+(
+    id          bigint auto_increment
+        primary key,
+    ten         varchar(255) null,
+    url         varchar(255) null,
+    id_san_pham bigint       null,
+    constraint FK2dp9xg8gpf8t1jfw4wxb35o7y
+        foreign key (id_san_pham) references san_pham (id)
+);
+
+-- 5.Cổ Giày
+create table co_giay
+(
+    id  bigint auto_increment
+        primary key,
+    ma  varchar(255) not null,
+    ten varchar(255) not null,
+    constraint UK_511l83jif9dfpiiqfkaa4ofyi
+        unique (ten),
+    constraint UK_bse8cvun3iodgds58ox9h8yhw
+        unique (ma)
+);
+
+-- 6.Đế Giày
+create table de_giay
+(
+    id  bigint auto_increment
+        primary key,
+    ma  varchar(255) not null,
+    ten varchar(255) not null,
+    constraint UK_3r13k0l32dgevyhvhn3rt6pfx
+        unique (ma),
+    constraint UK_a977rwuc1r779ie7ftap12b3j
+        unique (ten)
+);
+
+-- 7.Lót Giày
+create table lot_giay
+(
+    id  bigint auto_increment
+        primary key,
+    ma  varchar(255) not null,
+    ten varchar(255) not null,
+    constraint UK_4mo9y78nixlvtod4s0c05hya4
+        unique (ma),
+    constraint UK_72ahn41lcvil3871vvoofyp0e
+        unique (ten)
+);
+
+-- 8.Kích Thước
+create table kich_thuoc
+(
+    id  bigint auto_increment
+        primary key,
+    ma  varchar(255) not null,
+    ten varchar(255) not null,
+    constraint UK_gkywxpxndarpnx0eo0efvw653
+        unique (ten),
+    constraint UK_qtq2dqyq8ut9lu7xir4c01y0u
+        unique (ma)
+);
+-- 9.Màu Sắc
+create table mau_sac
+(
+    id  bigint auto_increment
+        primary key,
+    ma  varchar(255) not null,
+    ten varchar(255) not null,
+    constraint UK_i8g6p3221tdj7b0i007uyx4uo
+        unique (ma),
+    constraint UK_obo04bgmvelnnhd3k64hgixj4
+        unique (ten)
+);
+
+-- 10.Chi tiết sản phẩm
+create table chi_tiet_san_pham
+(
+    id            bigint auto_increment
+        primary key,
+    gia_ban       decimal(65, 2) null,
+    gia_mac_dinh  decimal(65, 2) null,
+    ngay_sua      date           null,
+    ngay_tao      date           null,
+    so_luong_ton  int            null,
+    trang_thai    tinyint        null,
+    id_co_giay    bigint         null,
+    id_de_giay    bigint         null,
+    id_khuyen_mai bigint         null,
+    id_kich_thuoc bigint         null,
+    id_lot_giay   bigint         null,
+    id_mau_sac    bigint         null,
+    id_san_pham   bigint         null,
+    constraint FK5hacuc63k9pfld0eomf5vnrlj
+        foreign key (id_lot_giay) references lot_giay (id),
+    constraint FK8kv978qwxg4a7g87njtdyyy6a
+        foreign key (id_co_giay) references co_giay (id),
+    constraint FKbfcsbyjh36fo547ik10d8ejc4
+        foreign key (id_kich_thuoc) references kich_thuoc (id),
+    constraint FKhrc41nqmp3jsh42ikergp7qsd
+        foreign key (id_mau_sac) references mau_sac (id),
+    constraint FKhry1oewlwwhwhuqhr1tinw6l6
+        foreign key (id_san_pham) references san_pham (id),
+    constraint FKq2877t55thubstdrd7ujr7hxi
+        foreign key (id_khuyen_mai) references khuyen_mai (id),
+    constraint FKtj2f11b2f5l0l8rh9wfnyena2
+        foreign key (id_de_giay) references de_giay (id)
+);
+
+-- 11.Khách hàng
+create table khach_hang
+(
+    id         bigint auto_increment
+        primary key,
+    email      varchar(255)   null,
+    gioi_tinh  tinyint        null,
+    ma         varchar(255)   null,
+    mat_khau   varchar(255)   null,
+    ngay_sua   date           null,
+    ngay_tao   date           null,
+    sdt        varchar(255)   null,
+    ten        varchar(255)   null,
+    trang_thai tinyint        null,
+    tich_diem  decimal(65, 2) null,
+    constraint UK_1lmmis0qdveete6l4prc9xlad
+        unique (ma),
+    constraint UK_6gn74xxiy11yxkbb2xmldnlld
+        unique (sdt)
+);
+
+-- 12.Địa Chỉ
+create table dia_chi
+(
+    id             bigint auto_increment
+        primary key,
+    dia_chi        varchar(255) null,
+    ghi_chu        varchar(255) null,
+    ngay_sua       date         null,
+    ngay_tao       date         null,
+    sdt            varchar(255) null,
+    ten            varchar(255) null,
+    ten_nguoi_nhan varchar(255) null,
+    trang_thai     tinyint      null,
+    id_khach_hang  bigint       null,
+    constraint FKrk60uo19d67v1wpbp5a1rmao5
+        foreign key (id_khach_hang) references khach_hang (id)
+);
+
+-- 13.Giỏ Hàng
+create table gio_hang
+(
+    id            bigint auto_increment
+        primary key,
+    ma            varchar(255) null,
+    ngay_sua      date         null,
+    ngay_tao      date         null,
+    trang_thai    tinyint      null,
+    id_khach_hang bigint       null,
+    constraint UK_q7fhxt1ya2dvmjcrrkxisvpl5
+        unique (id_khach_hang),
+    constraint UK_s20okvj8cy9ux6taewckmju9
+        unique (ma),
+    constraint FK6c8iirgeg8qcwpq1oa9noxshw
+        foreign key (id_khach_hang) references khach_hang (id)
+);
+
+-- 14.Khuyến Mãi
+create table khuyen_mai
+(
+    id                        bigint auto_increment
+        primary key,
+    ma                        varchar(255) null,
+    mo_ta                     varchar(255) null,
+    muc_giam_gia              int          null,
+    ngay_bat_dau              date         null,
+    ngay_ket_thuc             date         null,
+    ngay_sua                  date         null,
+    ngay_tao                  date         null,
+    so_luong_san_pham_ap_dung int          null,
+    so_luong_san_pham_da_ban  int          null,
+    ten                       varchar(255) null,
+    trang_thai                tinyint      null,
+    constraint UK_oh5xh866pxnmam6yb83nadq8w
+        unique (ma)
+);
+
+-- 15.Nhân Viên
+create table nhan_vien
+(
+    id         bigint auto_increment
+        primary key,
+    email      varchar(255) null,
+    gioi_tinh  tinyint      null,
+    ma         varchar(255) null,
+    mat_khau   varchar(255) null,
+    ngay_sua   date         null,
+    ngay_tao   date         null,
+    sdt        varchar(255) null,
+    ten        varchar(255) null,
+    trang_thai tinyint      null,
+    constraint UK_9etpn19qmeos5n3dqc87qild3
+        unique (ma),
+    constraint UK_mafuwxhl2bcv6obb9fkouokec
+        unique (sdt)
+);
+
+-- 16.Mã Giảm Giá
+create table ma_giam_gia
+(
+    id               bigint auto_increment
+        primary key,
+    gia_tri_don_hang decimal(65, 2) null,
+    ma               varchar(255)   null,
+    mo_ta            varchar(255)   null,
+    muc_giam_gia     int            null,
+    ngay_bat_dau     date           null,
+    ngay_ket_thuc    date           null,
+    ngay_sua         date           null,
+    ngay_tao         date           null,
+    so_luong         int            null,
+    ten              varchar(255)   null,
+    trang_thai       tinyint        null,
+    muc_giam_toi_da  decimal(65, 2) null,
+    constraint UK_acuss6gxp9w56b8rg3mmg3yux
+        unique (ma)
+);
+
+-- 17.Hóa Đơn
+create table hoa_don
+(
+    id              bigint auto_increment
+        primary key,
+    dia_chi         varchar(255)   null,
+    ghi_chu         varchar(255)   null,
+    loai_hoa_don    tinyint        null,
+    ma              varchar(255)   null,
+    ngay_giao       date           null,
+    ngay_sua        date           null,
+    ngay_tao        date           null,
+    ngay_thanh_toan date           null,
+    phi_van_chuyen  decimal(65, 2) null,
+    sdt             varchar(255)   null,
+    ten_khach_hang  varchar(255)   null,
+    thanh_toan      decimal(65, 2) null,
+    tong_tien       decimal(65, 2) null,
+    trang_thai      tinyint        null,
+    id_khach_hang   bigint         null,
+    id_nhan_vien    bigint         null,
+    id_ma_giam_gia  bigint         null,
+    xu              decimal(65, 2) null,
+    constraint UK_qc99tpq7eqghgm22o8e06gqyf
+        unique (ma),
+    constraint FK8t4ha4ehtva0djgtpn7ljexce
+        foreign key (id_ma_giam_gia) references ma_giam_gia (id),
+    constraint FKkuxkrkgq8yftm4d8d7o0w6nbv
+        foreign key (id_nhan_vien) references nhan_vien (id),
+    constraint FKrygimdf5nr1g2t6u03gvtr1te
+        foreign key (id_khach_hang) references khach_hang (id)
+);
+
+-- 18.Hóa đơn chi tiết
+create table hoa_don_chi_tiet
+(
+    id                   bigint auto_increment
+        primary key,
+    de_giay              varchar(255)   null,
+    gia_ban              decimal(65, 2) null,
+    kich_thuoc           varchar(255)   null,
+    mau_sac              varchar(255)   null,
+    ngay_sua             date           null,
+    ngay_tao             date           null,
+    so_luong             int            null,
+    ten_san_pham         varchar(255)   null,
+    thuong_hieu          varchar(255)   null,
+    trang_thai           tinyint        null,
+    id_chi_tiet_san_pham bigint         null,
+    id_hoa_don           bigint         null,
+    constraint FK4672qsis193xo4polycwrcwb8
+        foreign key (id_chi_tiet_san_pham) references chi_tiet_san_pham (id),
+    constraint FK5adopt864mjisuy5xmgmy8iun
+        foreign key (id_hoa_don) references hoa_don (id)
+);
+
+-- 19.Giỏ hàng chi tiết
+create table gio_hang_chi_tiet
+(
+    id                   bigint auto_increment
+        primary key,
+    don_gia              decimal(65, 2) null,
+    ghi_chu              varchar(255)   null,
+    ngay_sua             date           null,
+    ngay_tao             date           null,
+    so_luong             int            null,
+    trang_thai           tinyint        null,
+    id_chi_tiet_san_pham bigint         null,
+    id_gio_hang          bigint         null,
+    id_hoa_don           bigint         null,
+    constraint FKhkle2qtnnet5fq60x6tdhekql
+        foreign key (id_gio_hang) references gio_hang (id),
+    constraint FKlcvoteetgysdpfavfevmyh3en
+        foreign key (id_chi_tiet_san_pham) references chi_tiet_san_pham (id),
+    constraint FKr3utb9x7j00p1ghfj4mkhjyct
+        foreign key (id_hoa_don) references hoa_don (id)
+);
+
+-- Insert
+-- 1.dòng sản phẩm
 INSERT INTO dong_san_pham (ma, ngay_sua, ngay_tao, ten, trang_thai)
 VALUES
 ('DSP001', '2023-12-08', '2023-10-26', 'Giày chạy bộ', 0),
@@ -17,7 +378,7 @@ VALUES
 ('DSP012', '2023-12-08', '2023-10-26', 'Giày limited', 0);
 select * from dong_san_pham;
 
--- thương hiệu
+-- 2.thương hiệu
 INSERT INTO thuong_hieu (ma, ngay_sua, ngay_tao, ten, trang_thai)
 VALUES
 ('TH001','2023-12-08', '2023-10-26', 'Nike', 0),
@@ -32,7 +393,7 @@ VALUES
 ('TH010','2023-12-08', '2023-10-26', 'Vans', 0);
 select * from thuong_hieu;
 
--- sản phẩm
+-- 3.sản phẩm
 INSERT INTO san_pham (anh_chinh, ma, mo_ta, ngay_sua, ngay_tao, ten, trang_thai, id_dong_san_pham, id_thuong_hieu)
 VALUES
 ('Nike Air Force 1.png', 'SP001', 'Thấm hút mồ hôi', '2023-10-26', '2023-10-26', 'Nike Air Force 1', 0, 1, 1),
@@ -57,7 +418,7 @@ VALUES
 ('Vans Old Skool Classic.png', 'SP020', 'Trọng lượng vừa', '2023-10-26', '2023-10-26', 'Vans Old Skool Classic', 0, 12, 10);
 select * from san_pham;
 
--- ảnh
+-- 4.ảnh
 INSERT INTO anh (url, id_san_pham)
 VALUES
 ("Nike Air Force 1(2).png", 1),
@@ -141,7 +502,7 @@ VALUES
 ("Vans Old Skool Classic(4).png", 20);
 select * from anh;
 
--- cổ giày
+-- 5.cổ giày
 INSERT INTO co_giay (ma, ten)
 VALUES
 ('CG001','Cổ thấp'),
@@ -152,7 +513,7 @@ VALUES
 ('CG006','Cổ thun cao');
 select * from co_giay;
 
--- đế giày
+-- 6.đế giày
 INSERT INTO de_giay (ma, ten)
 VALUES
 ('DG001','Đế PU'),
@@ -163,7 +524,7 @@ VALUES
 ('DG006','Đế BPU');
 select * from de_giay;
 
--- lót giày
+-- 7.lót giày
 INSERT INTO lot_giay (ma, ten)
 VALUES
 ('LG001','Lót ngăn mùi'),
@@ -174,7 +535,7 @@ VALUES
 ('LG006','Lót giảm sốc');
 select * from lot_giay;
 
--- kích thước
+-- 8.kích thước
 INSERT INTO kich_thuoc (ma, ten)
 VALUES
 ('KT001','35'),
@@ -190,7 +551,7 @@ VALUES
 ('KT0011','45');
 select * from kich_thuoc;
 
--- màu sắc
+-- 9.màu sắc
 INSERT INTO mau_sac (ma, ten)
 VALUES
 ('MS001','Đỏ'),
@@ -206,7 +567,7 @@ VALUES
 ('MS0011','Ngọc trai');
 select * from mau_sac;
 
--- chi tiết sản phẩm
+-- 10.chi tiết sản phẩm
 INSERT INTO chi_tiet_san_pham (gia_ban, gia_mac_dinh, ngay_sua, ngay_tao, so_luong_ton, trang_thai, id_co_giay, id_de_giay, id_kich_thuoc, id_lot_giay, id_mau_sac, id_san_pham)
 VALUES
 (1600000.00, 1600000.00, '2023-10-26', '2023-10-26', 100, 0, 1, 1, 3, 1, 7, 1),
@@ -294,7 +655,7 @@ VALUES
 (2800000.00, 2800000.00, '2023-10-26', '2023-10-26', 140, 0, 1, 1, 11, 4, 1, 20);
 select * from chi_tiet_san_pham;
 
--- khách hàng
+-- 11.khách hàng
 INSERT INTO khach_hang (email, gioi_tinh, ma, mat_khau, ngay_sua, ngay_tao, sdt, ten, tich_diem, trang_thai)
 VALUES
 ('khachle@gmail.com', 1, 'KH000', '00000000', '2020-10-26', '2020-10-26', '0000000000', 'Khách lẻ', 0, 0),
@@ -311,7 +672,7 @@ VALUES
 ('quynhtn@gmail.com', 0, 'KH011', '123456', '2020-10-26', '2020-10-26', '0965452753', 'Nguyễn Thúy Quỳnh', 0, 0);
 select * from khach_hang;
 
--- địa chỉ
+-- 12.địa chỉ
 INSERT INTO dia_chi (id, dia_chi, ghi_chu, ngay_sua, ngay_tao, phuong_xa, quan_huyen, sdt, ten_nguoi_nhan, thanh_pho, trang_thai, id_khach_hang)
 VALUES
 (1,'Làng Gia Phúc', 'Giao hàng nhanh', '2020-10-26', '2020-10-26', '1B2714', '3303', '098655755', 'Dương Quang Hào', '201', 4, 2),
@@ -327,7 +688,7 @@ VALUES
 (11,'118 Khuyất Duy Tiến', 'Giao hàng buổi chiều', '2020-10-26', '2020-10-26', '1A0607', '1485', '0965452752', 'Nguyễn Thúy Quỳnh', '201', 4, 12);
 select * from dia_chi;
 
--- giỏ hàng
+-- 13.giỏ hàng
 INSERT INTO gio_hang (ma, ngay_sua, ngay_tao, trang_thai, id_khach_hang)
 VALUES
 ('GH001', '2023-10-26', '2020-10-26', 0, 2),
@@ -343,7 +704,7 @@ VALUES
 ('GH011', '2023-10-26', '2020-10-26', 0, 12);
 select * from gio_hang;
 
--- khuyến mãi
+-- 14.khuyến mãi
 INSERT INTO khuyen_mai (ma, ten, mo_ta, muc_giam_gia, ngay_bat_dau, ngay_ket_thuc, ngay_sua, ngay_tao, trang_thai)
 VALUES
 ('KM22344324', 'Hè vui', 'Khuyến mại mùa hè', 15, '2023-07-01', '2023-08-31','2023-06-28', '2023-06-28', 1),
@@ -359,7 +720,7 @@ VALUES
 ('KM99768535', 'Phụ Nữ Việt Nam','Khuyến mại 20/10', 20, '2024-10-15', '2024-10-20','2023-10-26', '2023-10-26', 1);
 select * from khuyen_mai;
 
--- Nhân Viên
+-- 15.Nhân Viên
 INSERT INTO nhan_vien (email, gioi_tinh, ma, mat_khau, ngay_sua, ngay_tao, sdt, ten, trang_thai)
 VALUES
 ('haodqph27423@fpt.edu.vn', 0, 'NV001', '123456', '2023-10-26', '2020-08-15', '0909881795', 'Dương Quang Thiêm', 0),
@@ -375,7 +736,7 @@ VALUES
 ('trangnt@gmail.com', 1, 'NV011', '123456', '2023-10-26', '2020-10-15', '0963858751', 'Nguyễn Thùy Trang', 0);
 select * from nhan_vien;
 
--- Mã giảm giá
+-- 16.Mã giảm giá
 INSERT INTO ma_giam_gia (gia_tri_don_hang, ma, ten, mo_ta, muc_giam_gia, muc_giam_toi_da,  ngay_bat_dau, ngay_ket_thuc, ngay_sua, ngay_tao, so_luong, trang_thai)
 VALUES
 (100000,'MGG22134499', 'Voucher 1', 'Khuyến mại mùa hè', 15, 100000, '2023-07-01', '2023-08-31','2023-06-28', '2023-06-28', 20, 1),
@@ -391,7 +752,7 @@ VALUES
 (1000000,'MGG78434392', 'Voucher 11', 'Phụ Nữ Việt Nam', 20, 200000, '2024-10-15', '2024-10-20','2023-10-26', '2023-10-26', 20, 1);
 select * from ma_giam_gia;
 
--- Hóa đơn
+-- 17.Hóa đơn
 INSERT INTO hoa_don (dia_chi, ghi_chu, loai_hoa_don, ma, ngay_giao, ngay_sua, ngay_tao, ngay_thanh_toan, phi_van_chuyen, sdt, ten_khach_hang, thanh_toan, tong_tien, trang_thai, xu, id_khach_hang, id_ma_giam_gia, id_nhan_vien)
 VALUES
 ('Làng Gia Phúc, Xã Nguyễn Trãi, Huyện Thường Tín, Hà Nội', 'Không', 1, 'HD0999954234', '2021-10-10', '2021-10-10', '2021-10-3', '2021-10-10', 41000, 0986557555, 'Dương Quang Hào', 1641000.00, 1600000, 5, 0, 2, 1,1),
@@ -450,7 +811,7 @@ VALUES
 ('Xóm lò, Phường Đại Mỗ, Quận Nam Từ Liêm, Hà Nội', 'Không', 0, 'HD999954283', '2023-10-20', '2023-10-20', '2023-10-20', '2023-10-20', 0, 0963579603, 'Nguyễn Công Khánh', 1600000.00, 1600000, 5, 0, 6, 1,6);
 select * from hoa_don;
 
--- Hóa đơn chi tiết
+-- 18.Hóa đơn chi tiết
 INSERT INTO hoa_don_chi_tiet (de_giay, gia_ban, kich_thuoc, mau_sac, ngay_sua, ngay_tao, so_luong, ten_san_pham, thuong_hieu, trang_thai, id_chi_tiet_san_pham, id_hoa_don)
 VALUES
 ('Đế Cao Su Lưu Hóa', 1600000.00, '41', 'Xám', '2021-08-20', '2021-08-20', 1, 'New Balance 2002R', 'New Balance', 5, 27, 6),
@@ -484,7 +845,7 @@ VALUES
 ('Đế PVC', 1600000.00, '37', 'Đen', '2023-10-20', '2023-10-20', 1, 'Skechers Ultra Flex 3.0', 'Skechers', 5, 12, 50);
 select * from hoa_don_chi_tiet;
 
--- giỏ hàng chi tiêt
+-- 19.giỏ hàng chi tiêt
 INSERT INTO gio_hang_chi_tiet (don_gia, ghi_chu,ngay_sua, ngay_tao, so_luong, trang_thai, id_chi_tiet_san_pham, id_gio_hang, id_hoa_don)
 VALUES
 (1600000.00, 'Không', '2021-10-10', '2021-10-03', 1, 0, 1, 1, 1),
