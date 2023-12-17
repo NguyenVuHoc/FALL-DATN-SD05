@@ -1,6 +1,7 @@
 package com.example.befall23datnsd05.service.impl;
 
 import com.example.befall23datnsd05.dto.NhanVienRequest;
+import com.example.befall23datnsd05.entity.KhachHang;
 import com.example.befall23datnsd05.entity.NhanVien;
 import com.example.befall23datnsd05.enumeration.GioiTinh;
 import com.example.befall23datnsd05.enumeration.TrangThai;
@@ -63,7 +64,6 @@ public class NhanVienServiceImpl implements NhanVienService {
         existingNhanVien.setGioiTinh(GioiTinh.valueOf(nhanVienRequest.getGioiTinh()));
         existingNhanVien.setNgaySua(LocalDate.now());
         existingNhanVien.setEmail(nhanVienRequest.getEmail());
-        existingNhanVien.setMatKhau(nhanVienRequest.getMatKhau());
         existingNhanVien.setTrangThai(nhanVienRequest.getTrangThai());
 
         try {
@@ -108,6 +108,14 @@ public class NhanVienServiceImpl implements NhanVienService {
     @Override
     public boolean existsByTenAndIdNot(String ten, Long id) {
         return nhanVienRepository.existsByTenAndIdNot(ten, id);
+    }
+
+    @Override
+    public boolean changeUserPassword(Long idNv, String oldPassword, String newPassword) {
+       NhanVien nhanVien = nhanVienRepository.findById(idNv).orElse(null);
+        nhanVien.setMatKhau(newPassword);
+        nhanVienRepository.save(nhanVien);
+        return true;
     }
 
 }

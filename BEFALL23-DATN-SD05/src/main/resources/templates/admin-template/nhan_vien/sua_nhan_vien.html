@@ -123,7 +123,27 @@
         </nav>
         <!-- Navbar End -->
         <!-- Recent Sales Start -->
+        <div th:if="${errorTen}" class="alert alert-danger" id="err">
+            <p th:text="${errorTen}"></p>
+        </div>
+
+        <script th:inline="javascript">
+            /* Đặt thời gian hiển thị và ẩn thông báo sau 5 giây */
+            setTimeout(function () {
+                var successAlert = document.getElementById('success-alert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+            setTimeout(function () {
+                var successAlert = document.getElementById('err');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000); // 5 giây (5000 milliseconds)
+        </script>
         <div class="container-fluid pt-4">
+
             <h6 class="mb-4" style="font-size: 40px; text-align: center;">Chi Tiết Thông Tin Nhân Viên</h6>
             <div class="bg-light rounded p-4" style="width: 50%; margin-left: 26%;">
                 <form th:action="@{/admin/nhan-vien/update}" method="post" th:object="${nhanVien}">
@@ -163,11 +183,17 @@
                         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style=" color: red"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Mật khẩu</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1" th:field="*{matKhau}"/>
-                        <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}" style=" color: red"></div>
-                    </div>
-                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mật Khẩu</label>
+                        <div class="input-group">
+                            <input type="text" hidden th:field="*{matKhau}"/>
+                            <input type="text"readonly class="form-control" id="" value="••••••••••" />
+                            <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">
+                                Đổi Mật Khẩu
+                            </button>
+                            <div th:if="${#fields.hasErrors('matKhau')}" th:errors="*{matKhau}" style=" color: red"></div>
+                        </div>
+
+                    </div>                    <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Trạng Thái</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="trangThai" id="hoatDongRadio"
@@ -185,6 +211,51 @@
                     </button>
                 </form>
             </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document"> <!-- Adjusted class here -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Đổi mật khẩu</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{/admin/nhan-vien/change-password}" method="post">
+                                <input type="hidden" id="id" name="id" th:value="${nhanVien.id}">
+
+                                <div class="current-password item-row">
+                                    <div class="text">Mật khẩu cũ</div>
+                                    <div class="password-wrapper">
+                                        <input class="form-control" th:value="${oldPassword}" name="oldPassword" type="password"
+                                               autocomplete="autocomplete"/>
+                                    </div>
+                                </div>
+                                <div class="new-password item-row">
+                                    <div class="text">Mật khẩu mới</div>
+                                    <div class="password-wrapper">
+                                        <input class="form-control" id="newPasswordInput" th:value="${newPassword}"
+                                               name="newPassword" type="password" autocomplete="autocomplete"/>
+                                    </div>
+                                </div>
+                                <div class="new-password-confirm item-row">
+                                    <div class="text">Nhập lại mật khẩu mới</div>
+                                    <div class="password-wrapper">
+                                        <input id="confirmNewPasswordInput" class="form-control" type="password"
+                                               autocomplete="autocomplete"/>
+                                    </div>
+                                    <div id="passwordMismatchMessage" style="color: red; display: none;">Mật khẩu không khớp.
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" type="button" data-dismiss="modal">Huỷ bỏ</button>
+                                    <button id="submitButton" class="btn btn-primary black-btn" type="submit">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
             <!-- Recent Sales End -->
         </div>
         <!-- Footer Start -->
@@ -209,7 +280,38 @@
     <script src="/../../lib/tempusdominus/js/moment.min.js"></script>
     <script src="/../../lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="/../../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const newPasswordInput = document.getElementById('newPasswordInput');
+    const confirmNewPasswordInput = document.getElementById('confirmNewPasswordInput');
+    const passwordMismatchMessage = document.getElementById('passwordMismatchMessage');
+    const submitButton = document.getElementById('submitButton');
 
+    confirmNewPasswordInput.addEventListener('input', function () {
+        const newPassword = newPasswordInput.value;
+        const confirmedPassword = confirmNewPasswordInput.value;
+
+        if (newPassword !== confirmedPassword) {
+            passwordMismatchMessage.style.display = 'block';
+            submitButton.disabled = true;
+        } else {
+            passwordMismatchMessage.style.display = 'none';
+            submitButton.disabled = false;
+        }
+    });
+</script>
+<script>
+    // Lấy giá trị từ input hidden trong form
+    var hiddenInput = document.getElementById("idInput");
+    var idValue = hiddenInput.value;
+
+    // Gán giá trị từ input hidden trong form vào input hidden khác
+    var anotherHiddenInput = document.getElementById("anotherHiddenInput");
+    anotherHiddenInput.value = idValue;
+</script>
     <!-- Template Javascript -->
     <script src="/../../js/admin/main.js"></script>
 </body>

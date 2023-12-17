@@ -29,4 +29,7 @@ public interface NhanVienService {
     boolean existsByTen(String ten);
 
     boolean existsByTenAndIdNot(String ten, Long id);
+
+    boolean changeUserPassword(Long idNv,String oldPassword, String newPassword);
+
 }
