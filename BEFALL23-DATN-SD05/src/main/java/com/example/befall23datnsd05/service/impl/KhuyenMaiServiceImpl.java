@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class KhuyenMaiServiceImpl implements KhuyenMaiService {
@@ -22,7 +24,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
 
     @Override
     public List<KhuyenMai> getList() {
-        return repository.findAll();
+        return repository.findAll().stream()
+                .sorted(Comparator.comparing(KhuyenMai::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -35,7 +39,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
 
     @Override
     public List<KhuyenMai> getByTrangThai(TrangThaiKhuyenMai trangThaiKhuyenMai) {
-        return repository.getAllByTrangThai(trangThaiKhuyenMai);
+        return repository.getAllByTrangThai(trangThaiKhuyenMai).stream()
+                .sorted(Comparator.comparing(KhuyenMai::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override

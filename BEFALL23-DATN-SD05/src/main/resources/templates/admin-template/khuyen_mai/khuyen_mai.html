@@ -282,6 +282,7 @@
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
+                                <th hidden>STT</th>
                                 <th>Id</th>
                                 <th>Mã</th>
                                 <th>Tên khuyến mãi</th>
@@ -293,7 +294,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="khuyenMai : ${listKhuyenMai}">
+                            <tr th:each="khuyenMai, state : ${listKhuyenMai}">
+                                <td hidden th:text="${state.index}"></td>
                                 <td th:text="${khuyenMai.id}"></td>
                                 <td th:text="${khuyenMai.ma}"></td>
                                 <td th:text="${khuyenMai.ten}"></td>
@@ -321,6 +323,7 @@
                             </tbody>
                             <tfoot hidden="hidden">
                             <tr>
+                                <th hidden>STT</th>
                                 <th>Id</th>
                                 <th>Mã</th>
                                 <th>Tên khuyến mãi</th>

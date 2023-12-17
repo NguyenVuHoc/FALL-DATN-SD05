@@ -276,6 +276,7 @@
                         <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                             <tr>
+                                <th hidden>STT</th>
                                 <th style="width: 25px">Id</th>
                                 <th>Mã</th>
                                 <th>Tên</th>
@@ -290,7 +291,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="mgg : ${listMaGiam}">
+                            <tr th:each="mgg, state : ${listMaGiam}">
+                                <td hidden th:text="${state.index}"></td>
                                 <td style="width: 25px" th:text="${mgg.id}"></td>
                                 <td th:text="${mgg.ma}"></td>
                                 <td th:text="${mgg.ten}"></td>
@@ -322,6 +324,7 @@
                             </tbody>
                             <tfoot hidden="hidden">
                             <tr>
+                                <th hidden>STT</th>
                                 <th>Id</th>
                                 <th>Mã</th>
                                 <th>Tên khuyến mại</th>

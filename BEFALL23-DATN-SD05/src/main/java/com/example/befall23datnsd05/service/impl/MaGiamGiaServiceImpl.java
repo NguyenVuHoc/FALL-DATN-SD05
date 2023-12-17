@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MaGiamGiaServiceImpl implements MaGiamGiaService {
@@ -21,7 +23,9 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
 
     @Override
     public List<MaGiamGia> getAll() {
-        return repository.findAll();
+        return repository.findAll().stream()
+                .sorted(Comparator.comparing(MaGiamGia::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -31,7 +35,9 @@ public class MaGiamGiaServiceImpl implements MaGiamGiaService {
 
     @Override
     public List<MaGiamGia> getByTrangThai(TrangThaiKhuyenMai trangThaiKhuyenMai) {
-        return repository.getAllByTrangThai(trangThaiKhuyenMai);
+        return repository.getAllByTrangThai(trangThaiKhuyenMai).stream()
+                .sorted(Comparator.comparing(MaGiamGia::getId).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override
