@@ -58,6 +58,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function () {
+        var warningAlert = document.getElementById("warning-alert");
+        if (warningAlert) {
+            warningAlert.style.display = "none";
+        }
+    }, 5000); // 5 giây (5000 milliseconds)
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     var modal = document.getElementById("successModal");
     modal.style.display = "block";
 

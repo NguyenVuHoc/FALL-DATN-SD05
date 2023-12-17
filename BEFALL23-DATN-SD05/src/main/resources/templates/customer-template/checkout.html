@@ -1179,6 +1179,7 @@
                                                                     <th scope="col">Tên</th>
                                                                     <th scope="col">Giảm giá</th>
                                                                     <th scope="col">Tối đa</th>
+                                                                    <th scope="col">Điều kiện áp dụng</th>
                                                                     <th scope="col">Số lượng còn</th>
                                                                     <th scope="col">Chọn</th>
                                                                 </tr>
@@ -1190,9 +1191,11 @@
                                                                     <th th:text="${voucher.ten}"></th>
                                                                     <td th:text="${voucher.mucGiamGia} + '%'"></td>
                                                                     <td th:text="${#numbers.formatDecimal(voucher.mucGiamToiDa, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
+                                                                    <td th:text="'Từ: ' + ${#numbers.formatDecimal(voucher.giaTriDonHang, 0, 'POINT', 0, 'COMMA')} + ' VND'"></td>
                                                                     <td th:text="${voucher.soLuong}"></td>
                                                                     <td>
-                                                                        <input type="radio" name="chonVoucher">
+                                                                        <input   th:disabled="${voucher.giaTriDonHang > tongTienCheck}"
+                                                                                 type="radio" name="chonVoucher" >
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -1600,11 +1603,16 @@
 
             let existingTotalAmount = parseInt($("#totalAmount").val());
             let ship = parseInt($("#shippingFee").val());
+            let xuTichDiem = 0;
+            let xuInput = document.getElementById("xuTichDiem");
+            if (xuInput.checked) {
+                xuTichDiem = parseInt($("#diemTichLuy").val());
+            }
             if (isNaN(ship)) {
                 ship = 0;
             }
             var duocApDung = Math.round(apDungPhanTram * existingTotalAmount);
-            existingTotalAmount = existingTotalAmount + ship;
+            existingTotalAmount = existingTotalAmount + ship - xuTichDiem;
             if (duocApDung < duocApDungToiDa) {
                 existingTotalAmount = existingTotalAmount - duocApDung;
                 document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
@@ -1612,9 +1620,9 @@
                 document.getElementById('voucherName').value = voucherName;
                 document.getElementById('voucherId').value = voucherId;
                 document.getElementById('giamGiaDuocApDung').value = duocApDung;
-                console.log("Giam giá được áp dung: " +duocApDung)
+                console.log("Giam giá được áp dung: " + duocApDung)
                 var tienGiamGia = parseInt($("#giamGiaDuocApDung").val());
-                console.log("Tien giảm giá: "+ tienGiamGia)
+                console.log("Tien giảm giá: " + tienGiamGia)
             } else {
                 existingTotalAmount = existingTotalAmount - duocApDungToiDa;
                 document.getElementById('totalAmountShow').innerText = formatNumberWithVND(existingTotalAmount);
@@ -1623,9 +1631,9 @@
                 document.getElementById('voucherName').value = voucherName;
                 document.getElementById('voucherId').value = voucherId;
                 document.getElementById('giamGiaDuocApDung').value = duocApDungToiDa;
-                console.log("Giam giá được áp dung: " +duocApDungToiDa)
+                console.log("Giam giá được áp dung: " + duocApDungToiDa)
                 var tienGiamGia = parseInt($("#giamGiaDuocApDung").val());
-                console.log("Tien giảm giá: "+ tienGiamGia)
+                console.log("Tien giảm giá: " + tienGiamGia)
             }
 
         } else {

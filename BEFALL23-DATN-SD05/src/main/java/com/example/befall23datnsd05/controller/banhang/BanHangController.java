@@ -98,6 +98,12 @@ public class BanHangController {
         if (idNhanVien == null){
             return "redirect:/login";
         }
+
+        HoaDon hoaDon1 = banHangService.themHoaDon(hoaDon, idNhanVien);
+        if (hoaDon1 == null){
+            model.addAttribute("warning", "Vượt quá số lượng hóa đơn chờ!");
+            return "redirect:/admin/ban-hang?warning";
+        }
         model.addAttribute("success", "Thêm thành công");
         banHangService.themHoaDon(hoaDon, idNhanVien);
         return "redirect:/admin/ban-hang?success";

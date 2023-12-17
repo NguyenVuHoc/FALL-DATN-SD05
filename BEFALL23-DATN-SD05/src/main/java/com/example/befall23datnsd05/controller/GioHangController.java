@@ -158,7 +158,8 @@ public class GioHangController {
         for (GioHangChiTiet gh : gioHangWrapper.getListGioHangChiTiet()) {
             total += (long) gh.getDonGia().intValue() * gh.getSoLuong();
         }
-        List<MaGiamGia> vouchers = maGiamGiaService.layList(total);
+        model.addAttribute("tongTienCheck", total);
+        List<MaGiamGia> vouchers = maGiamGiaService.getListHoatDong();
         model.addAttribute("vouchers", vouchers);
         return "customer-template/checkout";
     }
