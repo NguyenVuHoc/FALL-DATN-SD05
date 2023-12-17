@@ -380,7 +380,10 @@
 
                                 <h3 class="product-title"
                                     th:text="${ctsp.tenSanPham +' '+ ctsp.tenDongSanPham +' '+ ctsp.tenDeGiay +' '+ ctsp.tenCoGiay +' '+ ctsp.tenLotGiay}"></h3>
-                                <strong class="product-price"
+
+                                <strong th:if="${ctsp.giaMacDinh != ctsp.giaBan}" class="product-price"
+                                        th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
+                                <strong th:if="${ctsp.giaMacDinh == ctsp.giaBan}" class="product-price"
                                         th:text="${#numbers.formatDecimal(ctsp.giaBan, 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                             </a>
                             <a>

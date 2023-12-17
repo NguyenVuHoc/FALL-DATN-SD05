@@ -573,7 +573,9 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title"
                             th:text="${ctsp4rand.getTenSp() +' '+ ctsp4rand.getTenDongSp() +' '+ ctsp4rand.getTenDe_giay() +' '+ ctsp4rand.getTenCo_giay() +' '+ ctsp4rand.getTenLot_giay() +' Size '+ ctsp4rand.getTenKich_thuoc() +' '+ ctsp4rand.getTenMau_sac()}"></h3>
-                        <strong class="product-price"
+                        <strong th:if="${ctsp4rand.getGia_mac_dinh() != ctsp4rand.getGia_ban()}" class="product-price"
+                                th:text="${#numbers.formatDecimal(ctsp4rand.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
+                        <strong th:if="${ctsp4rand.getGia_mac_dinh() == ctsp4rand.getGia_ban()}" class="product-price"
                                 th:text="${#numbers.formatDecimal(ctsp4rand.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
                     <a>
@@ -599,7 +601,9 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title"
                             th:text="${ctsp4rand2.getTenSp() +' '+ ctsp4rand2.getTenDongSp() +' '+ ctsp4rand2.getTenDe_giay() +' '+ ctsp4rand2.getTenCo_giay() +' '+ ctsp4rand2.getTenLot_giay() +' Size '+ ctsp4rand2.getTenKich_thuoc() +' '+ ctsp4rand2.getTenMau_sac()}"></h3>
-                        <strong class="product-price"
+                        <strong th:if="${ctsp4rand2.getGia_mac_dinh() != ctsp4rand2.getGia_ban()}" class="product-price"
+                                th:text="${#numbers.formatDecimal(ctsp4rand2.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}" style="color: red"></strong>
+                        <strong th:if="${ctsp4rand2.getGia_mac_dinh() == ctsp4rand2.getGia_ban()}" class="product-price"
                                 th:text="${#numbers.formatDecimal(ctsp4rand2.getGia_ban(), 0, 'POINT', 0, 'COMMA') + ' VND'}"></strong>
                     </a>
                     <a>
