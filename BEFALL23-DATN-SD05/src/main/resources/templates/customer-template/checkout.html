@@ -1141,7 +1141,7 @@
                                             <strong>Voucher</strong>
                                             <input id="voucherName" class="form-control" readonly type="text"/>
                                             <input id="voucherId" name="voucherId" readonly type="hidden"/>
-                                            <input id="giamGiaDuocApDung" name="tienGiamGia" hidden>
+                                            <input id="giamGiaDuocApDung" name="tienGiamGia" type="hidden">
                                         </td>
                                         <td>
                                             <button
@@ -1598,8 +1598,6 @@
 
             console.log("Giam giá: " + apDungPhanTram)
 
-
-
             let existingTotalAmount = parseInt($("#totalAmount").val());
             let ship = parseInt($("#shippingFee").val());
             if (isNaN(ship)) {
@@ -1614,7 +1612,7 @@
                 document.getElementById('voucherName').value = voucherName;
                 document.getElementById('voucherId').value = voucherId;
                 document.getElementById('giamGiaDuocApDung').value = duocApDung;
-                console.log("Giamr giá được áp dung: " +duocApDung)
+                console.log("Giam giá được áp dung: " +duocApDung)
                 var tienGiamGia = parseInt($("#giamGiaDuocApDung").val());
                 console.log("Tien giảm giá: "+ tienGiamGia)
             } else {
@@ -1625,13 +1623,13 @@
                 document.getElementById('voucherName').value = voucherName;
                 document.getElementById('voucherId').value = voucherId;
                 document.getElementById('giamGiaDuocApDung').value = duocApDungToiDa;
-                console.log("Giamr giá được áp dung: " +duocApDungToiDa)
+                console.log("Giam giá được áp dung: " +duocApDungToiDa)
                 var tienGiamGia = parseInt($("#giamGiaDuocApDung").val());
                 console.log("Tien giảm giá: "+ tienGiamGia)
             }
 
         } else {
-            console.log('Vui lòng chọn một voucher.');
+            document.getElementById('giamGiaDuocApDung').value = 0;
         }
     }
 
@@ -1861,6 +1859,9 @@
 <!-- detail api địa chỉ lên ô input-->
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function () {
+
+        document.getElementById('giamGiaDuocApDung').value = 0;
+
         var idThanhPho = $("input[name='thanhPho']").val();
         var idQuanHuyen = $("input[name='quanHuyen']").val();
         var idPhuongXa = $("input[name='xaPhuong']").val();
