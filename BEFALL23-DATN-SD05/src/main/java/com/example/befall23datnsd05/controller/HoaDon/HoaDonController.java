@@ -81,6 +81,7 @@ public class HoaDonController {
         if (idNhanVien == null){
             return "redirect:/login";
         }
+        model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         model.addAttribute("trangThais", list);
         model.addAttribute("endDate", LocalDate.now());
         model.addAttribute("hoadons", hoaDonService.getByTrangThai(trangThai));
