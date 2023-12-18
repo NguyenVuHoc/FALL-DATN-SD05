@@ -207,6 +207,7 @@
                                 <td
                                         th:if="${(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).YEU_CAU_TRA_HANG)
                                          or(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).DA_TRA_HANG)
+                                         or(ghcts.trangThai == T(com.example.befall23datnsd05.enumeration.TrangThai).TU_CHOI_TRA_HANG)
                                         }"
                                         th:text="${ghcts.trangThai.getDisplayName()}"></td>
                                 <td>
@@ -274,7 +275,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" th:id="'ghiChu2' + ${hoaDon.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" th:id="'ghiChu2' + ${hoaDon.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"f>
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

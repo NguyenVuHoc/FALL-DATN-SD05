@@ -23,8 +23,8 @@ public interface GioHangChiTietRepository extends JpaRepository<GioHangChiTiet, 
     List<GioHangChiTiet> findByHoaDon(long id);
 
 
-    @Query(value = "SELECT gio_hang_chi_tiet.* from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where gio_hang_chi_tiet.trang_thai=9 OR gio_hang_chi_tiet.trang_thai=7 \n \n" +
-            "  AND hoa_don.ngay_thanh_toan BETWEEN ?1 AND ?2\n", nativeQuery = true)
+    @Query(value = "SELECT gio_hang_chi_tiet.* from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where (gio_hang_chi_tiet.trang_thai=9 OR gio_hang_chi_tiet.trang_thai=4 ) \n" +
+            "  AND gio_hang_chi_tiet.ngay_tao BETWEEN ?1 AND ?2\n", nativeQuery = true)
     List<GioHangChiTiet> findByHoaDonHoanTraHoanLaiKho(LocalDate from, LocalDate to);
 
     @Query(value = "SELECT gio_hang_chi_tiet.* from gio_hang_chi_tiet join hoa_don on gio_hang_chi_tiet.id_hoa_don= hoa_don.id  where gio_hang_chi_tiet.trang_thai=9 OR gio_hang_chi_tiet.trang_thai=7 \n \n", nativeQuery = true)

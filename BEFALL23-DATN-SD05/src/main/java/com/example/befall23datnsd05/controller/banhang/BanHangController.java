@@ -105,7 +105,6 @@ public class BanHangController {
             return "redirect:/admin/ban-hang?warning";
         }
         model.addAttribute("success", "Thêm thành công");
-        banHangService.themHoaDon(hoaDon, idNhanVien);
         return "redirect:/admin/ban-hang?success";
     }
 

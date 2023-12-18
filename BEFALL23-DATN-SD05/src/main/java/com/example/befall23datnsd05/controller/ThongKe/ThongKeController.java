@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -52,8 +53,8 @@ public class ThongKeController {
      */
     @GetMapping()
     public String hienThi(Model model,
-                          @Param("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-                          @Param("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+                          @RequestParam(value = "startDate",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+                          @RequestParam(value = "endDate",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         Long idNhanVien = principalKhachHang.getCurrentNhanVienId();
         if (idNhanVien == null) {
             return "redirect:/login";
@@ -105,6 +106,7 @@ public class ThongKeController {
        model.addAttribute("hoadons", hoaDonService.findHoaDonsByNgayTao(from, to));
         model.addAttribute("listHd",dataForChart);
         model.addAttribute("endDate", to);
+        model.addAttribute("startDate", from);
         model.addAttribute("tenNhanVien", principalKhachHang.getCurrentNhanVienTen());
         return "admin-template/thong_ke/thong_ke";
     }

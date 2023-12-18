@@ -202,9 +202,7 @@
     <!-- Navbar End -->
     <div class="container-fluid pt-4 px-4">
       <div id="errorMessageDate"></div>
-      <div class="alert alert-info" role="alert" id="successAlert" style="display: none;">
-       Success!
-      </div>
+
       <form th:action="@{/admin/thong-ke}" method="get" onsubmit="return validateDate()">
         <div class="container-fluid pt-3">
           <input type="hidden" id="hiddenTrangThai" name="trangThai" th:value="${trangThai}"/>
@@ -270,7 +268,7 @@
             <i class="fa fa-chart-line fa-3x text-primary"></i>
             <div class="ms-3">
               <p class="mb-2">Doanh thu</p>
-              <h6 class="mb-0" th:text="${#numbers.formatDecimal(doanhThu, 0, 'POINT', 0, 'COMMA') + ' VND'}"></h6>
+              <h6 class="mb-0" th:text="${#numbers.formatDecimal(doanhThu != null ? doanhThu : 0, 0, 'POINT', 0, 'COMMA') + ' VND'}"></h6>
             </div>
           </div>
         </div>
@@ -288,7 +286,7 @@
             <i class="fa fa-chart-area fa-3x text-primary"></i>
             <div class="ms-3">
               <p class="mb-2">Số sản phẩm hoàn trả</p>
-              <h6 class="mb-0" th:text="${hoanTra}"></h6>
+              <h6 class="mb-0" th:text="${hoanTra != null and hoanTra != '' ? hoanTra : '0'}"></h6>
             </div>
           </div>
         </div>
@@ -828,26 +826,7 @@ document.getElementById('selectType').addEventListener('change', function() {
 <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
 
 <script>
-  $(document).ready(function() {
-    $('form').submit(function(event) {
-      var form = $(this);
 
-      $.ajax({
-        url: form.attr('action'),
-        type: form.attr('method'),
-        success: function(response) {
-          // Hiển thị thông báo thành công
-          $('#successAlert').show();
-
-          // Ẩn thông báo sau 5 giây
-          setTimeout(function() {
-            $('#successAlert').hide();
-          }, 5000);
-        },
-        error: function(error) {
-          // Xử lý lỗi nếu cần
-        }
-      });
     });
 
     // Bắt sự kiện click của nút submit

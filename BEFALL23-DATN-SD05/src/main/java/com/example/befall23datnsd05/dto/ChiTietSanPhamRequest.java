@@ -45,11 +45,11 @@ public class ChiTietSanPhamRequest {
     private Long sanPham;
 
     @NotNull(message = "Số lượng tồn không được để trống")
-    @Min(value = 0, message = "Số lượng tồn phải lớn hơn hoặc bằng 0")
+    @Min(value = 1, message = "Số lượng tồn phải lớn hơn 0")
     private Integer soLuongTon;
 
     @NotNull(message = "Giá mặc định không được để trống")
-    @DecimalMin(value = "0.0", message = "Giá mặc định phải lớn hơn hoặc bằng 0")
+    @DecimalMin(value = "1.0", message = "Giá mặc định phải lớn hơn 0")
     private BigDecimal giaMacDinh;
 
 //    @NotNull(message = "Giá bán không được để trống")

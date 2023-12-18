@@ -228,10 +228,13 @@
 
 <div class="untree_co-section product-section before-footer-section">
     <div class="container">
+
         <div th:if="${not #strings.isEmpty(err)}" class="error-message">
             <p class="alert alert-danger" th:text="${err}"></p>
         </div>
         <div id="errorMessageDate"></div>
+        <h3 style="text-align:  center">Tra cứu thông tin đơn hàng của bạn</h3>
+
         <style>
             .customer-info {
                 display: grid;
@@ -255,9 +258,11 @@
 
         <main>
             <form action="/wingman/thong-tin-tra-cuu-don-hang" method="get" class="search-form" onsubmit="return validateForm()">
-                <input type="text" id="maHd" name="maHd">
+                <img src="/../img/delivery-man.png" style="height: 50px; width: 50px;" alt="Image"
+                     class="img-fluid"><input placeholder="Nhập mã hoá đơn của bạn..." type="text" id="maHd" name="maHd">
                 <button type="submit" class="btn btn-success">Tìm kiếm</button>
             </form>
+
         </main>
         <style>
             /* styles.css */

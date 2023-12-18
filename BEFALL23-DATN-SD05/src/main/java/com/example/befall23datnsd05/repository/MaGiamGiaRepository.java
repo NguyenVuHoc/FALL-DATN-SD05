@@ -28,7 +28,7 @@ public interface MaGiamGiaRepository extends JpaRepository<MaGiamGia, Long> {
             "where ma_giam_gia.trang_thai = 0;", nativeQuery = true)
     List<MaGiamGia> listMaGiamGiaHoatDong();
 
-    @Query("select mgg from MaGiamGia mgg where mgg.ngayBatDau >= :start and mgg.ngayKetThuc <= :end")
+    @Query(value = "select * from ma_giam_gia mgg where (mgg.ngay_bat_dau between :start and :end) or (mgg.ngay_ket_thuc between :start and :end)", nativeQuery = true)
     List<MaGiamGia> findMaGiamGiasByByNgayBatDauAndNgayKetThuc(@Param("start") LocalDate start, @Param("end") LocalDate end);
 
     @Transactional

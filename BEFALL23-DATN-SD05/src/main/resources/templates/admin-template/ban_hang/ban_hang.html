@@ -786,6 +786,7 @@
                     <table id="san-pham" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
+                            <th>STT</th>
                             <th>Tên sản phẩm</th>
                             <th>Thương Hiệu</th>
                             <th>Màu sắc</th>
@@ -798,6 +799,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="sanPham, status : ${listSanPham}">
+                            <td th:text="${status.index + 1}"></td>
                             <td th:text="${sanPham.getSanPham().getTen()}"></td>
                             <td th:text="${sanPham.getSanPham().getThuongHieu().getTen()}"></td>
                             <td th:text="${sanPham.getMauSac().getTen()}"></td>
@@ -854,6 +856,7 @@
                         </tbody>
                         <tfoot hidden="hidden">
                         <tr>
+                            <th>STT</th>
                             <th>Tên sản phẩm</th>
                             <th>Thương Hiệu</th>
                             <th>Màu sắc</th>

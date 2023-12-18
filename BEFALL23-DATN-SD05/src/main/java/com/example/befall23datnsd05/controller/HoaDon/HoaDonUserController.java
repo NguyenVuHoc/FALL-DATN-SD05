@@ -172,6 +172,7 @@ public class HoaDonUserController {
         if (gioHangChiTietRequest.getSoLuong() == gioHangChiTiet.getSoLuong()) {
             hoaDon.setTrangThai(TrangThaiDonHang.XAC_NHAN_TRA_HANG);
             hoaDonService.save(hoaDon);
+            gioHangChiTiet.setGhiChu(gioHangChiTietRequest.getGhiChu());
             gioHangChiTiet.setTrangThai(TrangThai.YEU_CAU_TRA_HANG);
             gioHangChiTietService.save(gioHangChiTiet);
             return "redirect:/wingman/chi-tiet-hoa-don/" + idHd + "?success";
